@@ -1148,49 +1148,35 @@
   .statement-annotation b{color:var(--warn);font-weight:800}
   .statement-annotation .arrow{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--warn);color:#fff;display:grid;place-items:center;font-size:16px;font-weight:800;margin-top:2px}
 
-  /* FEE FLOW EXPLAINER — 4단계 수수료 흐름 다이어그램 */
-  .fee-flow-explainer{max-width:1000px;margin:0 auto 32px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:32px 28px;backdrop-filter:blur(6px)}
-  .fee-flow-head{text-align:center;margin-bottom:32px}
+  /* FEE FLOW EXPLAINER — 단순화된 세로 스텝 흐름 */
+  .fee-flow-explainer{max-width:760px;margin:0 auto 32px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:32px 28px;backdrop-filter:blur(6px)}
+  .fee-flow-head{text-align:center;margin-bottom:28px}
   .ff-eyebrow{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#fca5a5;background:rgba(252,165,165,.1);padding:5px 12px;border-radius:999px;border:1px solid rgba(252,165,165,.25)}
   .fee-flow-head h3{margin:14px 0 10px;font-size:clamp(20px, 2.6vw, 26px);font-weight:800;color:#fff;line-height:1.4;letter-spacing:-.01em;word-break:keep-all}
   .ff-accent{color:#fca5a5;background:linear-gradient(90deg,#fca5a5,#f87171);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .fee-flow-head p{font-size:14.5px;color:#cfd6e4;line-height:1.6;word-break:keep-all}
   .fee-flow-head p b{color:#fff;font-weight:700}
-  /* Diagram - desktop horizontal grid */
-  .fee-flow-diagram{display:grid;grid-template-columns:repeat(7, 1fr);grid-template-rows:auto auto auto;gap:8px 4px;align-items:center;margin-bottom:24px}
-  /* Stages: positioned in middle row (row 2), arrows between */
-  .ff-stage{grid-row:2;background:#fff;border-radius:10px;padding:14px 10px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.2);min-height:88px;display:flex;flex-direction:column;justify-content:center}
-  .ff-stage:nth-of-type(1){grid-column:1}
-  .ff-stage:nth-of-type(2){grid-column:3}
-  .ff-stage:nth-of-type(3){grid-column:5}
-  .ff-stage:nth-of-type(4){grid-column:7}
-  .ff-stage.ff-stage-final{background:linear-gradient(135deg, #fff5f5, #fee2e2);border:1px solid #fecaca}
-  .ff-stage-tag{font-size:10px;font-weight:800;color:#1652a5;background:#e0ecff;padding:3px 8px;border-radius:6px;display:inline-block;letter-spacing:.04em;margin-bottom:8px;align-self:center}
-  .ff-stage.ff-stage-final .ff-stage-tag{color:#dc2626;background:#fee2e2}
-  .ff-stage-title{font-size:13px;font-weight:800;color:var(--ink);letter-spacing:-.01em;line-height:1.3}
-  .ff-stage-desc{font-size:11px;color:var(--ink-3);margin-top:3px;line-height:1.3}
-  /* Arrows between stages */
-  .ff-arrow{grid-row:2;color:rgba(255,255,255,.5);font-size:20px;text-align:center;font-weight:700}
-  .ff-arrow:nth-of-type(1){grid-column:2}
-  .ff-arrow:nth-of-type(2){grid-column:4}
-  .ff-arrow:nth-of-type(3){grid-column:6}
-  /* Fee markers — fees 1,3 go above (row 1), fees 2,4 go below (row 3) */
-  .ff-fee{background:rgba(255,255,255,.08);border:1px solid rgba(252,165,165,.3);border-radius:10px;padding:8px 10px;display:flex;align-items:center;gap:8px;font-size:11px;line-height:1.35;position:relative}
-  .ff-fee::before{content:'';position:absolute;width:1px;background:rgba(252,165,165,.4);height:14px;left:50%;transform:translateX(-50%)}
-  .ff-fee.fee-1, .ff-fee.fee-3{grid-row:1}
-  .ff-fee.fee-2, .ff-fee.fee-4{grid-row:3}
-  .ff-fee.fee-1::before, .ff-fee.fee-3::before{bottom:-14px}
-  .ff-fee.fee-2::before, .ff-fee.fee-4::before{top:-14px}
-  .ff-fee.fee-1{grid-column:2 / span 2}
-  .ff-fee.fee-2{grid-column:3 / span 2}
-  .ff-fee.fee-3{grid-column:6 / span 2}
-  .ff-fee.fee-4{grid-column:5 / span 2}
-  .ff-fee-num{flex-shrink:0;width:20px;height:20px;border-radius:50%;background:#fca5a5;color:#7f1d1d;display:grid;place-items:center;font-size:11px;font-weight:800}
-  .ff-fee-name{font-size:11.5px;font-weight:700;color:#fff;letter-spacing:-.01em}
-  .ff-fee-rate{font-size:10.5px;color:#fca5a5;margin-top:2px;font-variant-numeric:tabular-nums;line-height:1.5}
-  .ff-fee-rate b{color:#fff;font-weight:700}
-  .ff-fee-tag{display:inline-block;font-size:9.5px;color:rgba(252,165,165,.75);font-weight:500;letter-spacing:.01em;margin-left:4px}
-  /* Total summary */
+
+  /* 스텝 리스트 — 세로 흐름 */
+  .ff-steps{display:flex;flex-direction:column;gap:14px;margin-bottom:22px}
+  .ff-step{position:relative;background:#fff;border-radius:12px;padding:18px 20px;box-shadow:0 6px 18px rgba(0,0,0,.18);display:flex;gap:14px;align-items:flex-start}
+  /* 스텝 사이 연결선 + 아래 화살표 */
+  .ff-step:not(:last-child)::after{content:'↓';position:absolute;left:34px;bottom:-18px;width:24px;height:18px;text-align:center;color:rgba(252,165,165,.8);font-size:18px;font-weight:800;line-height:1;z-index:2}
+  .ff-step-num{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1652a5,#0d2c5e);color:#fff;display:grid;place-items:center;font-weight:800;font-size:15px;box-shadow:0 3px 8px rgba(13,44,94,.3)}
+  .ff-step.is-final .ff-step-num{background:linear-gradient(135deg,#dc2626,#991b1b);font-size:18px;box-shadow:0 3px 8px rgba(127,29,29,.35)}
+  .ff-step.is-final{background:linear-gradient(135deg,#fff5f5,#fee2e2);border:1px solid #fecaca}
+  .ff-step-body{flex:1;min-width:0}
+  .ff-step-action{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.01em;line-height:1.35}
+  .ff-step-desc{font-size:12.5px;color:var(--ink-3);margin-top:4px;line-height:1.5;word-break:keep-all}
+  /* 수수료 하이라이트 박스 */
+  .ff-step-cost{margin-top:12px;padding:10px 12px 10px 14px;background:linear-gradient(90deg,rgba(220,38,38,.07),rgba(220,38,38,.02));border-left:3px solid #fca5a5;border-radius:0 8px 8px 0;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .ff-step-cost-label{font-size:12px;font-weight:700;color:#dc2626;letter-spacing:-.01em;display:flex;align-items:center;gap:6px}
+  .ff-step-cost-label::before{content:'+';display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#fca5a5;color:#7f1d1d;font-size:12px;font-weight:900;line-height:1}
+  .ff-step-cost-val{font-size:13.5px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;text-align:right;letter-spacing:-.01em}
+  .ff-step-cost-val small{display:block;font-size:11px;color:var(--ink-3);font-weight:500;margin-top:2px;letter-spacing:0}
+  .ff-step.is-final .ff-step-cost{display:none}
+
+  /* 누적 합계 */
   .fee-flow-total{background:linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);border-radius:12px;padding:18px 24px;text-align:center;box-shadow:0 8px 20px rgba(127,29,29,.4)}
   .ff-total-main{display:flex;align-items:baseline;justify-content:center;gap:12px;flex-wrap:wrap}
   .ff-total-label{font-size:13px;color:#fecaca;font-weight:600;letter-spacing:-.01em}
@@ -1198,25 +1184,25 @@
   .ff-total-rate b{font-size:28px;font-weight:900;background:linear-gradient(90deg,#fbbf24,#fde68a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .ff-total-note{margin-top:8px;font-size:11.5px;color:#fca5a5;line-height:1.5}
   .ff-br-pc{display:inline}
-  @media (max-width:900px){
-    .ff-br-pc{display:none}
-  }
-  /* Mobile — collapse to vertical flow */
+  @media (max-width:900px){ .ff-br-pc{display:none} }
+  /* 모바일 압축 */
   @media (max-width:700px){
-    .fee-flow-explainer{padding:18px 14px;margin:0 0 24px}
+    .fee-flow-explainer{padding:18px 14px;margin:0 0 24px;border-radius:14px}
     .fee-flow-head{margin-bottom:20px;text-align:left}
     .fee-flow-head h3{font-size:18px;margin-top:10px}
     .fee-flow-head h3 br{display:none}
     .fee-flow-head p{font-size:13px}
-    .fee-flow-diagram{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
-    .ff-stage{grid-row:auto;grid-column:auto !important;flex-direction:row;justify-content:flex-start;text-align:left;padding:12px 14px;min-height:0;gap:12px;align-items:center}
-    .ff-stage-tag{margin-bottom:0;align-self:center}
-    .ff-stage-body{flex:1}
-    .ff-arrow{grid-row:auto;grid-column:auto;transform:rotate(90deg);font-size:18px;color:rgba(255,255,255,.4);margin:-4px 0}
-    .ff-fee{grid-row:auto;grid-column:auto !important;padding:10px 12px;background:rgba(220,38,38,.12);border-color:rgba(252,165,165,.4)}
-    .ff-fee::before{display:none}
-    .ff-fee-name{font-size:12.5px}
-    .ff-fee-rate{font-size:11.5px}
+    .ff-steps{gap:12px;margin-bottom:18px}
+    .ff-step{padding:14px 16px;gap:12px}
+    .ff-step:not(:last-child)::after{left:30px;bottom:-15px;font-size:16px}
+    .ff-step-num{width:32px;height:32px;font-size:14px}
+    .ff-step.is-final .ff-step-num{font-size:16px}
+    .ff-step-action{font-size:14px}
+    .ff-step-desc{font-size:12px}
+    .ff-step-cost{padding:8px 10px 8px 12px;margin-top:10px;gap:8px}
+    .ff-step-cost-label{font-size:11.5px}
+    .ff-step-cost-val{font-size:12.5px}
+    .ff-step-cost-val small{font-size:10.5px}
     .fee-flow-total{padding:14px 16px}
     .ff-total-rate b{font-size:24px}
     .ff-total-note{font-size:11px}
@@ -1531,98 +1517,86 @@
       </div>
     </div>
 
-    <!-- 4단계 수수료 흐름 다이어그램 — "왜 이렇게 청구되는가" 설명 -->
+    <!-- 광고비 결제 → 카드 청구 흐름 — 단계별 발생 수수료 -->
     <div class="fee-flow-explainer">
       <div class="fee-flow-head">
-        <span class="ff-eyebrow">왜 이렇게 청구되는가</span>
-        <h3>광고비를 KRW로 결제하는 순간,<br><span class="ff-accent">수수료가 4단계로 누적</span>됩니다</h3>
-        <p class="ff-sub">광고는 USD로 집행되지만, 카드사는 KRW로 청구합니다.<br class="ff-br-pc">그 사이 <b>4개 구간에서 수수료가 누적되어</b> 청구 금액이 늘어납니다.</p>
+        <span class="ff-eyebrow">광고비 → 카드 청구 흐름</span>
+        <h3>광고비 결제부터 카드 명세서까지<br><span class="ff-accent">4단계마다 수수료가 붙습니다</span></h3>
+        <p class="ff-sub">광고는 USD로 결제되지만, 카드사는 KRW로 청구합니다.<br class="ff-br-pc">그 사이 4번의 처리 과정마다 수수료가 더해지며 청구액이 늘어납니다.</p>
       </div>
 
-      <div class="fee-flow-diagram">
-        <!-- Stage 1 -->
-        <div class="ff-stage">
-          <div class="ff-stage-tag">현지 통화</div>
-          <div class="ff-stage-body">
-            <div class="ff-stage-title">해외 결제</div>
-            <div class="ff-stage-desc">Meta · Google · TikTok 등</div>
-          </div>
-        </div>
-        <div class="ff-arrow">→</div>
+      <div class="ff-steps">
 
-        <!-- Fee 1 marker (위에 배치) -->
-        <div class="ff-fee fee-1">
-          <span class="ff-fee-num">1</span>
-          <div>
-            <div class="ff-fee-name">환전 수수료</div>
-            <div class="ff-fee-rate">전신매도율 + α</div>
+        <!-- Step 1 -->
+        <div class="ff-step">
+          <div class="ff-step-num">1</div>
+          <div class="ff-step-body">
+            <div class="ff-step-action">광고주가 USD로 해외 매체에 광고비 결제</div>
+            <div class="ff-step-desc">Meta · Google · TikTok 등 해외 본사가 USD 기준으로 광고비 청구</div>
+            <div class="ff-step-cost">
+              <span class="ff-step-cost-label">환전 수수료</span>
+              <span class="ff-step-cost-val">전신매도율 + α<small>현지 통화 → USD 변환 비용</small></span>
+            </div>
           </div>
         </div>
 
-        <!-- Stage 2 -->
-        <div class="ff-stage">
-          <div class="ff-stage-tag">미화 USD</div>
-          <div class="ff-stage-body">
-            <div class="ff-stage-title">글로벌 카드 브랜드</div>
-            <div class="ff-stage-desc">결제 네트워크</div>
-          </div>
-        </div>
-        <div class="ff-arrow">→</div>
-
-        <!-- Fee 2 marker -->
-        <div class="ff-fee fee-2">
-          <span class="ff-fee-num">2</span>
-          <div>
-            <div class="ff-fee-name">카드 브랜드 이용 수수료</div>
-            <div class="ff-fee-rate">국제 브랜드 <b>1.0 ~ 1.4%</b> <span class="ff-fee-tag">VISA·MC·AMEX</span></div>
+        <!-- Step 2 -->
+        <div class="ff-step">
+          <div class="ff-step-num">2</div>
+          <div class="ff-step-body">
+            <div class="ff-step-action">글로벌 카드 브랜드가 결제 중개</div>
+            <div class="ff-step-desc">VISA · Mastercard · AMEX 국제 결제 네트워크가 USD 거래 처리</div>
+            <div class="ff-step-cost">
+              <span class="ff-step-cost-label">카드 브랜드 이용 수수료</span>
+              <span class="ff-step-cost-val">1.0 ~ 1.4%<small>VISA·MC·AMEX 본사 직접 부과</small></span>
+            </div>
           </div>
         </div>
 
-        <!-- Stage 3 -->
-        <div class="ff-stage">
-          <div class="ff-stage-tag">원화 KRW</div>
-          <div class="ff-stage-body">
-            <div class="ff-stage-title">국내 카드사</div>
-            <div class="ff-stage-desc">원화 결제 환산</div>
-          </div>
-        </div>
-        <div class="ff-arrow">→</div>
-
-        <!-- Fee 3 marker (위) -->
-        <div class="ff-fee fee-3">
-          <span class="ff-fee-num">3</span>
-          <div>
-            <div class="ff-fee-name">환전 수수료</div>
-            <div class="ff-fee-rate">전신매도율 + α</div>
+        <!-- Step 3 -->
+        <div class="ff-step">
+          <div class="ff-step-num">3</div>
+          <div class="ff-step-body">
+            <div class="ff-step-action">국내 카드사가 KRW로 환산</div>
+            <div class="ff-step-desc">국내 카드사가 USD 거래액을 원화로 환산하여 청구 준비</div>
+            <div class="ff-step-cost">
+              <span class="ff-step-cost-label">환전 수수료 (재차)</span>
+              <span class="ff-step-cost-val">전신매도율 + α<small>USD → KRW 환산 비용</small></span>
+            </div>
           </div>
         </div>
 
-        <!-- Stage 4 -->
-        <div class="ff-stage ff-stage-final">
-          <div class="ff-stage-tag">사용자</div>
-          <div class="ff-stage-body">
-            <div class="ff-stage-title">카드 명세서</div>
-            <div class="ff-stage-desc">최종 청구액</div>
+        <!-- Step 4 -->
+        <div class="ff-step">
+          <div class="ff-step-num">4</div>
+          <div class="ff-step-body">
+            <div class="ff-step-action">국내 카드사가 광고주에게 청구 처리</div>
+            <div class="ff-step-desc">국내 카드사가 자체 해외이용 수수료를 추가하여 명세서에 반영</div>
+            <div class="ff-step-cost">
+              <span class="ff-step-cost-label">국내 카드사 해외이용 수수료</span>
+              <span class="ff-step-cost-val">0.18 ~ 0.9%<small>+ 단건 0.3% (카드사별 상이)</small></span>
+            </div>
           </div>
         </div>
 
-        <!-- Fee 4 marker -->
-        <div class="ff-fee fee-4">
-          <span class="ff-fee-num">4</span>
-          <div>
-            <div class="ff-fee-name">국내 카드사 해외이용 수수료</div>
-            <div class="ff-fee-rate">신용·체크 <b>0.18 ~ 0.9%</b> <span class="ff-fee-tag">카드사별 ± 단건 0.3%</span></div>
+        <!-- Final -->
+        <div class="ff-step is-final">
+          <div class="ff-step-num">💳</div>
+          <div class="ff-step-body">
+            <div class="ff-step-action">광고주 카드 명세서로 최종 청구</div>
+            <div class="ff-step-desc">원래 광고비에 위 4종 수수료가 모두 누적된 금액이 청구됨</div>
           </div>
         </div>
+
       </div>
 
       <div class="fee-flow-total">
         <div class="ff-total-main">
-          <span class="ff-total-label">월 평균 누적 수수료</span>
-          <span class="ff-total-rate">약 <b>3 ~ 9%</b></span>
+          <span class="ff-total-label">누적 손실</span>
+          <span class="ff-total-rate">광고비의 약 <b>3 ~ 9%</b></span>
         </div>
         <p class="ff-total-note">
-          일반 KRW 청구 <b>약 3~5%</b>, DCC 적용·일부 카드사·매체 보너스 미수령 포함 시 <b>최대 20%+</b>까지 손실 발생.
+          일반 KRW 청구 시 <b>3~5%</b>, DCC 적용·일부 카드사·매체 보너스 미수령 포함 시 <b>최대 20%+</b>까지 손실.
         </p>
       </div>
     </div>
