@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 80" preserveAspectRatio="xMidYMid meet">
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', system-ui, Arial, sans-serif" font-weight="900" letter-spacing="-1">
+    <text x="140" y="40" text-anchor="middle" font-size="28" fill="#2a2a2a">MEDIA<tspan fill="#F58220">MEET</tspan></text>
+    <line x1="40" y1="48" x2="240" y2="48" stroke="#d8d8d8" stroke-width="1"/>
+    <text x="140" y="70" text-anchor="middle" font-size="14" fill="#2a2a2a" font-weight="700">GS 넷비전 <tspan fill="#999" font-weight="400">×</tspan> <tspan fill="#1B7BC8">iMP</tspan></text>
+  </g>
+</svg>

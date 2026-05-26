@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 80" preserveAspectRatio="xMidYMid meet">
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', system-ui, Arial, sans-serif" font-weight="900">
+    <text x="48" y="32" text-anchor="middle" font-size="22" fill="#111">kt</text>
+    <text x="74" y="32" font-size="14" fill="#E60012">is</text>
+    <text x="140" y="58" text-anchor="middle" font-size="22" fill="#111" letter-spacing="-1">TOWN</text>
+    <text x="140" y="76" text-anchor="middle" font-size="22" fill="#111" letter-spacing="-1">BOARD.</text>
+  </g>
+</svg>

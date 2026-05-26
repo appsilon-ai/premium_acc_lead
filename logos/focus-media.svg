@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 80" preserveAspectRatio="xMidYMid meet">
+  <text x="140" y="62"
+        text-anchor="middle"
+        font-family="-apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', system-ui, Arial, sans-serif"
+        font-size="44"
+        font-weight="900"
+        fill="#1C1CCC"
+        letter-spacing="-2">포커스미디어</text>
+  <circle cx="260" cy="58" r="6" fill="#00B14F"/>
+</svg>
