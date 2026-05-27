@@ -2784,20 +2784,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   })();
 
   // ============================================================
-  // 📊 페이지뷰 + 스크롤 깊이 (퍼널 분석)
+  // 📊 페이지뷰 + 스크롤 깊이 + 체류 시간 + 참여 세션
   // ============================================================
-  (function setupScrollTracking(){
+  (function setupEngagementTracking(){
     track('page_view', { page: 'landing_v1' });
-    const milestones = [25, 50, 75, 100];
-    const fired = new Set();
+
+    // 페이지 진입 시점 + 상태
+    const startTime = Date.now();
+    let maxScrollPercent = 0;
+    let hasInteraction = false;
+    let engagedSessionFired = false;
+
+    // ── 스크롤 깊이 추적 ──────────────────────────────────
+    const scrollMilestones = [25, 50, 75, 100];
+    const scrollFired = new Set();
     function checkScroll(){
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const pct = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 0;
-      milestones.forEach(function(m){
-        if (pct >= m && !fired.has(m)) {
-          fired.add(m);
+      if (pct > maxScrollPercent) maxScrollPercent = pct;
+      scrollMilestones.forEach(function(m){
+        if (pct >= m && !scrollFired.has(m)) {
+          scrollFired.add(m);
           track('scroll_depth', { percent: m });
+          checkEngagedSession();
         }
       });
     }
@@ -2810,6 +2820,69 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         });
         ticking = true;
       }
+    });
+
+    // ── 체류 시간 마일스톤 ─────────────────────────────────
+    // 15초 / 30초 / 60초 / 180초(3분) — 페이지 활성 상태일 때만 카운트
+    const timeMilestones = [
+      { seconds: 15,  event: 'time_15s'  },
+      { seconds: 30,  event: 'time_30s'  },
+      { seconds: 60,  event: 'time_60s'  },
+      { seconds: 180, event: 'time_180s' },
+    ];
+    const timeFired = new Set();
+    function checkTime(){
+      if (document.hidden) return; // 백그라운드 탭은 카운트 제외
+      const elapsedSec = Math.round((Date.now() - startTime) / 1000);
+      timeMilestones.forEach(function(m){
+        if (elapsedSec >= m.seconds && !timeFired.has(m.seconds)) {
+          timeFired.add(m.seconds);
+          track(m.event, { seconds: m.seconds, scroll_percent: maxScrollPercent });
+          checkEngagedSession();
+        }
+      });
+    }
+    setInterval(checkTime, 5000); // 5초마다 확인
+
+    // ── 인터랙션 감지 (참여 세션 판단용) ──────────────────
+    ['click', 'keydown', 'touchstart'].forEach(function(evt){
+      document.addEventListener(evt, function(){
+        if (!hasInteraction) {
+          hasInteraction = true;
+          checkEngagedSession();
+        }
+      }, { once: true, passive: true });
+    });
+
+    // ── 참여 세션 판단 (GA4 표준: 30초+ + 스크롤 50%+ + 인터랙션) ──
+    function checkEngagedSession(){
+      if (engagedSessionFired) return;
+      const elapsedSec = (Date.now() - startTime) / 1000;
+      if (elapsedSec >= 30 && maxScrollPercent >= 50 && hasInteraction) {
+        engagedSessionFired = true;
+        track('engaged_session', {
+          seconds: Math.round(elapsedSec),
+          max_scroll_percent: maxScrollPercent,
+          has_interaction: true,
+        });
+      }
+    }
+
+    // ── 페이지 이탈 시 최종 통계 전송 ─────────────────────
+    window.addEventListener('beforeunload', function(){
+      const elapsedSec = Math.round((Date.now() - startTime) / 1000);
+      // sendBeacon은 페이지 언로드 시에도 신뢰성 있게 전송
+      try {
+        if (navigator.sendBeacon && window.parent === window) {
+          // 단독 페이지일 때만 (iframe X)
+        }
+      } catch(e) {}
+      track('page_exit', {
+        total_seconds: elapsedSec,
+        max_scroll_percent: maxScrollPercent,
+        had_interaction: hasInteraction,
+        was_engaged: engagedSessionFired,
+      });
     });
   })();
 
