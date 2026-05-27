@@ -814,14 +814,35 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .industry-card.restrict .ic-chip::before{background:#dc2626}
   .industry-card.caution .ic-chip::before{background:#f59e0b}
 
-  /* FORM: Radio/Checkbox 그룹 */
-  form.lead .field-group{margin-top:18px}
-  form.lead .radio-group{display:grid;gap:6px;margin-top:8px}
-  form.lead .radio-item, form.lead .checkbox-item{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border:1px solid var(--line);border-radius:10px;cursor:pointer;transition:all .12s ease;font-size:14px;line-height:1.4;background:#fff}
-  form.lead .radio-item:hover, form.lead .checkbox-item:hover{border-color:var(--brand);background:#fafbff}
-  form.lead .radio-item:has(input:checked), form.lead .checkbox-item:has(input:checked){border-color:var(--brand);background:#eef3ff}
-  form.lead .radio-item input, form.lead .checkbox-item input{width:auto;margin:2px 0 0 0;flex-shrink:0;accent-color:var(--brand)}
-  form.lead .checkbox-group{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+  /* FORM: Radio/Checkbox 그룹 — 선택지는 옅은 배경 박스에 묶어서 라벨과 구분 */
+  form.lead .field-group{margin-top:20px}
+  form.lead .radio-group{display:grid;gap:6px;margin-top:8px;padding:6px;background:var(--bg-soft);border-radius:12px}
+  form.lead .radio-item, form.lead .checkbox-item{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:11px 14px;
+    border:1.5px solid transparent;
+    border-radius:8px;
+    cursor:pointer;
+    transition:all .12s ease;
+    font-size:13.5px;
+    line-height:1.45;
+    background:#fff;
+    color:var(--ink-2);
+    font-weight:500;
+  }
+  form.lead .radio-item:hover, form.lead .checkbox-item:hover{border-color:var(--brand);background:#fafbff;color:var(--ink)}
+  form.lead .radio-item:has(input:checked), form.lead .checkbox-item:has(input:checked){
+    border-color:var(--brand);
+    background:#eef3ff;
+    color:var(--ink);
+    font-weight:700;
+    box-shadow:0 2px 8px rgba(31,107,255,.12);
+  }
+  form.lead .radio-item:has(input:checked) b, form.lead .checkbox-item:has(input:checked) b{color:var(--brand)}
+  form.lead .radio-item input, form.lead .checkbox-item input{width:auto;margin:3px 0 0 0;flex-shrink:0;accent-color:var(--brand);transform:scale(1.15)}
+  form.lead .checkbox-group{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px;padding:6px;background:var(--bg-soft);border-radius:12px}
   @media (max-width:600px){form.lead .checkbox-group{grid-template-columns:1fr}}
   form.lead textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:15px;margin-top:6px;font-family:inherit;outline:none;background:#fff;resize:vertical;min-height:80px;color:var(--ink)}
   form.lead textarea:focus{border-color:var(--brand);box-shadow:0 0 0 4px rgba(31,107,255,.12)}
@@ -954,8 +975,30 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cta-bullets .ck{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:rgba(16,185,129,.15);color:#34d399;display:grid;place-items:center;font-size:13px;font-weight:800}
   form.lead{background:#fff;color:var(--ink);border-radius:18px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
   form.lead h3{font-size:20px}
-  form.lead label{display:block;font-size:13px;font-weight:600;color:var(--ink-2);margin-top:14px}
-  form.lead input,form.lead select{width:100%;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:15px;margin-top:6px;font-family:inherit;outline:none;background:#fff}
+  /* 질문 라벨 — 굵게 + 큰 글자 + 다크 컬러 (선택지와 명확한 위계 차이) */
+  form.lead > label,
+  form.lead .form-step > label,
+  form.lead .field-group > label{
+    display:block;
+    font-size:15px;
+    font-weight:800;
+    color:var(--ink);
+    margin-top:20px;
+    margin-bottom:2px;
+    letter-spacing:-.01em;
+    line-height:1.4;
+  }
+  /* 필수 표시 (*) 빨간색 강조 */
+  form.lead label::after{content:''}
+  form.lead label:has(+ input[required])::after,
+  form.lead label:has(+ select[required])::after,
+  form.lead label:has(+ .url-list input[required])::after{
+    content:' *';
+    color:#dc2626;
+    font-weight:900;
+  }
+  /* 입력 필드 — 더 명확한 보더 + 큰 패딩 */
+  form.lead input,form.lead select{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:13px 14px;font-size:15px;margin-top:8px;font-family:inherit;outline:none;background:#fff;color:var(--ink);transition:border-color .12s ease, box-shadow .12s ease}
   form.lead input:focus,form.lead select:focus{border-color:var(--brand);box-shadow:0 0 0 4px rgba(31,107,255,.12)}
   form.lead .submit{width:100%;margin-top:20px;padding:16px;font-size:16px}
   form.lead .agree{font-size:12px;color:var(--ink-3);margin-top:12px;display:flex;gap:8px;align-items:flex-start}
