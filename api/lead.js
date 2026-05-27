@@ -222,7 +222,10 @@ export default async function handler(req, res) {
 
     if (dbError) {
       console.error('Supabase insert failed:', dbError);
-      return res.status(500).json({ error: 'database error' });
+      return res.status(500).json({
+        error: 'database error',
+        debug: { message: dbError.message, code: dbError.code, hint: dbError.hint, details: dbError.details }
+      });
     }
 
     // 4) 이메일 발송 (제한업종 여부에 따라 분기)
@@ -295,6 +298,9 @@ export default async function handler(req, res) {
 
   } catch (err) {
     console.error('Lead submission failed:', err);
-    return res.status(500).json({ error: 'internal server error' });
+    return res.status(500).json({
+      error: 'internal server error',
+      debug: { message: err.message, name: err.name, stack: err.stack?.split('\n').slice(0, 5).join(' | ') }
+    });
   }
 }
