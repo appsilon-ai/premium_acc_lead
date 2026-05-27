@@ -46,6 +46,10 @@ const RESTRICTED_KEYWORDS = [
 const MONDAY_BOARD_ID = process.env.MONDAY_BOARD_ID || '8598876525';
 const MONDAY_GROUP_ID = process.env.MONDAY_GROUP_ID || 'topics'; // "신규" 그룹
 
+// 신규 리드 기본 담당자 (Arin Cheong / arin@appsilon.kr)
+// 변경하려면 Vercel 환경변수 MONDAY_DEFAULT_ASSIGNEE_ID 설정
+const MONDAY_DEFAULT_ASSIGNEE_ID = process.env.MONDAY_DEFAULT_ASSIGNEE_ID || '46666227';
+
 // Monday 컬럼 ID 매핑
 const MONDAY_COLUMNS = {
   name:        'text_mknczry2',      // 이름
@@ -59,6 +63,7 @@ const MONDAY_COLUMNS = {
   issue:       'dropdown_mkncmm16',  // 광고 진행 중 애로사항
   notes:       'text_mknqtgpg',      // 그 외 궁금/지원 내용
   status:      'status',             // 진행 사항
+  person:      'person',             // 담당자 (people 타입)
 };
 
 // 폼 값 → Monday dropdown 라벨 매핑
@@ -129,6 +134,9 @@ async function createMondayItem(data) {
     [MONDAY_COLUMNS.industry]: data.industry || '',
     [MONDAY_COLUMNS.notes]:    combinedNotes,
     [MONDAY_COLUMNS.status]:   { label: statusLabel },
+    [MONDAY_COLUMNS.person]:   {
+      personsAndTeams: [{ id: Number(MONDAY_DEFAULT_ASSIGNEE_ID), kind: 'person' }]
+    },
   };
   if (mappedPayment) {
     columnValues[MONDAY_COLUMNS.payment] = { labels: [mappedPayment] };
