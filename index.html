@@ -2886,6 +2886,111 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     });
   })();
 
+  // ============================================================
+  // 📊 Top 5 추가 이벤트 — 의미있는 사용자 행동
+  // ============================================================
+
+  // 1️⃣ CTA Click — 모든 주요 CTA 버튼 위치별 추적
+  (function setupCtaTracking(){
+    const ctaMap = [
+      // Hero 영역 2개 CTA
+      { selector: '.hero-ctas a[href="#calc"]',     location: 'hero_diagnose',  label: '20초 진단' },
+      { selector: '.hero-ctas a[href="#apply"]',    location: 'hero_apply',     label: '무료 진단 신청' },
+      // Sticky 모바일 CTA
+      { selector: '.sticky-mobile a[href="#apply"]', location: 'sticky_mobile',  label: '무료 진단 신청 (모바일)' },
+      // 폼 영역 내부 CTA들
+      { selector: 'a[href="#apply"]:not(.hero-ctas a):not(.sticky-mobile a)', location: 'in_page_apply', label: '본문 내 신청' },
+      // 계산기로 이동
+      { selector: 'a[href="#calc"]:not(.hero-ctas a)', location: 'in_page_calc', label: '본문 내 진단' },
+    ];
+    ctaMap.forEach(function(cta){
+      try {
+        document.querySelectorAll(cta.selector).forEach(function(el){
+          el.addEventListener('click', function(){
+            track('cta_click', { location: cta.location, label: cta.label });
+          });
+        });
+      } catch(e) { /* selector 무효 시 무시 */ }
+    });
+  })();
+
+  // 2️⃣ Calculator Engagement — 시뮬레이터 사용/완료 추적
+  (function setupCalculatorTracking(){
+    const adSpendInput = document.getElementById('ad-spend');
+    const ratioSelect = document.getElementById('overseas-ratio');
+    if (!adSpendInput) return;
+
+    let calculatorUsed = false;
+    let calculatorCompletedFired = false;
+    let inputDebounce;
+
+    function fireCompleted(){
+      if (calculatorCompletedFired) return;
+      const val = parseFloat(adSpendInput.value) || 0;
+      // 의미있는 입력값 (100만원 이상) + 3초 후 → 진지하게 검토한 것으로 판단
+      if (val >= 100) {
+        calculatorCompletedFired = true;
+        track('calculator_completed', {
+          ad_spend_manwon: val,
+          mode: (typeof calcMode !== 'undefined') ? calcMode : 'overseas',
+          ratio: ratioSelect ? parseFloat(ratioSelect.value) : 0,
+        });
+      }
+    }
+
+    function onCalcChange(){
+      if (!calculatorUsed) {
+        calculatorUsed = true;
+        track('calculator_used', { first_input: parseFloat(adSpendInput.value) || 0 });
+      }
+      clearTimeout(inputDebounce);
+      inputDebounce = setTimeout(fireCompleted, 3000); // 3초 후 완료 판정
+    }
+
+    adSpendInput.addEventListener('input', onCalcChange);
+    if (ratioSelect) ratioSelect.addEventListener('change', onCalcChange);
+  })();
+
+  // 3️⃣ Phone Click — tel: 링크 클릭 (모바일 click-to-call)
+  (function setupPhoneTracking(){
+    document.querySelectorAll('a[href^="tel:"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        const phone = el.getAttribute('href').replace('tel:', '');
+        track('phone_click', { phone: phone });
+      });
+    });
+  })();
+
+  // 4️⃣ & 5️⃣ Section View — 비교표 + 카드 청구내역 도달 시 (50% 노출 기준)
+  (function setupSectionViewTracking(){
+    if (!('IntersectionObserver' in window)) return;
+
+    const sectionTargets = [
+      { selector: '.compare-table',         event: 'compare_view',
+        meta: { content_name: '일반 vs 파트너 인보이스 비교표' } },
+      { selector: '.card-statement-wrap',   event: 'card_statement_view',
+        meta: { content_name: '카드 청구내역 충격 사례' } },
+      { selector: '.fee-flow-explainer',    event: 'fee_diagram_view',
+        meta: { content_name: '4단계 수수료 흐름도' } },
+      { selector: '.retention-highlight',   event: 'retention_view',
+        meta: { content_name: '99% 리텐션 강조' } },
+    ];
+
+    sectionTargets.forEach(function(t){
+      const el = document.querySelector(t.selector);
+      if (!el) return;
+      const obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            track(t.event, t.meta || {});
+            obs.disconnect();
+          }
+        });
+      }, { threshold: 0.5 });
+      obs.observe(el);
+    });
+  })();
+
   // 자격 미달 경고 노출 추적용 플래그
   let _qualifierShownOnce = false;
   function checkQualifier(){
