@@ -41,6 +41,149 @@ const RESTRICTED_KEYWORDS = [
   'rx-online', 'pharma-direct',
 ];
 
+// ── Monday.com 보드 매핑 ─────────────────────────────────────
+// Board: appsiloncorp.monday.com/boards/8598876525 (Meta_Wix_LEAD_250220_Zapier)
+const MONDAY_BOARD_ID = process.env.MONDAY_BOARD_ID || '8598876525';
+const MONDAY_GROUP_ID = process.env.MONDAY_GROUP_ID || 'topics'; // "신규" 그룹
+
+// Monday 컬럼 ID 매핑
+const MONDAY_COLUMNS = {
+  name:        'text_mknczry2',      // 이름
+  job:         'text_mknc998t',      // 직책
+  email:       'email_mkncxg73',     // 업무용 이메일
+  phone:       'text_mknczf57',      // 휴대폰 번호
+  budget:      'text_mknfaycw',      // 직전 3개월 평균 광고비
+  industry:    'text_mkncb8w6',      // 업종
+  payment:     'dropdown_mkncsjs9',  // 현재 광고비 결제 방식
+  services:    'dropdown_mkncnd7y',  // 희망 서비스 (복수 선택)
+  issue:       'dropdown_mkncmm16',  // 광고 진행 중 애로사항
+  notes:       'text_mknqtgpg',      // 그 외 궁금/지원 내용
+  status:      'status',             // 진행 사항
+};
+
+// 폼 값 → Monday dropdown 라벨 매핑
+const MONDAY_SERVICES_MAP = {
+  'Meta':                       '임대 - Meta (Facebook, IG)',
+  'Google':                     '임대 - Google (Youtube)',
+  'TikTok':                     '임대 - TikTok',
+  'Kakao/NAVER':                '임대 - Kakao / NAVER',
+  'Pinterest/Twitter':          '임대 - Pinterest / Twitter',
+  '퍼포먼스 광고 대행':         '퍼포먼스 광고 대행',
+  '글로벌 퍼포먼스 광고 대행':  '해외 퍼포먼스 광고 대행',
+  '기타 제휴 문의':             '기타 제휴 문의',
+};
+
+const MONDAY_PAYMENT_MAP = {
+  '카드 해외 결제':         '카드 해외 결제(수수료 4.8~7.8%)',
+  '광고 대행사 협업 중':    '광고 대행사 협업 중',
+  '대행사 계정 대대행':     '대행사 계정 대대행',
+  '매체 직거래(Invoice)':   '매체 직거래(Invoice)',
+};
+
+// Monday Status 라벨 ID (status 컬럼)
+//  5: "연락 필요", 9: "거절", 8: "미팅대기"
+const MONDAY_STATUS_NEW_LEAD = '연락 필요';
+const MONDAY_STATUS_REJECTED = '거절';
+
+// Monday.com 아이템 생성 함수
+async function createMondayItem(data) {
+  const token = process.env.MONDAY_API_TOKEN;
+  if (!token) {
+    console.warn('MONDAY_API_TOKEN not set, skipping Monday integration');
+    return null;
+  }
+
+  // 이름 / 직책 분리 (폼: "홍길동 / 마케팅 팀장")
+  const nameJob = String(data.name || '').split('/').map(s => s.trim());
+  const personName = nameJob[0] || data.name || '';
+  const personJob = nameJob[1] || '';
+
+  // 희망 서비스 매핑 (체크박스 복수 → Monday 라벨 복수)
+  const mappedServices = (Array.isArray(data.services) ? data.services : [])
+    .map(s => MONDAY_SERVICES_MAP[s])
+    .filter(Boolean);
+
+  // 결제 방식 매핑
+  const mappedPayment = MONDAY_PAYMENT_MAP[data.payment] || data.payment || '';
+
+  // 메모 통합 (URL + serviceType + source/utm 추가)
+  const extraInfo = [];
+  if (data.service_type) extraInfo.push(`[서비스 유형]\n${data.service_type}`);
+  if (Array.isArray(data.urls) && data.urls.length > 0) {
+    extraInfo.push(`[광고 대상 URL ${data.urls.length}개]\n${data.urls.map(u => '• ' + u).join('\n')}`);
+  }
+  if (data.source && data.source !== 'direct') extraInfo.push(`[유입 경로]\n${data.source}`);
+  if (data.utm) extraInfo.push(`[UTM]\n${data.utm}`);
+  const combinedNotes = [data.notes, ...extraInfo].filter(Boolean).join('\n\n---\n\n');
+
+  // Status 자동 분류
+  const statusLabel = data.restricted ? MONDAY_STATUS_REJECTED : MONDAY_STATUS_NEW_LEAD;
+
+  // Column values 구성
+  const columnValues = {
+    [MONDAY_COLUMNS.name]:     personName,
+    [MONDAY_COLUMNS.job]:      personJob,
+    [MONDAY_COLUMNS.email]:    { email: data.email, text: data.email },
+    [MONDAY_COLUMNS.phone]:    data.phone,
+    [MONDAY_COLUMNS.budget]:   budgetLabel(data.budget),
+    [MONDAY_COLUMNS.industry]: data.industry || '',
+    [MONDAY_COLUMNS.notes]:    combinedNotes,
+    [MONDAY_COLUMNS.status]:   { label: statusLabel },
+  };
+  if (mappedPayment) {
+    columnValues[MONDAY_COLUMNS.payment] = { labels: [mappedPayment] };
+  }
+  if (mappedServices.length > 0) {
+    columnValues[MONDAY_COLUMNS.services] = { labels: mappedServices };
+  }
+  if (data.issue) {
+    columnValues[MONDAY_COLUMNS.issue] = { labels: [data.issue] };
+  }
+
+  const mutation = `
+    mutation CreateItem($boardId: ID!, $groupId: String!, $itemName: String!, $columnValues: JSON!) {
+      create_item(
+        board_id: $boardId,
+        group_id: $groupId,
+        item_name: $itemName,
+        column_values: $columnValues
+      ) {
+        id
+      }
+    }
+  `;
+
+  const variables = {
+    boardId: String(MONDAY_BOARD_ID),
+    groupId: MONDAY_GROUP_ID,
+    itemName: data.company,
+    columnValues: JSON.stringify(columnValues),
+  };
+
+  const response = await fetch('https://api.monday.com/v2', {
+    method: 'POST',
+    headers: {
+      'Authorization': token,
+      'Content-Type': 'application/json',
+      'API-Version': '2024-01',
+    },
+    body: JSON.stringify({ query: mutation, variables }),
+  });
+
+  const result = await response.json();
+  if (result.errors) {
+    console.error('Monday API errors:', JSON.stringify(result.errors));
+    throw new Error('Monday create_item failed: ' + result.errors[0]?.message);
+  }
+  if (!result.data || !result.data.create_item) {
+    console.error('Monday unexpected response:', JSON.stringify(result));
+    throw new Error('Monday create_item returned no data');
+  }
+
+  console.log('Monday item created:', result.data.create_item.id);
+  return result.data.create_item.id;
+}
+
 // Supabase + Resend 클라이언트 초기화 (cold start 비용 절감 위해 함수 외부에서 생성)
 const supabase = createClient(
   process.env.SUPABASE_URL,
@@ -282,7 +425,16 @@ export default async function handler(req, res) {
       });
     }
 
-    // 4) 이메일 발송 (제한업종 여부에 따라 분기)
+    // 4) Monday.com 적재 (영업팀 작업판) — 이메일 발송과 병렬 처리 가능하지만,
+    //    실패 시에도 DB 저장은 유지되어야 하므로 catch로 격리
+    try {
+      await createMondayItem(inserted);
+    } catch (mondayErr) {
+      console.error('Monday create_item failed:', mondayErr);
+      // Monday 실패해도 응답은 success — 이메일은 별도로 발송
+    }
+
+    // 5) 이메일 발송 (제한업종 여부에 따라 분기)
     const fromEmail = process.env.FROM_EMAIL || 'noreply@example.com';
     const salesEmail = process.env.SALES_NOTIFY_EMAIL || 'sales@example.com';
     try {
