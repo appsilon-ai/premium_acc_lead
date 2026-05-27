@@ -115,6 +115,58 @@ function buildSalesAlertEmail(data, isHighPriority) {
   `;
 }
 
+// 고객 확인 메일 HTML — 정상 리드 제출 시 광고주에게 발송
+function buildCustomerConfirmationEmail(data) {
+  return `
+    <div style="font-family:-apple-system,BlinkMacSystemFont,'Pretendard',Arial,sans-serif;max-width:600px;margin:0 auto;background:#fff">
+      <div style="background:linear-gradient(135deg,#1652a5,#0d2c5e);color:#fff;padding:28px 24px;border-radius:12px 12px 0 0">
+        <div style="font-size:12px;opacity:.85;letter-spacing:.1em;text-transform:uppercase">신청 접수 완료</div>
+        <h1 style="margin:8px 0 0;font-size:24px;font-weight:800;letter-spacing:-.02em">무료 광고비 진단 신청이 정상 접수되었습니다 ✓</h1>
+      </div>
+      <div style="padding:28px 24px;background:#fff;border:1px solid #e5e7eb;border-top:0;border-radius:0 0 12px 12px">
+        <p style="font-size:15px;line-height:1.7;color:#374151;margin:0 0 20px">
+          안녕하세요, <b>${data.name}</b> 님.<br>
+          <b>${data.company}</b> 광고비 진단 신청 감사합니다.
+        </p>
+
+        <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:18px;margin:20px 0">
+          <div style="font-size:13px;font-weight:700;color:#0369a1;margin-bottom:10px">📋 접수 내역</div>
+          <table style="width:100%;font-size:13.5px;line-height:1.6;color:#1e3a8a">
+            <tr><td style="padding:4px 0;color:#475569;width:90px">회사</td><td style="font-weight:600">${data.company}</td></tr>
+            <tr><td style="padding:4px 0;color:#475569">담당자</td><td style="font-weight:600">${data.name}</td></tr>
+            <tr><td style="padding:4px 0;color:#475569">월 광고비</td><td style="font-weight:600">${budgetLabel(data.budget)}</td></tr>
+            ${data.industry ? `<tr><td style="padding:4px 0;color:#475569">업종</td><td style="font-weight:600">${data.industry}</td></tr>` : ''}
+            ${data.service_type ? `<tr><td style="padding:4px 0;color:#475569">희망 서비스</td><td style="font-weight:600">${data.service_type}</td></tr>` : ''}
+          </table>
+        </div>
+
+        <div style="background:#fefce8;border:1px solid #fde68a;border-radius:10px;padding:18px;margin:20px 0">
+          <div style="font-size:13px;font-weight:700;color:#a16207;margin-bottom:8px">⏰ 다음 안내</div>
+          <p style="font-size:13.5px;line-height:1.7;color:#713f12;margin:0">
+            <b>평일 24시간 이내</b> 전담 매니저가 입력하신 연락처(${data.phone})로 직접 연락드립니다.<br>
+            진단 리포트는 사전 미팅(Zoom 또는 대면) 후 맞춤 작성하여 전달드립니다.
+          </p>
+        </div>
+
+        <div style="margin-top:24px;padding-top:20px;border-top:1px dashed #e5e7eb">
+          <div style="font-size:12px;color:#6b7280;line-height:1.6">
+            <b>📌 진단 리포트 포함 항목</b><br>
+            • 연간 절감 가능액 계산<br>
+            • 매체별 최적 보너스 크레딧 설계<br>
+            • 동일 업종 익명 사례 (ROAS·CAC 포함)<br>
+            • 전담 매니저 1:1 사전 미팅
+          </div>
+        </div>
+
+        <p style="margin-top:24px;font-size:12px;color:#9ca3af;text-align:center;line-height:1.6">
+          본 메일은 발신 전용입니다. 문의는 담당자 연락 후 회신 부탁드립니다.<br>
+          진단은 무료이며, 결과 검토 후 진행 여부는 광고주가 결정합니다.
+        </p>
+      </div>
+    </div>
+  `;
+}
+
 // 제한업종 자동 회신 메일 HTML
 function buildRestrictedReplyEmail(data) {
   return `
@@ -229,24 +281,36 @@ export default async function handler(req, res) {
     }
 
     // 4) 이메일 발송 (제한업종 여부에 따라 분기)
+    const fromEmail = process.env.FROM_EMAIL || 'noreply@example.com';
+    const salesEmail = process.env.SALES_NOTIFY_EMAIL || 'sales@example.com';
     try {
       if (isRestricted) {
-        // 광고주에게 자동 거절 회신
+        // 제한업종 → 광고주에게만 자동 거절 회신 (영업팀 알림 X)
         await resend.emails.send({
-          from: process.env.FROM_EMAIL || 'noreply@example.com',
+          from: `OFFICIAL ADS <${fromEmail}>`,
           to: insertPayload.email,
           subject: `[안내] ${insertPayload.company} 님의 무료 진단 신청 검토 결과`,
           html: buildRestrictedReplyEmail(insertPayload),
         });
       } else {
-        // 영업팀 알림
-        await resend.emails.send({
-          from: process.env.FROM_EMAIL || 'noreply@example.com',
-          to: process.env.SALES_NOTIFY_EMAIL || 'sales@example.com',
-          subject: `🎯 신규 리드 - ${insertPayload.company} (${leadPriority})`,
-          replyTo: insertPayload.email,
-          html: buildSalesAlertEmail(insertPayload, isHighPriority),
-        });
+        // 정상 리드 → 고객 + 영업팀 동시 발송 (병렬 처리로 속도 개선)
+        await Promise.allSettled([
+          // ① 광고주에게 접수 확인 메일
+          resend.emails.send({
+            from: `OFFICIAL ADS <${fromEmail}>`,
+            to: insertPayload.email,
+            subject: `[OFFICIAL ADS] ${insertPayload.company} 님 무료 진단 신청이 접수되었습니다`,
+            html: buildCustomerConfirmationEmail(insertPayload),
+          }),
+          // ② 영업팀에게 신규 리드 알림
+          resend.emails.send({
+            from: `OFFICIAL ADS <${fromEmail}>`,
+            to: salesEmail,
+            subject: `🎯 신규 리드 - ${insertPayload.company} (${leadPriority})`,
+            replyTo: insertPayload.email,
+            html: buildSalesAlertEmail(insertPayload, isHighPriority),
+          }),
+        ]);
       }
     } catch (mailErr) {
       console.error('Email send failed:', mailErr);
