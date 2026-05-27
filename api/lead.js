@@ -86,18 +86,20 @@ function buildSalesAlertEmail(data, isHighPriority) {
       </div>
       <div style="padding:24px">
         <table style="width:100%;border-collapse:collapse;font-size:14px">
-          <tr><td style="padding:8px 0;color:#6b7280;width:120px">담당자</td><td style="padding:8px 0;font-weight:600">${data.name}</td></tr>
+          <tr><td style="padding:8px 0;color:#6b7280;width:120px">회사명</td><td style="padding:8px 0;font-weight:800;color:#1652a5;font-size:15px">${data.company}</td></tr>
+          <tr><td style="padding:8px 0;color:#6b7280">담당자</td><td style="padding:8px 0;font-weight:600">${data.name}</td></tr>
           <tr><td style="padding:8px 0;color:#6b7280">연락처</td><td style="padding:8px 0;font-weight:600">${data.phone}</td></tr>
           <tr><td style="padding:8px 0;color:#6b7280">이메일</td><td style="padding:8px 0;font-weight:600"><a href="mailto:${data.email}" style="color:#1652a5">${data.email}</a></td></tr>
           <tr><td style="padding:8px 0;color:#6b7280">광고비</td><td style="padding:8px 0;font-weight:800;color:#1652a5">${budgetLabel(data.budget)}</td></tr>
           <tr><td style="padding:8px 0;color:#6b7280">업종</td><td style="padding:8px 0">${data.industry || '-'}</td></tr>
-          <tr><td style="padding:8px 0;color:#6b7280">희망 서비스</td><td style="padding:8px 0">${data.service_type || '-'}</td></tr>
+          <tr><td style="padding:8px 0;color:#6b7280">서비스 유형</td><td style="padding:8px 0">${data.service_type || '-'}</td></tr>
+          <tr><td style="padding:8px 0;color:#6b7280">희망 매체</td><td style="padding:8px 0">${Array.isArray(data.services) && data.services.length > 0 ? data.services.map(s => `<span style="display:inline-block;background:#eef3ff;color:#1652a5;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;margin:2px 4px 2px 0">${s}</span>`).join('') : '-'}</td></tr>
           <tr><td style="padding:8px 0;color:#6b7280">결제 방식</td><td style="padding:8px 0">${data.payment || '-'}</td></tr>
           <tr><td style="padding:8px 0;color:#6b7280">애로사항</td><td style="padding:8px 0">${data.issue || '-'}</td></tr>
         </table>
         <div style="margin-top:16px;padding:14px;background:#f3f4f6;border-radius:8px">
-          <div style="font-size:12px;color:#6b7280;margin-bottom:6px;font-weight:700">광고 대상 URL</div>
-          <div style="font-size:13px;line-height:1.6">${(data.urls || []).map(u => `<div>• ${u}</div>`).join('') || '-'}</div>
+          <div style="font-size:12px;color:#6b7280;margin-bottom:6px;font-weight:700">광고 대상 URL (${(data.urls || []).length}개)</div>
+          <div style="font-size:13px;line-height:1.6">${(data.urls || []).map(u => `<div>• <a href="${u}" style="color:#1652a5;text-decoration:none" target="_blank">${u}</a></div>`).join('') || '-'}</div>
         </div>
         ${data.notes ? `<div style="margin-top:16px;padding:14px;background:#fff5f5;border-left:3px solid #f59e0b;border-radius:6px"><div style="font-size:12px;color:#6b7280;margin-bottom:6px;font-weight:700">자유 메모</div><div style="font-size:13px;line-height:1.6;white-space:pre-wrap">${data.notes}</div></div>` : ''}
         <div style="margin-top:20px;padding:14px;background:#eef2ff;border-radius:8px;font-size:12px;color:#374151">
