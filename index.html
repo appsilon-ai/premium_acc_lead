@@ -975,11 +975,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cta-bullets .ck{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:rgba(16,185,129,.15);color:#34d399;display:grid;place-items:center;font-size:13px;font-weight:800}
   form.lead{background:#fff;color:var(--ink);border-radius:18px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
   form.lead h3{font-size:20px}
-  /* 질문 라벨 — 굵게 + 큰 글자 + 다크 컬러 (선택지와 명확한 위계 차이) */
+  /* 질문 라벨 — 굵게 + 큰 글자 + 다크 컬러 + 이모지 우측 정렬 */
   form.lead > label,
   form.lead .form-step > label,
   form.lead .field-group > label{
-    display:block;
+    display:flex;
+    align-items:center;
+    gap:8px;
     font-size:15px;
     font-weight:800;
     color:var(--ink);
@@ -988,14 +990,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     letter-spacing:-.01em;
     line-height:1.4;
   }
-  /* 필수 표시 (*) 빨간색 강조 */
-  form.lead label::after{content:''}
-  form.lead label:has(+ input[required])::after,
-  form.lead label:has(+ select[required])::after,
-  form.lead label:has(+ .url-list input[required])::after{
-    content:' *';
-    color:#dc2626;
-    font-weight:900;
+  /* 보조 노트 (예: "복수 선택 가능") */
+  form.lead label .q-note{
+    font-weight:500;
+    color:var(--ink-3);
+    font-size:12px;
+    margin-left:2px;
+  }
+  /* 이모지 우측 끝으로 푸시 */
+  form.lead label .q-icon{
+    margin-left:auto;
+    font-size:18px;
+    opacity:.7;
+    line-height:1;
+    flex-shrink:0;
   }
   /* 입력 필드 — 더 명확한 보더 + 큰 패딩 */
   form.lead input,form.lead select{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:13px 14px;font-size:15px;margin-top:8px;font-family:inherit;outline:none;background:#fff;color:var(--ink);transition:border-color .12s ease, box-shadow .12s ease}
@@ -2439,19 +2447,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- STEP 1: 기본 정보 (자격 확인용 5개 필드) -->
       <div class="form-step active" id="form-step-1">
-        <label>🏢 회사ㆍ브랜드명 *</label>
+        <label>1. 회사ㆍ브랜드명<span class="q-icon">🏢</span></label>
         <input required name="company" placeholder="(주)회사명" />
 
-        <label>🏷️ 이름ㆍ직책 *</label>
+        <label>2. 이름ㆍ직책<span class="q-icon">🏷️</span></label>
         <input required name="name" placeholder="홍길동 / 마케팅 팀장" />
 
-        <label>📧 업무용 이메일 *</label>
+        <label>3. 업무용 이메일<span class="q-icon">📧</span></label>
         <input required type="email" name="email" placeholder="회사 도메인의 이메일 주소" />
 
-        <label>📱 휴대폰 번호 *</label>
+        <label>4. 휴대폰 번호<span class="q-icon">📱</span></label>
         <input required type="tel" name="phone" inputmode="numeric" placeholder="010-1234-5678 형식" />
 
-        <label>💰 직전 3개월 월 평균 광고비 *</label>
+        <label>5. 직전 3개월 월 평균 광고비<span class="q-icon">💰</span></label>
         <input required type="number" name="budget" id="budget" inputmode="numeric" placeholder="예: 5000 (= 5,000만 원)" min="0" step="100" oninput="checkQualifier()" />
         <div class="field-help">만 원 단위로 입력해주세요</div>
         <div class="qualifier" id="qualifier">
@@ -2463,7 +2471,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- STEP 2: 광고 정보 (상세 5개 필드) -->
       <div class="form-step" id="form-step-2">
-        <label>🛒 광고 대상 웹사이트ㆍ앱스토어 URL *</label>
+        <label>6. 광고 대상 웹사이트ㆍ앱스토어 URL<span class="q-icon">🛒</span></label>
         <div class="url-list" id="url-list">
           <div class="url-item">
             <input required name="url[]" placeholder="https://yourbrand.com 또는 앱스토어 링크" />
@@ -2473,7 +2481,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button type="button" class="url-add" onclick="addUrl()">＋ 사이트 추가 (최대 5개)</button>
         <div class="field-help">📌 광고하실 모든 사이트·앱을 입력해주세요. <b>제한 업종 사전 검토</b>를 통해 진행 가능 여부를 빠르게 확인해 드립니다.</div>
 
-        <label>🏷️ 업종 *</label>
+        <label>7. 업종<span class="q-icon">🏷️</span></label>
         <select name="industry" required>
           <option value="">선택해주세요</option>
           <option value="이커머스">이커머스 (D2C · 쇼핑몰)</option>
@@ -2493,7 +2501,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="field-help">⚠ 일부 업종(도박·성인·데이팅·대부·소액결제·모조품·다단계·가상자산)은 임대·대대행 불가</div>
 
         <div class="field-group">
-          <label>🎯 필요한 서비스 유형 *</label>
+          <label>8. 필요한 서비스 유형<span class="q-icon">🎯</span></label>
           <div class="radio-group">
             <label class="radio-item"><input type="radio" name="serviceType" value="계정 임대만" required><span><b>계정 임대만</b> — 인보이스 계정으로 광고비 절감 + 매체 보너스 (운영은 직접)</span></label>
             <label class="radio-item"><input type="radio" name="serviceType" value="광고 대행만"><span><b>광고 대행만</b> — 전담 매니저가 캠페인 빌드 · 소재 · 최적화 운영</span></label>
@@ -2503,7 +2511,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <div class="field-group">
-          <label>💸 현재 광고비 결제 방식 *</label>
+          <label>9. 현재 광고비 결제 방식<span class="q-icon">💸</span></label>
           <div class="radio-group">
             <label class="radio-item"><input type="radio" name="payment" value="카드 해외 결제"><span>카드 해외 결제 (수수료 4.8~7.8%)</span></label>
             <label class="radio-item"><input type="radio" name="payment" value="광고 대행사 협업 중"><span>광고 대행사 협업 중</span></label>
@@ -2513,7 +2521,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <div class="field-group">
-          <label>⭐ 희망 서비스 <span style="font-weight:400;color:var(--ink-3);font-size:12px">(복수 선택 가능)</span></label>
+          <label>10. 희망 서비스 <span class="q-note">(복수 선택 가능)</span><span class="q-icon">⭐</span></label>
           <div class="checkbox-group">
             <label class="checkbox-item"><input type="checkbox" name="service" value="Meta"><span><b>Meta</b> · 5.3~7.8% 절감+보너스</span></label>
             <label class="checkbox-item"><input type="checkbox" name="service" value="Google"><span><b>Google</b> (YouTube)</span></label>
@@ -2527,7 +2535,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <div class="field-group">
-          <label>📉 광고 진행 중 애로사항</label>
+          <label>11. 광고 진행 중 애로사항<span class="q-icon">📉</span></label>
           <div class="radio-group">
             <label class="radio-item"><input type="radio" name="issue" value="광고 계정 정지"><span>광고 계정 정지</span></label>
             <label class="radio-item"><input type="radio" name="issue" value="광고 전환 추적 Pixel / 전환 API"><span>광고 전환 추적 Pixel / 전환 API</span></label>
@@ -2539,7 +2547,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <div class="field-group">
-          <label>🤔 상담이 필요한 내용 <span style="font-weight:400;color:var(--ink-3);font-size:12px">(선택)</span></label>
+          <label>12. 상담이 필요한 내용 <span class="q-note">(선택)</span><span class="q-icon">🤔</span></label>
           <textarea name="notes" placeholder="구체적인 상담 요청 사항을 자유롭게 작성해주세요"></textarea>
         </div>
 
