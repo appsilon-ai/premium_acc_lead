@@ -887,31 +887,31 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .media-detail .cat-icon{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:20px;line-height:1;color:#fff;background:var(--g-premium);box-shadow:0 4px 10px rgba(13,44,94,.18)}
   .media-detail .cat-icon.kr{background:linear-gradient(135deg,#3d4452,#0b1220)}
   @media (max-width:700px){
-    /* 모든 카드 동일한 높이로 정렬 — 위아래 간격 일치 */
-    .media-detail-grid{grid-auto-rows:1fr}
-    .media-detail{padding:11px 12px;justify-content:space-between}
-    .media-detail .media-logo-wrap{height:26px;margin-bottom:8px;gap:4px}
-    .media-detail .media-logo{max-width:80px}
-    .media-detail .media-logo.meta{max-height:16px}
-    .media-detail .media-logo.google{max-height:16px}
-    .media-detail .media-logo.tiktok{max-height:20px}
-    .media-detail .media-logo.pinterest{max-height:18px}
-    .media-detail .media-logo.x-logo{max-height:13px}
-    .media-detail .media-logo.naver{max-height:15px}
-    .media-detail .media-logo.kakao{max-height:18px}
-    .media-detail .cat-icon{width:28px;height:28px;font-size:14px;border-radius:7px}
-    .media-detail .m-name{font-size:13.5px;line-height:1.2}
-    .media-detail .m-sub{font-size:10.5px;line-height:1.3;min-height:13px;margin-top:2px}
-    .media-detail .m-perks{margin:8px 0 0;gap:3px}
-    .media-detail .m-perks li{font-size:11px;line-height:1.3;gap:5px}
-    .media-detail .m-val{font-size:12px;min-width:32px;font-weight:800}
-    .media-detail .m-warn{font-size:9.5px;padding-top:6px;margin-top:6px}
+    /* 모바일 — auto 높이 (정사각형 강제 X) + 컴팩트 패딩 */
+    .media-detail-grid{grid-auto-rows:auto;gap:5px;margin-top:20px}
+    .media-detail{padding:8px 10px;justify-content:flex-start;border-radius:10px;min-height:0}
+    .media-detail .media-logo-wrap{height:20px;margin-bottom:5px;gap:4px}
+    .media-detail .media-logo{max-width:70px}
+    .media-detail .media-logo.meta{max-height:14px}
+    .media-detail .media-logo.google{max-height:14px}
+    .media-detail .media-logo.tiktok{max-height:17px}
+    .media-detail .media-logo.pinterest{max-height:15px}
+    .media-detail .media-logo.x-logo{max-height:11px}
+    .media-detail .media-logo.naver{max-height:13px}
+    .media-detail .media-logo.kakao{max-height:16px}
+    .media-detail .cat-icon{width:22px;height:22px;font-size:12px;border-radius:6px}
+    .media-detail .m-name{font-size:12.5px;line-height:1.2}
+    .media-detail .m-sub{font-size:9.5px;line-height:1.25;min-height:0;margin-top:0}
+    .media-detail .m-perks{margin:4px 0 0;gap:2px}
+    .media-detail .m-perks li{font-size:10.5px;line-height:1.2;gap:4px;padding:0}
+    .media-detail .m-val{font-size:11px;min-width:28px;font-weight:800}
+    .media-detail .m-warn{font-size:9px;padding-top:4px;margin-top:4px}
   }
   @media (max-width:380px){
-    .media-detail{padding:10px}
-    .media-detail .m-name{font-size:13px}
-    .media-detail .m-perks li{font-size:10.5px}
-    .media-detail .m-val{font-size:11.5px;min-width:30px}
+    .media-detail{padding:7px 8px}
+    .media-detail .m-name{font-size:12px}
+    .media-detail .m-perks li{font-size:10px}
+    .media-detail .m-val{font-size:10.5px;min-width:26px}
   }
   .media-detail .m-name{font-size:17px;font-weight:800;color:var(--ink);letter-spacing:-.01em}
   .media-detail .m-sub{font-size:12px;color:var(--ink-3);margin-top:4px;min-height:16px}
