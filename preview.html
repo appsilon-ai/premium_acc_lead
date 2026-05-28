@@ -508,10 +508,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .industry-card .ic-chip{padding:5px 11px;font-size:12px}
 
     /* Loss Card — 22px 20px → 14px 14px */
-    .loss-card{padding:14px 14px;gap:6px}
-    .loss-card .lc-spend{font-size:16px}
-    .loss-card .lc-loss{font-size:24px}
-    .loss-card.featured .lc-loss{font-size:26px}
+    /* 모바일 loss-card — 컴팩트 */
+    .loss-card{padding:10px 12px;gap:3px;border-radius:10px}
+    .loss-card .lc-spend-label{font-size:10px;letter-spacing:.02em}
+    .loss-card .lc-spend{font-size:14px;margin-top:1px}
+    .loss-card .lc-divider{margin:4px 0 2px}
+    .loss-card .lc-loss-label{font-size:10px;letter-spacing:.02em}
+    .loss-card .lc-loss{font-size:20px;line-height:.95}
+    .loss-card.featured .lc-loss{font-size:22px}
+    .loss-card .lc-bar{height:5px;margin-top:2px}
+    .loss-card .lc-monthly{font-size:11px;padding-top:2px}
+    .loss-card .lc-equiv{margin-top:4px;padding:4px 8px;font-size:10px}
+    .loss-card .lc-badge{top:8px;right:8px;font-size:9px;padding:2px 7px}
 
     /* Case (실제 사례 카드) — 24px → 14px */
     .case{padding:14px 16px}
@@ -1882,7 +1890,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </article>
       </div>
 
-      <p class="ocw-note">⚠ <b>본인 카드 약관에서 정확한 수수료를 반드시 확인하세요.</b> 카드사 평균 광고비 손실은 <b>월 평균 7.6% (범위 6~12%)</b> 수준입니다. 출처: 신한·삼성·현대카드 해외이용수수료 약관 (2022~2024), 한국소비자원 신용카드 해외결제 분석.</p>
+      <p class="ocw-note">⚠ <b>본인 카드 약관에서 정확한 수수료를 반드시 확인하세요.</b> 카드사·결제 방식에 따라 실제 부담은 <b>월 광고비의 약 5~12%</b> 범위에서 발생합니다. 출처: 국내 카드사 해외이용수수료 약관 (신한·삼성·현대카드 공시 기준).</p>
     </div>
 
   </div>
