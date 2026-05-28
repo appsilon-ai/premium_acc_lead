@@ -77,6 +77,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* 폰트 크기 일괄 상향 (가독성) */
   html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Pretendard',-apple-system,BlinkMacSystemFont,system-ui,Roboto,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;font-size:16px}
   @media (max-width:700px){html,body{font-size:15px}}
+  .br-mobile{display:none}
+  @media (max-width:700px){.br-mobile{display:block}}
   a{color:inherit;text-decoration:none}
   img{max-width:100%;display:block}
   .container{max-width:1120px;margin:0 auto;padding:0 24px}
@@ -1699,7 +1701,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section id="fee-truth" style="background:linear-gradient(180deg, #1a2548 0%, #2a3556 50%, #3a4566 100%);color:#fff;position:relative">
   <div class="container">
     <div class="section-head">
-      <h2>"원화 결제니까 수수료 없죠?" — <span style="color:var(--warn)">아니요, 매달 새고 있습니다.</span></h2>
+      <h2>"원화 결제니까 수수료 없죠?" <span style="display:inline">—</span><br class="br-mobile"> <span style="color:var(--warn)">아니요, 매달 새고 있습니다.</span></h2>
     </div>
 
     <div class="card-statement-wrap">
