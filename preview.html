@@ -832,6 +832,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* MEDIA LOGOS GRID — 개별 브랜드 로고 갤러리 */
   html{scroll-behavior:smooth} /* 앵커 링크 부드러운 스크롤 */
+  /* 매체 로고 클릭 유도 CTA */
+  .media-logos-cta{max-width:1000px;margin:0 auto 16px;padding:16px 22px;background:linear-gradient(135deg,#eef3ff 0%,#f5f8ff 100%);border:1.5px dashed var(--brand);border-radius:14px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .media-logos-cta .mlc-text{display:flex;flex-direction:column;gap:3px}
+  .media-logos-cta .mlc-question{font-size:16px;font-weight:800;color:var(--brand-2);letter-spacing:-.01em}
+  .media-logos-cta .mlc-action{font-size:13px;color:var(--ink-2);font-weight:500}
+  .media-logos-cta .mlc-action b{color:var(--brand);font-weight:800}
+  .media-logos-cta .mlc-arrow{font-size:24px;color:var(--brand);font-weight:900;animation:mlcBounce 1.5s ease-in-out infinite}
+  @keyframes mlcBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+  @media (max-width:700px){
+    .media-logos-cta{padding:12px 14px;margin-bottom:12px;gap:10px}
+    .media-logos-cta .mlc-question{font-size:14px}
+    .media-logos-cta .mlc-action{font-size:11.5px}
+    .media-logos-cta .mlc-arrow{font-size:20px}
+  }
+
   .media-logos-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;max-width:1000px;margin:0 auto}
   @media (max-width:900px){.media-logos-grid{grid-template-columns:repeat(4,1fr)}}
   @media (max-width:480px){.media-logos-grid{grid-template-columns:repeat(3,1fr);gap:5px}}
@@ -2278,6 +2293,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- 매체 로고 클릭 유도 헤더 -->
+    <div class="media-logos-cta">
+      <div class="mlc-text">
+        <span class="mlc-question">🎯 어떤 매체를 운영하세요?</span>
+        <span class="mlc-action">로고를 <b>클릭</b>하면 매체별 절감·보너스 혜택을 확인할 수 있어요</span>
+      </div>
+      <div class="mlc-arrow">↓</div>
     </div>
 
     <!-- 지원 매체 개별 로고 갤러리 (로컬 호스팅 + 클릭 시 상세 카드로 스크롤) -->
