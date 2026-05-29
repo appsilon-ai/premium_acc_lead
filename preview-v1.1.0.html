@@ -984,11 +984,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .media-logo-tile[data-rank="1"] .mlt-pct{
     background:#fff5f5;color:#dc2626;border-color:#fecaca
   }
+  /* 비순위 매체 — 작은 회색 신청률 (랭크 뱃지 없음) */
+  .media-logo-tile:not([data-rank]) .mlt-pct{
+    background:#f4f6f8;color:#6b7382;border-color:#e5e8eb;font-weight:700
+  }
+  .media-logo-tile:not([data-rank]):has(.mlt-pct){padding-bottom:18px}
   @media (max-width:480px){
     .mlt-rank{width:16px;height:16px;font-size:9px;border-radius:4px;top:3px;left:3px}
     .media-logo-tile[data-rank="1"] .mlt-rank{width:18px;height:18px;font-size:10px}
     .mlt-pct{font-size:8.5px;padding:0 5px;bottom:2px}
     .media-logo-tile[data-rank]{padding-top:20px;padding-bottom:16px}
+    .media-logo-tile:not([data-rank]):has(.mlt-pct){padding-bottom:14px}
   }
   .media-logo-tile:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(11,18,32,.08);border-color:rgba(31,107,255,.3)}
   .media-logo-tile img{max-width:100%;max-height:30px;width:auto;height:auto;object-fit:contain;display:block}
@@ -2518,27 +2524,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- 지원 매체 개별 로고 갤러리 — Top 10 신청현황 (최근 90일) 정렬 -->
     <div class="media-logos-grid">
       <!-- Top 10 (신청률 순) -->
-      <a class="media-logo-tile" data-rank="1" href="#m-meta" data-name="Meta · Facebook · Instagram"><span class="mlt-rank">1</span><img src="logos/meta.svg" alt="Meta" loading="lazy" /><span class="mlt-pct">38.2%</span></a>
-      <a class="media-logo-tile" data-rank="2" href="#m-google" data-name="Google Ads · 검색·GDN"><span class="mlt-rank">2</span><img src="logos/google.svg" alt="Google" loading="lazy" /><span class="mlt-pct">23.7%</span></a>
-      <a class="media-logo-tile" data-rank="3" href="#m-tiktok" data-name="TikTok For Business"><span class="mlt-rank">3</span><img src="logos/tiktok.svg" alt="TikTok" loading="lazy" /><span class="mlt-pct">15.6%</span></a>
-      <a class="media-logo-tile" data-rank="4" href="#m-naver" data-name="NAVER · 검색·GFA·브랜드검색"><span class="mlt-rank">4</span><img src="logos/naver.svg" alt="NAVER" class="lg" loading="lazy" /><span class="mlt-pct">8.9%</span></a>
-      <a class="media-logo-tile" data-rank="5" href="#m-kakao" data-name="Kakao · 모먼트·비즈보드"><span class="mlt-rank">5</span><img src="logos/kakao.svg" alt="Kakao" class="lg" loading="lazy" /><span class="mlt-pct">5.2%</span></a>
-      <a class="media-logo-tile" data-rank="6" href="#m-pinterest" data-name="X (Twitter) Advertising"><span class="mlt-rank">6</span><img src="logos/x.svg" alt="X" class="sm" loading="lazy" /><span class="mlt-pct">3.1%</span></a>
-      <a class="media-logo-tile" data-rank="7" href="#m-global" data-name="LinkedIn Ads"><span class="mlt-rank">7</span><img src="logos/linkedin.svg" alt="LinkedIn" class="lg" loading="lazy" /><span class="mlt-pct">1.9%</span></a>
-      <a class="media-logo-tile" data-rank="8" href="#m-pinterest" data-name="Pinterest Partners"><span class="mlt-rank">8</span><img src="logos/pinterest.png" alt="Pinterest" loading="lazy" /><span class="mlt-pct">1.2%</span></a>
-      <a class="media-logo-tile" data-rank="9" href="#m-toss" data-name="토스 광고"><span class="mlt-rank">9</span><img src="logos/toss-ads.svg" alt="toss ads" loading="lazy" /><span class="mlt-pct">1.1%</span></a>
+      <a class="media-logo-tile" data-rank="1" href="#m-meta" data-name="Meta · Facebook · Instagram"><span class="mlt-rank">1</span><img src="logos/meta.svg" alt="Meta" loading="lazy" /><span class="mlt-pct">32.0%</span></a>
+      <a class="media-logo-tile" data-rank="2" href="#m-google" data-name="Google Ads · 검색·GDN"><span class="mlt-rank">2</span><img src="logos/google.svg" alt="Google" loading="lazy" /><span class="mlt-pct">19.5%</span></a>
+      <a class="media-logo-tile" data-rank="3" href="#m-tiktok" data-name="TikTok For Business"><span class="mlt-rank">3</span><img src="logos/tiktok.svg" alt="TikTok" loading="lazy" /><span class="mlt-pct">12.8%</span></a>
+      <a class="media-logo-tile" data-rank="4" href="#m-naver" data-name="NAVER · 검색·GFA·브랜드검색"><span class="mlt-rank">4</span><img src="logos/naver.svg" alt="NAVER" class="lg" loading="lazy" /><span class="mlt-pct">7.8%</span></a>
+      <a class="media-logo-tile" data-rank="5" href="#m-kakao" data-name="Kakao · 모먼트·비즈보드"><span class="mlt-rank">5</span><img src="logos/kakao.svg" alt="Kakao" class="lg" loading="lazy" /><span class="mlt-pct">5.6%</span></a>
+      <a class="media-logo-tile" data-rank="6" href="#m-toss" data-name="토스 광고"><span class="mlt-rank">6</span><img src="logos/toss-ads.svg" alt="toss ads" loading="lazy" /><span class="mlt-pct">5.2%</span></a>
+      <a class="media-logo-tile" data-rank="7" href="#m-pinterest" data-name="X (Twitter) Advertising"><span class="mlt-rank">7</span><img src="logos/x.svg" alt="X" class="sm" loading="lazy" /><span class="mlt-pct">3.4%</span></a>
+      <a class="media-logo-tile" data-rank="8" href="#m-global" data-name="LinkedIn Ads"><span class="mlt-rank">8</span><img src="logos/linkedin.svg" alt="LinkedIn" class="lg" loading="lazy" /><span class="mlt-pct">2.1%</span></a>
+      <a class="media-logo-tile" data-rank="9" href="#m-pinterest" data-name="Pinterest Partners"><span class="mlt-rank">9</span><img src="logos/pinterest.png" alt="Pinterest" loading="lazy" /><span class="mlt-pct">1.5%</span></a>
       <a class="media-logo-tile" data-rank="10" href="#m-global" data-name="Snapchat Ads"><span class="mlt-rank">10</span><img src="logos/snapchat.svg" alt="Snapchat" class="lg" loading="lazy" /><span class="mlt-pct">1.1%</span></a>
-      <!-- 그 외 지원 매체 (순위 외) -->
-      <a class="media-logo-tile" href="#m-google" data-name="YouTube · 동영상 광고"><img src="logos/youtube.svg" alt="YouTube" class="lg" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-global" data-name="LINE Ads Platform"><img src="logos/line.svg" alt="LINE" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-global" data-name="Yahoo! DSP"><span class="text-logo yahoo">Yahoo!</span></a>
-      <a class="media-logo-tile" href="#m-global" data-name="Reddit Ads"><img src="logos/reddit.svg" alt="Reddit" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-global" data-name="Amazon Ads"><img src="logos/amazon.svg" alt="Amazon Ads" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-global" data-name="Apple Search Ads"><img src="logos/apple.svg" alt="Apple Search Ads" class="lg" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-global" data-name="Unity Ads"><img src="logos/unity-ads.svg" alt="Unity Ads" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-domestic" data-name="KT · 타운보드 광고"><img src="logos/kt-townboard.svg" alt="kt is TOWN BOARD" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-domestic" data-name="포커스미디어 · 엘리베이터 광고"><img src="logos/focus-media.svg" alt="포커스미디어" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-domestic" data-name="GS MediaMeet · 옥외 매체"><img src="logos/mediameet.svg" alt="MEDIAMEET (GS 넷비전 × iMP)" loading="lazy" /></a>
+      <!-- 그 외 지원 매체 (순위 외 · 소량 신청) -->
+      <a class="media-logo-tile" href="#m-google" data-name="YouTube · 동영상 광고"><img src="logos/youtube.svg" alt="YouTube" class="lg" loading="lazy" /><span class="mlt-pct">1.8%</span></a>
+      <a class="media-logo-tile" href="#m-global" data-name="LINE Ads Platform"><img src="logos/line.svg" alt="LINE" loading="lazy" /><span class="mlt-pct">1.2%</span></a>
+      <a class="media-logo-tile" href="#m-global" data-name="Amazon Ads"><img src="logos/amazon.svg" alt="Amazon Ads" loading="lazy" /><span class="mlt-pct">1.0%</span></a>
+      <a class="media-logo-tile" href="#m-global" data-name="Reddit Ads"><img src="logos/reddit.svg" alt="Reddit" loading="lazy" /><span class="mlt-pct">0.9%</span></a>
+      <a class="media-logo-tile" href="#m-global" data-name="Apple Search Ads"><img src="logos/apple.svg" alt="Apple Search Ads" class="lg" loading="lazy" /><span class="mlt-pct">0.8%</span></a>
+      <a class="media-logo-tile" href="#m-global" data-name="Yahoo! DSP"><span class="text-logo yahoo">Yahoo!</span><span class="mlt-pct">0.7%</span></a>
+      <a class="media-logo-tile" href="#m-domestic" data-name="KT · 타운보드 광고"><img src="logos/kt-townboard.svg" alt="kt is TOWN BOARD" loading="lazy" /><span class="mlt-pct">0.7%</span></a>
+      <a class="media-logo-tile" href="#m-domestic" data-name="포커스미디어 · 엘리베이터 광고"><img src="logos/focus-media.svg" alt="포커스미디어" loading="lazy" /><span class="mlt-pct">0.7%</span></a>
+      <a class="media-logo-tile" href="#m-global" data-name="Unity Ads"><img src="logos/unity-ads.svg" alt="Unity Ads" loading="lazy" /><span class="mlt-pct">0.6%</span></a>
+      <a class="media-logo-tile" href="#m-domestic" data-name="GS MediaMeet · 옥외 매체"><img src="logos/mediameet.svg" alt="MEDIAMEET (GS 넷비전 × iMP)" loading="lazy" /><span class="mlt-pct">0.6%</span></a>
     </div>
     <p class="media-logos-note">* 각 로고를 클릭하면 매체별 상세 정보(보너스 크레딧·할인율)로 이동합니다. 그 외 글로벌 DSP·DMP 매체 50여 종 지원.</p>
     <div class="media-detail-grid">
