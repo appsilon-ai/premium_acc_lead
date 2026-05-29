@@ -151,44 +151,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .hero-sub{font-size:18px;color:#cfd6e4;margin-top:18px;max-width:560px}
   .hero-sub b{color:#fff;font-weight:700}
 
-  /* === Hero 직후 Quick CTA 섹션 === */
-  .quick-cta-section{
-    background:linear-gradient(180deg, #0d2c5e 0%, #1652a5 100%);
-    padding:32px 0;
-    border-top:1px solid rgba(255,255,255,.08);
-    border-bottom:1px solid rgba(255,255,255,.08);
-  }
-  .quick-cta-wrap{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:32px;
-    flex-wrap:wrap;
-  }
-  .quick-cta-content{flex:1;min-width:280px}
-  .quick-cta-eyebrow{font-size:13px;color:#93c5fd;font-weight:700;letter-spacing:-.01em}
-  .quick-cta-title{margin-top:6px;font-size:22px;font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.35}
-  .quick-cta-sub{margin-top:6px;font-size:14.5px;color:#cfd6e4;line-height:1.55}
-  .quick-cta-action{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
-  .quick-cta-btn{
-    padding:16px 32px !important;
-    font-size:16px !important;
-    font-weight:800 !important;
-    background:#fff !important;
-    color:#1652a5 !important;
-    box-shadow:0 8px 24px rgba(0,0,0,.2) !important;
-  }
-  .quick-cta-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.25) !important}
-  .quick-cta-scroll{font-size:12px;color:#93c5fd;font-weight:500}
-  @media (max-width:700px){
-    .quick-cta-section{padding:24px 0}
-    .quick-cta-wrap{flex-direction:column;align-items:stretch;gap:16px}
-    .quick-cta-action{align-items:stretch}
-    .quick-cta-btn{text-align:center}
-    .quick-cta-title{font-size:18px}
-    .quick-cta-scroll{text-align:center}
-  }
-
   /* === 신규 Hero — 거대 숫자 + 단일 CTA + 신뢰지표 === */
   .hero-mega{margin-top:32px}
   .hero-mega-label{font-size:18px;color:#cfd6e4;font-weight:600;letter-spacing:-.02em}
@@ -1325,6 +1287,31 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   form.lead input,form.lead select{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:13px 14px;font-size:15px;margin-top:8px;font-family:inherit;outline:none;background:#fff;color:var(--ink);transition:border-color .12s ease, box-shadow .12s ease}
   form.lead input:focus,form.lead select:focus{border-color:var(--brand);box-shadow:0 0 0 4px rgba(31,107,255,.12)}
   form.lead .submit{width:100%;margin-top:20px;padding:16px;font-size:16px}
+  /* v1.1.0: 폼 최종 submit 버튼에도 Hero CTA와 동일한 글로우+광선 효과 */
+  form.lead button[type=submit].submit{
+    position:relative;
+    overflow:hidden;
+    animation:cta-glow 2.4s ease-in-out infinite;
+    will-change:box-shadow, transform
+  }
+  form.lead button[type=submit].submit::before{
+    content:'';
+    position:absolute;inset:0;
+    border-radius:inherit;
+    background:linear-gradient(110deg,
+      transparent 0%, transparent 38%,
+      rgba(255,255,255,.55) 50%,
+      transparent 62%, transparent 100%);
+    background-size:220% 100%;
+    background-position:200% 0;
+    animation:cta-shine 3.2s ease-in-out infinite;
+    pointer-events:none;
+    mix-blend-mode:overlay
+  }
+  @media (prefers-reduced-motion: reduce){
+    form.lead button[type=submit].submit{animation:none}
+    form.lead button[type=submit].submit::before{display:none}
+  }
   form.lead .agree{font-size:12px;color:var(--ink-3);margin-top:12px;display:flex;gap:8px;align-items:flex-start}
   form.lead .agree input{width:auto;margin-top:2px}
   form.lead .qualifier{font-size:12px;color:var(--warn);background:#fff5f5;border:1px dashed #fecaca;border-radius:10px;padding:10px;margin-top:12px;display:none}
@@ -1908,21 +1895,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </aside>
   </div>
 </header>
-
-<!-- QUICK CTA — Hero 직후 단축 신청 (빠른 결정자용) -->
-<section class="quick-cta-section">
-  <div class="container quick-cta-wrap">
-    <div class="quick-cta-content">
-      <div class="quick-cta-eyebrow">📋 이미 결정하셨나요?</div>
-      <div class="quick-cta-title">지금 바로 무료 진단을 신청하세요</div>
-      <div class="quick-cta-sub">24시간 내 우리 회사 절감액 리포트를 받아보세요. 약정·위약금 없음.</div>
-    </div>
-    <div class="quick-cta-action">
-      <a href="#apply" class="btn btn-lg quick-cta-btn">무료 진단 신청 →</a>
-      <div class="quick-cta-scroll">↓ 아니면 어떻게 절약하는지 먼저 보세요</div>
-    </div>
-  </div>
-</section>
 
 <!-- LOSS VISUALIZATION — 광고비 규모별 손실 시각화 -->
 <section class="loss-viz" style="position:relative">
