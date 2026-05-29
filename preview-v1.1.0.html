@@ -237,6 +237,44 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-size:17px !important;
     font-weight:800 !important;
     box-shadow:0 8px 24px rgba(31,107,255,.4) !important;
+    position:relative;
+    animation:cta-glow 2.4s ease-in-out infinite;
+    will-change:box-shadow, transform;
+  }
+  @keyframes cta-glow{
+    0%,100%{
+      box-shadow:0 8px 24px rgba(31,107,255,.4), 0 0 0 0 rgba(96,165,250,0) !important;
+      transform:translateY(0)
+    }
+    50%{
+      box-shadow:0 14px 36px rgba(31,107,255,.6), 0 0 0 10px rgba(96,165,250,.18), 0 0 30px rgba(59,130,246,.5) !important;
+      transform:translateY(-3px)
+    }
+  }
+  /* 빛 흐름 효과 — 버튼 위로 가로 휩쓸리는 광선 */
+  .hero-cta-primary::before{
+    content:'';
+    position:absolute;inset:0;
+    border-radius:inherit;
+    background:linear-gradient(110deg,
+      transparent 0%, transparent 38%,
+      rgba(255,255,255,.55) 50%,
+      transparent 62%, transparent 100%);
+    background-size:220% 100%;
+    background-position:200% 0;
+    animation:cta-shine 3.2s ease-in-out infinite;
+    pointer-events:none;
+    mix-blend-mode:overlay;
+    border-radius:12px;
+  }
+  @keyframes cta-shine{
+    0%   {background-position:200% 0}
+    60%  {background-position:-80% 0}
+    100% {background-position:-80% 0}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .hero-cta-primary{animation:none}
+    .hero-cta-primary::before{display:none}
   }
   .hero-cta-sub{font-size:13.5px;color:#cfd6e4;font-weight:500}
 
@@ -329,8 +367,47 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .loss-card .lc-loss-label{font-size:11px;color:#991b1b;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
   .loss-card .lc-loss{font-size:clamp(20px, 2.2vw, 26px);font-weight:800;color:var(--warn);letter-spacing:-.025em;line-height:1.05;margin-top:2px;font-variant-numeric:tabular-nums;white-space:nowrap}
   .loss-card.featured .lc-loss{font-size:clamp(22px, 2.5vw, 30px)}
-  .loss-card .lc-bar{height:8px;background:#f3f4f6;border-radius:4px;overflow:hidden;position:relative;margin-top:4px}
-  .loss-card .lc-bar-fill{position:absolute;top:0;bottom:0;left:0;width:5%;background:linear-gradient(90deg,#dc2626,#dc2626);border-radius:4px}
+  /* v1.1.0: 손실 바 — 차오르는 액체 느낌 (스트라이프 + 오른쪽 글로우 드립) */
+  .loss-card .lc-bar{
+    height:14px;background:linear-gradient(180deg,#f1f3f5 0%, #e8ebef 100%);
+    border-radius:7px;overflow:hidden;position:relative;margin-top:6px;
+    box-shadow:inset 0 1px 2px rgba(0,0,0,.08)
+  }
+  .loss-card .lc-bar-fill{
+    position:absolute;top:0;bottom:0;left:0;width:5%;
+    background:
+      repeating-linear-gradient(45deg,
+        rgba(255,255,255,.18) 0 6px,
+        transparent 6px 12px),
+      linear-gradient(90deg,#b91c1c 0%, #dc2626 60%, #f04452 100%);
+    background-size: 24px 24px, 100% 100%;
+    border-radius:7px;
+    box-shadow:
+      0 0 8px rgba(220,38,38,.55),
+      inset 0 1px 0 rgba(255,255,255,.25);
+    animation:lc-stripe-flow 1.2s linear infinite;
+    will-change:width
+  }
+  /* 오른쪽 끝 — 차오르고 있는 물방울 효과 */
+  .loss-card .lc-bar-fill::after{
+    content:'';
+    position:absolute;top:-2px;bottom:-2px;right:-1px;width:8px;
+    background:radial-gradient(circle at center, rgba(255,200,200,.95) 0%, rgba(220,38,38,.6) 60%, transparent 100%);
+    filter:blur(2px);
+    animation:lc-drip 1.4s ease-in-out infinite
+  }
+  @keyframes lc-stripe-flow{
+    0%   {background-position:0 0, 0 0}
+    100% {background-position:24px 0, 0 0}
+  }
+  @keyframes lc-drip{
+    0%,100% {opacity:.5; transform:scaleY(1)}
+    50%     {opacity:1;   transform:scaleY(1.15)}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .loss-card .lc-bar-fill,
+    .loss-card .lc-bar-fill::after{animation:none}
+  }
   .loss-card .lc-monthly{font-size:12px;color:var(--ink-3);text-align:right;margin-top:auto;padding-top:4px}
   .loss-card .lc-monthly b{color:var(--ink-2);font-weight:700;font-variant-numeric:tabular-nums}
   .loss-card .lc-equiv{margin-top:8px;padding:6px 10px;background:#eef3ff;border:1px dashed #cfdcef;border-radius:6px;font-size:11px;color:#0d2c5e;font-weight:600;text-align:center;line-height:1.3}
@@ -406,8 +483,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .calc-result{margin-top:18px;border-radius:14px;background:#eef3ff;padding:18px;border:1px solid #cfdcef}
   .calc-result .row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:14px;color:var(--ink-2)}
   .calc-result .row b{color:var(--ink);font-weight:700}
-  .calc-total{border-top:1px dashed #b7d8c7;margin-top:10px;padding-top:12px;display:flex;justify-content:space-between;align-items:baseline}
-  .calc-total .num{font-size:30px;font-weight:800;color:#0d2c5e;letter-spacing:-.02em}
+  /* v1.1.0: 예상 연간 절감액 강조 — 라벨 + 숫자 대비 강화 */
+  .calc-total{
+    border-top:1.5px solid rgba(22,82,165,.25);
+    margin-top:12px;padding-top:14px;
+    display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+    background:linear-gradient(180deg, rgba(22,82,165,.04), transparent);
+    border-radius:0 0 8px 8px;
+    margin-left:-6px;margin-right:-6px;padding-left:10px;padding-right:10px
+  }
+  .calc-total > span:first-child{
+    font-size:14.5px;font-weight:800;color:var(--brand-2);letter-spacing:-.01em
+  }
+  .calc-total .num{
+    font-size:34px;font-weight:900;letter-spacing:-.03em;line-height:1.05;
+    background:linear-gradient(135deg, #0d2c5e 0%, #1652a5 50%, #3b82f6 100%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+    font-variant-numeric:tabular-nums;
+    text-shadow:0 2px 8px rgba(22,82,165,.18);
+    transition:filter .25s ease
+  }
+  .calc-total .num.counting{filter:drop-shadow(0 0 12px rgba(59,130,246,.45))}
+  @media (max-width:700px){
+    .calc-total > span:first-child{font-size:13px}
+    .calc-total .num{font-size:26px}
+  }
   .calc small{display:block;color:var(--ink-3);margin-top:10px;font-size:12px}
 
   /* FEE TRUTH 섹션 — medium navy 배경 위 텍스트 색상 보정 */
@@ -544,7 +645,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .loss-card .lc-loss-label{font-size:10px;letter-spacing:.02em}
     .loss-card .lc-loss{font-size:20px;line-height:.95}
     .loss-card.featured .lc-loss{font-size:22px}
-    .loss-card .lc-bar{height:5px;margin-top:2px}
+    .loss-card .lc-bar{height:10px;margin-top:4px;border-radius:5px}
+    .loss-card .lc-bar-fill{border-radius:5px}
     .loss-card .lc-monthly{font-size:11px;padding-top:2px}
     .loss-card .lc-equiv{margin-top:4px;padding:4px 8px;font-size:10px}
     .loss-card .lc-badge{top:8px;right:8px;font-size:9px;padding:2px 7px}
@@ -2946,6 +3048,47 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   function fmt(n){ return Math.round(n).toLocaleString('ko-KR') + '만 원'; }
   function fmtRange(min, max){ return fmt(min) + ' ~ ' + fmt(max); }
 
+  // v1.1.0: 계산기 결과 숫자 카운팅 애니메이션
+  // 각 element별로 현재 표시값을 추적, 입력 변경 시 부드럽게 전환
+  const calcAnimState = new Map(); // el -> {current, rafId}
+  const _reducedMotionCalc = window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function animateCalcValue(el, target, opts){
+    if (!el) return;
+    opts = opts || {};
+    const formatter = opts.formatter || fmt;
+    const duration  = opts.duration || 650;
+    const state = calcAnimState.get(el) || {current:0, rafId:0};
+    if (state.rafId) cancelAnimationFrame(state.rafId);
+    if (_reducedMotionCalc) {
+      state.current = target;
+      el.innerText = formatter(target);
+      calcAnimState.set(el, state);
+      return;
+    }
+    const from = state.current;
+    const start = performance.now();
+    el.classList.add('counting');
+    function step(now){
+      const p = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+      const value = from + (target - from) * eased;
+      state.current = value; // 매 프레임 추적 → 다음 호출이 끊김 없이 이어짐
+      el.innerText = formatter(value);
+      if (p < 1) {
+        state.rafId = requestAnimationFrame(step);
+        calcAnimState.set(el, state);
+      } else {
+        state.current = target;
+        state.rafId = 0;
+        el.classList.remove('counting');
+        calcAnimState.set(el, state);
+      }
+    }
+    state.rafId = requestAnimationFrame(step);
+    calcAnimState.set(el, state);
+  }
+
   function setCalcMode(mode){
     calcMode = mode;
     document.querySelectorAll('.calc-tab').forEach(tab => {
@@ -2975,16 +3118,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       const feeSave = part * 0.05;   // 평균 5% 수수료 절감 가정
       const bonus   = part * 0.10;   // 평균 10% 보너스 크레딧 가정
       const total   = feeSave + bonus;
-      document.getElementById('r-fee').innerText = fmt(feeSave);
-      document.getElementById('r-bonus').innerText = fmt(bonus);
-      document.getElementById('r-total').innerText = fmt(total);
+      animateCalcValue(document.getElementById('r-fee'),   feeSave, {duration:550});
+      animateCalcValue(document.getElementById('r-bonus'), bonus,   {duration:550});
+      animateCalcValue(document.getElementById('r-total'), total,   {duration:850});
     } else {
       // 국내매체 보너스 9% ~ 14% 범위
       const minBonus = part * 0.09;
       const maxBonus = part * 0.14;
-      document.getElementById('r-dom-min').innerText = fmt(minBonus);
-      document.getElementById('r-dom-max').innerText = fmt(maxBonus);
-      document.getElementById('r-dom-total').innerText = fmtRange(minBonus, maxBonus);
+      animateCalcValue(document.getElementById('r-dom-min'), minBonus, {duration:550});
+      animateCalcValue(document.getElementById('r-dom-max'), maxBonus, {duration:550});
+      animateCalcValue(document.getElementById('r-dom-total'), maxBonus, {
+        duration:850,
+        formatter:function(v){ return fmtRange(v * (minBonus/maxBonus||0), v); }
+      });
     }
   }
   document.getElementById('ad-spend').addEventListener('input', calc);
