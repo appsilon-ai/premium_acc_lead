@@ -129,11 +129,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .logo-mark{width:28px;height:28px;border-radius:8px;background:var(--g-premium);display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px;box-shadow:0 4px 10px rgba(13,44,94,.25)}
   .nav-cta{display:flex;gap:10px;align-items:center}
 
-  /* DARK ZONE — Hero + Loss Viz를 하나의 연속된 다크 영역으로 통합 */
-  .dark-zone{background:linear-gradient(180deg, #0b1220 0%, #141d3a 45%, #1a2548 100%);position:relative;overflow:hidden;color:#fff}
+  /* DARK ZONE — Hero + Loss Viz를 하나의 연속된 다크 영역으로 통합 (v1.1.0: 그라데이션 smoother) */
+  .dark-zone{background:linear-gradient(180deg, #0b1220 0%, #121931 25%, #151e3b 50%, #182246 75%, #1a2548 100%);position:relative;overflow:hidden;color:#fff}
   .dark-zone::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background:
-    radial-gradient(1200px 600px at 80% 8%, rgba(31,107,255,.20) 0%, transparent 60%),
-    radial-gradient(1100px 700px at 50% 55%, rgba(220,38,38,.18) 0%, transparent 65%),
+    radial-gradient(1400px 700px at 75% 10%, rgba(31,107,255,.18) 0%, transparent 65%),
+    radial-gradient(1300px 900px at 50% 50%, rgba(220,38,38,.10) 0%, transparent 70%),
     radial-gradient(circle at 1px 1px, rgba(255,255,255,.035) 1px, transparent 0);background-size:auto, auto, 24px 24px}
   .dark-zone > *{position:relative;z-index:1}
   .dark-zone .hero,
@@ -291,8 +291,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .hero{padding:60px 0 44px}
     .loss-viz{padding:48px 0}
     .dark-zone::before{background:
-      radial-gradient(700px 400px at 80% 5%, rgba(31,107,255,.22) 0%, transparent 60%),
-      radial-gradient(700px 500px at 50% 55%, rgba(220,38,38,.20) 0%, transparent 65%),
+      radial-gradient(900px 600px at 75% 8%, rgba(31,107,255,.20) 0%, transparent 65%),
+      radial-gradient(900px 800px at 50% 50%, rgba(220,38,38,.10) 0%, transparent 70%),
       radial-gradient(circle at 1px 1px, rgba(255,255,255,.035) 1px, transparent 0);background-size:auto, auto, 24px 24px}
     .problem{background:linear-gradient(180deg, #1a2548 0%, #1a2548 85%, #2a3556 100%)}
   }
