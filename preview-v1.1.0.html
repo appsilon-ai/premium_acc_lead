@@ -1947,6 +1947,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .receipt-row.input .amt{color:var(--ink)}
   .receipt-row.fee > span:first-child{color:#7f1d1d}
   .receipt-row.fee .amt{color:#dc2626;font-weight:700}
+  /* v1.1.0: subtotal — 차감 합계 (실 광고 도달) */
+  .receipt-row.subtotal{
+    border-top:1px dashed var(--ink-3);border-bottom:1px solid var(--line);
+    padding-top:10px;padding-bottom:12px;margin-top:6px;
+    font-size:14px;font-weight:700;color:var(--ink-2)
+  }
+  .receipt-row.subtotal .amt{color:var(--ink);font-weight:800;font-size:15px}
+  /* v1.1.0: miss — 미수령 보너스 (기회비용, 차감 아닌 앰버 톤) */
+  .receipt-row.miss{
+    background:linear-gradient(90deg, #fffbeb 0%, #fef3c7 100%);
+    border-radius:8px;padding:11px 12px;margin:10px -4px;
+    border:1px dashed #f59e0b;border-bottom:none
+  }
+  .receipt-row.miss > span:first-child{color:#92400e;font-weight:700;display:flex;align-items:baseline;flex-wrap:wrap;gap:6px}
+  .receipt-row.miss .miss-tag{
+    display:inline-block;font-size:9.5px;font-weight:800;
+    background:#f59e0b;color:#fff;
+    padding:2px 7px;border-radius:5px;letter-spacing:.04em;line-height:1.2
+  }
+  .receipt-row.miss .amt{color:#b45309;font-weight:800}
+  .receipt-row.miss .amt .miss-note{font-size:10.5px;color:#92400e;margin-left:6px;font-weight:600}
   .receipt-row.total{
     font-size:17px;font-weight:800;padding-top:18px;margin-top:8px;
     border-bottom:0;border-top:2px solid var(--ink);color:var(--ink)
@@ -2435,21 +2456,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span>④ DCC 재환전 마진 (3.5%)</span>
         <span class="amt">− ₩ <span data-count-target="3500000" data-count-format="comma">3,500,000</span></span>
       </div>
-      <div class="receipt-row fee">
-        <span>⑤ 미수령 보너스 크레딧 (10%)</span>
-        <span class="amt">− ₩ <span data-count-target="10000000" data-count-format="comma">10,000,000</span></span>
+      <div class="receipt-row subtotal">
+        <span>= 실 광고 도달</span>
+        <span class="amt">₩ <span data-count-target="93800000" data-count-format="comma">93,800,000</span></span>
+      </div>
+      <div class="receipt-row miss">
+        <span>⑤ 매체 보너스 크레딧 (10%)<span class="miss-tag">미수령</span></span>
+        <span class="amt">+ ₩ <span data-count-target="10000000" data-count-format="comma">10,000,000</span><span class="miss-note">파트너 계정만 수령</span></span>
       </div>
       <div class="receipt-row total">
-        <span>= 실제 광고 효율</span>
-        <span class="amt">₩ <span data-count-target="83800000" data-count-format="comma">83,800,000</span></span>
+        <span>파트너 계정 대비 총 격차</span>
+        <span class="amt">₩ <span data-count-target="16200000" data-count-format="comma">16,200,000</span></span>
       </div>
-      <div class="receipt-subnote">+ 해외 매체 보너스 크레딧 <b>3%</b> 별도 적용 가능</div>
     </div>
 
     <p class="receipt-summary">
-      매월 <b>₩ <span data-count-target="16200000" data-count-format="comma">16,200,000</span> 손실</b>
+      매월 <b>₩ <span data-count-target="16200000" data-count-format="comma">16,200,000</span> 격차</b>
       &nbsp;·&nbsp;
-      연간 <b>₩ <span data-count-target="194400000" data-count-format="comma">194,400,000</span> 손실</b>
+      연간 <b>₩ <span data-count-target="194400000" data-count-format="comma">194,400,000</span> 격차</b>
     </p>
     <p class="receipt-note">
       * 카드 종류 · 결제 통화 · DCC 적용 여부에 따라 실제 손실은 <b style="color:#cfd6e4">광고비의 10 ~ 20%</b>까지 변동됩니다. 정확한 진단은 무료 진단 신청 시 안내드립니다.
@@ -2690,35 +2714,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- SOCIAL PROOF -->
 <section class="stats-section" style="background:linear-gradient(180deg, #4a5670 0%, #5e6a85 100%);color:#fff">
   <div class="container">
-    <div class="section-head">
-      <h2>이미 350+ 고객사가 광고비를 회수 중</h2>
-    </div>
-    <div class="stats stats-3">
-      <div class="stat"><div class="v"><span data-count-target="1800" data-count-format="comma">1,800</span>억+</div><div class="l">누적 집행 광고비</div></div>
-      <div class="stat"><div class="v"><span data-count-target="350">350</span>+</div><div class="l">현재 진행 고객사</div></div>
-      <div class="stat"><div class="v"><span data-count-target="92">92</span>%</div><div class="l">12개월 재계약률</div></div>
-    </div>
-
-    <div class="credentials">
-      <div class="cred-item">
-        <div class="cred-icon">✓</div>
-        <div class="cred-text"><b>Meta Badged Marketing Partner</b><span>매체 본사 인증 최상위 등급</span></div>
-      </div>
-      <div class="cred-item">
-        <div class="cred-icon">✓</div>
-        <div class="cred-text"><b>자체 DSP · DMP 보유</b><span>단순 대행사가 아닌 애드테크 기업</span></div>
-      </div>
-      <div class="cred-item">
-        <div class="cred-icon">✓</div>
-        <div class="cred-text"><b>4개국 사무소 운영</b><span>국내·해외 24시간 글로벌 대응</span></div>
-      </div>
-      <div class="cred-item">
-        <div class="cred-icon">✓</div>
-        <div class="cred-text"><b>4,000+ 브랜드 운영 경험</b><span>국내·해외 다양한 업종 경험 축적</span></div>
-      </div>
-    </div>
-
-    <!-- 3년 리텐션 99% 강조 하이라이트 -->
+    <!-- 3년 리텐션 99% 강조 하이라이트 (Hero/FAQ 중복 stats 제거 후 unique 데이터만 유지) -->
     <div class="retention-highlight">
       <div class="rh-bg-glow"></div>
       <div class="rh-content">
