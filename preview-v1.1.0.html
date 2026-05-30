@@ -1797,6 +1797,78 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .loss-card.featured,.loss-card.featured .lc-badge{animation:none}
   }
 
+  /* v1.1.0: Receipt — 광고비 결제 영수증 (1억 기준 단일 시나리오) */
+  .receipt{
+    position:relative;
+    max-width:560px;margin:0 auto;
+    background:#fff;color:var(--ink);
+    border:1.5px dashed #d0d6dd;
+    border-radius:16px;
+    padding:36px 36px 32px;
+    box-shadow:0 24px 60px rgba(0,0,0,.35), 0 4px 14px rgba(0,0,0,.2);
+    letter-spacing:-.01em;
+    font-variant-numeric:tabular-nums
+  }
+  /* 영수증 위/아래 톱니 — 펀치 홀 느낌 (절취선) */
+  .receipt::before,.receipt::after{
+    content:'';position:absolute;left:0;right:0;height:14px;
+    background:radial-gradient(circle at 7px 7px, #fff 6px, transparent 6.5px) repeat-x;
+    background-size:14px 14px;pointer-events:none
+  }
+  .receipt::before{top:-7px}
+  .receipt::after{bottom:-7px;transform:scaleY(-1)}
+  .receipt h4{
+    font-size:12.5px;color:var(--ink-3);
+    margin:0 0 20px;text-align:center;
+    letter-spacing:.12em;font-weight:700;text-transform:uppercase
+  }
+  .receipt-row{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-size:15px;padding:12px 0;gap:14px;
+    border-bottom:1px dashed var(--line)
+  }
+  .receipt-row > span:first-child{color:var(--ink-2)}
+  .receipt-row.input{font-weight:800;color:var(--ink);font-size:16px}
+  .receipt-row.input > span:first-child,
+  .receipt-row.input .amt{color:var(--ink)}
+  .receipt-row.fee > span:first-child{color:#7f1d1d}
+  .receipt-row.fee .amt{color:#dc2626;font-weight:700}
+  .receipt-row.total{
+    font-size:17px;font-weight:800;padding-top:18px;margin-top:8px;
+    border-bottom:0;border-top:2px solid var(--ink);color:var(--ink)
+  }
+  .receipt-row.total > span:first-child{color:var(--ink)}
+  .receipt-row .amt{font-variant-numeric:tabular-nums;font-weight:700;letter-spacing:-.02em;white-space:nowrap}
+  .receipt-row.total .amt{
+    color:#dc2626;font-size:20px;
+    background:linear-gradient(135deg,#dc2626 0%,#b91c1c 100%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent
+  }
+  /* 영수증 하단 손실 요약 */
+  .receipt-summary{
+    max-width:560px;margin:24px auto 0;text-align:center;
+    color:#fecaca;font-size:15px;line-height:1.6
+  }
+  .receipt-summary b{color:#fff;font-weight:900;background:rgba(220,38,38,.18);padding:2px 8px;border-radius:6px;border:1px solid rgba(252,165,165,.35)}
+  .receipt-note{
+    max-width:560px;margin:18px auto 0;text-align:center;
+    font-size:12.5px;color:#9ca6b8;line-height:1.55
+  }
+  @media (max-width:700px){
+    .receipt{padding:24px 20px 22px;border-radius:12px}
+    .receipt::before,.receipt::after{height:10px;background:radial-gradient(circle at 5px 5px, #fff 4px, transparent 4.5px) repeat-x;background-size:10px 10px}
+    .receipt::before{top:-5px}
+    .receipt::after{bottom:-5px}
+    .receipt h4{font-size:11px;margin-bottom:14px}
+    .receipt-row{font-size:13px;padding:9px 0;gap:8px}
+    .receipt-row.input{font-size:14px}
+    .receipt-row.total{font-size:14.5px;padding-top:14px;margin-top:6px}
+    .receipt-row.total .amt{font-size:17px}
+    .receipt-summary{font-size:13px;margin-top:18px}
+    .receipt-note{font-size:11.5px;margin-top:14px;padding:0 16px}
+  }
+
   /* ════════════════════════════════════════════════════════════════
      v1.1.0 PHASE 1.5 — 폼 칩 + 비교 카드 (bar fill)
      ════════════════════════════════════════════════════════════════ */
@@ -2063,54 +2135,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="coin-rain" id="coin-rain-loss" aria-hidden="true"></div>
   <div class="container" style="position:relative;z-index:1">
     <div class="loss-viz-head">
-      <h2>광고비 규모별 — <span class="hl">매년 잃고 있는 금액</span></h2>
+      <h2>월 광고비 <span class="hl">1억 원</span>이면, 이렇게 사라집니다</h2>
     </div>
 
-    <div class="loss-grid">
-      <div class="loss-card" style="--bar-target:50%">
-        <div class="lc-spend-label">월 광고비</div>
-        <div class="lc-spend">50,000,000 원</div>
-        <div class="lc-divider"></div>
-        <div class="lc-loss-label">📉 매월 손실</div>
-        <div class="lc-loss">₩ <span data-count-target="2500000" data-count-format="comma">2,500,000</span></div>
-        <div class="lc-bar"><div class="lc-bar-fill"></div></div>
-        <div class="lc-monthly">연간 <b>₩ <span data-count-target="30000000" data-count-format="comma">30,000,000</span></b> 손실</div>
+    <div class="receipt" id="receipt">
+      <h4>광고비 결제 영수증 · 월 1억 원 기준</h4>
+      <div class="receipt-row input">
+        <span>① 월 광고비 결제</span>
+        <span class="amt">₩ <span data-count-target="100000000" data-count-format="comma">100,000,000</span></span>
       </div>
-
-      <div class="loss-card featured" style="--bar-target:70%">
-        <span class="lc-badge">🔥 고객사 전체평균</span>
-        <div class="lc-spend-label">월 광고비</div>
-        <div class="lc-spend">100,000,000 원</div>
-        <div class="lc-divider"></div>
-        <div class="lc-loss-label">📉 매월 손실</div>
-        <div class="lc-loss">₩ <span data-count-target="5000000" data-count-format="comma">5,000,000</span></div>
-        <div class="lc-bar"><div class="lc-bar-fill"></div></div>
-        <div class="lc-monthly">연간 <b>₩ <span data-count-target="60000000" data-count-format="comma">60,000,000</span></b> 손실 · 직원 1명 연봉 가치</div>
+      <div class="receipt-row fee">
+        <span>② 환전 수수료 (1.5%)</span>
+        <span class="amt">− ₩ <span data-count-target="1500000" data-count-format="comma">1,500,000</span></span>
       </div>
-
-      <div class="loss-card" style="--bar-target:85%">
-        <div class="lc-spend-label">월 광고비</div>
-        <div class="lc-spend">300,000,000 원</div>
-        <div class="lc-divider"></div>
-        <div class="lc-loss-label">📉 매월 손실</div>
-        <div class="lc-loss">₩ <span data-count-target="15000000" data-count-format="comma">15,000,000</span></div>
-        <div class="lc-bar"><div class="lc-bar-fill"></div></div>
-        <div class="lc-monthly">연간 <b>₩ <span data-count-target="180000000" data-count-format="comma">180,000,000</span></b> 손실</div>
+      <div class="receipt-row fee">
+        <span>③ 국제 브랜드 수수료 (1.2%)</span>
+        <span class="amt">− ₩ <span data-count-target="1200000" data-count-format="comma">1,200,000</span></span>
       </div>
-
-      <div class="loss-card" style="--bar-target:100%">
-        <div class="lc-spend-label">월 광고비</div>
-        <div class="lc-spend">700,000,000 원</div>
-        <div class="lc-divider"></div>
-        <div class="lc-loss-label">📉 매월 손실</div>
-        <div class="lc-loss">₩ <span data-count-target="35000000" data-count-format="comma">35,000,000</span></div>
-        <div class="lc-bar"><div class="lc-bar-fill"></div></div>
-        <div class="lc-monthly">연간 <b>₩ <span data-count-target="420000000" data-count-format="comma">420,000,000</span></b> 손실</div>
+      <div class="receipt-row fee">
+        <span>④ DCC 재환전 마진 (3.5%)</span>
+        <span class="amt">− ₩ <span data-count-target="3500000" data-count-format="comma">3,500,000</span></span>
+      </div>
+      <div class="receipt-row fee">
+        <span>⑤ 미수령 보너스 크레딧 (10%)</span>
+        <span class="amt">− ₩ <span data-count-target="10000000" data-count-format="comma">10,000,000</span></span>
+      </div>
+      <div class="receipt-row total">
+        <span>= 실제 광고 효율</span>
+        <span class="amt">₩ <span data-count-target="83800000" data-count-format="comma">83,800,000</span></span>
       </div>
     </div>
 
-    <p class="loss-viz-note">
-      * 본 수치는 <b>KRW DCC 결제 약 5% 기준 추정치</b>입니다. 실제 손실은 카드 종류·결제 통화·DCC 적용 여부에 따라 <b>3 ~ 8%까지 변동</b>합니다. 정확한 진단은 무료 진단 신청 시 안내드립니다.
+    <p class="receipt-summary">
+      매월 <b>₩ <span data-count-target="16200000" data-count-format="comma">16,200,000</span> 손실</b>
+      &nbsp;·&nbsp;
+      연간 <b>₩ <span data-count-target="194400000" data-count-format="comma">194,400,000</span> 손실</b>
+    </p>
+    <p class="receipt-note">
+      * 카드 종류 · 결제 통화 · DCC 적용 여부에 따라 실제 손실은 <b style="color:#cfd6e4">광고비의 10 ~ 20%</b>까지 변동됩니다. 정확한 진단은 무료 진단 신청 시 안내드립니다.
     </p>
   </div>
 </section>
