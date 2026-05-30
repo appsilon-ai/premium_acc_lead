@@ -1103,7 +1103,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media (max-width:900px){.media-logos-grid{grid-template-columns:repeat(4,1fr)}}
   @media (max-width:480px){.media-logos-grid{grid-template-columns:repeat(3,1fr);gap:5px}}
 
-  .media-logo-tile{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 12px;display:flex;align-items:center;justify-content:center;min-height:64px;transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;position:relative;text-decoration:none;color:inherit;cursor:pointer}
+  .media-logo-tile{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 12px;display:flex;align-items:center;justify-content:center;min-height:92px;transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;position:relative;text-decoration:none;color:inherit;cursor:pointer}
   /* v1.1.0: Top 10 매체 신청현황 — 순위 뱃지 + 전체 너비 신청률 스트라이프 */
   .media-logo-tile[data-rank]{padding-top:24px;padding-bottom:26px}
   .media-logo-tile:has(.mlt-pct):not([data-rank]){padding-bottom:24px}
@@ -1149,6 +1149,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color:#6b7382;font-weight:700
   }
   @media (max-width:480px){
+    .media-logo-tile{min-height:78px}
     .mlt-rank{width:16px;height:16px;font-size:9px;border-radius:4px;top:3px;left:3px}
     .media-logo-tile[data-rank="1"] .mlt-rank{width:18px;height:18px;font-size:10px}
     .mlt-pct{font-size:9.5px;padding:4px 6px;border-radius:0 0 7px 7px}
@@ -2855,7 +2856,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="media-logos-grid">
       <!-- Top 10 (신청률 순) -->
       <a class="media-logo-tile" data-rank="1" href="#m-meta" data-name="Meta · Facebook · Instagram"><span class="mlt-rank">1</span><img src="logos/meta.svg" alt="Meta" loading="lazy" /><span class="mlt-pct">32.0%</span></a>
-      <a class="media-logo-tile" data-rank="2" href="#m-google" data-name="Google Ads · 검색·GDN"><span class="mlt-rank">2</span><img src="logos/google.svg" alt="Google" loading="lazy" /><span class="mlt-pct">19.5%</span></a>
+      <a class="media-logo-tile" data-rank="2" href="#m-google" data-name="Google Ads · 검색·GDN"><span class="mlt-rank">2</span><img src="logos/google.svg" alt="Google" loading="lazy" /><span class="mlt-pct">0%</span></a>
       <a class="media-logo-tile" data-rank="3" href="#m-tiktok" data-name="TikTok For Business"><span class="mlt-rank">3</span><img src="logos/tiktok.svg" alt="TikTok" loading="lazy" /><span class="mlt-pct">12.8%</span></a>
       <a class="media-logo-tile" data-rank="4" href="#m-naver" data-name="NAVER · 검색·GFA·브랜드검색"><span class="mlt-rank">4</span><img src="logos/naver.png" alt="NAVER" class="lg" loading="lazy" /><span class="mlt-pct">7.8%</span></a>
       <a class="media-logo-tile" data-rank="5" href="#m-kakao" data-name="Kakao · 모먼트·비즈보드"><span class="mlt-rank">5</span><img src="logos/kakao.svg" alt="Kakao" class="lg" loading="lazy" /><span class="mlt-pct">5.6%</span></a>
