@@ -716,7 +716,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .container{padding:0 12px}
 
     /* OCW (Other Cards Warning) — 외곽 24px 28px → 14px 14px / 내부 18px 20px → 12px 14px */
-    .other-cards-warning{padding:14px 14px;margin-top:24px}
+    .other-cards-warning{padding:14px 10px;margin-top:24px}
     .ocw-header{margin-bottom:12px;gap:8px}
     .ocw-icon{font-size:20px}
     .ocw-header h4{font-size:15px;line-height:1.35}
@@ -1637,13 +1637,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .fee-stackbar-numbers .num .lbl{font-size:11px;font-weight:600;color:var(--ink-3);margin-left:2px}
 
   /* OTHER CARDS WARNING — 신한카드보다 더 비싼 카드사 비교 */
-  .other-cards-warning{max-width:1000px;margin:40px auto 0;background:linear-gradient(180deg, rgba(220,38,38,.14) 0%, rgba(220,38,38,.06) 100%);border:1px solid rgba(252,165,165,.35);border-radius:14px;padding:24px 28px}
+  .other-cards-warning{max-width:1040px;margin:40px auto 0;background:linear-gradient(180deg, rgba(220,38,38,.14) 0%, rgba(220,38,38,.06) 100%);border:1px solid rgba(252,165,165,.35);border-radius:14px;padding:20px 16px}
   .ocw-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px}
   .ocw-icon{font-size:24px;flex-shrink:0;line-height:1;margin-top:2px}
   .ocw-header h4{margin:0;font-size:17px;color:#fca5a5;font-weight:800;letter-spacing:-.01em;line-height:1.4}
-  .ocw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-  @media (max-width:700px){.ocw-grid{grid-template-columns:1fr}}
-  .ocw-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;box-shadow:0 10px 24px rgba(0,0,0,.2);position:relative;overflow:hidden}
+  .ocw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  @media (max-width:700px){.ocw-grid{grid-template-columns:1fr;gap:10px}}
+  .ocw-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 14px;display:flex;flex-direction:column;box-shadow:0 10px 24px rgba(0,0,0,.2);position:relative;overflow:hidden}
   .ocw-card.mid{background:linear-gradient(180deg, #fff 0%, #fff5f5 100%);border-color:#fecaca}
   .ocw-card.worst{background:linear-gradient(180deg, #fef2f2 0%, #fee2e2 100%);border-color:#dc2626;box-shadow:0 16px 36px rgba(220,38,38,.3), 0 4px 10px rgba(0,0,0,.2);transform:translateY(-3px)}
   .ocw-tag{display:inline-flex;align-items:center;font-size:10px;font-weight:800;padding:4px 10px;border-radius:999px;letter-spacing:.04em;margin-bottom:10px;align-self:flex-start;text-transform:uppercase}
@@ -1651,10 +1651,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .ocw-tag.higher{background:#fed7aa;color:#9a3412}
   .ocw-tag.worst-tag{background:#dc2626;color:#fff}
   .ocw-card-name{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:12px;letter-spacing:-.01em;line-height:1.35}
-  .ocw-card-list{list-style:none;padding:0;margin:0 0 14px;display:flex;flex-direction:column;gap:6px}
-  .ocw-card-list li{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums;gap:8px}
-  .ocw-card-list li b{color:var(--ink);font-weight:700;font-size:13px}
-  .ocw-card-total{margin-top:auto;padding-top:12px;border-top:1px dashed var(--line);display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--ink-3);gap:8px}
+  .ocw-card-list{list-style:none;padding:0;margin:0 0 14px;display:flex;flex-direction:column;gap:5px}
+  .ocw-card-list li{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums;gap:6px}
+  .ocw-card-list li > span:first-child{white-space:nowrap}
+  .ocw-card-list li b{color:var(--ink);font-weight:700;font-size:13px;white-space:nowrap;text-align:right}
+  .ocw-card-total{margin-top:auto;padding-top:12px;border-top:1px dashed var(--line);display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--ink-3);gap:6px}
+  .ocw-card-total > span:first-child{white-space:nowrap}
+  .ocw-card-total .amount{white-space:nowrap}
   .ocw-card-total .amount{font-size:16px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
   .ocw-card-total .amount.warn{color:var(--warn)}
   .ocw-card-total .amount.danger{color:#dc2626;font-size:18px}
