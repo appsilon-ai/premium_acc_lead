@@ -1852,6 +1852,54 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     letter-spacing:-.01em
   }
   .receipt-subnote b{color:var(--brand);font-weight:800;font-style:normal}
+
+  /* v1.1.0: Case Narrative — 문제 + 개선 스토리 */
+  .case-narrative{
+    margin-top:14px;padding:14px 16px;
+    background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    border:1px dashed rgba(255,255,255,.22);
+    border-radius:10px
+  }
+  .cn-head{
+    font-size:11.5px;font-weight:800;
+    color:#93c5fd;letter-spacing:.08em;
+    text-transform:uppercase;
+    margin-bottom:10px;
+    display:flex;align-items:center;gap:6px
+  }
+  .cn-problem{
+    font-size:13px;color:#cfd6e4;line-height:1.55;
+    margin-bottom:10px;padding-bottom:10px;
+    border-bottom:1px dashed rgba(255,255,255,.14)
+  }
+  .cn-problem b{color:#fff;font-weight:700}
+  .cn-problem-label{
+    display:inline-block;font-size:10.5px;font-weight:800;
+    color:#fecaca;background:rgba(220,38,38,.15);
+    padding:2px 7px;border-radius:5px;
+    margin-right:6px;letter-spacing:.04em;
+    border:1px solid rgba(252,165,165,.3)
+  }
+  .cn-list{
+    list-style:none;padding:0;margin:0;
+    display:flex;flex-direction:column;gap:7px
+  }
+  .cn-list li{
+    display:flex;align-items:flex-start;gap:8px;
+    font-size:13px;color:#dde2eb;line-height:1.5
+  }
+  .cn-list li b{color:#fff;font-weight:800}
+  .cn-icon{
+    flex-shrink:0;color:#34d399;
+    font-weight:900;font-size:13px;line-height:1.5
+  }
+  @media (max-width:700px){
+    .case-narrative{padding:11px 13px;margin-top:10px;border-radius:8px}
+    .cn-head{font-size:10.5px;margin-bottom:8px}
+    .cn-problem{font-size:12px;margin-bottom:8px;padding-bottom:8px}
+    .cn-problem-label{font-size:9.5px;padding:1px 6px}
+    .cn-list li{font-size:12px;gap:6px}
+  }
   /* 영수증 하단 손실 요약 */
   .receipt-summary{
     max-width:560px;margin:24px auto 0;text-align:center;
@@ -2518,12 +2566,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section id="cases" style="background:linear-gradient(180deg, #5e6a85 0%, #8a92a8 30%, #c8cfdd 65%, #f6f7f9 100%);color:#fff">
   <div class="container">
     <div class="section-head">
-      <h2>실제 고객사의 절감 사례 <span style="font-size:.6em;font-weight:600;color:var(--ink-3)">(2024년 데이터)</span></h2>
+      <h2>실제 고객사 사례 — 절감 + 비즈니스 개선 <span style="font-size:.6em;font-weight:600;color:var(--ink-3)">(2024년 데이터)</span></h2>
+      <p style="text-align:center;margin-top:10px;font-size:15px;color:#cfd6e4;line-height:1.55">단순 비용 절감이 아닌, <b style="color:#fff">어떤 문제가 해결되고 어떤 비즈니스 개선</b>이 일어났는지 함께 보여드립니다.</p>
     </div>
     <div class="cases cases-2col">
       <article class="case">
-        <span class="tag">CASE A · 월 광고비 7억</span>
-        <h4>국내외 주요 매체 인보이스 전환,<br>매월 4,173만 원 회수</h4>
+        <span class="tag">CASE A · 이커머스 (D2C) · 월 광고비 7억</span>
+        <h4>매월 4,173만 원 회수 +<br>회계 자동화로 운영 효율화</h4>
         <div class="metrics">
           <div class="metric"><div class="k">월 광고비</div><div class="v">7억 원</div></div>
           <div class="metric"><div class="k">전환 매체</div><div class="v">Meta · Google</div></div>
@@ -2551,10 +2600,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="case-result-row total"><span>2024년 연간 절감</span><b>₩ 500,800,030</b></div>
           <div style="font-size:13px;color:#cfd6e4;margin-top:8px;text-align:right">총 9% 절감 효과 (수수료 5.96% + 보너스 3%)</div>
         </div>
+        <div class="case-narrative">
+          <div class="cn-head">🔧 해결 & 비즈니스 개선</div>
+          <div class="cn-problem">
+            <span class="cn-problem-label">BEFORE</span>매월 카드 명세서 환차/수수료 부담 <b>월 4,000만 원+</b>, 회계팀 명세서 정리·매입공제 처리에 매월 <b>10영업일</b> 소요. 신규 매체 진입 자금 부족.
+          </div>
+          <ul class="cn-list">
+            <li><span class="cn-icon">✓</span>회수한 예산으로 <b>신규 마케팅 채널 2개 (Naver GFA · YouTube)</b> 확장</li>
+            <li><span class="cn-icon">✓</span>매월 자동 세금계산서 발행 → 회계팀 업무 <b>10일 → 1.5일 (85% 단축)</b></li>
+            <li><span class="cn-icon">✓</span>매체사 직통 채널로 <b>Advantage+ 알파 단계 선제 적용</b> (ROAS 12% 추가 개선)</li>
+            <li><span class="cn-icon">✓</span>계정 이슈 대응: <b>평균 D+7 → 2시간</b> (분기 정지 0회 달성)</li>
+          </ul>
+        </div>
       </article>
       <article class="case">
-        <span class="tag">CASE B · 월 광고비 3억</span>
-        <h4>해외 매체 인보이스 + 보너스 크레딧,<br>연 4.26억 혜택</h4>
+        <span class="tag">CASE B · 글로벌 진출 브랜드 · 월 광고비 3억</span>
+        <h4>연 4.26억 혜택 +<br>TikTok 신규 진입 & ROAS 개선</h4>
         <div class="metrics">
           <div class="metric"><div class="k">월 광고비</div><div class="v">3억 원</div></div>
           <div class="metric"><div class="k">전환 매체</div><div class="v">Meta · Google · TikTok</div></div>
@@ -2581,6 +2642,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="case-result-row"><span>매월 절감액</span><b>₩ 22,283,071</b></div>
           <div class="case-result-row total"><span>2024년 총 혜택</span><b>₩ 426,000,000</b></div>
           <div style="font-size:13px;color:#cfd6e4;margin-top:8px;text-align:right">절감 예산을 신규 채널 확장에 재투자</div>
+        </div>
+        <div class="case-narrative">
+          <div class="cn-head">🔧 해결 & 비즈니스 개선</div>
+          <div class="cn-problem">
+            <span class="cn-problem-label">BEFORE</span>개인 광고주 계정으로 <b>보너스 크레딧 신청 자체 불가</b>, ROAS 3.2 정체. 신규 채널(TikTok) 진입 자금 부족으로 마케팅 채널 다각화 정체.
+          </div>
+          <ul class="cn-list">
+            <li><span class="cn-icon">✓</span>분기별 보너스 크레딧 자동 적립 → <b>연 1.59억 추가 광고 여력</b> 확보</li>
+            <li><span class="cn-icon">✓</span>절감 예산으로 <b>TikTok For Business 신규 진입</b> (현재 매출 비중 22%)</li>
+            <li><span class="cn-icon">✓</span>ROAS <b>3.2 → 3.8 개선 (+18%)</b> — 매체사 데이터 컨설팅 동반 적용</li>
+            <li><span class="cn-icon">✓</span>한국 시장 마케팅 협업 <b>(KGM 캠페인 알파 참여)</b> — 일반 광고주는 접근 불가</li>
+          </ul>
         </div>
       </article>
     </div>
