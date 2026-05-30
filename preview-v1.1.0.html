@@ -639,9 +639,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .stats-section .logo-chip{box-shadow:0 4px 10px rgba(0,0,0,.12)} /* 로고 칩 미세 부상 */
 
   /* CASES 섹션 — slate → light 그라데이션 위 텍스트 색상 보정 (상단부 다크) */
-  #cases .section-head .eyebrow{color:#93c5fd}
-  #cases .section-head h2{color:#fff}
-  #cases .section-head p{color:#cfd6e4}
+  /* v1.1.0: Cases는 이제 화이트 섹션 — 다크 텍스트로 전환 */
+  #cases .section-head .eyebrow{color:var(--brand)}
+  #cases .section-head h2{color:var(--ink)}
+  #cases .section-head p{color:var(--ink-2)}
   #cases .case{box-shadow:0 16px 36px rgba(0,0,0,.18)} /* 흰 case 카드 강조 (그라데이션 위 떠보이게) */
   #fee-truth .card-statement-wrap > div > h3{color:#fff !important}
   #fee-truth .card-statement-wrap > div > h3 span[style*="--brand"]{color:#93c5fd !important}
@@ -973,7 +974,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .logo-chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 16px;color:var(--ink-2);font-size:13px;font-weight:600}
 
   /* RETENTION HIGHLIGHT — 99% 3년 리텐션 강조 */
-  .retention-highlight{position:relative;max-width:1000px;margin:40px auto 0;background:linear-gradient(135deg, rgba(31,107,255,.18) 0%, rgba(96,165,250,.10) 100%);border:1px solid rgba(96,165,250,.4);border-radius:20px;padding:36px 40px;overflow:hidden;box-shadow:0 16px 40px rgba(0,0,0,.25)}
+  /* v1.1.0: 흰색 섹션 위에서 솔리드 다크 블루 카드로 강조 */
+  .retention-highlight{position:relative;max-width:1000px;margin:40px auto 0;background:linear-gradient(135deg, #0d2c5e 0%, #1652a5 100%);border:1px solid rgba(96,165,250,.5);border-radius:20px;padding:36px 40px;overflow:hidden;box-shadow:0 20px 50px rgba(13,44,94,.35), 0 4px 12px rgba(0,0,0,.15);color:#fff}
   .rh-bg-glow{position:absolute;top:-50%;right:-20%;width:600px;height:600px;background:radial-gradient(circle, rgba(96,165,250,.25) 0%, transparent 60%);pointer-events:none}
   .rh-content{position:relative;z-index:1}
   .rh-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.06em;color:#bfdbfe;background:rgba(96,165,250,.18);padding:6px 14px;border-radius:999px;border:1px solid rgba(96,165,250,.4)}
@@ -2667,7 +2669,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- SOLUTION -->
-<section id="how" style="background:linear-gradient(180deg, #3a4566 0%, #4a5670 100%);color:#fff">
+<section id="how" style="background:linear-gradient(180deg, #3a4566 0%, #4a5670 35%, #6b7382 60%, #b8c0ce 80%, #f1f3f5 92%, #ffffff 100%);color:#fff">
   <div class="container">
     <div class="section-head">
       <h2>파트너 계정은 어떻게 다른가?</h2>
@@ -2717,7 +2719,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 <!-- SOCIAL PROOF -->
-<section class="stats-section" style="background:linear-gradient(180deg, #4a5670 0%, #5e6a85 100%);color:#fff">
+<section class="stats-section" style="background:#ffffff;color:var(--ink)">
   <div class="container">
     <!-- 3년 리텐션 99% 강조 하이라이트 (Hero/FAQ 중복 stats 제거 후 unique 데이터만 유지) -->
     <div class="retention-highlight">
@@ -2757,7 +2759,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- CASES -->
-<section id="cases" style="background:linear-gradient(180deg, #5e6a85 0%, #8a92a8 30%, #c8cfdd 65%, #f6f7f9 100%);color:#fff">
+<section id="cases" style="background:#ffffff;color:var(--ink)">
   <div class="container">
     <div class="section-head">
       <h2>실제 고객사 절감 사례 <span style="font-size:.6em;font-weight:600;color:var(--ink-3)">(2024년 데이터)</span></h2>
@@ -2830,7 +2832,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- CPM REVIEWS / TESTIMONIALS -->
-<section style="background:linear-gradient(180deg, #f6f7f9 0%, #fbfcfd 50%, #ffffff 100%);">
+<section style="background:#ffffff;">
   <div class="container">
     <div class="section-head">
       <h2>CPM 절감 · 광고 효율 개선 사례</h2>
