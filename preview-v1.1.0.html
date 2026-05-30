@@ -2128,6 +2128,102 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .cc-stat b{font-size:13.5px}
     .cc-credit-drop{font-size:12.5px;padding:12px 14px}
   }
+
+  /* v1.1.0: cmp-wrap — 항목별 상세 비교 테이블 + struct-card */
+  .cmp-wrap{
+    display:grid;grid-template-columns:1.4fr 1fr;gap:28px;
+    max-width:1120px;margin:36px auto 0;align-items:start
+  }
+  @media (max-width:900px){.cmp-wrap{grid-template-columns:1fr;gap:24px}}
+
+  .cmp-table{
+    background:#fff;border:1px solid var(--line);border-radius:18px;
+    overflow:hidden;box-shadow:0 8px 24px rgba(13,44,94,.06)
+  }
+  .cmp-table table{
+    width:100%;border-collapse:collapse;font-family:inherit
+  }
+  .cmp-table thead th{
+    padding:14px 16px;font-size:13px;font-weight:800;
+    text-align:left;color:var(--ink-2);
+    background:#f7f8fa;border-bottom:1.5px solid var(--line);
+    letter-spacing:-.01em
+  }
+  .cmp-table thead th.recommended{
+    color:var(--brand);background:#eef3ff;
+    position:relative
+  }
+  .reco-pill{
+    display:inline-block;font-size:10px;font-weight:800;
+    padding:3px 8px;border-radius:999px;margin-left:6px;
+    background:linear-gradient(135deg,var(--brand-2),var(--brand));
+    color:#fff;letter-spacing:.06em;
+    box-shadow:0 2px 6px rgba(22,82,165,.35);vertical-align:1px
+  }
+  .cmp-table tbody td{
+    padding:14px 16px;font-size:14px;color:var(--ink-2);
+    border-bottom:1px solid var(--line);
+    vertical-align:top;line-height:1.5
+  }
+  .cmp-table tbody tr:last-child td{border-bottom:0}
+  .cmp-table tbody td:first-child{
+    font-weight:700;color:var(--ink);width:30%
+  }
+  .cmp-table tbody td:last-child{
+    background:rgba(238,243,255,.45)
+  }
+  .cmp-tag{
+    display:inline-block;font-size:11px;font-weight:800;
+    padding:3px 9px;border-radius:6px;margin-right:6px;
+    letter-spacing:-.01em;vertical-align:1px
+  }
+  .cmp-tag.bad{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+  .cmp-tag.good{background:#d1fae5;color:#065f46;border:1px solid #a7f3d0}
+  .cmp-bad{color:#dc2626;font-weight:700}
+  .cmp-good{color:var(--brand);font-weight:700}
+
+  .struct-list{display:flex;flex-direction:column;gap:14px}
+  .struct-card{
+    display:flex;gap:14px;align-items:flex-start;
+    background:#fff;border:1px solid var(--line);
+    border-radius:14px;padding:18px 18px;
+    box-shadow:0 4px 12px rgba(13,44,94,.05);
+    transition:transform .15s ease, box-shadow .2s ease
+  }
+  .struct-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 22px rgba(13,44,94,.12);
+    border-color:rgba(22,82,165,.3)
+  }
+  .struct-num{
+    flex-shrink:0;width:32px;height:32px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand-2),var(--brand));
+    color:#fff;font-weight:900;font-size:15px;
+    display:grid;place-items:center;line-height:1;
+    box-shadow:0 4px 10px rgba(13,44,94,.25)
+  }
+  .struct-body{flex:1;min-width:0}
+  .struct-body h4{
+    margin:0 0 6px;font-size:15px;font-weight:800;
+    color:var(--ink);letter-spacing:-.02em;line-height:1.4
+  }
+  .struct-body p{
+    margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.55
+  }
+  .struct-body p b{color:var(--brand-2);font-weight:800}
+  @media (max-width:700px){
+    .cmp-wrap{margin-top:24px}
+    .cmp-table{border-radius:14px}
+    .cmp-table thead th{padding:10px 12px;font-size:12px}
+    .cmp-table tbody td{padding:11px 12px;font-size:12.5px}
+    .cmp-table tbody td:first-child{width:34%}
+    .cmp-tag{font-size:10px;padding:2px 7px;margin-right:5px}
+    .reco-pill{font-size:9px;padding:2px 6px}
+    .struct-card{padding:14px;gap:11px;border-radius:11px}
+    .struct-num{width:28px;height:28px;font-size:13px}
+    .struct-body h4{font-size:13.5px}
+    .struct-body p{font-size:12.5px}
+  }
 </style>
 </head>
 <body>
@@ -3042,41 +3138,74 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </article>
     </div>
 
-    <div class="compare-table">
-      <div class="ct-row head">
-        <div class="col">항목</div>
-        <div class="col head-c">일반 계정</div>
-        <div class="col head-c">파트너 계정</div>
+    <!-- v1.1.0: cmp-wrap — 항목별 상세 비교 표 + 구조적 차별점 3카드 -->
+    <div class="cmp-wrap">
+      <div class="cmp-table">
+        <table>
+          <thead>
+            <tr>
+              <th>항목</th>
+              <th>일반 계정</th>
+              <th class="recommended">파트너 계정 <span class="reco-pill">추천</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>해외 결제 수수료</td>
+              <td><span class="cmp-tag bad">발생</span><span class="cmp-bad">4 ~ 7%</span></td>
+              <td><span class="cmp-tag good">없음</span><span class="cmp-good">0원</span></td>
+            </tr>
+            <tr>
+              <td>매체 보너스 크레딧</td>
+              <td><span class="cmp-tag bad">신청 불가</span></td>
+              <td><span class="cmp-tag good">자동 분배</span><span class="cmp-good">최대 15%</span></td>
+            </tr>
+            <tr>
+              <td>세금계산서 / 매입공제</td>
+              <td><span class="cmp-tag bad">제한적</span><span style="color:var(--ink-3)">카드 명세서</span></td>
+              <td><span class="cmp-tag good">매월 발행</span><span class="cmp-good">국내 세금계산서</span></td>
+            </tr>
+            <tr>
+              <td>계정 이슈 대응</td>
+              <td><span class="cmp-tag bad">평균 7일</span></td>
+              <td><span class="cmp-tag good">평균 2시간</span><span class="cmp-good">전담 매니저</span></td>
+            </tr>
+            <tr>
+              <td>고객 운영 권한</td>
+              <td><span class="cmp-tag bad">유지</span><span style="color:var(--ink-3)">(대행사별 상이)</span></td>
+              <td><span class="cmp-tag good">유지 (동일)</span><span class="cmp-good">100% 고객</span></td>
+            </tr>
+            <tr>
+              <td>데이터 · 소재 소유권</td>
+              <td><span class="cmp-tag bad">고객</span><span style="color:var(--ink-3)">(이전 제한)</span></td>
+              <td><span class="cmp-tag good">고객 (동일)</span><span class="cmp-good">자유 이전</span></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="ct-row">
-        <div class="col feat">해외 결제 수수료</div>
-        <div class="col con"><span class="col-label">일반 계정</span>4~7% 발생</div>
-        <div class="col pro"><span class="col-label">파트너 계정</span>0원</div>
-      </div>
-      <div class="ct-row">
-        <div class="col feat">매체 보너스 크레딧</div>
-        <div class="col con"><span class="col-label">일반 계정</span>신청 불가</div>
-        <div class="col pro"><span class="col-label">파트너 계정</span>최대 15% 분배</div>
-      </div>
-      <div class="ct-row">
-        <div class="col feat">세금계산서 / 매입공제</div>
-        <div class="col con"><span class="col-label">일반 계정</span>제한적</div>
-        <div class="col pro"><span class="col-label">파트너 계정</span>국내 세금계산서 발행</div>
-      </div>
-      <div class="ct-row">
-        <div class="col feat">계정 이슈 대응</div>
-        <div class="col con"><span class="col-label">일반 계정</span>평균 7일</div>
-        <div class="col pro"><span class="col-label">파트너 계정</span>전담 매니저 평균 2시간</div>
-      </div>
-      <div class="ct-row">
-        <div class="col feat">고객 운영 권한</div>
-        <div class="col pro"><span class="col-label">일반 계정</span>유지</div>
-        <div class="col pro"><span class="col-label">파트너 계정</span>유지 (동일)</div>
-      </div>
-      <div class="ct-row">
-        <div class="col feat">데이터·소재 소유권</div>
-        <div class="col pro"><span class="col-label">일반 계정</span>고객</div>
-        <div class="col pro"><span class="col-label">파트너 계정</span>고객 (동일)</div>
+
+      <div class="struct-list">
+        <div class="struct-card">
+          <div class="struct-num">1</div>
+          <div class="struct-body">
+            <h4>국내 계정이면서 광고비 출처는 본사 직결</h4>
+            <p>고객 명의의 국내 비즈니스 매니저에서 운영합니다. 단, 결제만 <b>매체 본사와 직결제</b>되어 카드 환차·DCC 마진 발생 구조 자체를 우회합니다.</p>
+          </div>
+        </div>
+        <div class="struct-card">
+          <div class="struct-num">2</div>
+          <div class="struct-body">
+            <h4>운영 권한 100% 유지 + 보너스 크레딧 자동 적용</h4>
+            <p>고객이 캠페인·픽셀·도메인·CAPI를 그대로 컨트롤합니다. 매월 매체 본사가 인보이스 계정에만 지급하는 <b>보너스 크레딧(최대 15%)</b>이 고객 잔액으로 자동 적립됩니다.</p>
+          </div>
+        </div>
+        <div class="struct-card">
+          <div class="struct-num">3</div>
+          <div class="struct-body">
+            <h4>SGI 서울보증보험 + 매체 직결제로 광고비 보호</h4>
+            <p>인보이스 계정 운영사 리스크 발생 시에도 <b>서울보증보험으로 광고비 100% 보호</b>됩니다. 매체 직결제 구조라 잔액이 운영사 계좌를 거치지 않습니다.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
