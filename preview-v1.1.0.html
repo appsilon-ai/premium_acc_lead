@@ -1805,7 +1805,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* v1.1.0: sticky-mobile — 컴팩트 + 반투명 다크 글래스 */
   .sticky-mobile{
     position:fixed;bottom:0;left:0;right:0;
-    background:rgba(15,23,42,.82);
+    background:rgba(15,23,42,.70);
     -webkit-backdrop-filter:blur(14px) saturate(140%);
     backdrop-filter:blur(14px) saturate(140%);
     border-top:1px solid rgba(255,255,255,.10);
@@ -1818,6 +1818,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .sticky-mobile .hero-cta-primary{
     padding:11px 18px !important;
     font-size:14.5px !important;
+  }
+  /* 흰 전화 SVG 아이콘 + 가벼운 진동 애니메이션 */
+  .sticky-mobile .phone-ic{
+    vertical-align:-3px;margin-left:5px;
+    color:#fff;fill:#fff;
+    filter:drop-shadow(0 1px 2px rgba(0,0,0,.25));
+    animation:phone-wiggle 2.4s ease-in-out infinite;
+    transform-origin:50% 100%
+  }
+  @keyframes phone-wiggle{
+    0%,72%,100%{transform:rotate(0)}
+    78%{transform:rotate(-14deg)}
+    84%{transform:rotate(12deg)}
+    90%{transform:rotate(-8deg)}
+    96%{transform:rotate(0)}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .sticky-mobile .phone-ic{animation:none}
   }
   @media (max-width:700px){.sticky-mobile{display:block}body{padding-bottom:58px}}
 
@@ -3359,7 +3377,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- STICKY MOBILE CTA -->
 <div class="sticky-mobile">
-  <a href="#apply" class="btn btn-lg hero-cta-primary">20초 무료 진단 신청 📞</a>
+  <a href="#apply" class="btn btn-lg hero-cta-primary">20초 무료 진단 신청 <svg class="phone-ic" viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.27.36-.66.25-1.01-.37-1.12-.57-2.32-.57-3.57 0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"/></svg></a>
 </div>
 
 <script>
