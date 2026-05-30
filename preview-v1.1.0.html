@@ -1845,6 +1845,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     -webkit-background-clip:text;background-clip:text;
     -webkit-text-fill-color:transparent
   }
+  /* v1.1.0: 영수증 하단 보조 노트 (보너스 크레딧 별도) */
+  .receipt-subnote{
+    text-align:right;margin-top:6px;
+    font-size:12.5px;color:var(--ink-3);font-style:italic;
+    letter-spacing:-.01em
+  }
+  .receipt-subnote b{color:var(--brand);font-weight:800;font-style:normal}
   /* 영수증 하단 손실 요약 */
   .receipt-summary{
     max-width:560px;margin:24px auto 0;text-align:center;
@@ -1865,6 +1872,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .receipt-row.input{font-size:14px}
     .receipt-row.total{font-size:14.5px;padding-top:14px;margin-top:6px}
     .receipt-row.total .amt{font-size:17px}
+    .receipt-subnote{font-size:11.5px;margin-top:4px}
     .receipt-summary{font-size:13px;margin-top:18px}
     .receipt-note{font-size:11.5px;margin-top:14px;padding:0 16px}
   }
@@ -2135,7 +2143,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="coin-rain" id="coin-rain-loss" aria-hidden="true"></div>
   <div class="container" style="position:relative;z-index:1">
     <div class="loss-viz-head">
-      <h2>월 광고비 <span class="hl">1억 원</span>이면, 이렇게 사라집니다</h2>
+      <h2>해외 광고매체 월 광고비 <span class="hl">1억 원</span>, 이렇게 사라집니다</h2>
     </div>
 
     <div class="receipt" id="receipt">
@@ -2164,6 +2172,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span>= 실제 광고 효율</span>
         <span class="amt">₩ <span data-count-target="83800000" data-count-format="comma">83,800,000</span></span>
       </div>
+      <div class="receipt-subnote">+ 해외 매체 보너스 크레딧 <b>3%</b> 별도 적용 가능</div>
     </div>
 
     <p class="receipt-summary">
