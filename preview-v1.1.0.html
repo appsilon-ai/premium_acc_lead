@@ -2182,7 +2182,33 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     padding-right:14px;color:#fff;font-weight:800;font-size:13px;white-space:nowrap;
     letter-spacing:-.01em
   }
-  .cc-bad .cc-fill{background:linear-gradient(90deg,#dc2626 0%,#f04452 100%)}
+  .cc-bad .cc-fill{background:linear-gradient(90deg,#dc2626 0%,#f04452 100%);position:relative;z-index:1}
+  /* v1.1.1: cc-bad bar — 손실 5% 회색 영역 (cc-good의 bonus 미러, 단 cc-fill 뒤에 위치) */
+  .cc-loss-mark{
+    position:absolute;top:0;bottom:0;right:0;
+    width:0;
+    background:
+      repeating-linear-gradient(45deg, rgba(255,255,255,.32) 0 5px, transparent 5px 10px),
+      linear-gradient(90deg,#9ca3af 0%, #6b7382 100%);
+    background-size:14px 14px, 100% 100%;
+    animation:cc-stripe-flow 1.0s linear infinite;
+    border-radius:0 8px 8px 0;
+    display:flex;align-items:center;justify-content:flex-end;
+    padding-right:6px;
+    color:#fff;font-weight:900;font-size:10px;
+    white-space:nowrap;letter-spacing:-.02em;
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.12), inset 0 1px 0 rgba(255,255,255,.18);
+    transition:width 0.9s cubic-bezier(.34,1.5,.64,1) 1.7s;
+    z-index:0;overflow:hidden
+  }
+  .cc-card.cc-bad.bar-fired .cc-loss-mark{width:14%}
+  @media (max-width:780px){
+    .cc-card.cc-bad.bar-fired .cc-loss-mark{width:20%;font-size:9.5px}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .cc-loss-mark{animation:none}
+    .cc-card.cc-bad.bar-fired .cc-loss-mark{transition:none}
+  }
   /* v1.1.1: cc-good bar — 흐르는 스트라이프 블루 + 우측 연장 그린 보너스 */
   .cc-good .cc-fill{
     background:
@@ -3203,7 +3229,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <article class="cc-card cc-bad" style="--cc-target:95%">
         <h3>💳 일반 계정 (카드 결제)</h3>
         <div class="cc-sub">여러 단계의 해외 결제 수수료가 누적됩니다.</div>
-        <div class="cc-bar"><div class="cc-fill">광고 효율 ~95% (수수료 5%+ 손실)</div></div>
+        <div class="cc-bar"><div class="cc-fill">광고 효율 ~95%</div><div class="cc-loss-mark">−5%+</div></div>
         <div class="cc-stat"><span>환전·브랜드·DCC 수수료</span><b class="cc-bad-val">5% 이상</b></div>
         <div class="cc-stat"><span>해외 매체 보너스</span><b class="cc-bad-val">없음 (0원)</b></div>
         <div class="cc-stat"><span>국내 매체 보너스</span><b class="cc-bad-val">없음 (0원)</b></div>
