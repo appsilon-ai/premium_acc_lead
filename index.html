@@ -2220,8 +2220,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     animation:cc-stripe-flow 1.4s linear infinite;
     border-radius:8px 0 0 8px
   }
-  .cc-card.cc-good{overflow:visible}
-  .cc-good .cc-bar{overflow:visible}
+  /* cc-good bar: 보너스 연장 공간 확보 위해 cc-bar 우측을 미리 줄임 */
+  .cc-good .cc-bar{overflow:visible;width:calc(100% - 72px)}
+  @media (max-width:780px){.cc-good .cc-bar{width:calc(100% - 56px)}}
   .cc-bonus-extend{
     position:absolute;top:0;bottom:0;left:100%;
     width:0;
@@ -2238,7 +2239,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     transition:width 1.0s cubic-bezier(.34,1.5,.64,1) 1.5s;
     overflow:hidden;z-index:2
   }
-  .cc-card.cc-good.bar-fired .cc-bonus-extend{width:62px}
+  .cc-card.cc-good.bar-fired .cc-bonus-extend{width:64px}
   @media (max-width:780px){
     .cc-card.cc-good.bar-fired .cc-bonus-extend{width:48px;font-size:10px}
   }
