@@ -2183,13 +2183,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cc-stat b{font-variant-numeric:tabular-nums;color:var(--ink);font-weight:700;font-size:14.5px;text-align:right}
   .cc-bad-val{color:#dc2626 !important}
   .cc-good-val{color:var(--brand) !important}
-  .cc-credit-drop{
-    display:flex;align-items:center;gap:10px;
+  /* v1.1.0: cc-credit-chips — 4개 칩 버튼식 (모바일 가독성) */
+  .cc-credit-chips{
+    display:flex;flex-wrap:wrap;gap:6px;
+    margin-top:16px;padding:10px 12px;
     background:linear-gradient(135deg,#eef3ff 0%,#fafcff 100%);
-    padding:14px 16px;border-radius:12px;
-    color:var(--brand-2);font-weight:700;margin-top:16px;font-size:13.5px;
-    border:1px dashed rgba(22,82,165,.3);line-height:1.45
+    border:1px dashed rgba(22,82,165,.3);border-radius:12px
   }
+  .cc-credit-chip{
+    display:inline-flex;align-items:center;gap:5px;
+    background:#fff;padding:7px 11px;border-radius:8px;
+    font-size:12.5px;font-weight:700;color:var(--brand-2);
+    border:1px solid rgba(22,82,165,.2);
+    letter-spacing:-.01em;line-height:1.2;
+    box-shadow:0 1px 3px rgba(22,82,165,.08)
+  }
+  .cc-credit-chip b{color:var(--brand);font-weight:900}
+  .cc-credit-chip .ic{font-size:13.5px;line-height:1}
   @media (max-width:780px){
     .cc-card{padding:24px 22px;border-radius:16px}
     .cc-card h3{font-size:19px}
@@ -2197,7 +2207,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .cc-fill{font-size:12px;padding-right:10px}
     .cc-stat{font-size:13px;padding:9px 0}
     .cc-stat b{font-size:13.5px}
-    .cc-credit-drop{font-size:12.5px;padding:12px 14px}
+    .cc-credit-chips{padding:8px 10px;margin-top:12px;gap:5px}
+    .cc-credit-chip{font-size:11.5px;padding:6px 9px}
   }
   /* v1.1.0: 형광펜 스타일 강조 (샘플의 <em> 효과를 빨/파 컬러로) */
   .cc-stat .hl-red{
@@ -3171,7 +3182,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="cc-stat"><span>세금계산서</span><b>월 단위 자동 발행</b></div>
         <div class="cc-stat"><span>이슈 대응</span><b class="cc-good-val">평균 2시간</b></div>
         <div class="cc-stat"><span class="hl-blue">월 1억 기준 추가 혜택</span><b class="cc-good-val">월 +₩ 500~1,500만</b></div>
-        <div class="cc-credit-drop">🎁 수수료 0원 + <b>해외 매체 ~4%</b> · <b>국내 매체 13~15%</b> 보너스 자동 적립</div>
+        <div class="cc-credit-chips">
+          <span class="cc-credit-chip"><span class="ic">🎁</span>수수료 <b>0원</b></span>
+          <span class="cc-credit-chip"><span class="ic">🌎</span>해외 매체 <b>~ 4%</b></span>
+          <span class="cc-credit-chip"><span class="ic">🇰🇷</span>국내 매체 <b>13 ~ 15%</b></span>
+          <span class="cc-credit-chip"><span class="ic">⚡</span><b>자동 적립</b></span>
+        </div>
       </article>
     </div>
   </div>
