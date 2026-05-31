@@ -2172,7 +2172,45 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     letter-spacing:-.01em
   }
   .cc-bad .cc-fill{background:linear-gradient(90deg,#dc2626 0%,#f04452 100%)}
-  .cc-good .cc-fill{background:linear-gradient(90deg,#1652a5 0%,#3b82f6 100%)}
+  /* v1.1.1: cc-good bar — 흐르는 스트라이프 블루 + 우측 연장 그린 보너스 */
+  .cc-good .cc-fill{
+    background:
+      repeating-linear-gradient(45deg, rgba(255,255,255,.18) 0 8px, transparent 8px 16px),
+      linear-gradient(90deg,#1652a5 0%,#3b82f6 100%);
+    background-size:24px 24px, 100% 100%;
+    animation:cc-stripe-flow 1.4s linear infinite;
+    border-radius:8px 0 0 8px
+  }
+  .cc-card.cc-good{overflow:visible}
+  .cc-good .cc-bar{overflow:visible}
+  .cc-bonus-extend{
+    position:absolute;top:0;bottom:0;left:100%;
+    width:0;
+    background:
+      repeating-linear-gradient(45deg, rgba(255,255,255,.22) 0 8px, transparent 8px 16px),
+      linear-gradient(90deg,#10b981 0%,#34d399 60%,#6ee7b7 100%);
+    background-size:24px 24px, 100% 100%;
+    animation:cc-stripe-flow 1.2s linear infinite;
+    border-radius:0 8px 8px 0;
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:900;font-size:11px;
+    white-space:nowrap;letter-spacing:-.02em;
+    box-shadow:0 0 14px rgba(16,185,129,.55), inset 0 1px 0 rgba(255,255,255,.35);
+    transition:width 1.0s cubic-bezier(.34,1.5,.64,1) 1.5s;
+    overflow:hidden;z-index:2
+  }
+  .cc-card.cc-good.bar-fired .cc-bonus-extend{width:62px}
+  @media (max-width:780px){
+    .cc-card.cc-good.bar-fired .cc-bonus-extend{width:48px;font-size:10px}
+  }
+  @keyframes cc-stripe-flow{
+    0%{background-position:0 0, 0 0}
+    100%{background-position:24px 0, 0 0}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .cc-good .cc-fill, .cc-bonus-extend{animation:none}
+    .cc-card.cc-good.bar-fired .cc-bonus-extend{transition:none}
+  }
   .cc-card.bar-fired .cc-fill{width:var(--cc-target,84%)}
   .cc-stat{
     display:flex;justify-content:space-between;align-items:baseline;gap:10px;
@@ -3164,7 +3202,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <article class="cc-card cc-good" style="--cc-target:100%">
         <h3>🎯 파트너 계정 (인보이스)</h3>
         <div class="cc-sub">수수료 0원 + 해외·국내 매체 본사 보너스 크레딧 자동 지급.</div>
-        <div class="cc-bar"><div class="cc-fill">광고 효율 100% + 보너스</div></div>
+        <div class="cc-bar"><div class="cc-fill">광고 효율 100%</div><div class="cc-bonus-extend">+ 보너스</div></div>
         <div class="cc-stat"><span>해외 결제 수수료</span><b class="cc-good-val">0원</b></div>
         <div class="cc-stat"><span>해외 매체 보너스</span><b class="cc-good-val">~ 4%</b></div>
         <div class="cc-stat"><span>국내 매체 보너스</span><b class="cc-good-val">13 ~ 15%</b></div>
