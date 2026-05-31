@@ -101,7 +101,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* 폰트 크기 일괄 상향 (가독성) */
   /* v1.1.0: 모바일 좌우 스크롤 방지 — 전역 safeguard */
   *,*::before,*::after{box-sizing:border-box}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Pretendard',-apple-system,BlinkMacSystemFont,system-ui,Roboto,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;font-size:16px;overflow-x:hidden;max-width:100%;width:100%}
+  html{scrollbar-gutter:stable} /* 스크롤바 공간 항상 예약 → 좌우 대칭 유지 */
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Pretendard',-apple-system,BlinkMacSystemFont,system-ui,Roboto,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;font-size:16px;overflow-x:hidden}
   img,video{max-width:100%;height:auto}
   @media (max-width:700px){html,body{font-size:15px}}
   .br-mobile{display:none}
@@ -1644,7 +1645,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .fee-stackbar-numbers .num .lbl{font-size:11px;font-weight:600;color:var(--ink-3);margin-left:2px}
 
   /* OTHER CARDS WARNING — 신한카드보다 더 비싼 카드사 비교 */
-  .other-cards-warning{max-width:1040px;margin:40px auto 0;background:linear-gradient(180deg, rgba(220,38,38,.14) 0%, rgba(220,38,38,.06) 100%);border:1px solid rgba(252,165,165,.35);border-radius:14px;padding:20px 16px}
+  .other-cards-warning{max-width:1000px;margin:40px auto 0;background:linear-gradient(180deg, rgba(220,38,38,.14) 0%, rgba(220,38,38,.06) 100%);border:1px solid rgba(252,165,165,.35);border-radius:14px;padding:20px 16px}
   .ocw-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px}
   .ocw-icon{font-size:24px;flex-shrink:0;line-height:1;margin-top:2px}
   .ocw-header h4{margin:0;font-size:17px;color:#fca5a5;font-weight:800;letter-spacing:-.01em;line-height:1.4}
@@ -2212,7 +2213,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* v1.1.0: cmp-wrap — 항목별 상세 비교 테이블 + struct-card */
   .cmp-wrap{
     display:grid;grid-template-columns:1.4fr 1fr;gap:28px;
-    max-width:1120px;margin:36px auto 0;align-items:start
+    max-width:1000px;margin:36px auto 0;align-items:start
   }
   @media (max-width:900px){.cmp-wrap{grid-template-columns:1fr;gap:24px}}
 
