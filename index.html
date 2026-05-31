@@ -1,28 +1,80 @@
-<!doctype html>
+﻿<!doctype html>
 <!--
   ════════════════════════════════════════════════════════════════
   OFFICIAL ADS LANDING PAGE
-  VERSION B.1.1.0 — Dark → Light → Blue 솔루션 저니 (우선순위 1~5 적용)
-  Released: 2026-05-22
-  Parent: A.1.0.0 (white theme, separate file)
+  VERSION 1.1.0 — 정식 릴리스 (애니메이션 + 영수증 + cmp-table + 3-Act 그라데이션)
+  Released: 2026-05-31
+  Predecessor: 1.0.0 (tag: landing-v1.0.0)
+  Tag: landing-v1.1.0
+
+  v1.1.0 주요 변경 요약 (vs 1.0.0)
+    ── 애니메이션 ──
+    [+] 카운팅 숫자 애니메이션 (Hero · Loss Viz · Stats · Retention · Calc)
+    [+] 떨어지는 동전 @keyframes (Loss Viz coin-rain)
+    [+] Bar fill 애니메이션 (Compare cc-bar)
+    [+] CTA 글로우+광선 (Hero · Form submit · Sticky-mobile · Calc grab)
+    [+] 전화 아이콘 진동 애니메이션 (sticky-mobile)
+
+    ── 콘텐츠 재구성 ──
+    [+] Loss Viz: 4-card 그리드 → 영수증 (월 1억 기준 · 차감/기회비용 분리)
+    [+] Calc: 슬라이더 + 칩 + Grab CTA (샘플 영감)
+    [+] Compare: cmp-table (칩+추천핀+8행 2줄통일) + 3 struct-card
+    [+] Cases: testimonial 인용 임베드 (Reviews 섹션 흡수)
+    [+] Media: Top 10 신청현황 (순위 뱃지 + 신청률 스트라이프)
+    [+] FAQ: 차별점 5→3개 간소화
+    [-] Quick CTA / Problem / Stats(3 stats) / Solution flow / Reviews 섹션 제거
+
+    ── 디자인 시스템 ──
+    [+] 3-Act 그라데이션: Dark(문제) → Gray 전환 → White(해결) → Blue(CTA)
+    [+] section-tag 클래스 (긴급/일반/다크 3-tier)
+    [+] hl-red/hl-blue 형광펜 강조
+    [+] case-quote 인용 블록 (브랜드 좌측 보더 + 큰따옴표)
+    [+] cc-credit-chips 4-칩 버튼식 (모바일 가독성)
+
+    ── 카피 톤 ──
+    [+] "재계약률" → "1년 후에도 함께" (인간적)
+    [+] Solution h2 → "광고비를 지키는 3가지 방식" (outcome-focused)
+    [+] FAQ h2 → "신청 전 가장 많이 받는 질문"
+    [+] testimonial 보너스 % 일반화 (5%→두 자릿수)
+    [+] 매체공식대행사 브랜드명
+
+    ── 모바일 최적화 ──
+    [+] overflow-x:hidden + box-sizing 전역 safeguard
+    [+] scrollbar-gutter:stable (좌우 대칭)
+    [+] 로고 정렬 시스템 (.lg/.compact/.sm 3-tier)
+    [+] 모든 컴포넌트 모바일 반응형 재조정
   ════════════════════════════════════════════════════════════════
 
   Color Journey (3-Act Emotional Arc):
   ────────────────────────────────────────────────────────────────
   Act 1 — 인식 (Awareness)     · DARK NAVY
-    └─ Hero ▸ Loss Viz ▸ Problem (어둠→밝음 전환)
+    └─ Hero ▸ Quick CTA ▸ Loss Viz (다크존 통합)
     └─ 감정: 위협, 긴장, 손실감 → "내 문제다" 자각
 
-  Act 2 — 이해 (Understanding) · LIGHT/WHITE
-    └─ Fee Truth ▸ Solution ▸ Stats ▸ Cases ▸ CPM Reviews ▸ Compare ▸ Media
+  Act 2 — 이해 (Understanding) · NAVY → LIGHT 전환
+    └─ Fee Truth ▸ Solution ▸ Stats ▸ Cases ▸ CPM Reviews ▸ Media
     └─ 감정: 명료, 안정, 정보 흡수 → 신뢰감 형성
 
-  Act 3 — 결정 (Decision)      · BLUE
-    └─ FAQ (라이트 블루 진입) ▸ CTA ▸ Footer (프리미엄 블루)
+  Act 3 — 결정 (Decision)      · LIGHT BLUE → BRAND BLUE
+    └─ Compare (의사결정 스코어카드) ▸ CTA Form ▸ FAQ ▸ Footer
     └─ 감정: 권위, 안전, 행동 → 클릭 유도
 
   ════════════════════════════════════════════════════════════════
-  B 버전 후속 작업 ROADMAP (정식 릴리스 이후 추가 예정)
+  v1.0.0 주요 변경 요약 (vs B.1.1.0)
+  ────────────────────────────────────────────────────────────────
+    • 색상 체계 단순화: 그린/골드/퍼플/앰버 제거 → 블루+레드 2색
+    • 폰트 가독성 상향 (본문 16px / 모바일 15px)
+    • Hero 재설계: 거대 10~15% 손실 숫자 + 카드 결제 위협
+    • 손실 시각화: 광고비 규모별 4 카드 + 전체 숫자 표기
+    • 섹션 헤드 단순화 (eyebrow + sub-copy 통합 → 단일 임팩트 라인)
+    • Problem 섹션 제거 → Hero → Loss Viz 직접 연결로 임팩트 강화
+    • D+7 계정 이슈 → Solution Step 2 "24시간 내 대응" 베네핏으로 이동
+    • Compare 섹션 재배치: Solution 직후 → Form 직전 (결정 스코어카드)
+    • 전체 그라데이션 단조 감소 보장 (Hero → Footer 끊김 없음)
+    • 카피 톤 전환: "광고주" → "고객/고객사" (독자 시점 공감 강화)
+    • 매체 라벨 단순화: Meta·Facebook·Instagram → Meta
+
+  v1.1.0 이후 ROADMAP
   ────────────────────────────────────────────────────────────────
   새 기능 (Interactive):
     [ ] 광고 매체별 칩 인터랙티브 필터 (Media 섹션 8 카드)
@@ -60,17 +112,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     --ink-2:#3b4453;
     --ink-3:#6b7382;
     --line:#e6e8ee;
-    --brand:#1f6bff;
-    --brand-2:#0a48cc;
-    --accent:#10b981;
-    --warn:#ef4444;
+    /* === 2색 체계 (단순화) === */
+    --brand:#1652a5;        /* 메인: 브랜드 블루 */
+    --brand-2:#0d2c5e;      /* 메인 다크 */
+    --brand-soft:#eef3ff;   /* 메인 옅음 */
+    --accent:#dc2626;       /* 포인트: 레드 (손실/위협 전용) */
+    --accent-soft:#fee2e2;  /* 레드 옅음 */
+    --warn:#dc2626;         /* warn = accent로 통일 */
     --radius:14px;
     --shadow:0 1px 2px rgba(11,18,32,.04), 0 8px 24px rgba(11,18,32,.06);
     --g-premium:linear-gradient(135deg,#1652a5 0%,#0d2c5e 100%);
     --g-premium-soft:linear-gradient(135deg,#eef3ff 0%,#d8e3f8 100%);
+    --g-accent:linear-gradient(135deg,#dc2626 0%,#991b1b 100%);
   }
   *{box-sizing:border-box}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Pretendard',-apple-system,BlinkMacSystemFont,system-ui,Roboto,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+  /* 폰트 크기 일괄 상향 (가독성) */
+  /* v1.1.0: 모바일 좌우 스크롤 방지 — 전역 safeguard */
+  *,*::before,*::after{box-sizing:border-box}
+  html{scrollbar-gutter:stable} /* 스크롤바 공간 항상 예약 → 좌우 대칭 유지 */
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Pretendard',-apple-system,BlinkMacSystemFont,system-ui,Roboto,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;font-size:16px;overflow-x:hidden}
+  img,video{max-width:100%;height:auto}
+  @media (max-width:700px){html,body{font-size:15px}}
+  .br-mobile{display:none}
+  @media (max-width:700px){.br-mobile{display:block}}
   a{color:inherit;text-decoration:none}
   img{max-width:100%;display:block}
   .container{max-width:1120px;margin:0 auto;padding:0 24px}
@@ -97,11 +161,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .logo-mark{width:28px;height:28px;border-radius:8px;background:var(--g-premium);display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px;box-shadow:0 4px 10px rgba(13,44,94,.25)}
   .nav-cta{display:flex;gap:10px;align-items:center}
 
-  /* DARK ZONE — Hero + Loss Viz를 하나의 연속된 다크 영역으로 통합 */
-  .dark-zone{background:linear-gradient(180deg, #0b1220 0%, #141d3a 45%, #1a2548 100%);position:relative;overflow:hidden;color:#fff}
+  /* DARK ZONE — Hero + Loss Viz를 하나의 연속된 다크 영역으로 통합 (v1.1.0: 그라데이션 smoother) */
+  .dark-zone{background:linear-gradient(180deg, #0b1220 0%, #121931 25%, #151e3b 50%, #182246 75%, #1a2548 100%);position:relative;overflow:hidden;color:#fff}
   .dark-zone::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background:
-    radial-gradient(1200px 600px at 80% 8%, rgba(31,107,255,.20) 0%, transparent 60%),
-    radial-gradient(1100px 700px at 50% 55%, rgba(220,38,38,.18) 0%, transparent 65%),
+    radial-gradient(1400px 700px at 75% 10%, rgba(31,107,255,.18) 0%, transparent 65%),
+    radial-gradient(1300px 900px at 50% 50%, rgba(220,38,38,.10) 0%, transparent 70%),
     radial-gradient(circle at 1px 1px, rgba(255,255,255,.035) 1px, transparent 0);background-size:auto, auto, 24px 24px}
   .dark-zone > *{position:relative;z-index:1}
   .dark-zone .hero,
@@ -118,6 +182,131 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .hero h1 span.hl{background:linear-gradient(180deg, transparent 58%, rgba(96,165,250,.35) 58%, rgba(96,165,250,.35) 95%, transparent 95%);color:#fff;padding:0 4px}
   .hero-sub{font-size:18px;color:#cfd6e4;margin-top:18px;max-width:560px}
   .hero-sub b{color:#fff;font-weight:700}
+
+  /* === 신규 Hero — 거대 숫자 + 단일 CTA + 신뢰지표 === */
+  .hero-mega{margin-top:32px}
+  .hero-mega-label{font-size:18px;color:#cfd6e4;font-weight:600;letter-spacing:-.02em}
+  .hero-mega-number{
+    font-size:clamp(54px, 11vw, 130px);
+    font-weight:900;
+    line-height:1;
+    letter-spacing:-.04em;
+    margin-top:8px;
+    background:linear-gradient(135deg, #ffffff 0%, #93c5fd 50%, #60a5fa 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    color:transparent;
+    font-variant-numeric:tabular-nums;
+    text-shadow:none;
+    white-space:nowrap;
+  }
+  .hero-mega-unit{font-size:.55em;font-weight:800;margin-left:4px;letter-spacing:-.02em}
+  .hero-mega-tagline{
+    margin-top:14px;
+    font-size:clamp(22px, 3vw, 30px);
+    font-weight:800;
+    color:#fff;
+    letter-spacing:-.02em;
+    line-height:1.3;
+  }
+  .hero-mega-sub{
+    margin-top:18px;
+    font-size:16px;
+    color:#cfd6e4;
+    line-height:1.65;
+    max-width:560px;
+    word-break:keep-all;
+  }
+  @media (max-width:700px){
+    .hero-mega-label{font-size:16px}
+    .hero-mega-tagline{font-size:22px}
+    .hero-mega-sub{font-size:14.5px;margin-top:14px}
+  }
+
+  /* 신규 CTA 영역 */
+  .hero-ctas-new{margin-top:36px;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+  .hero-cta-primary{
+    padding:18px 36px !important;
+    font-size:17px !important;
+    font-weight:800 !important;
+    box-shadow:0 8px 24px rgba(31,107,255,.4) !important;
+    position:relative;
+    overflow:hidden;
+    animation:cta-glow 2.4s ease-in-out infinite;
+    will-change:box-shadow, transform;
+  }
+  /* v1.1.0: sticky-mobile에서도 동일 애니메이션 강제 적용 */
+  .sticky-mobile .hero-cta-primary{
+    animation:cta-glow 2.4s ease-in-out infinite !important;
+    overflow:hidden !important
+  }
+  .sticky-mobile .hero-cta-primary::before{
+    content:'' !important;
+    display:block !important;
+    animation:cta-shine 3.2s ease-in-out infinite !important
+  }
+  @keyframes cta-glow{
+    0%,100%{
+      box-shadow:0 8px 24px rgba(31,107,255,.4), 0 0 0 0 rgba(96,165,250,0) !important;
+      transform:translateY(0)
+    }
+    50%{
+      box-shadow:0 14px 36px rgba(31,107,255,.6), 0 0 0 10px rgba(96,165,250,.18), 0 0 30px rgba(59,130,246,.5) !important;
+      transform:translateY(-3px)
+    }
+  }
+  /* 빛 흐름 효과 — 버튼 위로 가로 휩쓸리는 광선 */
+  .hero-cta-primary::before{
+    content:'';
+    position:absolute;inset:0;
+    border-radius:inherit;
+    background:linear-gradient(110deg,
+      transparent 0%, transparent 38%,
+      rgba(255,255,255,.55) 50%,
+      transparent 62%, transparent 100%);
+    background-size:220% 100%;
+    background-position:200% 0;
+    animation:cta-shine 3.2s ease-in-out infinite;
+    pointer-events:none;
+    mix-blend-mode:overlay;
+    border-radius:12px;
+  }
+  @keyframes cta-shine{
+    0%   {background-position:200% 0}
+    60%  {background-position:-80% 0}
+    100% {background-position:-80% 0}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .hero-cta-primary{animation:none}
+    .hero-cta-primary::before{display:none}
+  }
+  .hero-cta-sub{font-size:13.5px;color:#cfd6e4;font-weight:500}
+
+  /* 신뢰지표 컴팩트 */
+  .hero-trust-compact{
+    margin-top:40px;
+    display:flex;
+    align-items:center;
+    gap:24px;
+    padding:18px 24px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:14px;
+    backdrop-filter:blur(8px);
+    max-width:560px;
+  }
+  .htc-item{flex:1;text-align:center}
+  .htc-num{font-size:24px;font-weight:900;color:#fff;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1}
+  .htc-unit{font-size:.7em;font-weight:800;margin-left:2px;color:#93c5fd}
+  .htc-label{margin-top:6px;font-size:12px;color:#cfd6e4;font-weight:500;letter-spacing:-.01em}
+  .htc-divider{width:1px;height:40px;background:rgba(255,255,255,.15);flex-shrink:0}
+  @media (max-width:700px){
+    .hero-trust-compact{padding:14px 16px;gap:12px;margin-top:28px}
+    .htc-num{font-size:18px}
+    .htc-label{font-size:10.5px;margin-top:4px}
+    .htc-divider{height:32px}
+  }
   .hero .pill{background:rgba(255,255,255,.08);color:#cfd6e4;border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(6px)}
   .hero-ctas{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
   .hero .btn-ghost{color:#fff;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.05);backdrop-filter:blur(6px)}
@@ -145,8 +334,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .hero{padding:60px 0 44px}
     .loss-viz{padding:48px 0}
     .dark-zone::before{background:
-      radial-gradient(700px 400px at 80% 5%, rgba(31,107,255,.22) 0%, transparent 60%),
-      radial-gradient(700px 500px at 50% 55%, rgba(220,38,38,.20) 0%, transparent 65%),
+      radial-gradient(900px 600px at 75% 8%, rgba(31,107,255,.20) 0%, transparent 65%),
+      radial-gradient(900px 800px at 50% 50%, rgba(220,38,38,.10) 0%, transparent 70%),
       radial-gradient(circle at 1px 1px, rgba(255,255,255,.035) 1px, transparent 0);background-size:auto, auto, 24px 24px}
     .problem{background:linear-gradient(180deg, #1a2548 0%, #1a2548 85%, #2a3556 100%)}
   }
@@ -159,8 +348,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .loss-viz-head h2 br{display:none}
   }
   .loss-viz-head h2{font-size:clamp(22px,3vw,30px);font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.35}
-  .loss-viz-head h2 .hl{background:linear-gradient(180deg,transparent 60%,rgba(220,38,38,.6) 60%);color:#fff;font-weight:800;padding:0 4px}
-  .loss-viz-head p{margin-top:12px;color:#a9b4c6;font-size:15px;line-height:1.6}
+  .loss-viz-head h2 .hl,
+  .problem .section-head h2 .hl{background:linear-gradient(180deg,transparent 60%,rgba(220,38,38,.6) 60%);color:#fff;font-weight:800;padding:0 4px}
+  #how .section-head h2 .hl{background:linear-gradient(180deg,transparent 60%,rgba(96,165,250,.55) 60%);color:#fff;font-weight:800;padding:0 4px}
+  .loss-viz-head p{margin-top:12px;color:#cfd6e4;font-size:15px;line-height:1.6}
 
   .loss-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;max-width:1000px;margin:0 auto;padding:0 16px}
   @media (max-width:900px){.loss-grid{grid-template-columns:repeat(2,1fr)}}
@@ -179,29 +370,68 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .loss-card .lc-spend-label{font-size:11px;color:var(--ink-3);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
   .loss-card .lc-spend{font-size:18px;color:var(--ink);font-weight:800;letter-spacing:-.01em;margin-top:3px}
   .loss-card .lc-divider{height:1px;background:var(--line);margin:8px 0 4px}
-  .loss-card .lc-loss-label{font-size:11px;color:#a13838;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
-  .loss-card .lc-loss{font-size:30px;font-weight:800;color:var(--warn);letter-spacing:-.025em;line-height:1;margin-top:2px;font-variant-numeric:tabular-nums}
-  .loss-card.featured .lc-loss{font-size:34px}
-  .loss-card .lc-bar{height:8px;background:#f3f4f6;border-radius:4px;overflow:hidden;position:relative;margin-top:4px}
-  .loss-card .lc-bar-fill{position:absolute;top:0;bottom:0;left:0;width:5%;background:linear-gradient(90deg,#dc2626,#ef4444);border-radius:4px}
+  .loss-card .lc-loss-label{font-size:11px;color:#991b1b;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+  .loss-card .lc-loss{font-size:clamp(20px, 2.2vw, 26px);font-weight:800;color:var(--warn);letter-spacing:-.025em;line-height:1.05;margin-top:2px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .loss-card.featured .lc-loss{font-size:clamp(22px, 2.5vw, 30px)}
+  /* v1.1.0: 손실 바 — 차오르는 액체 느낌 (스트라이프 + 오른쪽 글로우 드립) */
+  .loss-card .lc-bar{
+    height:14px;background:linear-gradient(180deg,#f1f3f5 0%, #e8ebef 100%);
+    border-radius:7px;overflow:hidden;position:relative;margin-top:6px;
+    box-shadow:inset 0 1px 2px rgba(0,0,0,.08)
+  }
+  .loss-card .lc-bar-fill{
+    position:absolute;top:0;bottom:0;left:0;width:5%;
+    background:
+      repeating-linear-gradient(45deg,
+        rgba(255,255,255,.18) 0 6px,
+        transparent 6px 12px),
+      linear-gradient(90deg,#b91c1c 0%, #dc2626 60%, #f04452 100%);
+    background-size: 24px 24px, 100% 100%;
+    border-radius:7px;
+    box-shadow:
+      0 0 8px rgba(220,38,38,.55),
+      inset 0 1px 0 rgba(255,255,255,.25);
+    animation:lc-stripe-flow 1.2s linear infinite;
+    will-change:width
+  }
+  /* 오른쪽 끝 — 차오르고 있는 물방울 효과 */
+  .loss-card .lc-bar-fill::after{
+    content:'';
+    position:absolute;top:-2px;bottom:-2px;right:-1px;width:8px;
+    background:radial-gradient(circle at center, rgba(255,200,200,.95) 0%, rgba(220,38,38,.6) 60%, transparent 100%);
+    filter:blur(2px);
+    animation:lc-drip 1.4s ease-in-out infinite
+  }
+  @keyframes lc-stripe-flow{
+    0%   {background-position:0 0, 0 0}
+    100% {background-position:24px 0, 0 0}
+  }
+  @keyframes lc-drip{
+    0%,100% {opacity:.5; transform:scaleY(1)}
+    50%     {opacity:1;   transform:scaleY(1.15)}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .loss-card .lc-bar-fill,
+    .loss-card .lc-bar-fill::after{animation:none}
+  }
   .loss-card .lc-monthly{font-size:12px;color:var(--ink-3);text-align:right;margin-top:auto;padding-top:4px}
   .loss-card .lc-monthly b{color:var(--ink-2);font-weight:700;font-variant-numeric:tabular-nums}
-  .loss-card .lc-equiv{margin-top:8px;padding:6px 10px;background:#f1fbf6;border:1px dashed #cfe9dc;border-radius:6px;font-size:11px;color:#0a8a5b;font-weight:600;text-align:center;line-height:1.3}
-  .loss-card .lc-equiv b{color:#0a8a5b;font-weight:800}
+  .loss-card .lc-equiv{margin-top:8px;padding:6px 10px;background:#eef3ff;border:1px dashed #cfdcef;border-radius:6px;font-size:11px;color:#0d2c5e;font-weight:600;text-align:center;line-height:1.3}
+  .loss-card .lc-equiv b{color:#0d2c5e;font-weight:800}
   .loss-card .lc-badge{position:absolute;top:14px;right:14px;font-size:10px;color:#fff;font-weight:800;background:var(--warn);border-radius:999px;padding:3px 10px;letter-spacing:.02em}
 
-  .loss-viz-note{text-align:left;margin:24px auto 0;font-size:12.5px;color:#a9b4c6;max-width:1000px;padding:0 24px;line-height:1.7}
+  .loss-viz-note{text-align:left;margin:24px auto 0;font-size:12.5px;color:#cfd6e4;max-width:1000px;padding:0 24px;line-height:1.7}
   .loss-viz-note b{color:#fff}
 
   /* LOSS STRIP — 광고비 규모별 손실 미리보기 (legacy, no longer used) */
   .loss-strip{margin-top:22px;padding:18px 20px;background:linear-gradient(180deg,#fff5f5 0%,#fff 100%);border:1px dashed #fecaca;border-radius:12px}
-  .loss-strip-title{font-size:12px;color:#a13838;font-weight:800;letter-spacing:.02em;margin-bottom:10px}
+  .loss-strip-title{font-size:12px;color:#991b1b;font-weight:800;letter-spacing:.02em;margin-bottom:10px}
   .loss-rows{display:grid;gap:4px}
-  .loss-row{display:grid;grid-template-columns:auto auto 1fr;align-items:baseline;gap:10px;padding:7px 0;font-size:14px;color:var(--ink-2);border-bottom:1px solid #fef0f0}
+  .loss-row{display:grid;grid-template-columns:auto auto 1fr;align-items:baseline;gap:10px;padding:7px 0;font-size:14px;color:var(--ink-2);border-bottom:1px solid #fee2e2}
   .loss-row:last-child{border-bottom:0}
   .loss-row .spend{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
   .loss-row .arrow{color:var(--ink-3);font-weight:300;font-size:13px}
-  .loss-row .loss{color:#a13838;font-weight:500;font-variant-numeric:tabular-nums}
+  .loss-row .loss{color:#991b1b;font-weight:500;font-variant-numeric:tabular-nums}
   .loss-row .loss b{font-size:15px;font-weight:800;color:var(--warn);letter-spacing:-.01em}
   .loss-row.hl{background:rgba(220,38,38,.06);padding:9px 12px;border-radius:8px;border:1px solid #fecaca;margin:2px 0}
   .loss-row.hl .loss b{font-size:17px}
@@ -242,26 +472,148 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* 선택: .calc.dark 클래스로 토글 시 다크 톤 (A/B 비교용) */
   .calc.dark{background:linear-gradient(180deg,#1a2547 0%,#0d2c5e 100%);border-color:rgba(255,255,255,.12);color:#fff}
   .calc.dark h3{color:#fff}
-  .calc.dark .calc-label{color:#a9b4c6}
+  .calc.dark .calc-label{color:#cfd6e4}
   .calc.dark .calc-input{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff}
   .calc.dark .calc-input:focus{border-color:#60a5fa;box-shadow:0 0 0 4px rgba(96,165,250,.2)}
   .calc.dark .calc-result{background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.3)}
   .calc.dark .calc-result .row{color:#cfd6e4}
   .calc.dark .calc-result .row b{color:#fff}
   .calc.dark .calc-total{border-color:rgba(16,185,129,.3)}
-  .calc.dark .calc-total .num{color:#34d399}
+  .calc.dark .calc-total .num{color:#3b7bd9}
   .calc.dark small{color:#8a93a4}
-  .calc.dark .pill{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3)}
+  .calc.dark .pill{background:rgba(16,185,129,.15);color:#3b7bd9;border:1px solid rgba(16,185,129,.3)}
   .calc h3{font-size:18px}
   .calc-label{font-size:13px;color:var(--ink-3);margin-top:14px;display:block}
   .calc-input{width:100%;border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:18px;font-weight:700;font-family:inherit;outline:none;margin-top:6px;background:#fff}
   .calc-input:focus{border-color:var(--brand);box-shadow:0 0 0 4px rgba(31,107,255,.12)}
-  .calc-result{margin-top:18px;border-radius:14px;background:#f1fbf6;padding:18px;border:1px solid #cfe9dc}
+  .calc-result{margin-top:18px;border-radius:14px;background:#eef3ff;padding:18px;border:1px solid #cfdcef}
   .calc-result .row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:14px;color:var(--ink-2)}
   .calc-result .row b{color:var(--ink);font-weight:700}
-  .calc-total{border-top:1px dashed #b7d8c7;margin-top:10px;padding-top:12px;display:flex;justify-content:space-between;align-items:baseline}
-  .calc-total .num{font-size:30px;font-weight:800;color:#0a8a5b;letter-spacing:-.02em}
+  /* v1.1.0: 예상 연간 절감액 강조 — 라벨 + 숫자 대비 강화 */
+  .calc-total{
+    border-top:1.5px solid rgba(22,82,165,.25);
+    margin-top:12px;padding-top:14px;
+    display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+    background:linear-gradient(180deg, rgba(22,82,165,.04), transparent);
+    border-radius:0 0 8px 8px;
+    padding-left:4px;padding-right:4px
+  }
+  .calc-total > span:first-child{
+    font-size:14.5px;font-weight:800;color:var(--brand-2);letter-spacing:-.01em
+  }
+  .calc-total .num{
+    font-size:34px;font-weight:900;letter-spacing:-.03em;line-height:1.05;
+    background:linear-gradient(135deg, #0d2c5e 0%, #1652a5 50%, #3b82f6 100%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+    font-variant-numeric:tabular-nums;
+    text-shadow:0 2px 8px rgba(22,82,165,.18);
+    transition:filter .25s ease
+  }
+  .calc-total .num.counting{filter:drop-shadow(0 0 12px rgba(59,130,246,.45))}
+  @media (max-width:700px){
+    .calc-total > span:first-child{font-size:13px}
+    .calc-total .num{font-size:26px}
+  }
   .calc small{display:block;color:var(--ink-3);margin-top:10px;font-size:12px}
+
+  /* ════════════════════════════════════════════════════════════════
+     v1.1.0: Calculator Redesign — Slider + Chips + Grab CTA
+     ════════════════════════════════════════════════════════════════ */
+  .calc-range-wrap{margin-top:12px}
+  .calc-range-val{
+    font-size:28px;font-weight:900;letter-spacing:-.03em;line-height:1.1;
+    color:var(--brand-2);font-variant-numeric:tabular-nums;
+    margin:4px 0 12px;
+    background:linear-gradient(135deg, #0d2c5e 0%, #1652a5 50%, #3b82f6 100%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent
+  }
+  .calc-range-slider{
+    width:100%;
+    -webkit-appearance:none;appearance:none;
+    height:6px;border-radius:3px;
+    background:linear-gradient(90deg,
+      var(--brand) 0%, var(--brand) var(--slider-pct,30%),
+      var(--line) var(--slider-pct,30%), var(--line) 100%);
+    outline:none;margin:0;padding:0;cursor:pointer
+  }
+  .calc-range-slider::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;
+    width:22px;height:22px;border-radius:50%;
+    background:#fff;border:3px solid var(--brand);
+    box-shadow:0 4px 12px rgba(22,82,165,.35);
+    cursor:pointer;transition:transform .15s ease
+  }
+  .calc-range-slider::-webkit-slider-thumb:hover{transform:scale(1.15)}
+  .calc-range-slider:active::-webkit-slider-thumb{transform:scale(1.25)}
+  .calc-range-slider::-moz-range-thumb{
+    width:22px;height:22px;border-radius:50%;
+    background:#fff;border:3px solid var(--brand);
+    box-shadow:0 4px 12px rgba(22,82,165,.35);cursor:pointer
+  }
+  .calc-range-meta{
+    display:flex;justify-content:space-between;
+    font-size:11px;color:var(--ink-3);
+    margin-top:8px;font-weight:600
+  }
+
+  /* Chip selection (해외 매체 비중) */
+  .calc-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .calc-chip{
+    flex:1;min-width:60px;
+    padding:11px 8px;border-radius:10px;
+    background:var(--bg-soft);border:1.5px solid var(--line);
+    font-weight:700;font-size:13.5px;color:var(--ink-3);
+    cursor:pointer;user-select:none;
+    text-align:center;transition:all .15s ease;
+    font-family:inherit
+  }
+  .calc-chip:hover{border-color:var(--brand);color:var(--ink-2)}
+  .calc-chip.active{
+    background:linear-gradient(135deg,#eef3ff 0%,#ffffff 100%);
+    border-color:var(--brand);color:var(--brand-2);
+    box-shadow:0 4px 10px rgba(22,82,165,.18);
+    transform:translateY(-1px)
+  }
+
+  /* Grab CTA — 계산 결과 직후 행동 유도 */
+  .calc-grab{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-top:16px;padding:14px 18px;
+    background:linear-gradient(135deg, var(--brand-2) 0%, var(--brand) 100%);
+    color:#fff;font-weight:800;font-size:15px;
+    border-radius:12px;text-decoration:none;
+    box-shadow:0 8px 20px rgba(22,82,165,.35);
+    transition:transform .15s ease, box-shadow .2s ease;
+    position:relative;overflow:hidden
+  }
+  .calc-grab:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 26px rgba(22,82,165,.45)
+  }
+  .calc-grab .grab-arrow{font-size:18px;font-weight:900;transition:transform .2s ease}
+  .calc-grab:hover .grab-arrow{transform:translateX(4px)}
+  /* 광선 sweep — hero-cta와 동일한 시그니처 */
+  .calc-grab::before{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(110deg,
+      transparent 0%, transparent 38%,
+      rgba(255,255,255,.4) 50%,
+      transparent 62%, transparent 100%);
+    background-size:220% 100%;background-position:200% 0;
+    animation:cta-shine 3.2s ease-in-out infinite;
+    pointer-events:none;mix-blend-mode:overlay
+  }
+  @media (prefers-reduced-motion: reduce){
+    .calc-grab::before{display:none}
+  }
+
+  @media (max-width:700px){
+    .calc-range-val{font-size:22px;margin:4px 0 10px}
+    .calc-chip{padding:8px 5px;font-size:12px;min-width:50px}
+    .calc-grab{padding:12px 14px;font-size:13.5px;margin-top:12px}
+  }
 
   /* FEE TRUTH 섹션 — medium navy 배경 위 텍스트 색상 보정 */
   #fee-truth .section-head .eyebrow{
@@ -270,7 +622,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color:var(--brand-2);
     padding:9px 18px;
     border-radius:999px;
-    border:1px solid #dbeafe;
+    border:1px solid #cfdcef;
     box-shadow:0 6px 18px rgba(31,107,255,.22);
     font-size:13px;
     font-weight:800;
@@ -297,7 +649,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .sfb .sfb-flow{display:flex;align-items:stretch;gap:6px;margin-bottom:14px}
   .sfb .sfb-node{flex:1;background:rgba(255,255,255,.95);color:var(--ink);border-radius:8px;padding:10px 6px;text-align:center;font-size:12.5px;font-weight:700;display:flex;flex-direction:column;justify-content:center;line-height:1.3}
   .sfb .sfb-node.danger{background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff}
-  .sfb .sfb-node.good{background:linear-gradient(135deg,#10b981,#059669);color:#fff}
+  .sfb .sfb-node.good{background:linear-gradient(135deg,#1652a5,#1652a5);color:#fff}
   .sfb .sfb-node small{display:block;font-size:10px;font-weight:600;opacity:.9;margin-top:3px}
   .sfb .sfb-arrow{color:rgba(255,255,255,.5);font-size:14px;font-weight:300;align-self:center;flex-shrink:0;padding:0 2px}
   .sfb .sfb-example{background:rgba(0,0,0,.25);border-radius:8px;padding:12px 14px;border:1px solid rgba(255,255,255,.08)}
@@ -307,7 +659,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .sfb .sfb-example .ex-line.total{border-top:1px dashed rgba(255,255,255,.18);margin-top:6px;padding-top:8px}
   .sfb .sfb-example .ex-line.total b{font-size:14px;font-weight:800;letter-spacing:-.01em}
   .sfb.card-flow .sfb-example .ex-line.total b{color:#fca5a5}
-  .sfb.invoice-flow .sfb-example .ex-line.total b{color:#86efac}
+  .sfb.invoice-flow .sfb-example .ex-line.total b{color:#a8c4e8}
 
   /* STATS 섹션 — slate 배경 위 텍스트·카드 가독성 보정 */
   .stats-section .section-head .eyebrow{color:#93c5fd}
@@ -317,13 +669,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .stats-section .logo-chip{box-shadow:0 4px 10px rgba(0,0,0,.12)} /* 로고 칩 미세 부상 */
 
   /* CASES 섹션 — slate → light 그라데이션 위 텍스트 색상 보정 (상단부 다크) */
-  #cases .section-head .eyebrow{color:#93c5fd}
-  #cases .section-head h2{color:#fff}
-  #cases .section-head p{color:#cfd6e4}
+  /* v1.1.0: Cases는 이제 화이트 섹션 — 다크 텍스트로 전환 */
+  #cases .section-head .eyebrow{color:var(--brand)}
+  #cases .section-head h2{color:var(--ink)}
+  #cases .section-head p{color:var(--ink-2)}
   #cases .case{box-shadow:0 16px 36px rgba(0,0,0,.18)} /* 흰 case 카드 강조 (그라데이션 위 떠보이게) */
   #fee-truth .card-statement-wrap > div > h3{color:#fff !important}
   #fee-truth .card-statement-wrap > div > h3 span[style*="--brand"]{color:#93c5fd !important}
-  #fee-truth .card-statement-wrap > div > p{color:#a9b4c6 !important}
+  #fee-truth .card-statement-wrap > div > p{color:#cfd6e4 !important}
   #fee-truth .card-statement-wrap > div > p b{color:#fff !important}
   #fee-truth .fee-note{color:#cfd6e4}
   #fee-truth .fee-note b{color:#fff}
@@ -331,9 +684,53 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* SECTION SHELL */
   section{padding:88px 0}
-  .eyebrow{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--brand);font-weight:700}
+  /* v1.1.0: eyebrow → 버튼형 칩으로 강화 (섹션 구분 명확) */
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:12px;letter-spacing:.10em;text-transform:uppercase;
+    color:var(--brand);font-weight:800;
+    background:#eef3ff;border:1px solid rgba(22,82,165,.18);
+    padding:7px 14px;border-radius:999px;
+    box-shadow:0 2px 8px rgba(22,82,165,.12);
+    margin-bottom:14px
+  }
   .section-head{max-width:760px;margin:0 auto 48px;text-align:center}
   .section-head p{margin-top:14px;color:var(--ink-2);font-size:17px}
+
+  /* v1.1.0: section-tag — 섹션 진입 시 prominent 버튼형 칩 */
+  .section-tag{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:12.5px;font-weight:800;letter-spacing:-.005em;
+    padding:8px 16px;border-radius:999px;
+    background:linear-gradient(135deg, #eef3ff 0%, #ffffff 100%);
+    color:var(--brand-2);
+    border:1.5px solid rgba(22,82,165,.25);
+    box-shadow:0 4px 12px rgba(22,82,165,.15), 0 1px 0 rgba(255,255,255,.6) inset;
+    transition:transform .15s ease
+  }
+  .section-tag.section-tag-urgent{
+    background:linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+    color:#991b1b;
+    border-color:#fecaca;
+    box-shadow:0 4px 14px rgba(220,38,38,.25), 0 1px 0 rgba(255,255,255,.6) inset;
+    animation:tag-pulse 2s ease-in-out infinite
+  }
+  @keyframes tag-pulse{
+    0%,100%{box-shadow:0 4px 14px rgba(220,38,38,.25), 0 1px 0 rgba(255,255,255,.6) inset}
+    50%{box-shadow:0 6px 18px rgba(220,38,38,.45), 0 0 0 4px rgba(220,38,38,.12), 0 1px 0 rgba(255,255,255,.6) inset}
+  }
+  /* 다크 섹션용 변형 (필요 시) */
+  .section-tag.section-tag-dark{
+    background:linear-gradient(135deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,.04) 100%);
+    color:#93c5fd;
+    border-color:rgba(147,197,253,.35);
+    box-shadow:0 4px 12px rgba(0,0,0,.25), 0 1px 0 rgba(255,255,255,.08) inset
+  }
+  @media (prefers-reduced-motion: reduce){.section-tag.section-tag-urgent{animation:none}}
+  @media (max-width:700px){
+    .eyebrow{font-size:11px;padding:6px 12px;margin-bottom:10px}
+    .section-tag{font-size:11.5px;padding:6px 13px}
+  }
   /* 모바일 — 컨테이너 + 카드 패딩 일괄 축소 (콘텐츠 공간 확보) */
   @media (max-width:700px){
     /* 섹션 상하 여백 88px → 44px (위아래 합 176px → 88px) */
@@ -353,7 +750,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .container{padding:0 12px}
 
     /* OCW (Other Cards Warning) — 외곽 24px 28px → 14px 14px / 내부 18px 20px → 12px 14px */
-    .other-cards-warning{padding:14px 14px;margin-top:24px}
+    .other-cards-warning{padding:14px 10px;margin-top:24px}
     .ocw-header{margin-bottom:12px;gap:8px}
     .ocw-icon{font-size:20px}
     .ocw-header h4{font-size:15px;line-height:1.35}
@@ -389,10 +786,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .industry-card .ic-chip{padding:5px 11px;font-size:12px}
 
     /* Loss Card — 22px 20px → 14px 14px */
-    .loss-card{padding:14px 14px;gap:6px}
-    .loss-card .lc-spend{font-size:16px}
-    .loss-card .lc-loss{font-size:24px}
-    .loss-card.featured .lc-loss{font-size:26px}
+    /* 모바일 loss-card — 컴팩트 */
+    .loss-card{padding:10px 12px;gap:3px;border-radius:10px}
+    .loss-card .lc-spend-label{font-size:10px;letter-spacing:.02em}
+    .loss-card .lc-spend{font-size:14px;margin-top:1px}
+    .loss-card .lc-divider{margin:4px 0 2px}
+    .loss-card .lc-loss-label{font-size:10px;letter-spacing:.02em}
+    .loss-card .lc-loss{font-size:20px;line-height:.95}
+    .loss-card.featured .lc-loss{font-size:22px}
+    .loss-card .lc-bar{height:10px;margin-top:4px;border-radius:5px}
+    .loss-card .lc-bar-fill{border-radius:5px}
+    .loss-card .lc-monthly{font-size:11px;padding-top:2px}
+    .loss-card .lc-equiv{margin-top:4px;padding:4px 8px;font-size:10px}
+    .loss-card .lc-badge{top:8px;right:8px;font-size:9px;padding:2px 7px}
 
     /* Case (실제 사례 카드) — 24px → 14px */
     .case{padding:14px 16px}
@@ -455,7 +861,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* PROBLEM — Act 1→2 전환 (카드까지 다크 유지, 끝부분에서 medium navy로 전환) */
   .problem{background:linear-gradient(180deg, #1a2548 0%, #1a2548 82%, #2a3556 100%);color:#fff}
   .problem .section-head h2{color:#fff}
-  .problem .section-head p{color:#a9b4c6}
+  .problem .section-head p{color:#cfd6e4}
   .problem .section-head .eyebrow{color:#fca5a5}
   .leak{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:1000px;margin:0 auto}
   @media (max-width:800px){.leak{grid-template-columns:1fr}}
@@ -499,12 +905,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .scen-card .scen-loss{margin-top:18px;font-size:28px;font-weight:800;color:var(--warn);letter-spacing:-.02em;line-height:1}
   .scen-card .scen-loss-sub{font-size:12px;color:var(--ink-3);margin-top:6px}
   .scen-card .scen-annual{margin-top:auto;padding-top:18px;border-top:1px dashed var(--line);display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--ink-3)}
-  .scen-card .scen-annual b{font-size:18px;color:#0a8a5b;font-weight:800;letter-spacing:-.01em}
+  .scen-card .scen-annual b{font-size:18px;color:#0d2c5e;font-weight:800;letter-spacing:-.01em}
   .scen-card.worst{background:linear-gradient(180deg,#fff,#fef2f2);border-color:#fecaca}
 
   .fee-callout{background:var(--g-premium);color:#fff;border-radius:16px;padding:40px 32px;margin:56px auto 0;max-width:1000px;text-align:center;box-shadow:0 16px 40px rgba(13,44,94,.22)}
   .fee-callout h3{font-size:24px;color:#fff;line-height:1.35;font-weight:800}
-  .fee-callout h3 .hl{color:#34d399}
+  .fee-callout h3 .hl{color:#3b7bd9}
   .fee-callout p{margin-top:16px;color:#cfd6e4;font-size:16px;line-height:1.65}
   .fee-callout p b{color:#fff}
   .fee-callout .btn{margin-top:24px}
@@ -512,6 +918,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* SOLUTION */
   .solution-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
   @media (max-width:800px){.solution-grid{grid-template-columns:1fr}}
+  /* v1.1.0: .flow 제거 후 sfb만 남은 경우 — 단일 열 + 중앙 정렬 + 최대 너비 */
+  .solution-grid.solution-grid-single{grid-template-columns:1fr;max-width:780px;margin:0 auto}
   .flow{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:28px}
   .flow .step{display:flex;gap:16px;padding:20px 0;border-bottom:1px dashed var(--line);align-items:flex-start}
   .flow .step:first-child{padding-top:0}
@@ -568,51 +976,52 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .reviews-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;max-width:1000px;margin:0 auto}
   @media (max-width:700px){.reviews-grid{grid-template-columns:1fr}}
   .review-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(11,18,32,.04);position:relative}
-  .review-card.featured{background:linear-gradient(180deg, #fff 0%, #fffbeb 100%);border-color:#fde68a;box-shadow:0 12px 28px rgba(245,158,11,.18), 0 1px 2px rgba(0,0,0,.06)}
+  .review-card.featured{background:linear-gradient(180deg, #fff 0%, #fff5f5 100%);border-color:#fca5a5;box-shadow:0 12px 28px rgba(245,158,11,.18), 0 1px 2px rgba(0,0,0,.06)}
   .review-card .review-badge{display:none}
-  .review-card.featured .review-badge{display:inline-block;position:absolute;top:-10px;left:20px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;font-size:10px;font-weight:800;padding:4px 12px;border-radius:999px;letter-spacing:.04em;box-shadow:0 4px 10px rgba(245,158,11,.4)}
-  .review-card.featured .metric-delta{color:#d97706;font-size:22px}
+  .review-card.featured .review-badge{display:inline-block;position:absolute;top:-10px;left:20px;background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;font-size:10px;font-weight:800;padding:4px 12px;border-radius:999px;letter-spacing:.04em;box-shadow:0 4px 10px rgba(245,158,11,.4)}
+  .review-card.featured .metric-delta{color:#991b1b;font-size:22px}
   .review-meta{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:14px;flex-wrap:wrap}
   .review-industry{background:var(--bg-soft);color:var(--ink-2);padding:4px 10px;border-radius:999px}
   .review-media{color:var(--brand-2)}
-  .review-metric{background:linear-gradient(135deg,#f7fdfa 0%,#eef3ff 100%);border:1px dashed #cfe9dc;border-radius:10px;padding:14px 16px;margin-bottom:14px}
+  .review-metric{background:linear-gradient(135deg,#f7fdfa 0%,#eef3ff 100%);border:1px dashed #cfdcef;border-radius:10px;padding:14px 16px;margin-bottom:14px}
   .metric-label{font-size:11px;color:var(--ink-3);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px}
   .metric-row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
   .metric-vals{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink-2);font-variant-numeric:tabular-nums}
   .metric-vals .before{text-decoration:line-through;color:var(--ink-3)}
   .metric-vals .arrow{color:var(--ink-3)}
   .metric-vals .after{font-weight:800;color:var(--ink);font-size:18px;letter-spacing:-.01em}
-  .metric-delta{font-size:20px;font-weight:800;color:#0a8a5b;letter-spacing:-.02em}
+  .metric-delta{font-size:20px;font-weight:800;color:#0d2c5e;letter-spacing:-.02em}
   .review-quote{font-size:14px;color:var(--ink-2);line-height:1.6;border-left:3px solid var(--brand);padding-left:12px;margin:0 0 12px;font-style:italic}
   .review-author{font-size:12.5px;color:var(--ink-3);font-weight:600;margin-top:auto}
-  .review-disclaimer{max-width:1000px;margin:24px auto 0;padding:14px 18px;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;font-size:12.5px;color:#92400e;line-height:1.65}
+  .review-disclaimer{max-width:1000px;margin:24px auto 0;padding:14px 18px;background:#fff5f5;border:1px solid #fca5a5;border-radius:10px;font-size:12.5px;color:#7f1d1d;line-height:1.65}
   .review-disclaimer b{color:#7c2d12}
 
   /* ROI EQUIVALENT — 매출 등가 표시 */
-  .case-result .case-result-roi{margin-top:10px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.18);font-size:12.5px;color:#fbbf24;font-weight:700;text-align:center;line-height:1.4}
-  .case-result .case-result-roi b{color:#fbbf24;font-size:14px}
+  .case-result .case-result-roi{margin-top:10px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.18);font-size:12.5px;color:#dc2626;font-weight:700;text-align:center;line-height:1.4}
+  .case-result .case-result-roi b{color:#dc2626;font-size:14px}
 
   .logos{margin-top:36px;display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
   .logo-chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 16px;color:var(--ink-2);font-size:13px;font-weight:600}
 
   /* RETENTION HIGHLIGHT — 99% 3년 리텐션 강조 */
-  .retention-highlight{position:relative;max-width:1000px;margin:40px auto 0;background:linear-gradient(135deg, rgba(16,185,129,.12) 0%, rgba(59,130,246,.12) 100%);border:1px solid rgba(52,211,153,.3);border-radius:20px;padding:36px 40px;overflow:hidden;box-shadow:0 16px 40px rgba(0,0,0,.18)}
-  .rh-bg-glow{position:absolute;top:-50%;right:-20%;width:600px;height:600px;background:radial-gradient(circle, rgba(52,211,153,.18) 0%, transparent 60%);pointer-events:none}
+  /* v1.1.0: 흰색 섹션 위에서 솔리드 다크 블루 카드로 강조 */
+  .retention-highlight{position:relative;max-width:1000px;margin:40px auto 0;background:linear-gradient(135deg, #0d2c5e 0%, #1652a5 100%);border:1px solid rgba(96,165,250,.5);border-radius:20px;padding:36px 40px;overflow:hidden;box-shadow:0 20px 50px rgba(13,44,94,.35), 0 4px 12px rgba(0,0,0,.15);color:#fff}
+  .rh-bg-glow{position:absolute;top:-50%;right:-20%;width:600px;height:600px;background:radial-gradient(circle, rgba(96,165,250,.25) 0%, transparent 60%);pointer-events:none}
   .rh-content{position:relative;z-index:1}
-  .rh-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.06em;color:#86efac;background:rgba(16,185,129,.15);padding:6px 14px;border-radius:999px;border:1px solid rgba(52,211,153,.3)}
-  .rh-eyebrow-dot{width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 12px #34d399;animation:rhPulse 2s ease-in-out infinite}
+  .rh-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.06em;color:#bfdbfe;background:rgba(96,165,250,.18);padding:6px 14px;border-radius:999px;border:1px solid rgba(96,165,250,.4)}
+  .rh-eyebrow-dot{width:7px;height:7px;border-radius:50%;background:#60a5fa;box-shadow:0 0 12px #60a5fa;animation:rhPulse 2s ease-in-out infinite}
   @keyframes rhPulse{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.2)}}
   .rh-main{margin-top:18px;margin-bottom:28px}
   .rh-figure{display:flex;align-items:center;gap:24px}
-  .rh-num{font-size:clamp(72px, 12vw, 130px);font-weight:900;line-height:0.95;letter-spacing:-.05em;background:linear-gradient(135deg,#34d399 0%, #10b981 50%, #059669 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-variant-numeric:tabular-nums}
-  .rh-unit{font-size:0.55em;font-weight:800;letter-spacing:-.02em;background:linear-gradient(135deg,#34d399 0%, #10b981 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-left:4px}
+  .rh-num{font-size:clamp(72px, 12vw, 130px);font-weight:900;line-height:0.95;letter-spacing:-.05em;background:linear-gradient(135deg,#ffffff 0%, #dbeafe 50%, #93c5fd 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-variant-numeric:tabular-nums;filter:drop-shadow(0 4px 16px rgba(147,197,253,.5))}
+  .rh-unit{font-size:0.55em;font-weight:800;letter-spacing:-.02em;background:linear-gradient(135deg,#ffffff 0%, #93c5fd 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-left:4px}
   .rh-divider{width:1px;height:80px;background:rgba(255,255,255,.2);flex-shrink:0}
   .rh-figure-label{flex:1;min-width:0}
   .rh-figure-title{font-size:clamp(20px, 2.4vw, 26px);font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.3}
   .rh-figure-sub{margin-top:8px;font-size:13px;color:#cfd6e4;line-height:1.5;word-break:keep-all}
   .rh-proof{display:grid;grid-template-columns:repeat(3, 1fr);gap:6px;padding-top:24px;border-top:1px dashed rgba(255,255,255,.18)}
   .rh-proof-item{text-align:center;padding:8px}
-  .rh-proof-v{font-size:clamp(22px, 3vw, 30px);font-weight:800;color:#34d399;letter-spacing:-.02em;line-height:1.2;font-variant-numeric:tabular-nums}
+  .rh-proof-v{font-size:clamp(22px, 3vw, 30px);font-weight:900;color:#60a5fa;letter-spacing:-.02em;line-height:1.2;font-variant-numeric:tabular-nums;text-shadow:0 0 14px rgba(96,165,250,.55),0 2px 10px rgba(59,130,246,.45)}
   .rh-proof-l{margin-top:6px;font-size:12px;color:#cfd6e4;line-height:1.4;word-break:keep-all}
   @media (max-width:700px){
     .retention-highlight{padding:24px 18px;margin-top:28px;border-radius:16px}
@@ -634,7 +1043,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cases{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
   @media (max-width:900px){.cases{grid-template-columns:1fr}}
   .case{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px;display:flex;flex-direction:column;gap:14px}
-  .case .tag{display:inline-flex;align-items:center;gap:6px;background:#f1fbf6;color:#0a8a5b;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;align-self:flex-start}
+  .case .tag{display:inline-flex;align-items:center;gap:6px;background:#eef3ff;color:#0d2c5e;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;align-self:flex-start}
   .case h4{font-size:18px;color:var(--ink);line-height:1.4;letter-spacing:-.01em;margin:0;word-break:keep-all}
   @media (max-width:700px){
     .case h4 br{display:none}
@@ -646,7 +1055,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .case .quote{color:var(--ink-2);font-size:14px;border-left:3px solid var(--brand);padding-left:12px;margin-top:6px}
 
   /* COMPARE — 의사결정 모먼트 강조 */
-  .compare{position:relative;background:linear-gradient(180deg, #ffffff 0%, #e2ebf8 18%, #c7d6ed 45%, #c7d6ed 55%, #d8e4f3 80%, #eef3fb 100%);overflow:hidden}
+  .compare{position:relative;background:linear-gradient(180deg, #ffffff 0%, #f4f7fc 35%, #ebf0f8 65%, #eef3fb 100%);overflow:hidden}
   .compare::before{content:'';position:absolute;top:8%;left:50%;transform:translateX(-50%);width:1100px;height:700px;background:radial-gradient(ellipse, rgba(31,107,255,.14) 0%, transparent 60%);pointer-events:none;z-index:0}
   .compare::after{content:'';position:absolute;top:35%;right:-10%;width:600px;height:500px;background:radial-gradient(circle, rgba(16,185,129,.10) 0%, transparent 55%);pointer-events:none;z-index:0}
   .compare .container{position:relative;z-index:1}
@@ -656,17 +1065,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .ct-row{display:grid;grid-template-columns:1.4fr 1fr 1fr;padding:18px 24px;align-items:center;border-bottom:1px solid var(--line);position:relative;z-index:1}
   .ct-row:last-child{border-bottom:0}
   .ct-row.head{background:#fafbff;font-weight:700;font-size:14px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em;padding:16px 24px;position:relative}
-  .ct-row.head .col.head-c:last-child{color:#059669;position:relative}
-  .ct-row.head .col.head-c:last-child::after{content:'추천';display:inline-block;margin-left:8px;background:linear-gradient(135deg,#10b981,#059669);color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;letter-spacing:.04em;vertical-align:middle;box-shadow:0 2px 6px rgba(16,185,129,.4)}
-  .ct-row .pro{color:#0a8a5b;font-weight:700}
+  .ct-row.head .col.head-c:last-child{color:#1652a5;position:relative}
+  .ct-row.head .col.head-c:last-child::after{content:'추천';display:inline-block;margin-left:8px;background:linear-gradient(135deg,#1652a5,#1652a5);color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;letter-spacing:.04em;vertical-align:middle;box-shadow:0 2px 6px rgba(16,185,129,.4)}
+  .ct-row .pro{color:#0d2c5e;font-weight:700}
   .ct-row .con{color:var(--ink-3)}
   .ct-row .col{font-size:15px}
   .ct-row .col.feat{font-weight:700;color:var(--ink);letter-spacing:-.01em}
   /* 마지막 .col (파트너 인보이스) 강조 폰트 */
-  .ct-row .col:last-child.pro{font-weight:800;color:#059669;font-size:15.5px}
+  .ct-row .col:last-child.pro{font-weight:800;color:#1652a5;font-size:15.5px}
   .col-label{display:inline-block;font-size:11px;font-weight:700;color:var(--ink-3);background:var(--bg-soft);border:1px solid var(--line);padding:2px 8px;border-radius:6px;margin-right:8px;letter-spacing:.02em;vertical-align:middle}
-  .col.pro .col-label{color:#0a8a5b;background:#f1fbf6;border-color:#cfe9dc}
-  .col.con .col-label{color:#a13838;background:#fff5f5;border-color:#fecaca}
+  .col.pro .col-label{color:#0d2c5e;background:#eef3ff;border-color:#cfdcef}
+  .col.con .col-label{color:#991b1b;background:#fff5f5;border-color:#fecaca}
   @media (max-width:900px){
     .compare-table::before{display:none}
   }
@@ -681,7 +1090,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* MEDIA */
   /* MEDIA BONUS INFO */
-  .bonus-info{display:flex;gap:18px;padding:22px 24px;background:linear-gradient(135deg,#eef3ff 0%,#f7fdfa 100%);border:1px solid #dbeafe;border-radius:14px;max-width:1000px;margin:0 auto 28px;align-items:flex-start}
+  .bonus-info{display:flex;gap:18px;padding:22px 24px;background:linear-gradient(135deg,#eef3ff 0%,#f7fdfa 100%);border:1px solid #cfdcef;border-radius:14px;max-width:1000px;margin:0 auto 28px;align-items:flex-start}
   .bonus-info-icon{font-size:36px;flex-shrink:0;line-height:1}
   .bonus-info-content{flex:1;min-width:0}
   .bonus-info h4{font-size:17px;font-weight:800;color:var(--ink);margin:0 0 6px;letter-spacing:-.01em}
@@ -693,8 +1102,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .bonus-point .desc{font-size:11.5px;color:var(--ink-3)}
   .bonus-point .b-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
   .bonus-point .b-dot.b-blue{background:#1f6bff}
-  .bonus-point .b-dot.b-amber{background:#f59e0b}
-  .bonus-point .b-dot.b-green{background:#10b981}
+  .bonus-point .b-dot.b-amber{background:#dc2626}
+  .bonus-point .b-dot.b-green{background:#1652a5}
   @media (max-width:700px){
     .bonus-info{flex-direction:column;gap:14px;padding:18px}
     .bonus-info-icon{font-size:30px}
@@ -705,14 +1114,92 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* MEDIA LOGOS GRID — 개별 브랜드 로고 갤러리 */
   html{scroll-behavior:smooth} /* 앵커 링크 부드러운 스크롤 */
+  /* 매체 로고 클릭 유도 CTA */
+  .media-logos-cta{max-width:1000px;margin:0 auto 16px;padding:16px 22px;background:linear-gradient(135deg,#eef3ff 0%,#f5f8ff 100%);border:1.5px dashed var(--brand);border-radius:14px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .media-logos-cta .mlc-text{display:flex;flex-direction:column;gap:3px}
+  .media-logos-cta .mlc-question{font-size:16px;font-weight:800;color:var(--brand-2);letter-spacing:-.01em}
+  .media-logos-cta .mlc-action{font-size:13px;color:var(--ink-2);font-weight:500;display:inline-flex;align-items:center;gap:6px}
+  .media-logos-cta .mlc-action b{color:var(--brand);font-weight:800}
+  .media-logos-cta .mlc-arrow{font-size:24px;color:var(--brand);font-weight:900;animation:mlcBounce 1.5s ease-in-out infinite}
+  /* v1.1.0: 실시간 펄스 도트 */
+  .mlc-live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#10b981;flex-shrink:0;box-shadow:0 0 0 0 rgba(16,185,129,.6);animation:mlc-live-pulse 1.6s ease-in-out infinite}
+  @keyframes mlc-live-pulse{
+    0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.6);transform:scale(1)}
+    50%{box-shadow:0 0 0 6px rgba(16,185,129,0);transform:scale(1.15)}
+  }
+  @media (prefers-reduced-motion: reduce){.mlc-live-dot{animation:none}}
+  @keyframes mlcBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+  @media (max-width:700px){
+    .media-logos-cta{padding:12px 14px;margin-bottom:12px;gap:10px}
+    .media-logos-cta .mlc-question{font-size:14px}
+    .media-logos-cta .mlc-action{font-size:11.5px}
+    .media-logos-cta .mlc-arrow{font-size:20px}
+  }
+
   .media-logos-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;max-width:1000px;margin:0 auto}
   @media (max-width:900px){.media-logos-grid{grid-template-columns:repeat(4,1fr)}}
   @media (max-width:480px){.media-logos-grid{grid-template-columns:repeat(3,1fr);gap:5px}}
 
-  .media-logo-tile{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 12px;display:flex;align-items:center;justify-content:center;min-height:64px;transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;position:relative;text-decoration:none;color:inherit;cursor:pointer}
+  .media-logo-tile{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px 34px;display:flex;align-items:center;justify-content:center;min-height:112px;transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;position:relative;text-decoration:none;color:inherit;cursor:pointer;box-sizing:border-box}
+  /* v1.1.0: Top 10 매체 신청현황 — 순위 뱃지 + 전체 너비 신청률 스트라이프
+     (.media-logo-tile 기본 padding이 이미 6px 14px 30px → 별도 오버라이드 불필요) */
+  .mlt-rank{
+    position:absolute;top:5px;left:5px;
+    background:linear-gradient(135deg, var(--brand-2), var(--brand));
+    color:#fff;font-weight:900;font-size:11px;
+    width:20px;height:20px;border-radius:6px;
+    display:grid;place-items:center;line-height:1;letter-spacing:-.02em;
+    box-shadow:0 2px 5px rgba(13,44,94,.3);z-index:2
+  }
+  .media-logo-tile[data-rank="1"] .mlt-rank{
+    background:linear-gradient(135deg, #fbbf24, #d97706);
+    box-shadow:0 3px 8px rgba(217,119,6,.5);
+    width:22px;height:22px;font-size:12px
+  }
+  .media-logo-tile[data-rank="2"] .mlt-rank{
+    background:linear-gradient(135deg, #d1d5db, #6b7280);
+    box-shadow:0 2px 6px rgba(107,114,128,.4)
+  }
+  .media-logo-tile[data-rank="3"] .mlt-rank{
+    background:linear-gradient(135deg, #f59e0b, #b45309)
+  }
+  /* 전체 너비 하단 스트라이프 (1줄 긴 버튼) */
+  .mlt-pct{
+    position:absolute;left:0;right:0;bottom:0;
+    background:linear-gradient(90deg, var(--brand-2) 0%, var(--brand) 100%);
+    color:#fff;font-weight:800;font-size:11.5px;
+    padding:5px 8px;
+    text-align:center;letter-spacing:-.02em;
+    line-height:1.2;font-variant-numeric:tabular-nums;
+    border-radius:0 0 9px 9px;
+    border:0
+  }
+  /* 1위 — 가장 hot 빨간 그라데이션 스트라이프 */
+  .media-logo-tile[data-rank="1"] .mlt-pct{
+    background:linear-gradient(90deg, #b91c1c 0%, #dc2626 50%, #f04452 100%);
+    box-shadow:0 -2px 8px rgba(220,38,38,.25)
+  }
+  /* 비순위 — 옅은 회색 스트라이프 */
+  .media-logo-tile:not([data-rank]) .mlt-pct{
+    background:linear-gradient(90deg, #e8ebef 0%, #f1f3f5 100%);
+    color:#6b7382;font-weight:700
+  }
+  @media (max-width:480px){
+    .media-logo-tile{min-height:94px;padding:11px 12px 28px}
+    .media-logo-tile img{max-height:28px}
+    .media-logo-tile img.lg{max-height:34px}
+    .media-logo-tile img.sm{max-height:18px}
+    .mlt-rank{width:16px;height:16px;font-size:9px;border-radius:4px;top:3px;left:3px}
+    .media-logo-tile[data-rank="1"] .mlt-rank{width:18px;height:18px;font-size:10px}
+    .mlt-pct{font-size:9.5px;padding:4px 6px;border-radius:0 0 7px 7px}
+  }
   .media-logo-tile:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(11,18,32,.08);border-color:rgba(31,107,255,.3)}
-  .media-logo-tile img{max-width:100%;max-height:30px;width:auto;height:auto;object-fit:contain;display:block}
-  .media-logo-tile img.lg{max-height:38px}
+  /* v1.1.0: 로고 정렬 시스템 — 카테고리별 균일 사이즈 */
+  /* 기본(compact): 세로 높이 36px 통일, 가로는 비율로 자동 */
+  .media-logo-tile img{max-width:100%;max-height:36px;width:auto;height:auto;object-fit:contain;display:block}
+  /* .lg (wide 로고): 가로 100% 통일, 세로 자동 (최대 44px) */
+  .media-logo-tile img.lg{width:100%;max-width:100%;max-height:44px;height:auto}
+  /* .sm (X 같은 단일 심볼): 세로 22px */
   .media-logo-tile img.sm{max-height:22px}
 
   /* TEXT LOGO — 이미지가 없는 브랜드용 (Toss, KT, 포커스 등) */
@@ -757,62 +1244,64 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .media-detail .media-logo.x-logo{max-height:18px}
   .media-detail .media-logo.naver{max-height:20px}
   .media-detail .media-logo.kakao{max-height:24px}
+  .media-detail .media-logo.toss{max-height:22px}
   .media-detail .cat-icon{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:20px;line-height:1;color:#fff;background:var(--g-premium);box-shadow:0 4px 10px rgba(13,44,94,.18)}
   .media-detail .cat-icon.kr{background:linear-gradient(135deg,#3d4452,#0b1220)}
   @media (max-width:700px){
-    /* 모든 카드 동일한 높이로 정렬 — 위아래 간격 일치 */
-    .media-detail-grid{grid-auto-rows:1fr}
-    .media-detail{padding:11px 12px;justify-content:space-between}
-    .media-detail .media-logo-wrap{height:26px;margin-bottom:8px;gap:4px}
-    .media-detail .media-logo{max-width:80px}
-    .media-detail .media-logo.meta{max-height:16px}
-    .media-detail .media-logo.google{max-height:16px}
-    .media-detail .media-logo.tiktok{max-height:20px}
-    .media-detail .media-logo.pinterest{max-height:18px}
-    .media-detail .media-logo.x-logo{max-height:13px}
-    .media-detail .media-logo.naver{max-height:15px}
-    .media-detail .media-logo.kakao{max-height:18px}
-    .media-detail .cat-icon{width:28px;height:28px;font-size:14px;border-radius:7px}
-    .media-detail .m-name{font-size:13.5px;line-height:1.2}
-    .media-detail .m-sub{font-size:10.5px;line-height:1.3;min-height:13px;margin-top:2px}
-    .media-detail .m-perks{margin:8px 0 0;gap:3px}
-    .media-detail .m-perks li{font-size:11px;line-height:1.3;gap:5px}
-    .media-detail .m-val{font-size:12px;min-width:32px;font-weight:800}
-    .media-detail .m-warn{font-size:9.5px;padding-top:6px;margin-top:6px}
+    /* 모바일 — auto 높이 (정사각형 강제 X) + 컴팩트 패딩 */
+    .media-detail-grid{grid-auto-rows:auto;gap:5px;margin-top:20px}
+    .media-detail{padding:8px 10px;justify-content:flex-start;border-radius:10px;min-height:0}
+    .media-detail .media-logo-wrap{height:20px;margin-bottom:5px;gap:4px}
+    .media-detail .media-logo{max-width:70px}
+    .media-detail .media-logo.meta{max-height:14px}
+    .media-detail .media-logo.google{max-height:14px}
+    .media-detail .media-logo.tiktok{max-height:17px}
+    .media-detail .media-logo.pinterest{max-height:15px}
+    .media-detail .media-logo.x-logo{max-height:11px}
+    .media-detail .media-logo.naver{max-height:13px}
+    .media-detail .media-logo.kakao{max-height:16px}
+    .media-detail .media-logo.toss{max-height:14px}
+    .media-detail .cat-icon{width:22px;height:22px;font-size:12px;border-radius:6px}
+    .media-detail .m-name{font-size:12.5px;line-height:1.2}
+    .media-detail .m-sub{font-size:9.5px;line-height:1.25;min-height:0;margin-top:0}
+    .media-detail .m-perks{margin:4px 0 0;gap:2px}
+    .media-detail .m-perks li{font-size:10.5px;line-height:1.2;gap:4px;padding:0}
+    .media-detail .m-val{font-size:11px;min-width:28px;font-weight:800}
+    .media-detail .m-warn{font-size:9px;padding-top:4px;margin-top:4px}
   }
   @media (max-width:380px){
-    .media-detail{padding:10px}
-    .media-detail .m-name{font-size:13px}
-    .media-detail .m-perks li{font-size:10.5px}
-    .media-detail .m-val{font-size:11.5px;min-width:30px}
+    .media-detail{padding:7px 8px}
+    .media-detail .m-name{font-size:12px}
+    .media-detail .m-perks li{font-size:10px}
+    .media-detail .m-val{font-size:10.5px;min-width:26px}
   }
   .media-detail .m-name{font-size:17px;font-weight:800;color:var(--ink);letter-spacing:-.01em}
   .media-detail .m-sub{font-size:12px;color:var(--ink-3);margin-top:4px;min-height:16px}
   .media-detail .m-perks{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:7px}
   .media-detail .m-perks li{font-size:13px;color:var(--ink-2);display:flex;align-items:baseline;gap:8px;line-height:1.4}
   .media-detail .m-val{font-size:15px;font-weight:800;color:var(--brand);letter-spacing:-.01em;min-width:46px;flex-shrink:0}
-  .media-detail .m-val.bonus{color:#0a8a5b}
-  .media-detail .m-warn{margin-top:auto;padding-top:12px;background:transparent;color:#a13838;font-size:11px;font-weight:700;display:flex;align-items:center;gap:4px}
-  .media-detail.featured{border-color:#cfe9dc;background:linear-gradient(180deg,#fff,#f7fdfa)}
+  .media-detail .m-val.bonus{color:#0d2c5e}
+  .media-detail .m-warn{margin-top:auto;padding-top:12px;background:transparent;color:#991b1b;font-size:11px;font-weight:700;display:flex;align-items:center;gap:4px}
+  .media-detail.featured{border-color:#cfdcef;background:linear-gradient(180deg,#fff,#f7fdfa)}
 
   .industry-restrict{display:grid;grid-template-columns:1fr 1fr;gap:6px;max-width:1000px;margin:40px auto 0}
   @media (max-width:700px){.industry-restrict{grid-template-columns:1fr}}
   .industry-card{border-radius:14px;padding:24px 26px;border:1px solid var(--line);background:#fff;display:flex;flex-direction:column}
   .industry-card.restrict{background:linear-gradient(180deg,#fff5f5 0%,#fff 60%);border-color:#fecaca}
-  .industry-card.caution{background:linear-gradient(180deg,#fffbeb 0%,#fff 60%);border-color:#fde68a}
+  .industry-card.caution{background:linear-gradient(180deg,#fff5f5 0%,#fff 60%);border-color:#fca5a5}
   .industry-card .ic-head{display:flex;align-items:center;gap:12px;margin-bottom:8px}
   .industry-card .ic-icon{font-size:30px;line-height:1;flex-shrink:0}
   .industry-card .ic-title{font-size:18px;font-weight:800;letter-spacing:-.02em;line-height:1.25}
-  .industry-card.restrict .ic-title{color:#a13838}
-  .industry-card.caution .ic-title{color:#92400e}
+  .industry-card.restrict .ic-title{color:#991b1b}
+  .industry-card.caution .ic-title{color:#7f1d1d}
   .industry-card .ic-sub{font-size:13.5px;color:var(--ink-3);line-height:1.55;margin-bottom:16px}
   .industry-card .ic-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:auto}
   .industry-card .ic-chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:13.5px;font-weight:600;color:var(--ink-2);display:inline-flex;align-items:center;gap:5px}
-  .industry-card.restrict .ic-chip{border-color:#fecaca;color:#a13838;background:#fff}
-  .industry-card.caution .ic-chip{border-color:#fde68a;color:#92400e;background:#fff}
+  .industry-card.restrict .ic-chip{border-color:#fecaca;color:#991b1b;background:#fff}
+  .industry-card.caution .ic-chip{border-color:#fca5a5;color:#7f1d1d;background:#fff}
   .industry-card .ic-chip::before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;flex-shrink:0}
   .industry-card.restrict .ic-chip::before{background:#dc2626}
-  .industry-card.caution .ic-chip::before{background:#f59e0b}
+  .industry-card.caution .ic-chip::before{background:#dc2626}
 
   /* FORM: Radio/Checkbox 그룹 — 선택지는 옅은 배경 박스에 묶어서 라벨과 구분 */
   form.lead .field-group{margin-top:20px}
@@ -858,7 +1347,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   form.lead .url-add{margin-top:8px;background:transparent;color:var(--brand);border:1px dashed var(--brand);border-radius:10px;padding:10px 14px;font-size:13.5px;font-weight:700;cursor:pointer;width:100%;transition:all .12s ease;font-family:inherit;letter-spacing:-.01em}
   form.lead .url-add:hover{background:rgba(31,107,255,.06);border-style:solid}
   form.lead .url-add:disabled{opacity:.4;cursor:not-allowed;border-color:var(--line);color:var(--ink-3)}
-  form.lead .warning-note{background:#fff5f5;border:1px solid #fecaca;border-radius:8px;padding:10px 12px;font-size:12px;color:#a13838;margin-top:14px;line-height:1.5}
+  form.lead .warning-note{background:#fff5f5;border:1px solid #fecaca;border-radius:8px;padding:10px 12px;font-size:12px;color:#991b1b;margin-top:14px;line-height:1.5}
 
   /* 2-STEP FORM */
   form.lead .step-indicator{display:flex;align-items:center;gap:8px;margin:14px 0 18px;padding:10px 12px;background:var(--bg-soft);border-radius:10px}
@@ -866,11 +1355,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   form.lead .step-dot .num{width:22px;height:22px;border-radius:50%;background:#e5e7eb;color:var(--ink-3);display:grid;place-items:center;font-size:11px}
   form.lead .step-dot.active{color:var(--brand-2)}
   form.lead .step-dot.active .num{background:var(--g-premium);color:#fff}
-  form.lead .step-dot.done .num{background:#10b981;color:#fff}
+  form.lead .step-dot.done .num{background:#1652a5;color:#fff}
   form.lead .step-dot.done .num::before{content:"✓"}
   form.lead .step-dot.done .num span{display:none}
   form.lead .step-line{flex:1;height:2px;background:#e5e7eb;border-radius:2px}
-  form.lead .step-line.done{background:#10b981}
+  form.lead .step-line.done{background:#1652a5}
   form.lead .form-step{display:none}
   form.lead .form-step.active{display:block}
   form.lead .step-actions{display:flex;gap:10px;margin-top:18px}
@@ -909,7 +1398,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   /* CTA / FORM */
-  .cta-section{background:linear-gradient(180deg, #ffffff 0%, #f4f8fd 50%, #e6eef9 100%);color:var(--ink);padding:96px 0;position:relative}
+  .cta-section{background:linear-gradient(180deg, #eef3fb 0%, #dee7f4 50%, #e6eef9 100%);color:var(--ink);padding:96px 0;position:relative}
   .cta-process-wrap{max-width:1000px;margin:0 auto 56px;padding:0 24px}
   .cta-process-head{text-align:center;margin-bottom:28px}
   .cta-process-eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);background:rgba(31,107,255,.08);padding:5px 12px;border-radius:999px;border:1px solid rgba(31,107,255,.2)}
@@ -972,7 +1461,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .cta-bullets li{font-size:13.5px;line-height:1.45}
     .cta-bullets .gif{width:18px;height:18px}
   }
-  .cta-bullets .ck{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:rgba(16,185,129,.15);color:#34d399;display:grid;place-items:center;font-size:13px;font-weight:800}
+  .cta-bullets .ck{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:rgba(16,185,129,.15);color:#3b7bd9;display:grid;place-items:center;font-size:13px;font-weight:800}
   form.lead{background:#fff;color:var(--ink);border-radius:18px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
   form.lead h3{font-size:20px}
   /* 질문 라벨 — 굵게 + 큰 글자 + 다크 컬러 + 이모지 우측 정렬 */
@@ -1051,13 +1540,38 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   form.lead input,form.lead select{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:13px 14px;font-size:15px;margin-top:8px;font-family:inherit;outline:none;background:#fff;color:var(--ink);transition:border-color .12s ease, box-shadow .12s ease}
   form.lead input:focus,form.lead select:focus{border-color:var(--brand);box-shadow:0 0 0 4px rgba(31,107,255,.12)}
   form.lead .submit{width:100%;margin-top:20px;padding:16px;font-size:16px}
+  /* v1.1.0: 폼 최종 submit 버튼에도 Hero CTA와 동일한 글로우+광선 효과 */
+  form.lead button[type=submit].submit{
+    position:relative;
+    overflow:hidden;
+    animation:cta-glow 2.4s ease-in-out infinite;
+    will-change:box-shadow, transform
+  }
+  form.lead button[type=submit].submit::before{
+    content:'';
+    position:absolute;inset:0;
+    border-radius:inherit;
+    background:linear-gradient(110deg,
+      transparent 0%, transparent 38%,
+      rgba(255,255,255,.55) 50%,
+      transparent 62%, transparent 100%);
+    background-size:220% 100%;
+    background-position:200% 0;
+    animation:cta-shine 3.2s ease-in-out infinite;
+    pointer-events:none;
+    mix-blend-mode:overlay
+  }
+  @media (prefers-reduced-motion: reduce){
+    form.lead button[type=submit].submit{animation:none}
+    form.lead button[type=submit].submit::before{display:none}
+  }
   form.lead .agree{font-size:12px;color:var(--ink-3);margin-top:12px;display:flex;gap:8px;align-items:flex-start}
   form.lead .agree input{width:auto;margin-top:2px}
   form.lead .qualifier{font-size:12px;color:var(--warn);background:#fff5f5;border:1px dashed #fecaca;border-radius:10px;padding:10px;margin-top:12px;display:none}
   form.lead .qualifier.show{display:block}
 
   /* FOOTER */
-  footer{background:var(--g-premium);color:#a9b4c6;padding:24px 0;border-top:1px solid rgba(255,255,255,.08)}
+  footer{background:var(--g-premium);color:#cfd6e4;padding:24px 0;border-top:1px solid rgba(255,255,255,.08)}
   footer .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:13px}
   footer .foot-min{justify-content:center;text-align:center}
   footer .foot-min a{color:#cfd6e4}
@@ -1090,7 +1604,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* DCC EXPLAINER */
   .dcc-explainer{background:linear-gradient(180deg,#fff5f5 0%,#fff 100%);border:1px solid #fecaca;border-radius:14px;padding:24px 28px;max-width:1000px;margin:32px auto 0}
-  .dcc-explainer h4{font-size:17px;color:#a13838;text-align:center;font-weight:800;margin-bottom:4px;letter-spacing:-.01em}
+  .dcc-explainer h4{font-size:17px;color:#991b1b;text-align:center;font-weight:800;margin-bottom:4px;letter-spacing:-.01em}
   .dcc-explainer .dcc-sub{text-align:center;font-size:13px;color:var(--ink-3);margin-bottom:18px;line-height:1.55}
   .dcc-steps{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;align-items:stretch}
   @media (max-width:900px){.dcc-steps{grid-template-columns:repeat(3,1fr);gap:8px}}
@@ -1122,18 +1636,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .dcc-bar-title b{color:var(--ink)}
   .dcc-bar{display:flex;height:42px;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:#fff}
   .dcc-bar-seg{display:flex;flex-direction:column;justify-content:center;align-items:center;color:#fff;padding:0 6px;line-height:1.15;text-align:center;font-size:11px;font-weight:700;min-width:0;overflow:hidden}
-  .dcc-bar-seg.ad{background:linear-gradient(135deg,#10b981,#059669)}
-  .dcc-bar-seg.fx{background:linear-gradient(135deg,#f59e0b,#d97706)}
+  .dcc-bar-seg.ad{background:linear-gradient(135deg,#1652a5,#1652a5)}
+  .dcc-bar-seg.fx{background:linear-gradient(135deg,#dc2626,#991b1b)}
   .dcc-bar-seg.brand{background:linear-gradient(135deg,#dc2626,#b91c1c)}
-  .dcc-bar-seg.issuer{background:linear-gradient(135deg,#7c3aed,#6d28d9)}
+  .dcc-bar-seg.issuer{background:linear-gradient(135deg,#1652a5,#0d2c5e)}
   .dcc-bar-seg .pct{font-size:14px;font-weight:800}
   .dcc-bar-seg .name{font-size:10px;font-weight:600;opacity:.95}
   .dcc-bar-legend{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:10px;font-size:11.5px;color:var(--ink-2)}
   .dcc-bar-legend .dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:middle}
-  .dcc-bar-legend .dot.ad{background:#10b981}
-  .dcc-bar-legend .dot.fx{background:#f59e0b}
+  .dcc-bar-legend .dot.ad{background:#1652a5}
+  .dcc-bar-legend .dot.fx{background:#dc2626}
   .dcc-bar-legend .dot.brand{background:#dc2626}
-  .dcc-bar-legend .dot.issuer{background:#7c3aed}
+  .dcc-bar-legend .dot.issuer{background:#1652a5}
 
   /* FEE TABLE — Stacked Bar Visualization */
   .fee-stackbar{display:flex;flex-direction:column;gap:8px}
@@ -1155,42 +1669,45 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .fee-stackbar-numbers .num{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:800;color:var(--ink);letter-spacing:-.01em}
   .fee-stackbar-numbers .num::before{content:'';display:inline-block;width:10px;height:10px;border-radius:3px;flex-shrink:0}
   .fee-stackbar-numbers .num.brand::before{background:linear-gradient(135deg,#dc2626,#b91c1c)}
-  .fee-stackbar-numbers .num.fx::before{background:linear-gradient(135deg,#f59e0b,#d97706)}
-  .fee-stackbar-numbers .num.issuer::before{background:linear-gradient(135deg,#7c3aed,#6d28d9)}
+  .fee-stackbar-numbers .num.fx::before{background:linear-gradient(135deg,#dc2626,#991b1b)}
+  .fee-stackbar-numbers .num.issuer::before{background:linear-gradient(135deg,#1652a5,#0d2c5e)}
   .fee-stackbar-numbers .num .lbl{font-size:11px;font-weight:600;color:var(--ink-3);margin-left:2px}
 
   /* OTHER CARDS WARNING — 신한카드보다 더 비싼 카드사 비교 */
-  .other-cards-warning{max-width:1000px;margin:40px auto 0;background:linear-gradient(180deg, rgba(220,38,38,.14) 0%, rgba(220,38,38,.06) 100%);border:1px solid rgba(252,165,165,.35);border-radius:14px;padding:24px 28px}
+  .other-cards-warning{max-width:1000px;margin:40px auto 0;background:linear-gradient(180deg, rgba(220,38,38,.14) 0%, rgba(220,38,38,.06) 100%);border:1px solid rgba(252,165,165,.35);border-radius:14px;padding:20px 16px}
   .ocw-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px}
   .ocw-icon{font-size:24px;flex-shrink:0;line-height:1;margin-top:2px}
   .ocw-header h4{margin:0;font-size:17px;color:#fca5a5;font-weight:800;letter-spacing:-.01em;line-height:1.4}
-  .ocw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-  @media (max-width:700px){.ocw-grid{grid-template-columns:1fr}}
-  .ocw-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;box-shadow:0 10px 24px rgba(0,0,0,.2);position:relative;overflow:hidden}
+  .ocw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  @media (max-width:700px){.ocw-grid{grid-template-columns:1fr;gap:10px}}
+  .ocw-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 14px;display:flex;flex-direction:column;box-shadow:0 10px 24px rgba(0,0,0,.2);position:relative;overflow:hidden}
   .ocw-card.mid{background:linear-gradient(180deg, #fff 0%, #fff5f5 100%);border-color:#fecaca}
   .ocw-card.worst{background:linear-gradient(180deg, #fef2f2 0%, #fee2e2 100%);border-color:#dc2626;box-shadow:0 16px 36px rgba(220,38,38,.3), 0 4px 10px rgba(0,0,0,.2);transform:translateY(-3px)}
   .ocw-tag{display:inline-flex;align-items:center;font-size:10px;font-weight:800;padding:4px 10px;border-radius:999px;letter-spacing:.04em;margin-bottom:10px;align-self:flex-start;text-transform:uppercase}
-  .ocw-tag.baseline{background:#dbeafe;color:#1652a5}
+  .ocw-tag.baseline{background:#cfdcef;color:#1652a5}
   .ocw-tag.higher{background:#fed7aa;color:#9a3412}
   .ocw-tag.worst-tag{background:#dc2626;color:#fff}
   .ocw-card-name{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:12px;letter-spacing:-.01em;line-height:1.35}
-  .ocw-card-list{list-style:none;padding:0;margin:0 0 14px;display:flex;flex-direction:column;gap:6px}
-  .ocw-card-list li{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums;gap:8px}
-  .ocw-card-list li b{color:var(--ink);font-weight:700;font-size:13px}
-  .ocw-card-total{margin-top:auto;padding-top:12px;border-top:1px dashed var(--line);display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--ink-3);gap:8px}
+  .ocw-card-list{list-style:none;padding:0;margin:0 0 14px;display:flex;flex-direction:column;gap:5px}
+  .ocw-card-list li{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums;gap:6px}
+  .ocw-card-list li > span:first-child{white-space:nowrap}
+  .ocw-card-list li b{color:var(--ink);font-weight:700;font-size:13px;white-space:nowrap;text-align:right}
+  .ocw-card-total{margin-top:auto;padding-top:12px;border-top:1px dashed var(--line);display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--ink-3);gap:6px}
+  .ocw-card-total > span:first-child{white-space:nowrap}
+  .ocw-card-total .amount{white-space:nowrap}
   .ocw-card-total .amount{font-size:16px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
   .ocw-card-total .amount.warn{color:var(--warn)}
   .ocw-card-total .amount.danger{color:#dc2626;font-size:18px}
   .ocw-note{margin:18px 0 0;font-size:11.5px;color:#cfd6e4;line-height:1.6}
   .ocw-note b{color:#fff}
   .fee-stackbar-seg.brand{background:linear-gradient(135deg,#dc2626,#b91c1c)}
-  .fee-stackbar-seg.fx{background:linear-gradient(135deg,#f59e0b,#d97706)}
-  .fee-stackbar-seg.issuer{background:linear-gradient(135deg,#7c3aed,#6d28d9)}
+  .fee-stackbar-seg.fx{background:linear-gradient(135deg,#dc2626,#991b1b)}
+  .fee-stackbar-seg.issuer{background:linear-gradient(135deg,#1652a5,#0d2c5e)}
   .fee-stackbar-legend{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:var(--ink-3)}
   .fee-stackbar-legend .dot{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:4px;vertical-align:middle}
   .fee-stackbar-legend .dot.brand{background:#dc2626}
-  .fee-stackbar-legend .dot.fx{background:#f59e0b}
-  .fee-stackbar-legend .dot.issuer{background:#7c3aed}
+  .fee-stackbar-legend .dot.fx{background:#dc2626}
+  .fee-stackbar-legend .dot.issuer{background:#1652a5}
   .fee-stackbar-total{font-size:15px;font-weight:800;color:var(--warn);margin-top:4px;letter-spacing:-.01em}
 
   /* CASE — Before/After Visual Comparison */
@@ -1202,8 +1719,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .case-compare-track{flex:1;height:24px;background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden;position:relative}
   .case-compare-fill{height:100%;display:flex;align-items:center;justify-content:flex-end;padding:0 8px;color:#fff;font-size:11px;font-weight:800;font-variant-numeric:tabular-nums}
   .case-compare-fill.card{background:linear-gradient(90deg,#fca5a5,#dc2626)}
-  .case-compare-fill.invoice{background:linear-gradient(90deg,#34d399,#059669)}
-  .case-compare-savings{margin-top:10px;text-align:center;font-size:13px;font-weight:800;color:#0a8a5b;background:#f1fbf6;border:1px dashed #cfe9dc;border-radius:6px;padding:6px 10px}
+  .case-compare-fill.invoice{background:linear-gradient(90deg,#3b7bd9,#1652a5)}
+  .case-compare-savings{margin-top:10px;text-align:center;font-size:13px;font-weight:800;color:#0d2c5e;background:#eef3ff;border:1px dashed #cfdcef;border-radius:6px;padding:6px 10px}
 
   /* FEE TABLE — breakdown cell */
   .fee-row .breakdown{display:flex;flex-direction:column;gap:6px;font-size:13px}
@@ -1231,8 +1748,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .card-statement-row .amount{text-align:right;font-weight:700;color:var(--ink)}
   .card-statement-row.hi{background:#fff5f5}
   .card-statement-row.hi .amount{color:var(--warn);font-weight:800}
-  .card-statement-row.lo{background:#f1fbf6}
-  .card-statement-row.lo .amount{color:#0a8a5b;font-weight:800}
+  .card-statement-row.lo{background:#eef3ff}
+  .card-statement-row.lo .amount{color:#0d2c5e;font-weight:800}
   @media (max-width:700px){
     /* card-statement-wrap 자체 좌우 패딩 제거 (컨테이너의 12px만 적용 → 아래 카드들과 정렬) */
     .card-statement-wrap{padding:0;margin-top:24px}
@@ -1273,8 +1790,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .ff-step-cost{margin-top:12px;padding:10px 12px 10px 14px;background:linear-gradient(90deg,rgba(220,38,38,.07),rgba(220,38,38,.02));border-left:3px solid #fca5a5;border-radius:0 8px 8px 0;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
   .ff-step-cost-label{font-size:12px;font-weight:700;color:#dc2626;letter-spacing:-.01em;display:flex;align-items:center;gap:6px}
   .ff-step-cost-label::before{content:'+';display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#fca5a5;color:#7f1d1d;font-size:12px;font-weight:900;line-height:1}
-  .ff-step-cost-val{font-size:13.5px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;text-align:right;letter-spacing:-.01em}
-  .ff-step-cost-val small{display:block;font-size:11px;color:var(--ink-3);font-weight:500;margin-top:2px;letter-spacing:0}
+  .ff-step-cost-val{font-size:22px;font-weight:900;color:#dc2626;font-variant-numeric:tabular-nums;text-align:right;letter-spacing:-.02em;line-height:1.1;text-shadow:0 1px 2px rgba(220,38,38,.15)}
+  .ff-step-cost-val small{display:block;font-size:11px;color:var(--ink-3);font-weight:500;margin-top:4px;letter-spacing:0;text-shadow:none}
   .ff-step.is-final .ff-step-cost{display:none}
 
   /* 누적 합계 */
@@ -1282,7 +1799,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .ff-total-main{display:flex;align-items:baseline;justify-content:center;gap:12px;flex-wrap:wrap}
   .ff-total-label{font-size:13px;color:#fecaca;font-weight:600;letter-spacing:-.01em}
   .ff-total-rate{font-size:18px;color:#fff;font-weight:700;letter-spacing:-.02em}
-  .ff-total-rate b{font-size:28px;font-weight:900;background:linear-gradient(90deg,#fbbf24,#fde68a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .ff-total-rate b{font-size:28px;font-weight:900;background:linear-gradient(90deg,#dc2626,#fca5a5);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .ff-total-note{margin-top:8px;font-size:11.5px;color:#fca5a5;line-height:1.5}
   .ff-br-pc{display:inline}
   @media (max-width:900px){ .ff-br-pc{display:none} }
@@ -1302,8 +1819,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .ff-step-desc{font-size:12px}
     .ff-step-cost{padding:8px 10px 8px 12px;margin-top:10px;gap:8px}
     .ff-step-cost-label{font-size:11.5px}
-    .ff-step-cost-val{font-size:12.5px}
-    .ff-step-cost-val small{font-size:10.5px}
+    .ff-step-cost-val{font-size:18px}
+    .ff-step-cost-val small{font-size:10.5px;margin-top:3px}
     .fee-flow-total{padding:14px 16px}
     .ff-total-rate b{font-size:24px}
     .ff-total-note{font-size:11px}
@@ -1313,10 +1830,46 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cases.cases-2col{grid-template-columns:1fr 1fr;max-width:1000px;margin-left:auto;margin-right:auto;gap:6px}
   @media (max-width:900px){.cases.cases-2col{grid-template-columns:1fr}}
   .case-result{margin-top:auto;background:var(--g-premium);color:#fff;border-radius:12px;padding:18px 20px;box-shadow:0 8px 20px rgba(13,44,94,.18)}
-  .case-result-row{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;font-size:13px;color:#a9b4c6}
-  .case-result-row b{font-size:18px;color:#fff;font-weight:800;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+  .case-result-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 0;font-size:13px;color:#cfd6e4}
+  .case-result-row > span:first-child{flex-shrink:0}
+  .case-result-row b{font-size:18px;color:#fff;font-weight:800;letter-spacing:-.01em;font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
   .case-result-row.total{border-top:1px dashed #2d3b58;margin-top:6px;padding-top:12px;font-size:14px;color:#cfd6e4}
-  .case-result-row.total b{font-size:22px;color:#34d399}
+  .case-result-row.total b{font-size:24px;color:#ffffff;text-shadow:0 2px 12px rgba(147,197,253,.5);font-weight:900}
+  /* v1.1.0: case-quote — testimonial 인용을 Case 카드에 임베드 */
+  .case-quote{
+    margin:14px 0 0;padding:14px 16px 14px 18px;
+    background:linear-gradient(135deg, #eef3ff 0%, #f5f8ff 100%);
+    border-left:4px solid var(--brand);
+    border-radius:0 12px 12px 0;
+    font-size:13.5px;color:var(--ink-2);line-height:1.6;
+    font-style:italic;letter-spacing:-.01em;
+    position:relative
+  }
+  .case-quote::before{
+    content:'"';position:absolute;left:8px;top:2px;
+    font-size:32px;font-weight:900;color:var(--brand);
+    line-height:1;font-family:Georgia,serif;opacity:.35
+  }
+  .case-quote p{margin:0 0 0 6px}
+  .case-quote p b{color:var(--ink);font-weight:700;font-style:normal}
+  .case-quote cite{
+    display:block;margin-top:8px;font-style:normal;font-size:12px;
+    color:var(--ink-3);font-weight:700;text-align:right
+  }
+  @media (max-width:700px){
+    .case-quote{padding:12px 14px 12px 16px;font-size:12.5px;margin-top:12px}
+    .case-quote::before{font-size:26px}
+    .case-quote cite{font-size:11px}
+  }
+  /* v1.1.0: 모바일 — case-result 컴팩트 + 한 줄 보장 */
+  @media (max-width:700px){
+    .case-result{padding:14px 16px;border-radius:10px}
+    .case-result-row{font-size:12px;padding:4px 0;gap:8px}
+    .case-result-row b{font-size:15px}
+    .case-result-row.total{padding-top:10px;margin-top:4px;font-size:12.5px}
+    .case-result-row.total b{font-size:18px}
+    .case-result > div[style]{font-size:11.5px !important;line-height:1.5;margin-top:6px !important}
+  }
   .ct-icon{width:16px;height:16px;object-fit:contain;vertical-align:middle;margin-right:6px}
   .btn-gif{width:18px;height:18px;object-fit:contain}
   .cta-bullets .gif{width:22px;height:22px;background:transparent !important}
@@ -1329,9 +1882,482 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .leak .item{box-shadow:0 6px 18px rgba(0,0,0,.15)} /* Problem 다크 영역의 흰 카드 */
 
   /* STICKY MOBILE CTA */
-  .sticky-mobile{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);padding:12px 16px;display:none;z-index:60;box-shadow:0 -8px 24px rgba(0,0,0,.06)}
+  /* v1.1.0: sticky-mobile — 컴팩트 + 반투명 다크 글래스 */
+  .sticky-mobile{
+    position:fixed;bottom:0;left:0;right:0;
+    background:rgba(15,23,42,.70);
+    -webkit-backdrop-filter:blur(14px) saturate(140%);
+    backdrop-filter:blur(14px) saturate(140%);
+    border-top:1px solid rgba(255,255,255,.10);
+    padding:7px 12px;
+    display:none;z-index:60;
+    box-shadow:0 -8px 24px rgba(0,0,0,.35)
+  }
   .sticky-mobile .btn{width:100%}
-  @media (max-width:700px){.sticky-mobile{display:block}body{padding-bottom:80px}}
+  /* sticky 전용 — 버튼 컴팩트화 (Hero CTA보다 작게) */
+  .sticky-mobile .hero-cta-primary{
+    padding:11px 18px !important;
+    font-size:14.5px !important;
+  }
+  /* 흰 전화 SVG 아이콘 + 가벼운 진동 애니메이션 */
+  .sticky-mobile .phone-ic{
+    vertical-align:-3px;margin-left:5px;
+    color:#fff;fill:#fff;
+    filter:drop-shadow(0 1px 2px rgba(0,0,0,.25));
+    animation:phone-wiggle 2.4s ease-in-out infinite;
+    transform-origin:50% 100%
+  }
+  @keyframes phone-wiggle{
+    0%,72%,100%{transform:rotate(0)}
+    78%{transform:rotate(-14deg)}
+    84%{transform:rotate(12deg)}
+    90%{transform:rotate(-8deg)}
+    96%{transform:rotate(0)}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .sticky-mobile .phone-ic{animation:none}
+  }
+  @media (max-width:700px){.sticky-mobile{display:block}body{padding-bottom:58px}}
+
+  /* ════════════════════════════════════════════════════════════════
+     v1.1.0 PHASE 1 — ANIMATIONS
+     ════════════════════════════════════════════════════════════════ */
+
+  /* 1. Counting numbers — 카운트업 진행 중에는 살짝 글로우 */
+  [data-count-target]{transition:filter .25s ease}
+  [data-count-target].counting{filter:drop-shadow(0 0 12px rgba(96,165,250,.5))}
+
+  /* 2. 떨어지는 동전 (Loss Viz) */
+  @keyframes coin-fall{
+    0%   {opacity:0; transform:translateY(-20px) rotate(0deg) scale(.8)}
+    10%  {opacity:1}
+    80%  {opacity:1}
+    100% {opacity:0; transform:translateY(120vh) rotate(360deg) scale(1.1)}
+  }
+  .coin-rain{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+  .coin-rain .coin{position:absolute;top:-30px;font-size:22px;line-height:1;will-change:transform,opacity;
+    animation:coin-fall linear infinite;
+    filter:drop-shadow(0 4px 8px rgba(0,0,0,.3))}
+  @media (prefers-reduced-motion: reduce){.coin-rain{display:none}}
+
+  /* 3. Bar fill 애니메이션 (loss-card .lc-bar-fill 강화) */
+  .loss-card .lc-bar-fill{transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
+  .loss-card.bar-animate .lc-bar-fill{width:var(--bar-target,30%) !important}
+
+  /* sfb-flow 노드 간 화살표에 흐름 애니메이션 */
+  @keyframes sfb-pulse{
+    0%,100% {opacity:.55; transform:translateX(0)}
+    50%     {opacity:1;   transform:translateX(4px)}
+  }
+  .sfb .sfb-arrow{animation:sfb-pulse 1.8s ease-in-out infinite}
+  @media (prefers-reduced-motion: reduce){.sfb .sfb-arrow{animation:none}}
+
+  /* 4. Featured loss card — 🔥 핀 뱃지 강조 */
+  .loss-card.featured{position:relative;animation:featured-pulse 2.8s ease-in-out infinite}
+  @keyframes featured-pulse{
+    0%,100% {box-shadow:0 16px 40px rgba(220,38,38,.4), 0 4px 10px rgba(0,0,0,.3)}
+    50%     {box-shadow:0 18px 48px rgba(220,38,38,.55), 0 6px 14px rgba(0,0,0,.35), 0 0 0 4px rgba(220,38,38,.12)}
+  }
+  .loss-card.featured .lc-badge{
+    background:linear-gradient(135deg,#dc2626,#b91c1c);
+    box-shadow:0 4px 10px rgba(220,38,38,.45);
+    font-size:11px;padding:4px 12px;
+    animation:badge-bounce 2.2s ease-in-out infinite
+  }
+  @keyframes badge-bounce{
+    0%,100% {transform:translateY(0)}
+    50%     {transform:translateY(-2px)}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .loss-card.featured,.loss-card.featured .lc-badge{animation:none}
+  }
+
+  /* v1.1.0: Receipt — 광고비 결제 영수증 (1억 기준 단일 시나리오) */
+  .receipt{
+    position:relative;
+    max-width:560px;margin:0 auto;
+    background:#fff;color:var(--ink);
+    border:1.5px dashed #d0d6dd;
+    border-radius:16px;
+    padding:36px 36px 32px;
+    box-shadow:0 24px 60px rgba(0,0,0,.35), 0 4px 14px rgba(0,0,0,.2);
+    letter-spacing:-.01em;
+    font-variant-numeric:tabular-nums
+  }
+  /* 영수증 위/아래 톱니 — 펀치 홀 느낌 (절취선) */
+  .receipt::before,.receipt::after{
+    content:'';position:absolute;left:0;right:0;height:14px;
+    background:radial-gradient(circle at 7px 7px, #fff 6px, transparent 6.5px) repeat-x;
+    background-size:14px 14px;pointer-events:none
+  }
+  .receipt::before{top:-7px}
+  .receipt::after{bottom:-7px;transform:scaleY(-1)}
+  .receipt h4{
+    font-size:12.5px;color:var(--ink-3);
+    margin:0 0 20px;text-align:center;
+    letter-spacing:.12em;font-weight:700;text-transform:uppercase
+  }
+  .receipt-row{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-size:15px;padding:12px 0;gap:14px;
+    border-bottom:1px dashed var(--line)
+  }
+  .receipt-row > span:first-child{color:var(--ink-2)}
+  .receipt-row.input{font-weight:800;color:var(--ink);font-size:16px}
+  .receipt-row.input > span:first-child,
+  .receipt-row.input .amt{color:var(--ink)}
+  .receipt-row.fee > span:first-child{color:#7f1d1d}
+  .receipt-row.fee .amt{color:#dc2626;font-weight:700}
+  /* v1.1.0: subtotal — 차감 합계 (실 광고 도달) */
+  .receipt-row.subtotal{
+    border-top:1px dashed var(--ink-3);border-bottom:1px solid var(--line);
+    padding-top:10px;padding-bottom:12px;margin-top:6px;
+    font-size:14px;font-weight:700;color:var(--ink-2)
+  }
+  .receipt-row.subtotal .amt{color:var(--ink);font-weight:800;font-size:15px}
+  /* v1.1.0: miss — 미수령 보너스 (기회비용, 차감 아닌 앰버 톤) */
+  .receipt-row.miss{
+    background:linear-gradient(90deg, #fffbeb 0%, #fef3c7 100%);
+    border-radius:8px;padding:11px 12px;margin:10px -4px;
+    border:1px dashed #f59e0b;border-bottom:none
+  }
+  .receipt-row.miss > span:first-child{color:#92400e;font-weight:700;display:flex;align-items:baseline;flex-wrap:wrap;gap:6px}
+  .receipt-row.miss .miss-tag{
+    display:inline-block;font-size:9.5px;font-weight:800;
+    background:#f59e0b;color:#fff;
+    padding:2px 7px;border-radius:5px;letter-spacing:.04em;line-height:1.2
+  }
+  .receipt-row.miss .amt{color:#b45309;font-weight:800}
+  .receipt-row.miss .amt .miss-note{font-size:10.5px;color:#92400e;margin-left:6px;font-weight:600}
+  .receipt-row.total{
+    font-size:17px;font-weight:800;padding-top:18px;margin-top:8px;
+    border-bottom:0;border-top:2px solid var(--ink);color:var(--ink)
+  }
+  .receipt-row.total > span:first-child{color:var(--ink)}
+  .receipt-row .amt{font-variant-numeric:tabular-nums;font-weight:700;letter-spacing:-.02em;white-space:nowrap}
+  .receipt-row.total .amt{
+    color:#dc2626;font-size:20px;
+    background:linear-gradient(135deg,#dc2626 0%,#b91c1c 100%);
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent
+  }
+  /* v1.1.0: 영수증 하단 보조 노트 (보너스 크레딧 별도) */
+  .receipt-subnote{
+    text-align:right;margin-top:6px;
+    font-size:12.5px;color:var(--ink-3);font-style:italic;
+    letter-spacing:-.01em
+  }
+  .receipt-subnote b{color:var(--brand);font-weight:800;font-style:normal}
+
+  /* v1.1.0: Case Narrative — 문제 + 개선 스토리 */
+  .case-narrative{
+    margin-top:14px;padding:14px 16px;
+    background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    border:1px dashed rgba(255,255,255,.22);
+    border-radius:10px
+  }
+  .cn-head{
+    font-size:11.5px;font-weight:800;
+    color:#93c5fd;letter-spacing:.08em;
+    text-transform:uppercase;
+    margin-bottom:10px;
+    display:flex;align-items:center;gap:6px
+  }
+  .cn-problem{
+    font-size:13px;color:#cfd6e4;line-height:1.55;
+    margin-bottom:10px;padding-bottom:10px;
+    border-bottom:1px dashed rgba(255,255,255,.14)
+  }
+  .cn-problem b{color:#fff;font-weight:700}
+  .cn-problem-label{
+    display:inline-block;font-size:10.5px;font-weight:800;
+    color:#fecaca;background:rgba(220,38,38,.15);
+    padding:2px 7px;border-radius:5px;
+    margin-right:6px;letter-spacing:.04em;
+    border:1px solid rgba(252,165,165,.3)
+  }
+  .cn-list{
+    list-style:none;padding:0;margin:0;
+    display:flex;flex-direction:column;gap:7px
+  }
+  .cn-list li{
+    display:flex;align-items:flex-start;gap:8px;
+    font-size:13px;color:#dde2eb;line-height:1.5
+  }
+  .cn-list li b{color:#fff;font-weight:800}
+  .cn-icon{
+    flex-shrink:0;color:#34d399;
+    font-weight:900;font-size:13px;line-height:1.5
+  }
+  @media (max-width:700px){
+    .case-narrative{padding:16px 18px;margin-top:14px;border-radius:12px}
+    .cn-head{font-size:11.5px;margin-bottom:10px}
+    .cn-problem{font-size:12.5px;margin-bottom:10px;padding-bottom:10px;line-height:1.6}
+    .cn-problem-label{font-size:10px;padding:2px 7px;margin-right:5px}
+    .cn-list{gap:8px}
+    .cn-list li{font-size:12.5px;gap:7px;line-height:1.55}
+    .cn-icon{font-size:13px}
+  }
+  /* 영수증 하단 손실 요약 */
+  .receipt-summary{
+    max-width:560px;margin:24px auto 0;text-align:center;
+    color:#fecaca;font-size:15px;line-height:1.6
+  }
+  .receipt-summary b{color:#fff;font-weight:900;background:rgba(220,38,38,.18);padding:2px 8px;border-radius:6px;border:1px solid rgba(252,165,165,.35)}
+  .receipt-note{
+    max-width:560px;margin:18px auto 0;text-align:center;
+    font-size:12.5px;color:#9ca6b8;line-height:1.55
+  }
+  @media (max-width:700px){
+    .receipt{padding:24px 20px 22px;border-radius:12px}
+    .receipt::before,.receipt::after{height:10px;background:radial-gradient(circle at 5px 5px, #fff 4px, transparent 4.5px) repeat-x;background-size:10px 10px}
+    .receipt::before{top:-5px}
+    .receipt::after{bottom:-5px}
+    .receipt h4{font-size:11px;margin-bottom:14px}
+    .receipt-row{font-size:13px;padding:9px 0;gap:8px}
+    .receipt-row.input{font-size:14px}
+    .receipt-row.total{font-size:14.5px;padding-top:14px;margin-top:6px}
+    .receipt-row.total .amt{font-size:17px}
+    .receipt-subnote{font-size:11.5px;margin-top:4px}
+    .receipt-summary{font-size:13px;margin-top:18px}
+    .receipt-note{font-size:11.5px;margin-top:14px;padding:0 16px}
+  }
+
+  /* ════════════════════════════════════════════════════════════════
+     v1.1.0 PHASE 1.5 — 폼 칩 + 비교 카드 (bar fill)
+     ════════════════════════════════════════════════════════════════ */
+
+  /* === Form Chips (희망 서비스 등) === */
+  .form-chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+  .form-chips + .form-chips{margin-top:10px}
+  .form-chip{
+    position:relative;
+    display:inline-flex;align-items:center;gap:8px;
+    padding:10px 14px;border-radius:12px;
+    background:#fff;border:1.5px solid var(--line);
+    font-size:14px;font-weight:600;color:var(--ink-2);
+    cursor:pointer;user-select:none;
+    transition:transform .12s ease, border-color .15s ease, background .15s ease, box-shadow .18s ease
+  }
+  .form-chip:hover{border-color:var(--brand);color:var(--ink);transform:translateY(-1px)}
+  .form-chip input[type=checkbox],
+  .form-chip input[type=radio]{position:absolute;opacity:0;pointer-events:none;width:0;height:0;margin:0}
+  .form-chip:has(input:checked){
+    background:linear-gradient(135deg,#eef3ff 0%,#ffffff 100%);
+    border-color:var(--brand);
+    color:var(--brand-2);
+    font-weight:700;
+    box-shadow:0 6px 14px rgba(22,82,165,.18)
+  }
+  .form-chip:has(input:checked)::after{
+    content:'✓';
+    position:absolute;top:-7px;right:-7px;
+    background:var(--brand);color:#fff;
+    width:20px;height:20px;border-radius:50%;
+    display:grid;place-items:center;
+    font-size:11px;font-weight:800;
+    box-shadow:0 2px 6px rgba(22,82,165,.45)
+  }
+  .fc-logo{
+    width:24px;height:24px;border-radius:6px;
+    display:grid;place-items:center;
+    color:#fff;font-weight:800;font-size:13px;
+    flex-shrink:0;line-height:1
+  }
+  .form-chip.wide{flex:1 1 calc(50% - 4px);justify-content:center;text-align:center;padding:12px 14px}
+  @media (max-width:480px){
+    .form-chip{padding:9px 12px;font-size:13px}
+    .fc-logo{width:20px;height:20px;font-size:11px;border-radius:5px}
+    .form-chip.wide{flex:1 1 100%}
+  }
+
+  /* === Compare Cards (카드 결제 vs 파트너 계정) === */
+  .compare-cards{
+    display:grid;grid-template-columns:1fr 1fr;gap:20px;
+    margin:0 auto 36px;max-width:1000px
+  }
+  @media (max-width:780px){.compare-cards{grid-template-columns:1fr;gap:14px;margin-bottom:24px}}
+  .cc-card{
+    background:#fff;border:1px solid var(--line);border-radius:20px;
+    padding:32px;position:relative;overflow:hidden;
+    box-shadow:0 8px 24px rgba(13,44,94,.06);
+    transition:transform .25s ease, box-shadow .25s ease
+  }
+  .cc-card:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(13,44,94,.12)}
+  .cc-card.cc-bad{border-color:#ffd0d3}
+  .cc-card.cc-good{border-color:#cfe2ff;background:linear-gradient(180deg,#fafcff 0%,#fff 100%)}
+  .cc-card h3{font-size:22px;margin:0 0 6px;color:var(--ink);letter-spacing:-.02em}
+  .cc-card .cc-sub{font-size:14px;color:var(--ink-3);margin:0 0 18px;line-height:1.5}
+  .cc-bar{
+    height:38px;background:#f1f3f5;border-radius:10px;overflow:hidden;
+    position:relative;margin:14px 0 22px;border:1px solid rgba(0,0,0,.04)
+  }
+  .cc-fill{
+    height:100%;width:0;
+    transition:width 1.6s cubic-bezier(.2,.7,.2,1);
+    display:flex;align-items:center;justify-content:flex-end;
+    padding-right:14px;color:#fff;font-weight:800;font-size:13px;white-space:nowrap;
+    letter-spacing:-.01em
+  }
+  .cc-bad .cc-fill{background:linear-gradient(90deg,#dc2626 0%,#f04452 100%)}
+  .cc-good .cc-fill{background:linear-gradient(90deg,#1652a5 0%,#3b82f6 100%)}
+  .cc-card.bar-fired .cc-fill{width:var(--cc-target,84%)}
+  .cc-stat{
+    display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+    padding:11px 0;border-bottom:1px solid var(--line);
+    font-size:14px;color:var(--ink-2)
+  }
+  .cc-stat:last-child{border-bottom:0;padding-bottom:0}
+  .cc-stat b{font-variant-numeric:tabular-nums;color:var(--ink);font-weight:700;font-size:14.5px;text-align:right}
+  .cc-bad-val{color:#dc2626 !important}
+  .cc-good-val{color:var(--brand) !important}
+  /* v1.1.0: cc-credit-chips — 4개 칩 버튼식 (모바일 가독성) */
+  .cc-credit-chips{
+    display:flex;flex-wrap:wrap;gap:6px;
+    margin-top:16px;padding:10px 12px;
+    background:linear-gradient(135deg,#eef3ff 0%,#fafcff 100%);
+    border:1px dashed rgba(22,82,165,.3);border-radius:12px
+  }
+  .cc-credit-chip{
+    display:inline-flex;align-items:center;gap:5px;
+    background:#fff;padding:7px 11px;border-radius:8px;
+    font-size:12.5px;font-weight:700;color:var(--brand-2);
+    border:1px solid rgba(22,82,165,.2);
+    letter-spacing:-.01em;line-height:1.2;
+    box-shadow:0 1px 3px rgba(22,82,165,.08)
+  }
+  .cc-credit-chip b{color:var(--brand);font-weight:900}
+  .cc-credit-chip .ic{font-size:13.5px;line-height:1}
+  @media (max-width:780px){
+    .cc-card{padding:24px 22px;border-radius:16px}
+    .cc-card h3{font-size:19px}
+    .cc-bar{height:32px;margin:10px 0 18px}
+    .cc-fill{font-size:12px;padding-right:10px}
+    .cc-stat{font-size:13px;padding:9px 0}
+    .cc-stat b{font-size:13.5px}
+    .cc-credit-chips{padding:8px 10px;margin-top:12px;gap:5px}
+    .cc-credit-chip{font-size:11.5px;padding:6px 9px}
+  }
+  /* v1.1.0: 형광펜 스타일 강조 (샘플의 <em> 효과를 빨/파 컬러로) */
+  .cc-stat .hl-red{
+    background:linear-gradient(180deg, transparent 55%, rgba(220,38,38,.35) 55%, rgba(220,38,38,.35) 95%, transparent 95%);
+    color:var(--ink);font-weight:700;
+    padding:0 4px
+  }
+  .cc-stat .hl-blue{
+    background:linear-gradient(180deg, transparent 55%, rgba(22,82,165,.30) 55%, rgba(22,82,165,.30) 95%, transparent 95%);
+    color:var(--ink);font-weight:700;
+    padding:0 4px
+  }
+
+  /* v1.1.0: cmp-wrap — 항목별 상세 비교 테이블 + struct-card */
+  .cmp-wrap{
+    display:grid;grid-template-columns:1.4fr 1fr;gap:28px;
+    max-width:1000px;margin:36px auto 0;align-items:start
+  }
+  @media (max-width:900px){.cmp-wrap{grid-template-columns:1fr;gap:24px}}
+
+  .cmp-table{
+    background:#fff;border:1px solid var(--line);border-radius:18px;
+    overflow:hidden;box-shadow:0 8px 24px rgba(13,44,94,.06);
+    max-width:100%
+  }
+  .cmp-table table{
+    width:100%;border-collapse:collapse;font-family:inherit;
+    table-layout:fixed
+  }
+  .cmp-table thead th{
+    padding:14px 12px;font-size:13px;font-weight:800;
+    text-align:left;color:var(--ink-2);
+    background:#f7f8fa;border-bottom:1.5px solid var(--line);
+    letter-spacing:-.01em;white-space:nowrap
+  }
+  .cmp-table thead th.recommended{
+    color:var(--brand);background:#eef3ff;
+    position:relative
+  }
+  .reco-pill{
+    display:inline-block;font-size:9.5px;font-weight:800;
+    padding:2px 6px;border-radius:999px;margin-left:4px;
+    background:linear-gradient(135deg,var(--brand-2),var(--brand));
+    color:#fff;letter-spacing:.04em;
+    box-shadow:0 2px 6px rgba(22,82,165,.35);vertical-align:1px
+  }
+  .cmp-table tbody td{
+    padding:13px 12px;font-size:13.5px;color:var(--ink-2);
+    border-bottom:1px solid var(--line);
+    vertical-align:middle;line-height:1.5;white-space:nowrap
+  }
+  .cmp-table tbody tr:last-child td{border-bottom:0}
+  .cmp-table tbody td:first-child{
+    font-weight:700;color:var(--ink);width:18%;white-space:nowrap
+  }
+  .cmp-table tbody td:last-child{
+    background:rgba(238,243,255,.45)
+  }
+  .cmp-tag{
+    display:inline-block;font-size:11px;font-weight:800;
+    padding:3px 8px;border-radius:6px;margin-right:0;margin-bottom:5px;
+    letter-spacing:-.01em;vertical-align:1px
+  }
+  .cmp-tag.bad{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+  .cmp-tag.good{background:#d1fae5;color:#065f46;border:1px solid #a7f3d0}
+  .cmp-bad,.cmp-good{font-weight:700}
+  .cmp-bad{color:#dc2626}
+  .cmp-good{color:var(--brand)}
+  /* v1.1.0: 모든 값 셀을 2줄로 통일 — 칩(1줄) + 보조 텍스트(2줄) */
+  .cmp-table tbody td:not(:first-child){line-height:1.4}
+  .cmp-table tbody td:not(:first-child) .cmp-tag{display:inline-block}
+  .cmp-table tbody td:not(:first-child) .cmp-bad,
+  .cmp-table tbody td:not(:first-child) .cmp-good,
+  .cmp-table tbody td:not(:first-child) > span[style*="color:var(--ink-3)"]{
+    display:block;font-size:12.5px
+  }
+
+  .struct-list{display:flex;flex-direction:column;gap:14px}
+  .struct-card{
+    display:flex;gap:14px;align-items:flex-start;
+    background:#fff;border:1px solid var(--line);
+    border-radius:14px;padding:18px 18px;
+    box-shadow:0 4px 12px rgba(13,44,94,.05);
+    transition:transform .15s ease, box-shadow .2s ease
+  }
+  .struct-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 22px rgba(13,44,94,.12);
+    border-color:rgba(22,82,165,.3)
+  }
+  .struct-num{
+    flex-shrink:0;width:32px;height:32px;border-radius:50%;
+    background:linear-gradient(135deg,var(--brand-2),var(--brand));
+    color:#fff;font-weight:900;font-size:15px;
+    display:grid;place-items:center;line-height:1;
+    box-shadow:0 4px 10px rgba(13,44,94,.25)
+  }
+  .struct-body{flex:1;min-width:0}
+  .struct-body h4{
+    margin:0 0 6px;font-size:15px;font-weight:800;
+    color:var(--ink);letter-spacing:-.02em;line-height:1.4
+  }
+  .struct-body p{
+    margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.55
+  }
+  .struct-body p b{color:var(--brand-2);font-weight:800}
+  @media (max-width:700px){
+    .cmp-wrap{margin-top:24px}
+    .cmp-table{border-radius:14px}
+    .cmp-table thead th{padding:9px 8px;font-size:11.5px}
+    .cmp-table tbody td{padding:10px 8px;font-size:11.5px;white-space:normal}
+    .cmp-table tbody td:first-child{width:22%}
+    .cmp-tag{font-size:9.5px;padding:2px 6px;margin-right:3px}
+    .reco-pill{font-size:8.5px;padding:1px 5px;margin-left:3px}
+    /* 모바일: 값 컬럼 — 칩과 부가 텍스트 줄바꿈은 허용하되 단어 내부 끊김 방지 */
+    .cmp-table tbody td:not(:first-child) > span{display:inline-block;white-space:nowrap}
+    .struct-card{padding:14px;gap:11px;border-radius:11px}
+    .struct-num{width:28px;height:28px;font-size:13px}
+    .struct-body h4{font-size:13.5px}
+    .struct-body p{font-size:12.5px}
+  }
 </style>
 </head>
 <body>
@@ -1356,9 +2382,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <path d="M20.5 18.5 L27.5 25.5 M27.5 18.5 L20.5 25.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" fill="none"/>
     </symbol>
     <symbol id="i-coin" viewBox="0 0 32 32">
-      <circle cx="16" cy="16" r="13" fill="#fbbf24"/>
-      <circle cx="16" cy="16" r="10" fill="none" stroke="#f59e0b" stroke-width="1.2"/>
-      <text x="16" y="22" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="15" font-weight="900" fill="#92400e">₩</text>
+      <circle cx="16" cy="16" r="13" fill="#dc2626"/>
+      <circle cx="16" cy="16" r="10" fill="none" stroke="#dc2626" stroke-width="1.2"/>
+      <text x="16" y="22" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="15" font-weight="900" fill="#7f1d1d">₩</text>
     </symbol>
     <symbol id="i-question" viewBox="0 0 32 32">
       <path d="M4 8 Q4 4 8 4 L24 4 Q28 4 28 8 L28 18 Q28 22 24 22 L14 22 L8 27 L8 22 Q4 22 4 18 Z" fill="#1652a5"/>
@@ -1366,18 +2392,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </symbol>
     <symbol id="i-chart" viewBox="0 0 32 32">
       <path d="M3 28 L3 4 M3 28 L29 28" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-      <path d="M6 24 L11 18 L17 21 L23 12 L28 7" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M23 7 L28 7 L28 12" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="11" cy="18" r="2" fill="#10b981"/>
-      <circle cx="17" cy="21" r="2" fill="#10b981"/>
-      <circle cx="23" cy="12" r="2" fill="#10b981"/>
+      <path d="M6 24 L11 18 L17 21 L23 12 L28 7" fill="none" stroke="#1652a5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M23 7 L28 7 L28 12" fill="none" stroke="#1652a5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="11" cy="18" r="2" fill="#1652a5"/>
+      <circle cx="17" cy="21" r="2" fill="#1652a5"/>
+      <circle cx="23" cy="12" r="2" fill="#1652a5"/>
     </symbol>
     <symbol id="i-plane" viewBox="0 0 32 32">
       <path d="M29 3 L3 14 L13 18 L17 28 Z" fill="#1652a5"/>
       <path d="M13 18 L29 3 L17 28 Z" fill="#0d2c5e"/>
     </symbol>
     <symbol id="i-check" viewBox="0 0 32 32">
-      <circle cx="16" cy="16" r="14" fill="#10b981"/>
+      <circle cx="16" cy="16" r="14" fill="#1652a5"/>
       <path d="M9 16.5 L14 21 L23 11" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
     </symbol>
     <symbol id="i-tap" viewBox="0 0 32 32">
@@ -1390,7 +2416,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- NAV -->
 <nav class="top">
   <div class="container nav-inner">
-    <a href="#" class="logo"><span class="logo-mark">OA</span> OFFICIAL ADS</a>
+    <a href="#" class="logo">매체공식대행사</a>
     <div class="nav-cta">
       <a href="#cases" class="muted" style="font-size:14px;margin-right:12px">사례</a>
       <a href="#how" class="muted" style="font-size:14px;margin-right:16px">작동 방식</a>
@@ -1405,53 +2431,59 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <header class="hero">
   <div class="container hero-grid">
     <div>
-      <span class="pill"><svg class="gif ico-anim-spin"><use href="#i-sparkle"/></svg>2026 Q1 신규 광고주 모집 중 · 마감 임박</span>
-      <div class="hero-alert">🚨 해외 매체 카드 결제 시 매년 광고비의 약 5%가 사라집니다</div>
-      <h1 style="margin-top:14px">
-        광고비, 아직도<br><span class="hl">카드로 결제</span>하세요?
-      </h1>
-      <p class="hero-sub">
-        Meta · Google · TikTok 해외 매체 결제 시 다음이 누적됩니다 ↓
-      </p>
-      <ul class="hero-loss-list">
-        <li><span class="x">✗</span>국제 카드 브랜드 수수료 <b>1.0 ~ 1.5%</b></li>
-        <li><span class="x">✗</span>DCC 이중 환전 마진 <b>3.5%</b> (전신매도 ×2회)</li>
-        <li><span class="x">✗</span>매체 본사 보너스 크레딧 <b>5 ~ 15%</b> 미수령</li>
-        <li class="total">
-          <span class="sum">=</span>
-          <div class="total-body">
-            <div class="total-headline">광고비의 <b>약 10 ~ 20%</b>가 매월 손실</div>
-            <div class="total-detail">수수료 약 5% + 놓친 보너스 5 ~ 15%</div>
-          </div>
-        </li>
-      </ul>
+      <span class="pill"><svg class="gif ico-anim-spin"><use href="#i-sparkle"/></svg>2026 Q1 신규 고객사 모집 중 · 마감 임박</span>
 
-      <div class="hero-ctas">
-        <a href="#calc" class="btn btn-lg">20초 진단 →</a>
-        <a href="#apply" class="btn btn-ghost btn-lg">무료 진단 신청</a>
+      <div class="hero-mega">
+        <div class="hero-mega-label">당신도 모르는 사이, 매월 광고비의</div>
+        <div class="hero-mega-number"><span data-count-target="10">10</span> ~ <span data-count-target="15">15</span><span class="hero-mega-unit">%</span></div>
+        <div class="hero-mega-tagline">카드 결제만으로 매달 사라집니다.</div>
+        <p class="hero-mega-sub">Meta · Google · TikTok 해외 매체 광고비 카드 결제 시 발생하는 수수료 + 놓치는 매체 보너스 크레딧 = <b>매월 10 ~ 15% 손실</b>. 1년이면 광고 담당자 한 명의 연봉이 사라집니다.</p>
       </div>
-      <div class="hero-trust">
-        <span>✓ <b>누적 집행 광고비 1,800억+</b></span>
-        <span>✓ <b>현재 진행 광고주 350+</b></span>
-        <span>✓ <b>12개월 재계약률 92%</b></span>
+
+      <div class="hero-ctas-new">
+        <a href="#apply" class="btn btn-lg hero-cta-primary">무료 진단 신청 →</a>
+      </div>
+
+      <div class="hero-trust-compact">
+        <div class="htc-item">
+          <div class="htc-num"><span data-count-target="350" data-count-format="comma">350</span>+</div>
+          <div class="htc-label">현재 진행 고객사</div>
+        </div>
+        <div class="htc-divider"></div>
+        <div class="htc-item">
+          <div class="htc-num"><span data-count-target="1800" data-count-format="comma">1,800</span><span class="htc-unit">억+</span></div>
+          <div class="htc-label">누적 집행 광고비</div>
+        </div>
+        <div class="htc-divider"></div>
+        <div class="htc-item">
+          <div class="htc-num"><span data-count-target="99">99</span><span class="htc-unit">%</span></div>
+          <div class="htc-label">1년 후에도 함께</div>
+        </div>
       </div>
     </div>
 
-    <!-- CALCULATOR -->
+    <!-- CALCULATOR (v1.1.0: 슬라이더 + 칩 + Grab CTA — 단일 통합 박스) -->
     <aside class="calc" id="calc">
       <div class="calc-tabs">
         <button class="calc-tab active" type="button" data-mode="overseas" onclick="setCalcMode('overseas')">🌎 해외매체<br>광고비 절감</button>
         <button class="calc-tab" type="button" data-mode="domestic" onclick="setCalcMode('domestic')">🇰🇷 국내매체<br>보너스</button>
       </div>
       <h3 id="calc-title" style="margin-top:4px">우리 회사는 매년 얼마를 아낄 수 있을까?</h3>
-      <label class="calc-label">월 평균 광고비 (만 원)</label>
-      <input id="ad-spend" class="calc-input" type="number" inputmode="numeric" value="3000" min="0" step="100" />
-      <label class="calc-label" id="ratio-label">해외 매체 비중 (Meta·Google·TikTok 등)</label>
-      <select id="overseas-ratio" class="calc-input">
-        <option value="0.5">약 50%</option>
-        <option value="0.7" selected>약 70%</option>
-        <option value="0.9">약 90% 이상</option>
-      </select>
+
+      <div class="calc-range-wrap">
+        <label class="calc-label">월 평균 광고비</label>
+        <div class="calc-range-val" id="ad-spend-val">3,000만 원</div>
+        <input id="ad-spend" class="calc-range-slider" type="range" min="1000" max="50000" step="500" value="3000" />
+        <div class="calc-range-meta"><span>1천만</span><span>5억</span></div>
+      </div>
+
+      <label class="calc-label" id="ratio-label" style="margin-top:18px">해외 매체 비중 (Meta·Google·TikTok 등)</label>
+      <div class="calc-chips" id="ratio-chips">
+        <div class="calc-chip" data-r="0.5" role="button" tabindex="0">50%</div>
+        <div class="calc-chip active" data-r="0.7" role="button" tabindex="0">70%</div>
+        <div class="calc-chip" data-r="0.9" role="button" tabindex="0">90%</div>
+        <div class="calc-chip" data-r="1.0" role="button" tabindex="0">100%</div>
+      </div>
 
       <!-- 해외매체 모드 결과 -->
       <div class="calc-result" id="result-overseas">
@@ -1466,124 +2498,89 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <!-- 국내매체 모드 결과 -->
       <div class="calc-result hidden" id="result-domestic">
-        <div class="row"><span>국내 매체 보너스 (연, 최저 9%)</span><b id="r-dom-min">—</b></div>
-        <div class="row"><span>국내 매체 보너스 (연, 최고 14%)</span><b id="r-dom-max">—</b></div>
+        <div class="row"><span>국내 매체 보너스 (연, 최저 13%)</span><b id="r-dom-min">—</b></div>
+        <div class="row"><span>국내 매체 보너스 (연, 최고 15%)</span><b id="r-dom-max">—</b></div>
         <div class="calc-total">
           <span>예상 연간 보너스 범위</span>
           <span class="num" id="r-dom-total">—</span>
         </div>
-        <small>* 국내 매체 보너스는 매체별로 다릅니다 — NAVER 6~9%, Kakao 5%, 국내 디스플레이·엘리베이터 매체 9~14%. 매체 조합과 광고비 규모에 따라 실제 보너스가 달라집니다.</small>
+        <small>* 국내 매체(NAVER · Kakao · TOSS 등)는 통상 <b>13 ~ 15%</b> 보너스가 지급됩니다. 매체 조합 · 광고비 규모 · 분기 프로모션에 따라 실제 보너스가 달라집니다.</small>
       </div>
+
+      <a href="#apply" class="calc-grab">
+        <span>💰 내 돈 찾으러 가기</span>
+        <span class="grab-arrow">→</span>
+      </a>
     </aside>
   </div>
 </header>
 
 <!-- LOSS VISUALIZATION — 광고비 규모별 손실 시각화 -->
-<section class="loss-viz">
-  <div class="container">
+<section class="loss-viz" style="position:relative">
+  <div class="coin-rain" id="coin-rain-loss" aria-hidden="true"></div>
+  <div class="container" style="position:relative;z-index:1">
     <div class="loss-viz-head">
-      <h2>해외 매체 카드 결제 시,<br><span class="hl">광고비의 약 5%가 매년 사라집니다</span></h2>
-      <p>광고비 규모가 클수록 손실 금액도 비례해서 증가합니다. 본인 회사의 규모에서 매년 얼마를 잃고 있는지 확인하세요.</p>
+      <h2>해외 광고매체 월 광고비 <span class="hl">1억 원</span>, 이렇게 사라집니다</h2>
     </div>
 
-    <div class="loss-grid">
-      <div class="loss-card">
-        <div class="lc-spend-label">월 광고비</div>
-        <div class="lc-spend">5,000만 원</div>
-        <div class="lc-divider"></div>
-        <div class="lc-loss-label">📉 연간 손실</div>
-        <div class="lc-loss">₩ 3,000만</div>
-        <div class="lc-bar"><div class="lc-bar-fill"></div></div>
-        <div class="lc-monthly">매월 <b>₩ 250만</b> 손실</div>
+    <div class="receipt" id="receipt">
+      <h4>광고비 결제 영수증 · 월 1억 원 기준</h4>
+      <div class="receipt-row input">
+        <span>① 월 광고비 결제</span>
+        <span class="amt">₩ <span data-count-target="100000000" data-count-format="comma">100,000,000</span></span>
       </div>
-
-      <div class="loss-card featured">
-        <span class="lc-badge">한국 광고주 평균 규모</span>
-        <div class="lc-spend-label">월 광고비</div>
-        <div class="lc-spend">1억 원</div>
-        <div class="lc-divider"></div>
-        <div class="lc-loss-label">📉 연간 손실</div>
-        <div class="lc-loss">₩ 6,000만</div>
-        <div class="lc-bar"><div class="lc-bar-fill"></div></div>
-        <div class="lc-monthly">매월 <b>₩ 500만</b> · 직원 1명 연봉 가치</div>
-        <div class="lc-equiv">= ROAS 3.0 기준 <b>월 1,500만 매출</b> 등가</div>
+      <div class="receipt-row fee">
+        <span>② 환전 수수료 (1.5%)</span>
+        <span class="amt">− ₩ <span data-count-target="1500000" data-count-format="comma">1,500,000</span></span>
       </div>
-
-      <div class="loss-card">
-        <div class="lc-spend-label">월 광고비</div>
-        <div class="lc-spend">3억 원</div>
-        <div class="lc-divider"></div>
-        <div class="lc-loss-label">📉 연간 손실</div>
-        <div class="lc-loss">₩ 1.8억</div>
-        <div class="lc-bar"><div class="lc-bar-fill"></div></div>
-        <div class="lc-monthly">매월 <b>₩ 1,500만</b> 손실</div>
+      <div class="receipt-row fee">
+        <span>③ 국제 브랜드 수수료 (1.2%)</span>
+        <span class="amt">− ₩ <span data-count-target="1200000" data-count-format="comma">1,200,000</span></span>
       </div>
-
-      <div class="loss-card">
-        <div class="lc-spend-label">월 광고비</div>
-        <div class="lc-spend">7억 원</div>
-        <div class="lc-divider"></div>
-        <div class="lc-loss-label">📉 연간 손실</div>
-        <div class="lc-loss">₩ 4.2억</div>
-        <div class="lc-bar"><div class="lc-bar-fill"></div></div>
-        <div class="lc-monthly">매월 <b>₩ 3,500만</b> 손실</div>
+      <div class="receipt-row fee">
+        <span>④ DCC 재환전 마진 (3.5%)</span>
+        <span class="amt">− ₩ <span data-count-target="3500000" data-count-format="comma">3,500,000</span></span>
+      </div>
+      <div class="receipt-row subtotal">
+        <span>= 실 광고 도달</span>
+        <span class="amt">₩ <span data-count-target="93800000" data-count-format="comma">93,800,000</span></span>
+      </div>
+      <div class="receipt-row miss">
+        <span>⑤ 매체 보너스 크레딧 (~4%)<span class="miss-tag">미수령</span></span>
+        <span class="amt">+ ₩ <span data-count-target="4000000" data-count-format="comma">4,000,000</span><span class="miss-note">파트너 계정만 수령</span></span>
+      </div>
+      <div class="receipt-row total">
+        <span>파트너 계정 대비 총 격차</span>
+        <span class="amt">₩ <span data-count-target="10200000" data-count-format="comma">10,200,000</span></span>
       </div>
     </div>
 
-    <p class="loss-viz-note">
-      * 본 수치는 <b>KRW DCC 결제 약 5% 기준 추정치</b>입니다. 실제 손실은 카드 종류·결제 통화·DCC 적용 여부에 따라 <b>3 ~ 8%까지 변동</b>합니다. 정확한 진단은 무료 진단 신청 시 안내드립니다.
+    <p class="receipt-summary">
+      매월 <b>₩ <span data-count-target="10200000" data-count-format="comma">10,200,000</span> 격차</b>
+      &nbsp;·&nbsp;
+      연간 <b>₩ <span data-count-target="122400000" data-count-format="comma">122,400,000</span> 격차</b>
+    </p>
+    <p class="receipt-note">
+      * 카드 종류 · 결제 통화 · DCC 적용 여부에 따라 실제 손실은 <b style="color:#cfd6e4">광고비의 10 ~ 20%</b>까지 변동됩니다. 정확한 진단은 무료 진단 신청 시 안내드립니다.
     </p>
   </div>
 </section>
 </div>
 <!-- /DARK ZONE -->
 
-<!-- PROBLEM -->
-<section class="problem">
-  <div class="container">
-    <div class="section-head">
-      <h2>카드로 광고비를 결제하는 순간,<br>매달 수백만 원이 사라지고 있습니다</h2>
-      <p>대부분의 광고주는 "수수료 정도야"라고 넘기지만, 1년치를 모아보면 사람 한 명 연봉입니다.</p>
-    </div>
-    <div class="leak">
-      <div class="item">
-        <svg class="item-icon"><use href="#i-card-x"/></svg>
-        <div class="num">4~7%</div>
-        <h4>해외 결제 카드 수수료</h4>
-        <p>Meta·Google·TikTok은 모두 해외 결제로 잡힙니다. 카드사 수수료가 광고비에 그대로 붙습니다.</p>
-      </div>
-      <div class="item">
-        <svg class="item-icon ico-anim-bounce"><use href="#i-coin"/></svg>
-        <div class="num">0원</div>
-        <h4>일반 광고주가 받는 보너스</h4>
-        <p>매체 보너스 크레딧은 공식 파트너에게만 분배됩니다. 직접 계정으로는 신청 자체가 불가능합니다.</p>
-      </div>
-      <div class="item">
-        <svg class="item-icon"><use href="#i-question"/></svg>
-        <div class="num">D+7</div>
-        <h4>계정 이슈 평균 해결 기간</h4>
-        <p>직접 운영 시 광고 정지·결제 거부 발생하면 응대까지 1주 이상 소요됩니다. 그동안 매출은 멈춥니다.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- FEE TRUTH -->
-<section id="fee-truth" style="background:linear-gradient(180deg, #2a3556 0%, #3a4566 100%);color:#fff;position:relative">
+<section id="fee-truth" style="background:linear-gradient(180deg, #1a2548 0%, #2a3556 50%, #3a4566 100%);color:#fff;position:relative">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">🔍 카드 수수료 진단</span>
-      <h2>"원화로 결제하니까 수수료 없죠?"<br><span style="color:var(--warn)">아니요, 매달 새고 있습니다.</span></h2>
-      <p>Meta는 아일랜드, Google은 싱가포르 법인이 청구합니다. KRW(원화)로 청구되어도 카드사는 <b>해외 결제</b>로 분류해 수수료를 부과합니다. 결제 통화와 무관하게 발생하는 비용입니다.</p>
+      <h2>"원화 결제니까 수수료 없죠?"<br><span style="color:var(--warn)">돈 새는 카드 "원화(KRW) 결제"</span></h2>
     </div>
 
     <div class="card-statement-wrap">
       <div style="text-align:center;margin-bottom:20px">
         <span class="pill" style="background:#1877F2;color:#fff;border:1px solid #1877F2">Meta 광고비 카드결제내역</span>
         <h3 style="font-size:clamp(20px,2.4vw,26px);font-weight:800;margin-top:12px;letter-spacing:-.02em;line-height:1.35;color:var(--ink)">
-          해외매체 광고비 <span style="color:var(--brand)">100만 원</span> 카드결제 시,<br>실제 카드 청구내역
+          해외매체 광고비 <span style="color:var(--brand)">100만 원</span> 카드 청구내역서
         </h3>
-        <p style="font-size:13px;color:var(--ink-3);margin-top:8px">Meta 광고비 결제 12건 (2023.07~09 · <b style="color:var(--ink)">신용카드 청구서</b> 발췌)</p>
       </div>
       <div class="card-statement">
         <div class="card-statement-head">
@@ -1601,23 +2598,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="amount">결제금액 (KRW)</div>
           </div>
           <div class="card-statement-row"><div>2023.07.07</div><div class="merchant">FACEBK *AYSY670</div><div>IE</div><div class="amount">₩ 1,054,438</div></div>
-          <div class="card-statement-row"><div>2023.07.21</div><div class="merchant">FACEBK *69XSD0</div><div>IE</div><div class="amount">₩ 1,051,451</div></div>
-          <div class="card-statement-row"><div>2023.07.31</div><div class="merchant">FACEBK *66VTS9</div><div>IE</div><div class="amount">₩ 1,051,012</div></div>
-          <div class="card-statement-row hi"><div>2023.08.04</div><div class="merchant">FACEBK *KMLO48</div><div>IE</div><div class="amount">₩ 1,059,976 ↑</div></div>
-          <div class="card-statement-row"><div>2023.08.10</div><div class="merchant">FACEBK *ZVFS32S</div><div>IE</div><div class="amount">₩ 1,055,895</div></div>
+          <div class="card-statement-row hi"><div>2023.08.04</div><div class="merchant">FACEBK *KMLO48</div><div>IE</div><div class="amount">↑ ₩ 1,059,976</div></div>
           <div class="card-statement-row"><div>2023.08.14</div><div class="merchant">FACEBK *7Q5XDN</div><div>IE</div><div class="amount">₩ 1,051,451</div></div>
-          <div class="card-statement-row"><div>2023.08.21</div><div class="merchant">FACEBK *B2TK3</div><div>IE</div><div class="amount">₩ 1,050,912</div></div>
-          <div class="card-statement-row lo"><div>2023.08.28</div><div class="merchant">FACEBK *X9Y6H1</div><div>IE</div><div class="amount">₩ 1,050,487 ↓</div></div>
-          <div class="card-statement-row"><div>2023.08.30</div><div class="merchant">FACEBK *4K327</div><div>IE</div><div class="amount">₩ 1,052,579</div></div>
+          <div class="card-statement-row lo"><div>2023.08.28</div><div class="merchant">FACEBK *X9Y6H1</div><div>IE</div><div class="amount">↓ ₩ 1,050,487</div></div>
           <div class="card-statement-row"><div>2023.09.04</div><div class="merchant">FACEBK *4X4CD1</div><div>IE</div><div class="amount">₩ 1,052,374</div></div>
-          <div class="card-statement-row"><div>2023.09.11</div><div class="merchant">FACEBK *D4ZN5</div><div>IE</div><div class="amount">₩ 1,051,208</div></div>
-          <div class="card-statement-row"><div>2023.09.15</div><div class="merchant">FACEBK *T6EF3</div><div>IE</div><div class="amount">₩ 1,051,080</div></div>
         </div>
       </div>
       <div class="statement-annotation">
         <div class="arrow">!</div>
         <div>
-          광고주가 매번 <b>100만 원</b>의 광고비를 집행했는데, 카드 청구액은 <b>최저 ₩1,050,487</b> ~ <b>최고 ₩1,059,976</b>. 즉, <b>매번 5~6%가 추가로 빠져나가고 그 금액조차 매번 다릅니다</b>.
+          고객이 매번 <b>100만 원</b>의 광고비를 집행했는데, 카드 청구액은 <b>최저 ₩1,050,487</b> ~ <b>최고 ₩1,059,976</b>. 즉, <b>매번 5~6%가 추가로 빠져나가고 그 금액조차 매번 다릅니다</b>.
         </div>
       </div>
     </div>
@@ -1625,9 +2615,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- 광고비 결제 → 카드 청구 흐름 — 단계별 발생 수수료 -->
     <div class="fee-flow-explainer">
       <div class="fee-flow-head">
-        <span class="ff-eyebrow">광고비 → 카드 청구 흐름</span>
-        <h3>광고비 결제부터 카드 명세서까지<br><span class="ff-accent">4단계마다 수수료가 붙습니다</span></h3>
-        <p class="ff-sub">광고는 USD로 결제되지만, 카드사는 KRW로 청구합니다.<br class="ff-br-pc">그 사이 4번의 처리 과정마다 수수료가 더해지며 청구액이 늘어납니다.</p>
+        <h3>광고비 → 카드 청구 — <span class="ff-accent">4단계마다 수수료가 붙습니다</span></h3>
       </div>
 
       <div class="ff-steps">
@@ -1636,7 +2624,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="ff-step">
           <div class="ff-step-num">1</div>
           <div class="ff-step-body">
-            <div class="ff-step-action">광고주가 USD로 해외 매체에 광고비 결제</div>
+            <div class="ff-step-action">고객이 USD로 해외 매체에 광고비 결제</div>
             <div class="ff-step-desc">Meta · Google · TikTok 등 해외 본사가 USD 기준으로 광고비 청구</div>
             <div class="ff-step-cost">
               <span class="ff-step-cost-label">환전 수수료</span>
@@ -1675,7 +2663,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="ff-step">
           <div class="ff-step-num">4</div>
           <div class="ff-step-body">
-            <div class="ff-step-action">국내 카드사가 광고주에게 청구 처리</div>
+            <div class="ff-step-action">국내 카드사가 고객에게 청구 처리</div>
             <div class="ff-step-desc">국내 카드사가 자체 해외이용 수수료를 추가하여 명세서에 반영</div>
             <div class="ff-step-cost">
               <span class="ff-step-cost-label">국내 카드사 해외이용 수수료</span>
@@ -1688,7 +2676,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="ff-step is-final">
           <div class="ff-step-num">💳</div>
           <div class="ff-step-body">
-            <div class="ff-step-action">광고주 카드 명세서로 최종 청구</div>
+            <div class="ff-step-action">고객 카드 명세서로 최종 청구</div>
             <div class="ff-step-desc">원래 광고비에 위 4종 수수료가 모두 누적된 금액이 청구됨</div>
           </div>
         </div>
@@ -1698,120 +2686,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="fee-flow-total">
         <div class="ff-total-main">
           <span class="ff-total-label">누적 손실</span>
-          <span class="ff-total-rate">광고비의 약 <b>3 ~ 9%</b></span>
+          <span class="ff-total-rate">광고비의 약 <b>4 ~ 9%</b></span>
         </div>
-        <p class="ff-total-note">
-          일반 KRW 청구 시 <b>3~5%</b>, DCC 적용·일부 카드사·매체 보너스 미수령 포함 시 <b>최대 20%+</b>까지 손실.
-        </p>
+        <p class="ff-total-note">+ 매체 보너스 0원</p>
       </div>
-    </div>
-
-    <div class="fee-table" role="table" aria-label="카드 브랜드별 KRW 청구 시 수수료">
-      <div class="fee-row head">
-        <div>카드 브랜드</div>
-        <div>
-          수수료 구성 (KRW 청구 · <b>국내 3사 평균</b> 기준)
-          <div class="fee-stackbar-legend" style="margin-top:8px;text-transform:none;letter-spacing:0;font-weight:500">
-            <span title="VISA·Mastercard·AMEX 본사가 부과하는 국제 결제 수수료"><span class="dot brand"></span>국제 브랜드 (VISA·MC·AMEX)</span>
-            <span title="카드사가 KRW↔USD 환전 시 적용하는 매도환율 마진"><span class="dot fx"></span>전신매도환율 ×2 (환전 마진)</span>
-            <span title="신한·삼성·현대 3사 평균 자체 해외이용수수료"><span class="dot issuer"></span>국내 발급사 (3사 평균)</span>
-          </div>
-        </div>
-        <div>월 1억 광고비 기준 카드 수수료</div>
-      </div>
-      <div class="fee-row">
-        <div class="brand visa" data-label="카드 브랜드">
-          <img class="brand-logo visa" src="logos/visa.svg" alt="VISA" />
-        </div>
-        <div class="fee-stackbar" data-label="수수료 구성">
-          <div class="fee-stackbar-header">
-            <span class="label">수수료 구성</span>
-            <img class="visa" src="logos/visa.svg" alt="VISA" />
-          </div>
-          <div class="fee-stackbar-track">
-            <div class="fee-stackbar-fill" style="width:89.1%">
-              <div class="fee-stackbar-seg brand" style="flex:1.2"></div>
-              <div class="fee-stackbar-seg fx" style="flex:3.5"></div>
-              <div class="fee-stackbar-seg issuer" style="flex:0.20"></div>
-            </div>
-          </div>
-          <div class="fee-stackbar-numbers">
-            <span class="num brand">1.2% <span class="lbl">브랜드</span></span>
-            <span class="num fx">3.5% <span class="lbl">전신매도×2</span></span>
-            <span class="num issuer">약 0.20% <span class="lbl">3사 평균</span></span>
-          </div>
-          <div class="fee-stackbar-total">총 부담 약 4.90%</div>
-        </div>
-        <div class="loss" data-label="월 1억 광고비 기준">
-          <b>월 약 490만 원</b>
-          <span>= 연 5,880만 원이 카드 수수료로 지출</span>
-        </div>
-      </div>
-      <div class="fee-row">
-        <div class="brand mc" data-label="카드 브랜드">
-          <img class="brand-logo mc" src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" />
-        </div>
-        <div class="fee-stackbar" data-label="수수료 구성">
-          <div class="fee-stackbar-header">
-            <span class="label">수수료 구성</span>
-            <img class="mc" src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" />
-          </div>
-          <div class="fee-stackbar-track">
-            <div class="fee-stackbar-fill" style="width:89.1%">
-              <div class="fee-stackbar-seg brand" style="flex:1.2"></div>
-              <div class="fee-stackbar-seg fx" style="flex:3.5"></div>
-              <div class="fee-stackbar-seg issuer" style="flex:0.20"></div>
-            </div>
-          </div>
-          <div class="fee-stackbar-numbers">
-            <span class="num brand">1.2% <span class="lbl">브랜드</span></span>
-            <span class="num fx">3.5% <span class="lbl">전신매도×2</span></span>
-            <span class="num issuer">약 0.20% <span class="lbl">3사 평균</span></span>
-          </div>
-          <div class="fee-stackbar-total">총 부담 약 4.90%</div>
-        </div>
-        <div class="loss" data-label="월 1억 광고비 기준">
-          <b>월 약 490만 원</b>
-          <span>= 연 5,880만 원이 카드 수수료로 지출</span>
-        </div>
-      </div>
-      <div class="fee-row">
-        <div class="brand amex" data-label="카드 브랜드">
-          <img class="brand-logo amex" src="logos/amex.svg" alt="American Express" />
-        </div>
-        <div class="fee-stackbar" data-label="수수료 구성">
-          <div class="fee-stackbar-header">
-            <span class="label">수수료 구성</span>
-            <img class="amex" src="logos/amex.svg" alt="American Express" />
-          </div>
-          <div class="fee-stackbar-track">
-            <div class="fee-stackbar-fill" style="width:94.9%">
-              <div class="fee-stackbar-seg brand" style="flex:1.4"></div>
-              <div class="fee-stackbar-seg fx" style="flex:3.5"></div>
-              <div class="fee-stackbar-seg issuer" style="flex:0.32"></div>
-            </div>
-          </div>
-          <div class="fee-stackbar-numbers">
-            <span class="num brand">1.4% <span class="lbl">브랜드</span></span>
-            <span class="num fx">3.5% <span class="lbl">전신매도×2</span></span>
-            <span class="num issuer">약 0.32% <span class="lbl">3사 평균</span></span>
-          </div>
-          <div class="fee-stackbar-total">총 부담 약 5.22%</div>
-        </div>
-        <div class="loss" data-label="월 1억 광고비 기준">
-          <b>월 약 522만 원</b>
-          <span>= 연 6,264만 원이 카드 수수료로 지출</span>
-        </div>
-      </div>
-    </div>
-    <p class="fee-note">
-    <b>* 브랜드 수수료</b>: VISA·Mastercard 1.0~1.5%, AMEX 1.4~1.9% (국제 본사 부과).<br>
-    <b>* 전신매도환율 마진</b>: <b style="color:var(--warn)">카드사별로 1.0 ~ 2.75% 범위로 다양</b>합니다. 본 시뮬레이션은 평균 1.75% × 2회 = 3.5%를 적용한 추정치이며, 일부 카드·DCC 처리사는 2.5% × 2 = <b>최대 5.5%</b>까지 발생합니다 (각 카드사 약관 출처).<br>
-    <b>* 국내 발급사 수수료</b>: <b>신한·삼성·현대 3사 평균</b> 기준 VISA/Mastercard 약 0.20%, AMEX 약 0.32% (해외이용수수료 약관 평균).<br>
-    ⚠ <b>USD 청구 계정</b>은 단일 환전이지만 환율 변동 노출이 커져 실질 비용은 유사하거나 더 큽니다. 결제 통화 확인 필수.
-    </p>
-
-    <!-- 다른 카드사 비교 — 신한카드 기준은 보수적, 실제는 더 비쌀 수 있음 -->
+    </div><!-- 다른 카드사 비교 — 신한카드 기준은 보수적, 실제는 더 비쌀 수 있음 -->
     <div class="other-cards-warning">
       <div class="ocw-header">
         <span class="ocw-icon">💳</span>
@@ -1861,27 +2740,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </article>
       </div>
 
-      <p class="ocw-note">⚠ <b>본인 카드 약관에서 정확한 수수료를 반드시 확인하세요.</b> 카드사 평균 광고비 손실은 <b>월 평균 7.6% (범위 6~12%)</b> 수준입니다. 출처: 신한·삼성·현대카드 해외이용수수료 약관 (2022~2024), 한국소비자원 신용카드 해외결제 분석.</p>
+      <p class="ocw-note">⚠ <b>본인 카드 약관에서 정확한 수수료를 반드시 확인하세요.</b> 카드사 평균 광고비 손실은 <b>월 평균 7.6% (범위 6~12%)</b> 수준입니다. 출처: 신한·삼성·현대카드 해외이용수수료 약관 (2022~2024), <b style="text-decoration:underline;text-underline-offset:3px;color:#ffffff">한국소비자원 신용카드 해외결제 분석</b>.</p>
     </div>
 
   </div>
 </section>
 
 <!-- SOLUTION -->
-<section id="how" style="background:linear-gradient(180deg, #3a4566 0%, #4a5670 100%);color:#fff">
+<section id="how" style="background:linear-gradient(180deg, #3a4566 0%, #4a5670 35%, #6b7382 60%, #b8c0ce 80%, #f1f3f5 92%, #ffffff 100%);color:#fff">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">작동 방식</span>
-      <h2>파트너 인보이스는<br>어떻게 다른가?</h2>
-      <p>매체와 직접 계약된 파트너사의 계정 인프라를 통해 광고를 집행합니다. 운영 권한은 광고주 본인이 그대로 가집니다.</p>
+      <h2>파트너 계정이 광고비를 지키는 <span class="hl">3가지 방식</span></h2>
     </div>
-    <div class="solution-grid">
+    <div class="solution-grid solution-grid-single">
       <div>
-        <!-- 일반 계정 (카드 결제) — 광고주가 카드사에 수수료 부담 -->
+        <!-- 일반 계정 (카드 결제) — 고객이 카드사에 수수료 부담 -->
         <div class="sfb card-flow">
-          <h3>💳 일반 계정 — 광고주가 직접 카드 결제</h3>
+          <h3>💳 일반 계정 — 고객이 직접 카드 결제</h3>
           <div class="sfb-flow">
-            <div class="sfb-node">광고주</div>
+            <div class="sfb-node">고객</div>
             <div class="sfb-arrow">→</div>
             <div class="sfb-node danger">카드사<br><small>수수료 ~5% 부담</small></div>
             <div class="sfb-arrow">→</div>
@@ -1889,7 +2766,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
           <div class="sfb-example">
             <span class="ex-label">예시: 월 1억 광고비 집행 시</span>
-            <div class="ex-line"><span>광고주 카드 결제액</span><b>₩ 105,000,000</b></div>
+            <div class="ex-line"><span>고객 카드 결제액</span><b>₩ 105,000,000</b></div>
             <div class="ex-line"><span>카드사 수수료</span><b>−₩ 5,000,000</b></div>
             <div class="ex-line"><span>매체 도달 광고비</span><b>₩ 100,000,000</b></div>
             <div class="ex-line"><span>매체 보너스 크레딧</span><b>₩ 0 (미수령)</b></div>
@@ -1901,7 +2778,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="sfb invoice-flow">
           <h3>🎁 파트너 인보이스 — 충전식, 매체 직결 송금</h3>
           <div class="sfb-flow">
-            <div class="sfb-node">광고주</div>
+            <div class="sfb-node">고객</div>
             <div class="sfb-arrow">→</div>
             <div class="sfb-node good">파트너<br><small>충전식 (USD 직결)</small></div>
             <div class="sfb-arrow">→</div>
@@ -1909,127 +2786,90 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
           <div class="sfb-example">
             <span class="ex-label">예시: 월 1억 광고비 집행 시</span>
-            <div class="ex-line"><span>광고주 충전 (계좌이체)</span><b>₩ 100,000,000</b></div>
+            <div class="ex-line"><span>고객 충전 (계좌이체)</span><b>₩ 100,000,000</b></div>
             <div class="ex-line"><span>파트너 → 매체 USD 직결 송금</span><b>₩ 100,000,000</b></div>
             <div class="ex-line"><span>매체 보너스 + 프로모션 지원</span><b>+₩ 5,000,000 ~ ₩ 15,000,000</b></div>
             <div class="ex-line total"><span>카드사용 대비</span><b>매월 +₩ 10,000,000 ~ ₩ 20,000,000 이득</b></div>
           </div>
         </div>
       </div>
-      <div class="flow">
-        <div class="step">
-          <div class="badge">1</div>
-          <div class="step-body">
-            <h4 class="step-title">국내 계좌이체로 광고비 충전</h4>
-            <p class="step-desc">광고주가 파트너 인보이스 계정에 <b>원화로 계좌이체</b>하면, 파트너사가 매체에 <b>USD로 직접 송금</b>합니다.</p>
-            <ul class="step-bullets">
-              <li>카드 해외 결제 수수료 <b>0원</b></li>
-              <li>한도 초과·결제 거부 <b>리스크 없음</b></li>
-              <li>월 단위 인보이스로 <b>세무 처리 간편</b></li>
-            </ul>
-          </div>
-          <svg class="step-icon ico-anim-float"><use href="#i-plane"/></svg>
-        </div>
-        <div class="step">
-          <div class="badge">2</div>
-          <div class="step-body">
-            <h4 class="step-title">운영 권한 100% 유지 + 보너스 크레딧 자동 적립</h4>
-            <p class="step-desc">계정 소유·캠페인·픽셀·데이터는 <b>광고주 본인 그대로</b>. 매체가 지급하는 <b>보너스 크레딧이 광고주 계정에 자동 가산</b>됩니다.</p>
-            <ul class="step-bullets">
-              <li>캠페인·픽셀·오디언스 <b>그대로 이전</b></li>
-              <li>분기별 매체 보너스 <b>5~15%</b> 자동 적립</li>
-              <li>전담 매니저 + 매체사 <b>직통 지원</b></li>
-            </ul>
-          </div>
-          <svg class="step-icon ico-anim-bounce"><use href="#i-coin"/></svg>
-        </div>
-      </div>
     </div>
   </div>
 </section>
-
 <!-- SOCIAL PROOF -->
-<section class="stats-section" style="background:linear-gradient(180deg, #4a5670 0%, #5e6a85 100%);color:#fff">
+<section class="stats-section" style="background:#ffffff;color:var(--ink)">
   <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">숫자로 보는 신뢰</span>
-      <h2>이미 350개 이상의 광고주가<br>광고비를 회수하고 있습니다</h2>
-    </div>
-    <div class="stats stats-3">
-      <div class="stat"><div class="v">1,800억+</div><div class="l">누적 집행 광고비</div></div>
-      <div class="stat"><div class="v">350+</div><div class="l">현재 진행 광고주</div></div>
-      <div class="stat"><div class="v">92%</div><div class="l">12개월 재계약률</div></div>
-    </div>
-
-    <div class="credentials">
-      <div class="cred-item">
-        <div class="cred-icon">✓</div>
-        <div class="cred-text"><b>Meta Badged Marketing Partner</b><span>매체 본사 인증 최상위 등급</span></div>
-      </div>
-      <div class="cred-item">
-        <div class="cred-icon">✓</div>
-        <div class="cred-text"><b>자체 DSP · DMP 보유</b><span>단순 대행사가 아닌 애드테크 기업</span></div>
-      </div>
-      <div class="cred-item">
-        <div class="cred-icon">✓</div>
-        <div class="cred-text"><b>4개국 사무소 운영</b><span>국내·해외 24시간 글로벌 대응</span></div>
-      </div>
-      <div class="cred-item">
-        <div class="cred-icon">✓</div>
-        <div class="cred-text"><b>4,000+ 브랜드 운영 경험</b><span>국내·해외 다양한 업종 경험 축적</span></div>
-      </div>
-    </div>
-
-    <!-- 3년 리텐션 99% 강조 하이라이트 -->
+    <!-- 3년 리텐션 99% 강조 하이라이트 (Hero/FAQ 중복 stats 제거 후 unique 데이터만 유지) -->
     <div class="retention-highlight">
       <div class="rh-bg-glow"></div>
       <div class="rh-content">
         <div class="rh-eyebrow">
           <span class="rh-eyebrow-dot"></span>
-          한 번 시작한 광고주는 떠나지 않습니다
+          한 번 시작한 고객사는 떠나지 않습니다
         </div>
         <div class="rh-main">
           <div class="rh-figure">
-            <span class="rh-num">99<span class="rh-unit">%</span></span>
+            <span class="rh-num"><span data-count-target="99">99</span><span class="rh-unit">%</span></span>
             <span class="rh-divider"></span>
             <div class="rh-figure-label">
               <div class="rh-figure-title">고객사 3년 리텐션율</div>
-              <div class="rh-figure-sub">2023~2026 평균 · 월 광고비 1,000만 원+ 광고주 기준</div>
+              <div class="rh-figure-sub">2023~2026 평균 · 월 광고비 1,000만 원+ 고객사 기준</div>
             </div>
           </div>
         </div>
         <div class="rh-proof">
           <div class="rh-proof-item">
-            <div class="rh-proof-v">3.2년</div>
+            <div class="rh-proof-v"><span data-count-target="3.2" data-count-decimals="1">3.2</span>년</div>
             <div class="rh-proof-l">평균 계약 유지 기간</div>
           </div>
           <div class="rh-proof-item">
-            <div class="rh-proof-v">73%</div>
+            <div class="rh-proof-v"><span data-count-target="73">73</span>%</div>
             <div class="rh-proof-l">광고비 증액 갱신율</div>
           </div>
           <div class="rh-proof-item">
-            <div class="rh-proof-v">8.9 / 10</div>
-            <div class="rh-proof-l">NPS 광고주 만족도</div>
+            <div class="rh-proof-v"><span data-count-target="9.7" data-count-decimals="1">9.7</span>점</div>
+            <div class="rh-proof-l">NPS 고객사 만족도</div>
           </div>
         </div>
       </div>
     </div>
-    <p style="text-align:center;margin-top:20px;font-size:13px;color:#cfd6e4">* NDA 계약에 따라 사명은 비공개. 무료 진단 시 동일 업종 사례를 별도 공유드립니다.</p>
   </div>
 </section>
 
 <!-- CASES -->
-<section id="cases" style="background:linear-gradient(180deg, #5e6a85 0%, #8a92a8 30%, #c8cfdd 65%, #f6f7f9 100%);color:#fff">
+<section id="cases" style="background:#ffffff;color:var(--ink)">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">REAL CASES</span>
-      <h2>실제 광고주의 절감 사례</h2>
-      <p>2024년 인보이스 계정 전환을 통해 회수한 광고비 데이터입니다.</p>
+      <h2>실제 고객사 절감 사례 <span style="font-size:.6em;font-weight:600;color:var(--ink-3)">(2024년 데이터)</span></h2>
     </div>
+
+    <!-- v1.1.0: 보너스 크레딧 개념 정의 — Cases 본격 진입 전 학습 -->
+    <div class="bonus-info">
+      <div class="bonus-info-icon">🎁</div>
+      <div class="bonus-info-content">
+        <h4>매체 보너스 크레딧이란?</h4>
+        <p>광고 매체(Meta·Google·TikTok·NAVER·Kakao 등)가 <b>공식 파트너 계정</b>에 분기 단위로 직접 지급하는 무상 광고 크레딧입니다. 개인 광고주는 신청 불가, 광고비 규모·업종·집행 효율 기준으로 <b>매체 본사가 선별 지원</b>합니다.</p>
+        <div class="bonus-info-points">
+          <div class="bonus-point">
+            <span class="b-dot b-blue"></span>
+            <div><b>매체 본사 직접 지급</b><span class="desc">할인이 아닌 추가 광고 크레딧</span></div>
+          </div>
+          <div class="bonus-point">
+            <span class="b-dot b-amber"></span>
+            <div><b>분기별 한정 운영</b><span class="desc">예: Meta 30 브랜드 / 분기 선정</span></div>
+          </div>
+          <div class="bonus-point">
+            <span class="b-dot b-green"></span>
+            <div><b>광고비의 3 ~ 15%</b><span class="desc">매체·업종·예산별 차등 적용</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="cases cases-2col">
       <article class="case">
-        <span class="tag">CASE A · 월 광고비 7억</span>
-        <h4>국내외 주요 매체 인보이스 전환,<br>매월 4,173만 원 회수</h4>
+        <span class="tag">CASE A · 이커머스 (D2C) · 월 광고비 7억</span>
+        <h4>매월 4,173만 원 회수 +<br>회계 자동화로 운영 효율화</h4>
         <div class="metrics">
           <div class="metric"><div class="k">월 광고비</div><div class="v">7억 원</div></div>
           <div class="metric"><div class="k">전환 매체</div><div class="v">Meta · Google</div></div>
@@ -2055,13 +2895,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="case-result">
           <div class="case-result-row"><span>매월 절감액</span><b>₩ 41,733,365</b></div>
           <div class="case-result-row total"><span>2024년 연간 절감</span><b>₩ 500,800,030</b></div>
-          <div class="case-result-roi">≈ ROAS 3.0 기준 <b>월 ₩1.25억 추가 매출 등가</b> · 풀타임 마케터 약 5명 연봉 가치</div>
-          <div style="font-size:13px;color:#a9b4c6;margin-top:8px;text-align:right">총 9% 절감 효과 (수수료 5.96% + 보너스 3%)</div>
+          <div style="font-size:13px;color:#cfd6e4;margin-top:8px;text-align:right">총 9% 절감 효과 (수수료 5.96% + 보너스 3%)</div>
         </div>
+        <blockquote class="case-quote">
+          <p>공식 파트너 계정 전환 후 <b>입찰 신뢰도가 올라가면서 CPM이 8% 수준으로 안정적 하락</b>. 여기에 매체 보너스 크레딧까지 추가 적립되어 실질 광고 효율이 두 자릿수로 개선됐습니다.</p>
+          <cite>— L사 마케팅 디렉터</cite>
+        </blockquote>
       </article>
       <article class="case">
-        <span class="tag">CASE B · 월 광고비 3억</span>
-        <h4>해외 매체 인보이스 + 보너스 크레딧,<br>연 4.26억 혜택</h4>
+        <span class="tag">CASE B · 글로벌 진출 브랜드 · 월 광고비 3억</span>
+        <h4>연 4.26억 혜택 +<br>TikTok 신규 진입 & ROAS 개선</h4>
         <div class="metrics">
           <div class="metric"><div class="k">월 광고비</div><div class="v">3억 원</div></div>
           <div class="metric"><div class="k">전환 매체</div><div class="v">Meta · Google · TikTok</div></div>
@@ -2087,214 +2930,62 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="case-result">
           <div class="case-result-row"><span>매월 절감액</span><b>₩ 22,283,071</b></div>
           <div class="case-result-row total"><span>2024년 총 혜택</span><b>₩ 426,000,000</b></div>
-          <div class="case-result-roi">≈ ROAS 3.0 기준 <b>월 ₩6,685만 추가 매출 등가</b> · 신규 채널 확장에 재투자</div>
-          <div style="font-size:13px;color:#a9b4c6;margin-top:8px;text-align:right">절감 예산을 신규 채널 확장에 재투자</div>
+          <div style="font-size:13px;color:#cfd6e4;margin-top:8px;text-align:right">절감 예산을 신규 채널 확장에 재투자</div>
         </div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- CPM REVIEWS / TESTIMONIALS -->
-<section style="background:linear-gradient(180deg, #f6f7f9 0%, #ffffff 18%);">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">광고주 후기</span>
-      <h2>CPM 절감, 광고 효율 개선 사례</h2>
-      <p>광고비 절감 외에도, 공식 파트너 계정의 입찰 신뢰도·계정 등급 차이로 효율이 함께 개선된 사례입니다. 대부분 <b>10% 내외 개선</b>이며, 예외적으로 30%+ 효과를 본 케이스도 있습니다.</p>
-    </div>
-    <div class="reviews-grid">
-      <!-- 예외적 사례 (30%+) — 글로벌 게임 출시 + 매체 프로모션 매칭 -->
-      <article class="review-card featured">
-        <span class="review-badge">EXCEPTIONAL — 예외 케이스</span>
-        <div class="review-meta">
-          <span class="review-industry">모바일 게임 · 월 2억</span>
-          <span class="review-media">TikTok For Business</span>
-        </div>
-        <div class="review-metric">
-          <div class="metric-label">CPI (Cost per Install) 변화</div>
-          <div class="metric-row">
-            <div class="metric-vals">
-              <span class="before">₩ 2,400</span>
-              <span class="arrow">→</span>
-              <span class="after">₩ 1,650</span>
-            </div>
-            <div class="metric-delta">−31%</div>
-          </div>
-        </div>
-        <p class="review-quote">"글로벌 출시 시점에 <b>매체 본사 분기 프로모션 + 공식 파트너 보너스 크레딧</b>이 동시에 매칭되면서 일본·대만 시장 CPI가 31% 떨어졌습니다. 같은 예산으로 유저 모객 1.4배 확장."</p>
-        <div class="review-author">— G사 UA 매니저</div>
-      </article>
-
-      <!-- 일반적 사례 ① (~10%) — 이커머스 Meta -->
-      <article class="review-card">
-        <div class="review-meta">
-          <span class="review-industry">이커머스 · 월 5억</span>
-          <span class="review-media">Meta · Facebook · Instagram</span>
-        </div>
-        <div class="review-metric">
-          <div class="metric-label">CPM (1,000회 노출 단가) 변화</div>
-          <div class="metric-row">
-            <div class="metric-vals">
-              <span class="before">₩ 4,800</span>
-              <span class="arrow">→</span>
-              <span class="after">₩ 4,300</span>
-            </div>
-            <div class="metric-delta">−10%</div>
-          </div>
-        </div>
-        <p class="review-quote">"공식 파트너 계정 전환 후 <b>입찰 신뢰도가 올라가면서 CPM이 약 10% 안정적으로 하락</b>. 매체 보너스 크레딧 5%까지 합치면 실질 광고 효율 약 15% 개선됐습니다."</p>
-        <div class="review-author">— L사 마케팅 디렉터</div>
-      </article>
-
-      <!-- 일반적 사례 ② (~10%) — 앱 서비스 Google YouTube -->
-      <article class="review-card">
-        <div class="review-meta">
-          <span class="review-industry">앱 서비스 · 월 8천만</span>
-          <span class="review-media">Google · YouTube</span>
-        </div>
-        <div class="review-metric">
-          <div class="metric-label">CPM (1,000회 노출 단가) 변화</div>
-          <div class="metric-row">
-            <div class="metric-vals">
-              <span class="before">₩ 3,500</span>
-              <span class="arrow">→</span>
-              <span class="after">₩ 3,150</span>
-            </div>
-            <div class="metric-delta">−10%</div>
-          </div>
-        </div>
-        <p class="review-quote">"가장 큰 변화는 <b>계정 안정성</b>. 카드 결제로 운영할 때 분기마다 있던 계정 정지 사고가 사라졌고, 부수적으로 CPM도 약 10% 개선됐습니다."</p>
-        <div class="review-author">— S사 그로스 리드</div>
-      </article>
-
-      <!-- 일반적 사례 ③ (~10%) — 패션 Meta Instagram -->
-      <article class="review-card">
-        <div class="review-meta">
-          <span class="review-industry">패션 · 월 1.2억</span>
-          <span class="review-media">Meta · Instagram</span>
-        </div>
-        <div class="review-metric">
-          <div class="metric-label">CPM (1,000회 노출 단가) 변화</div>
-          <div class="metric-row">
-            <div class="metric-vals">
-              <span class="before">₩ 5,200</span>
-              <span class="arrow">→</span>
-              <span class="after">₩ 4,680</span>
-            </div>
-            <div class="metric-delta">−10%</div>
-          </div>
-        </div>
-        <p class="review-quote">"분기 매체 본사 프로모션 + 보너스 크레딧 5%가 추가로 들어와 <b>CPM 10% 개선 + 광고비 5% 절감 동시 효과</b>. 같은 예산으로 신규 카테고리 진출 가능."</p>
-        <div class="review-author">— F사 브랜드 매니저</div>
+        <blockquote class="case-quote">
+          <p>분기 매체 본사 프로모션 + 보너스 크레딧이 추가로 들어와 <b>CPM 9% 개선 + 광고비 절감 동시 효과</b>. 같은 예산으로 신규 카테고리 진출 가능했습니다.</p>
+          <cite>— F사 브랜드 매니저</cite>
+        </blockquote>
       </article>
     </div>
 
     <div class="review-disclaimer">
-      ⚠ <b>면책 안내</b>: 본 사례는 특정 광고주의 실제 경험을 NDA 범위 내에서 익명화한 자료입니다. <b>모든 광고주에게 동일한 효과가 보장되지 않습니다</b>. 광고 효율(CPM·CPI·ROAS 등)은 업종·시즌·소재·전환 구조·예산·경쟁 환경 등 다양한 요인에 따라 달라지며, 일부 사례는 매체 보너스 크레딧과 캠페인 최적화가 함께 적용된 결과입니다.
+      ⚠ <b>면책 안내</b>: 본 사례는 특정 고객사의 실제 경험을 NDA 범위 내에서 익명화한 자료입니다. <b>모든 고객사에게 동일한 효과가 보장되지 않습니다</b>. 광고 효율(CPM·CPI·ROAS 등)은 업종·시즌·소재·전환 구조·예산·경쟁 환경 등 다양한 요인에 따라 달라지며, 일부 사례는 매체 보너스 크레딧과 캠페인 최적화가 함께 적용된 결과입니다.
     </div>
   </div>
 </section>
 
-<!-- COMPARE -->
-<section class="compare">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">비교</span>
-      <h2>일반 계정 vs 파트너 인보이스 계정</h2>
-    </div>
-    <div class="compare-table">
-      <div class="ct-row head">
-        <div class="col">항목</div>
-        <div class="col head-c">일반 계정</div>
-        <div class="col head-c">파트너 인보이스 계정</div>
-      </div>
-      <div class="ct-row">
-        <div class="col feat">해외 결제 수수료</div>
-        <div class="col con"><span class="col-label">일반 계정</span>4~7% 발생</div>
-        <div class="col pro"><span class="col-label">파트너 인보이스</span>0원</div>
-      </div>
-      <div class="ct-row">
-        <div class="col feat">매체 보너스 크레딧</div>
-        <div class="col con"><span class="col-label">일반 계정</span>신청 불가</div>
-        <div class="col pro"><span class="col-label">파트너 인보이스</span>최대 15% 분배</div>
-      </div>
-      <div class="ct-row">
-        <div class="col feat">세금계산서 / 매입공제</div>
-        <div class="col con"><span class="col-label">일반 계정</span>제한적</div>
-        <div class="col pro"><span class="col-label">파트너 인보이스</span>국내 세금계산서 발행</div>
-      </div>
-      <div class="ct-row">
-        <div class="col feat">계정 이슈 대응</div>
-        <div class="col con"><span class="col-label">일반 계정</span>평균 7일</div>
-        <div class="col pro"><span class="col-label">파트너 인보이스</span>전담 매니저 평균 2시간</div>
-      </div>
-      <div class="ct-row">
-        <div class="col feat">광고주 운영 권한</div>
-        <div class="col pro"><span class="col-label">일반 계정</span>유지</div>
-        <div class="col pro"><span class="col-label">파트너 인보이스</span>유지 (동일)</div>
-      </div>
-      <div class="ct-row">
-        <div class="col feat">데이터·소재 소유권</div>
-        <div class="col pro"><span class="col-label">일반 계정</span>광고주</div>
-        <div class="col pro"><span class="col-label">파트너 인보이스</span>광고주 (동일)</div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- MEDIA — Act 2 마무리, Act 3로의 진입 시그널 (옅은 블루, FAQ 시작과 매칭) -->
-<section style="background:linear-gradient(180deg, #eef3fb 0%, #f5f8fd 20%, #f8fafe 50%, #fbfcfe 80%, #ffffff 100%);color:var(--ink)">
+<section style="background:linear-gradient(180deg, #ffffff 0%, #f6f9fd 50%, #ffffff 100%);color:var(--ink)">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">지원 매체</span>
       <h2>주요 글로벌·국내 매체 모두 지원</h2>
-      <p>매체별로 적용되는 보너스율과 정산 조건이 다릅니다. 신청 시 매체별 최적 조합을 안내드립니다.</p>
-    </div>
-    <div class="bonus-info">
-      <div class="bonus-info-icon">🎁</div>
-      <div class="bonus-info-content">
-        <h4>매체 보너스 크레딧이란?</h4>
-        <p>광고 매체(Meta·Google·TikTok·NAVER·Kakao 등)가 <b>공식 파트너 계정</b>에 분기 단위로 직접 지급하는 무상 광고 크레딧입니다. 개인 광고주는 신청 불가, 광고비 규모·업종·집행 효율 기준으로 <b>매체 본사가 선별 지원</b>합니다.</p>
-        <div class="bonus-info-points">
-          <div class="bonus-point">
-            <span class="b-dot b-blue"></span>
-            <div><b>매체 본사 직접 지급</b><span class="desc">할인이 아닌 추가 광고 크레딧</span></div>
-          </div>
-          <div class="bonus-point">
-            <span class="b-dot b-amber"></span>
-            <div><b>분기별 한정 운영</b><span class="desc">예: Meta 30 브랜드 / 분기 선정</span></div>
-          </div>
-          <div class="bonus-point">
-            <span class="b-dot b-green"></span>
-            <div><b>광고비의 3 ~ 15%</b><span class="desc">매체·업종·예산별 차등 적용</span></div>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <!-- 지원 매체 개별 로고 갤러리 (로컬 호스팅 + 클릭 시 상세 카드로 스크롤) -->
+    <!-- 매체 로고 클릭 유도 헤더 -->
+    <div class="media-logos-cta">
+      <div class="mlc-text">
+        <span class="mlc-question">🏆 매체 신청현황 (최근 90일)</span>
+        <span class="mlc-action"><span class="mlc-live-dot" aria-hidden="true"></span>실시간 업데이트 · 로고 <b>클릭</b>으로 매체별 혜택 확인</span>
+      </div>
+      <div class="mlc-arrow">↓</div>
+    </div>
+
+    <!-- 지원 매체 개별 로고 갤러리 — Top 10 신청현황 (최근 90일) 정렬 -->
     <div class="media-logos-grid">
-      <a class="media-logo-tile" href="#m-meta" data-name="Meta · Facebook · Instagram"><img src="logos/meta.svg" alt="Meta" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-google" data-name="Google Ads · 검색·GDN"><img src="logos/google.svg" alt="Google" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-google" data-name="YouTube · 동영상 광고"><img src="logos/youtube.svg" alt="YouTube" class="lg" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-tiktok" data-name="TikTok For Business"><img src="logos/tiktok.svg" alt="TikTok" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-pinterest" data-name="Pinterest Partners"><img src="logos/pinterest.png" alt="Pinterest" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-pinterest" data-name="X (Twitter) Advertising"><img src="logos/x.svg" alt="X" class="sm" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-naver" data-name="NAVER · 검색·GFA·브랜드검색"><img src="logos/naver.svg" alt="NAVER" class="lg" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-kakao" data-name="Kakao · 모먼트·비즈보드"><img src="logos/kakao.svg" alt="Kakao" class="lg" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-global" data-name="Snapchat Ads"><img src="logos/snapchat.svg" alt="Snapchat" class="lg" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-global" data-name="LinkedIn Ads"><img src="logos/linkedin.svg" alt="LinkedIn" class="lg" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-global" data-name="LINE Ads Platform"><img src="logos/line.svg" alt="LINE" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-global" data-name="Yahoo! DSP"><span class="text-logo yahoo">Yahoo!</span></a>
-      <a class="media-logo-tile" href="#m-global" data-name="Reddit Ads"><img src="logos/reddit.svg" alt="Reddit" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-global" data-name="Amazon Ads"><img src="logos/amazon.svg" alt="Amazon Ads" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-global" data-name="Apple Search Ads"><img src="logos/apple.svg" alt="Apple Search Ads" class="lg" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-global" data-name="Unity Ads"><img src="logos/unity-ads.svg" alt="Unity Ads" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-domestic" data-name="토스 광고"><img src="logos/toss-ads.svg" alt="toss ads" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-domestic" data-name="KT · 타운보드 광고"><img src="logos/kt-townboard.svg" alt="kt is TOWN BOARD" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-domestic" data-name="포커스미디어 · 엘리베이터 광고"><img src="logos/focus-media.svg" alt="포커스미디어" loading="lazy" /></a>
-      <a class="media-logo-tile" href="#m-domestic" data-name="GS MediaMeet · 옥외 매체"><img src="logos/mediameet.svg" alt="MEDIAMEET (GS 넷비전 × iMP)" loading="lazy" /></a>
+      <!-- Top 10 (신청률 순) -->
+      <a class="media-logo-tile" data-rank="1" href="#m-meta" data-name="Meta · Facebook · Instagram"><span class="mlt-rank">1</span><img src="logos/meta.svg" alt="Meta" loading="lazy" /><span class="mlt-pct">32.0%</span></a>
+      <a class="media-logo-tile" data-rank="2" href="#m-google" data-name="Google Ads · 검색·GDN"><span class="mlt-rank">2</span><img src="logos/google.svg" alt="Google" loading="lazy" /><span class="mlt-pct">0%</span></a>
+      <a class="media-logo-tile" data-rank="3" href="#m-tiktok" data-name="TikTok For Business"><span class="mlt-rank">3</span><img src="logos/tiktok.svg" alt="TikTok" loading="lazy" /><span class="mlt-pct">12.8%</span></a>
+      <a class="media-logo-tile" data-rank="4" href="#m-naver" data-name="NAVER · 검색·GFA·브랜드검색"><span class="mlt-rank">4</span><img src="logos/naver.png" alt="NAVER" class="lg" loading="lazy" /><span class="mlt-pct">7.8%</span></a>
+      <a class="media-logo-tile" data-rank="5" href="#m-kakao" data-name="Kakao · 모먼트·비즈보드"><span class="mlt-rank">5</span><img src="logos/kakao.svg" alt="Kakao" class="lg" loading="lazy" /><span class="mlt-pct">5.6%</span></a>
+      <a class="media-logo-tile" data-rank="6" href="#m-toss" data-name="토스 광고"><span class="mlt-rank">6</span><img src="logos/toss-ads.svg" alt="toss ads" class="lg" loading="lazy" /><span class="mlt-pct">5.2%</span></a>
+      <a class="media-logo-tile" data-rank="7" href="#m-pinterest" data-name="X (Twitter) Advertising"><span class="mlt-rank">7</span><img src="logos/x.svg" alt="X" class="sm" loading="lazy" /><span class="mlt-pct">3.4%</span></a>
+      <a class="media-logo-tile" data-rank="8" href="#m-global" data-name="LinkedIn Ads"><span class="mlt-rank">8</span><img src="logos/linkedin.svg" alt="LinkedIn" class="lg" loading="lazy" /><span class="mlt-pct">2.1%</span></a>
+      <a class="media-logo-tile" data-rank="9" href="#m-pinterest" data-name="Pinterest Partners"><span class="mlt-rank">9</span><img src="logos/pinterest.png" alt="Pinterest" class="lg" loading="lazy" /><span class="mlt-pct">1.5%</span></a>
+      <a class="media-logo-tile" data-rank="10" href="#m-global" data-name="Snapchat Ads"><span class="mlt-rank">10</span><img src="logos/snapchat.svg" alt="Snapchat" class="lg" loading="lazy" /><span class="mlt-pct">1.1%</span></a>
+      <!-- 그 외 지원 매체 (순위 외 · 소량 신청) -->
+      <a class="media-logo-tile" href="#m-google" data-name="YouTube · 동영상 광고"><img src="logos/youtube.svg" alt="YouTube" class="lg" loading="lazy" /><span class="mlt-pct">1.8%</span></a>
+      <a class="media-logo-tile" href="#m-global" data-name="LINE Ads Platform"><img src="logos/line.jpg" alt="LINE Ads Platform" class="lg" loading="lazy" /><span class="mlt-pct">1.2%</span></a>
+      <a class="media-logo-tile" href="#m-global" data-name="Amazon Ads"><img src="logos/amazon.svg" alt="Amazon Ads" loading="lazy" /><span class="mlt-pct">1.0%</span></a>
+      <a class="media-logo-tile" href="#m-global" data-name="Reddit Ads"><img src="logos/reddit.svg" alt="Reddit" loading="lazy" /><span class="mlt-pct">0.9%</span></a>
+      <a class="media-logo-tile" href="#m-global" data-name="Apple Search Ads"><img src="logos/apple.svg" alt="Apple Search Ads" class="lg" loading="lazy" /><span class="mlt-pct">0.8%</span></a>
+      <a class="media-logo-tile" href="#m-global" data-name="Yahoo! DSP"><span class="text-logo yahoo">Yahoo!</span><span class="mlt-pct">0.7%</span></a>
+      <a class="media-logo-tile" href="#m-domestic" data-name="KT · 타운보드 광고"><img src="logos/kt-townboard.png" alt="KT TOWNBOARD" class="lg" loading="lazy" /><span class="mlt-pct">0.7%</span></a>
+      <a class="media-logo-tile" href="#m-domestic" data-name="포커스미디어 · 엘리베이터 광고"><img src="logos/focus-media.svg" alt="포커스미디어" loading="lazy" /><span class="mlt-pct">0.7%</span></a>
+      <a class="media-logo-tile" href="#m-global" data-name="Unity Ads"><img src="logos/unity-ads.svg" alt="Unity Ads" loading="lazy" /><span class="mlt-pct">0.6%</span></a>
+      <a class="media-logo-tile" href="#m-domestic" data-name="GS MediaMeet · 옥외 매체"><img src="logos/mediameet.svg" alt="MEDIAMEET (GS 넷비전 × iMP)" loading="lazy" /><span class="mlt-pct">0.6%</span></a>
     </div>
     <p class="media-logos-note">* 각 로고를 클릭하면 매체별 상세 정보(보너스 크레딧·할인율)로 이동합니다. 그 외 글로벌 DSP·DMP 매체 50여 종 지원.</p>
     <div class="media-detail-grid">
@@ -2302,7 +2993,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="media-logo-wrap">
           <img class="media-logo meta" src="logos/meta.svg" alt="Meta" loading="lazy" />
         </div>
-        <div class="m-name">Meta</div>
         <div class="m-sub">Facebook · Instagram</div>
         <ul class="m-perks">
           <li><span class="m-val">~7%</span><span>수수료 절감</span></li>
@@ -2313,7 +3003,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="media-logo-wrap">
           <img class="media-logo google" src="logos/google.svg" alt="Google" loading="lazy" />
         </div>
-        <div class="m-name">Google</div>
         <div class="m-sub">YouTube · 검색 · GDN</div>
         <ul class="m-perks">
           <li><span class="m-val">~7%</span><span>수수료 절감</span></li>
@@ -2324,7 +3013,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="media-logo-wrap">
           <img class="media-logo tiktok" src="logos/tiktok.svg" alt="TikTok" loading="lazy" />
         </div>
-        <div class="m-name">TikTok</div>
         <div class="m-sub">For Business</div>
         <ul class="m-perks">
           <li><span class="m-val">~7%</span><span>수수료 절감</span></li>
@@ -2338,7 +3026,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <span style="color:var(--ink-3);font-size:14px;font-weight:300">·</span>
           <img class="media-logo x-logo" src="logos/x.svg" alt="X" loading="lazy" />
         </div>
-        <div class="m-name">Pinterest · X</div>
         <div class="m-sub">Twitter 포함</div>
         <ul class="m-perks">
           <li><span class="m-val">~4.8%</span><span>수수료 절감</span></li>
@@ -2357,25 +3044,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <li><span class="m-val bonus">+</span><span>리워드</span></li>
         </ul>
       </div>
+      <div class="media-detail" id="m-naver">
+        <div class="media-logo-wrap">
+          <img class="media-logo naver" src="logos/naver.png" alt="NAVER" loading="lazy" />
+        </div>
+        <div class="m-sub">검색 · GFA · 브랜드검색</div>
+        <ul class="m-perks">
+          <li><span class="m-val bonus">~14%</span><span>보너스 크레딧 🪙</span></li>
+        </ul>
+      </div>
+      <div class="media-detail" id="m-toss">
+        <div class="media-logo-wrap">
+          <img class="media-logo toss" src="logos/toss-ads.svg" alt="TOSS" loading="lazy" />
+        </div>
+        <div class="m-sub">3,000만 MAU · 인앱 광고</div>
+        <ul class="m-perks">
+          <li><span class="m-val bonus">~14%</span><span>보너스 크레딧 🪙</span></li>
+        </ul>
+      </div>
       <div class="media-detail" id="m-kakao">
         <div class="media-logo-wrap">
           <img class="media-logo kakao" src="logos/kakao.svg" alt="Kakao" loading="lazy" />
         </div>
-        <div class="m-name">Kakao</div>
         <div class="m-sub">모먼트 · 비즈보드</div>
         <ul class="m-perks">
-          <li><span class="m-val bonus">~5%</span><span>보너스 크레딧 🪙</span></li>
-        </ul>
-      </div>
-      <div class="media-detail" id="m-naver">
-        <div class="media-logo-wrap">
-          <img class="media-logo naver" src="logos/naver.svg" alt="NAVER" loading="lazy" />
-        </div>
-        <div class="m-name">NAVER</div>
-        <div class="m-sub">검색 · GFA · 브랜드검색</div>
-        <ul class="m-perks">
-          <li><span class="m-val bonus">~6%</span><span>보너스 🪙</span></li>
-          <li><span class="m-val bonus">~9%</span><span>보너스 크레딧 🪙</span></li>
+          <li><span class="m-val bonus">~14%</span><span>보너스 크레딧 🪙</span></li>
         </ul>
       </div>
       <div class="media-detail" id="m-domestic">
@@ -2386,8 +3079,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="m-sub">온라인 · 엘리베이터 매체</div>
         <ul class="m-perks">
           <li><span class="m-val bonus">~14%</span><span>보너스 + 할인</span></li>
-          <li><span class="m-val bonus">~10%</span><span>할인</span></li>
-          <li><span class="m-val bonus">~9%</span><span>보너스 + 할인</span></li>
+          <li><span class="m-val bonus">~10%</span><span>보너스 + 할인</span></li>
           <li><span class="m-val"></span><span>리워드 · 프로모션</span></li>
         </ul>
       </div>
@@ -2396,46 +3088,144 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="industry-restrict" style="grid-template-columns:1fr">
       <div class="industry-card restrict">
         <div class="ic-head">
-          <div class="ic-icon">🚫</div>
           <h4 class="ic-title">제한 / 할증 업종</h4>
         </div>
         <p class="ic-sub">
-          <b style="color:#a13838">🚫 임대·대대행 불가</b>: 도박 · 성인 · 데이팅 · 대부/사채 · 소액 결제 · 모조품 · 다단계 · 가상자산<br>
-          <b style="color:#92400e">⚠️ 대행만 가능 (+3~4% 할증)</b>: 대출 · 보험 · 의료/기기 · 건강기능식품 · 구직 · 부동산 분양 · 주류/담배 · 종교/정치
+          <b style="color:#991b1b">🚫 임대·대대행 불가</b>: 도박 · 성인 · 데이팅 · 대부/사채 · 소액 결제 · 모조품 · 다단계 · 가상자산<br>
+          <b style="color:#7f1d1d">⚠️ 대행만 가능 (+3~4% 할증)</b>: 대출 · 보험 · 의료/기기 · 건강기능식품 · 구직 · 부동산 분양 · 주류/담배 · 종교/정치
         </p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CTA / FORM -->
-<section class="cta-section" id="apply">
-  <div class="cta-process-wrap">
-    <div class="cta-process-head">
-      <span class="cta-process-eyebrow">진행 프로세스</span>
-      <h3 class="cta-process-title">신청부터 첫 광고 집행까지 <b>단 3단계</b></h3>
-      <p class="cta-process-sub">평균 3영업일 안에 완료됩니다. 약정·위약금 없이 언제든 중단 가능.</p>
+<!-- COMPARE — 의사결정 직전 마지막 스코어카드 (Media → Compare → Form) -->
+<section class="compare">
+  <div class="container">
+    <div class="section-head">
+      <h2>일반 계정 vs 파트너 계정</h2>
     </div>
-    <div class="cta-process">
-      <div class="cta-process-step">
-        <div class="cta-process-num">1</div>
-        <div class="cta-process-text"><div class="t">무료 진단 신청</div><div class="d">24시간 내 절감액 리포트</div></div>
+
+    <!-- v1.1.0: cmp-wrap — 항목별 상세 비교 표 (위로 이동) + 구조적 차별점 3카드 -->
+    <div class="cmp-wrap">
+      <div class="cmp-table">
+        <table>
+          <thead>
+            <tr>
+              <th>항목</th>
+              <th>일반 계정</th>
+              <th class="recommended">파트너 계정 <span class="reco-pill">추천</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>해외결제 수수료</td>
+              <td><span class="cmp-tag bad">발생</span><span class="cmp-bad">4 ~ 7%</span></td>
+              <td><span class="cmp-tag good">없음</span><span class="cmp-good">0원</span></td>
+            </tr>
+            <tr>
+              <td>결제 안정성</td>
+              <td><span class="cmp-tag bad">리스크</span><span style="color:var(--ink-3)">한도/거부 발생</span></td>
+              <td><span class="cmp-tag good">충전식</span><span class="cmp-good">한도·거부 0</span></td>
+            </tr>
+            <tr>
+              <td>해외 매체 보너스</td>
+              <td><span class="cmp-tag bad">신청 불가</span><span style="color:var(--ink-3)">매체 본사 정책</span></td>
+              <td><span class="cmp-tag good">자동 분배</span><span class="cmp-good">~ 4%</span></td>
+            </tr>
+            <tr>
+              <td>국내 매체 보너스</td>
+              <td><span class="cmp-tag bad">신청 불가</span><span style="color:var(--ink-3)">매체 본사 정책</span></td>
+              <td><span class="cmp-tag good">자동 분배</span><span class="cmp-good">13 ~ 15%</span></td>
+            </tr>
+            <tr>
+              <td>세금계산서</td>
+              <td><span class="cmp-tag bad">제한적</span><span style="color:var(--ink-3)">카드 명세서</span></td>
+              <td><span class="cmp-tag good">매월 발행</span><span class="cmp-good">국내 세금계산서</span></td>
+            </tr>
+            <tr>
+              <td>계정 Support</td>
+              <td><span class="cmp-tag bad">평균 7일</span><span style="color:var(--ink-3)">지연·정지 발생</span></td>
+              <td><span class="cmp-tag good">평균 2시간</span><span class="cmp-good">전담 매니저</span></td>
+            </tr>
+            <tr>
+              <td>운영 권한</td>
+              <td><span class="cmp-tag bad">유지</span><span style="color:var(--ink-3)">(대행사별 상이)</span></td>
+              <td><span class="cmp-tag good">유지 (동일)</span><span class="cmp-good">100% 고객</span></td>
+            </tr>
+            <tr>
+              <td>데이터 소유권</td>
+              <td><span class="cmp-tag bad">고객</span><span style="color:var(--ink-3)">(이전 제한)</span></td>
+              <td><span class="cmp-tag good">고객 (동일)</span><span class="cmp-good">자유 이전</span></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <span class="cta-process-arrow">→</span>
-      <div class="cta-process-step">
-        <div class="cta-process-num">2</div>
-        <div class="cta-process-text"><div class="t">맞춤 계정 설계</div><div class="d">약정·위약금 없음</div></div>
+
+      <div class="struct-list">
+        <div class="struct-card">
+          <div class="struct-num">1</div>
+          <div class="struct-body">
+            <h4>국내 계정이면서 광고비 출처는 본사 직결</h4>
+            <p>고객 명의의 국내 비즈니스 매니저에서 운영합니다. 단, 결제만 <b>매체 본사와 직결제</b>되어 카드 환차·DCC 마진 발생 구조 자체를 우회합니다.</p>
+          </div>
+        </div>
+        <div class="struct-card">
+          <div class="struct-num">2</div>
+          <div class="struct-body">
+            <h4>운영 권한 100% 유지 + 보너스 크레딧 자동 적용</h4>
+            <p>고객이 캠페인·픽셀·도메인·CAPI를 그대로 컨트롤합니다. 매월 매체 본사가 인보이스 계정에만 지급하는 <b>보너스 크레딧 (해외 ~4% · 국내 13~15%)</b>이 고객 잔액으로 자동 적립됩니다.</p>
+          </div>
+        </div>
+        <div class="struct-card">
+          <div class="struct-num">3</div>
+          <div class="struct-body">
+            <h4>SGI 서울보증보험 + 매체 직결제로 광고비 보호</h4>
+            <p>인보이스 계정 운영사 리스크 발생 시에도 <b>서울보증보험으로 광고비 100% 보호</b>됩니다. 매체 직결제 구조라 잔액이 운영사 계좌를 거치지 않습니다.</p>
+          </div>
+        </div>
       </div>
-      <span class="cta-process-arrow">→</span>
-      <div class="cta-process-step">
-        <div class="cta-process-num">3</div>
-        <div class="cta-process-text"><div class="t">계정 발급 · 첫 집행</div><div class="d">평균 3영업일 · 전담 매니저 1:1</div></div>
-      </div>
+    </div>
+
+    <!-- v1.1.0: Visual bar comparison cards (아래로 이동 — 표 결정 후 시각 요약) -->
+    <div class="compare-cards" style="margin-top:36px">
+      <article class="cc-card cc-bad" style="--cc-target:95%">
+        <h3>💳 일반 계정 (카드 결제)</h3>
+        <div class="cc-sub">여러 단계의 해외 결제 수수료가 누적됩니다.</div>
+        <div class="cc-bar"><div class="cc-fill">광고 효율 ~95% (수수료 5%+ 손실)</div></div>
+        <div class="cc-stat"><span>환전·브랜드·DCC 수수료</span><b class="cc-bad-val">5% 이상</b></div>
+        <div class="cc-stat"><span>해외 매체 보너스</span><b class="cc-bad-val">없음 (0원)</b></div>
+        <div class="cc-stat"><span>국내 매체 보너스</span><b class="cc-bad-val">없음 (0원)</b></div>
+        <div class="cc-stat"><span>세금계산서</span><b>매월 카드 명세서</b></div>
+        <div class="cc-stat"><span>이슈 대응</span><b>평균 7일</b></div>
+        <div class="cc-stat"><span class="hl-red">월 1억 기준 수수료 손실</span><b class="cc-bad-val">월 ₩ 500만+</b></div>
+      </article>
+      <article class="cc-card cc-good" style="--cc-target:100%">
+        <h3>🎯 파트너 계정 (인보이스)</h3>
+        <div class="cc-sub">수수료 0원 + 해외·국내 매체 본사 보너스 크레딧 자동 지급.</div>
+        <div class="cc-bar"><div class="cc-fill">광고 효율 100% + 보너스</div></div>
+        <div class="cc-stat"><span>해외 결제 수수료</span><b class="cc-good-val">0원</b></div>
+        <div class="cc-stat"><span>해외 매체 보너스</span><b class="cc-good-val">~ 4%</b></div>
+        <div class="cc-stat"><span>국내 매체 보너스</span><b class="cc-good-val">13 ~ 15%</b></div>
+        <div class="cc-stat"><span>세금계산서</span><b>월 단위 자동 발행</b></div>
+        <div class="cc-stat"><span>이슈 대응</span><b class="cc-good-val">평균 2시간</b></div>
+        <div class="cc-stat"><span class="hl-blue">월 1억 기준 추가 혜택</span><b class="cc-good-val">월 +₩ 500~1,500만</b></div>
+        <div class="cc-credit-chips">
+          <span class="cc-credit-chip"><span class="ic">🎁</span>수수료 <b>0원</b></span>
+          <span class="cc-credit-chip"><span class="ic">🌎</span>해외 매체 <b>~ 4%</b></span>
+          <span class="cc-credit-chip"><span class="ic">🇰🇷</span>국내 매체 <b>13 ~ 15%</b></span>
+          <span class="cc-credit-chip"><span class="ic">⚡</span><b>자동 적립</b></span>
+        </div>
+      </article>
     </div>
   </div>
+</section>
+
+<!-- CTA / FORM -->
+<section class="cta-section" id="apply">
   <div class="container cta-grid">
     <div>
-      <span class="pill pill-dark">2026 Q1 신청 마감 임박</span>
+      <span class="section-tag section-tag-urgent">⏰ 2026 Q1 신청 마감 임박</span>
       <h2 style="margin-top:14px">매년 얼마를 회수할 수 있는지<br>24시간 안에 알려드립니다.</h2>
       <p class="muted" style="margin-top:14px;font-size:17px">무료 진단 리포트 포함 항목</p>
       <ul class="cta-bullets">
@@ -2444,48 +3234,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <li><svg class="gif"><use href="#i-check"/></svg>동일 업종 익명 사례 (ROAS·CAC 포함)</li>
         <li><svg class="gif"><use href="#i-check"/></svg>전담 매니저 1:1 사전 미팅 (Zoom/대면)</li>
       </ul>
-      <p style="margin-top:24px;color:#8a93a4;font-size:13px">* 진단은 무료이며, 결과 검토 후 진행 여부는 광고주가 결정합니다. 영업 콜은 단 1회로 제한합니다.</p>
-
-      <!-- 미니 FAQ — form 옆 즉답형 의구심 제거 (5개) -->
-      <div class="mini-faq">
-        <div class="mini-faq-head">
-          <span class="mini-faq-eyebrow">신청 전 5초 안내</span>
-          <h4 class="mini-faq-title">신청 직전에 자주 묻는 것들</h4>
-        </div>
-        <ul class="mini-faq-list">
-          <li>
-            <div class="mfq-q"><span class="mfq-icon">💰</span>정말 무료인가요?</div>
-            <div class="mfq-a">네. 진단·리포트 모두 <b>100% 무료</b>이며 영업 콜은 <b>1회로 제한</b>합니다.</div>
-          </li>
-          <li>
-            <div class="mfq-q"><span class="mfq-icon">🔐</span>광고 데이터·픽셀 소유권은요?</div>
-            <div class="mfq-a">계정 임대 종료 시에도 <b>100% 광고주 본인</b>이 그대로 보유합니다.</div>
-          </li>
-          <li>
-            <div class="mfq-q"><span class="mfq-icon">📝</span>약정·위약금이 있나요?</div>
-            <div class="mfq-a"><b>전혀 없음.</b> 언제든 중단 가능하고 잔여 광고비는 환불됩니다.</div>
-          </li>
-          <li>
-            <div class="mfq-q"><span class="mfq-icon">⏱️</span>진단까지 얼마나 걸리나요?</div>
-            <div class="mfq-a">신청 후 <b>평일 24시간 이내</b> 담당자가 직접 연락드립니다.</div>
-          </li>
-          <li>
-            <div class="mfq-q"><span class="mfq-icon">🛡️</span>입력한 정보는 보호되나요?</div>
-            <div class="mfq-a">NDA 동급으로 관리하며 <b>12개월 보관 후 자동 파기</b>합니다.</div>
-          </li>
-        </ul>
-      </div>
     </div>
 
     <form class="lead" onsubmit="return submitLead(event)">
       <h3>무료 진단 신청</h3>
       <p style="font-size:14px;color:var(--ink-3);margin-top:6px">평일 24시간 이내 담당자가 연락드립니다.</p>
-
-      <div class="step-indicator">
-        <div class="step-dot active" id="step-dot-1"><span class="num">1</span><span>기본 정보</span></div>
-        <div class="step-line" id="step-line"></div>
-        <div class="step-dot" id="step-dot-2"><span class="num">2</span><span>광고 정보</span></div>
-      </div>
 
       <!-- STEP 1: 기본 정보 (자격 확인용 5개 필드) -->
       <div class="form-step active" id="form-step-1">
@@ -2510,7 +3263,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <input required type="number" name="budget" id="budget" inputmode="numeric" placeholder="예: 5000 (= 5,000만 원)" min="0" step="100" oninput="checkQualifier()" />
         <div class="field-help">만 원 단위로 입력해주세요</div>
         <div class="qualifier" id="qualifier">
-          현재 프로그램은 월 광고비 1,000만 원 이상 광고주 대상입니다. 신청은 가능하지만 우선 검토 대상에서 후순위로 처리될 수 있습니다.
+          현재 프로그램은 월 광고비 1,000만 원 이상 고객사 대상입니다. 신청은 가능하지만 우선 검토 대상에서 후순위로 처리될 수 있습니다.
         </div>
 
         <button type="button" class="btn submit" onclick="goToStep2()">다음 단계 → <span style="font-size:12px;font-weight:500;opacity:.85">(약 30초)</span></button>
@@ -2579,15 +3332,57 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <div class="field-group">
           <label><span class="q-num">10</span>희망 서비스 <span class="q-note">(복수 선택 가능)</span><span class="q-icon">⭐</span></label>
-          <div class="checkbox-group">
-            <label class="checkbox-item"><input type="checkbox" name="service" value="Meta"><span><b>Meta</b> · 5.3~7.8% 절감+보너스</span></label>
-            <label class="checkbox-item"><input type="checkbox" name="service" value="Google"><span><b>Google</b> (YouTube)</span></label>
-            <label class="checkbox-item"><input type="checkbox" name="service" value="TikTok"><span><b>TikTok</b></span></label>
-            <label class="checkbox-item"><input type="checkbox" name="service" value="Kakao/NAVER"><span><b>Kakao</b> / <b>NAVER</b></span></label>
-            <label class="checkbox-item"><input type="checkbox" name="service" value="Pinterest/Twitter"><span><b>Pinterest</b> / <b>Twitter</b></span></label>
-            <label class="checkbox-item"><input type="checkbox" name="service" value="퍼포먼스 광고 대행"><span>퍼포먼스 광고 대행</span></label>
-            <label class="checkbox-item"><input type="checkbox" name="service" value="글로벌 퍼포먼스 광고 대행"><span>글로벌 퍼포먼스 광고 대행</span></label>
-            <label class="checkbox-item"><input type="checkbox" name="service" value="기타 제휴 문의"><span>기타 제휴 문의</span></label>
+          <div class="form-chips" role="group" aria-label="희망 매체">
+            <label class="form-chip">
+              <input type="checkbox" name="service" value="Meta">
+              <span class="fc-logo" style="background:#1877F2">f</span>
+              <span class="fc-name">Meta</span>
+            </label>
+            <label class="form-chip">
+              <input type="checkbox" name="service" value="Google">
+              <span class="fc-logo" style="background:#4285F4">G</span>
+              <span class="fc-name">Google</span>
+            </label>
+            <label class="form-chip">
+              <input type="checkbox" name="service" value="TikTok">
+              <span class="fc-logo" style="background:#000">T</span>
+              <span class="fc-name">TikTok</span>
+            </label>
+            <label class="form-chip">
+              <input type="checkbox" name="service" value="NAVER">
+              <span class="fc-logo" style="background:#03C75A">N</span>
+              <span class="fc-name">NAVER</span>
+            </label>
+            <label class="form-chip">
+              <input type="checkbox" name="service" value="Kakao">
+              <span class="fc-logo" style="background:#FEE500;color:#000">K</span>
+              <span class="fc-name">Kakao</span>
+            </label>
+            <label class="form-chip">
+              <input type="checkbox" name="service" value="Pinterest">
+              <span class="fc-logo" style="background:#E60023">P</span>
+              <span class="fc-name">Pinterest</span>
+            </label>
+            <label class="form-chip">
+              <input type="checkbox" name="service" value="X">
+              <span class="fc-logo" style="background:#0a0a0a">𝕏</span>
+              <span class="fc-name">X (Twitter)</span>
+            </label>
+            <label class="form-chip">
+              <input type="checkbox" name="service" value="기타 제휴 문의">
+              <span class="fc-logo" style="background:#8b95a1">+</span>
+              <span class="fc-name">기타 제휴</span>
+            </label>
+          </div>
+          <div class="form-chips" role="group" aria-label="대행 서비스" style="margin-top:8px">
+            <label class="form-chip wide">
+              <input type="checkbox" name="service" value="퍼포먼스 광고 대행">
+              <span class="fc-name">📊 퍼포먼스 광고 대행</span>
+            </label>
+            <label class="form-chip wide">
+              <input type="checkbox" name="service" value="글로벌 퍼포먼스 광고 대행">
+              <span class="fc-name">🌐 글로벌 퍼포먼스 광고 대행</span>
+            </label>
           </div>
         </div>
 
@@ -2630,16 +3425,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <!-- FAQ — form 작성 후 추가 의구심 해소 (CTA 다크 네이비에서 연결) -->
-<section class="faq-section" style="background:linear-gradient(180deg, #e6eef9 0%, #eef3fa 50%, #1652a5 100%);color:var(--ink)">
+<section class="faq-section" style="background:linear-gradient(180deg, #e6eef9 0%, #c0d0e8 35%, #5a82ba 75%, #1652a5 100%);color:var(--ink)">
   <div class="container" style="max-width:820px">
     <div class="section-head">
-      <span class="eyebrow" style="color:var(--brand)">자주 묻는 질문</span>
-      <h2 style="color:var(--ink)">Q&amp;A Top 10</h2>
-      <p style="color:var(--ink-2)">신청 전·후 모두 자주 받는 질문들을 정리했습니다. 더 궁금하신 점은 진단 상담 시 안내드립니다.</p>
+      <h2 style="color:var(--ink)">신청 전 가장 많이 받는 질문</h2>
     </div>
     <details>
       <summary>광고 운영 권한은 누가 갖나요?</summary>
-      <p>광고주 본인이 100% 갖습니다. 캠페인 빌드·소재 관리·데이터 접근 모두 직접 하시고, 파트너 계정은 결제·정산 인프라만 제공합니다. 원하시면 운영 대행도 가능합니다.</p>
+      <p>고객 본인이 100% 갖습니다. 캠페인 빌드·소재 관리·데이터 접근 모두 직접 하시고, 파트너 계정은 결제·정산 인프라만 제공합니다. 원하시면 운영 대행도 가능합니다.</p>
     </details>
     <details>
       <summary>광고비 정산은 어떻게 되나요?</summary>
@@ -2659,11 +3452,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       ① <b>SGI 서울보증보험</b> 가입을 통한 광고비 보전 (선입금분 보호)<br>
       ② <b>매체 직결제 구조</b> — 잔액은 매체사(Meta·Google 등) 계정에 직접 보유, 파트너사 운영 자금과 분리<br>
       ③ <b>4개국 사무소 운영</b> — 국내 + 해외 다중 백업 인프라로 단일 장애 지점 없음<br>
-      또한 광고주의 픽셀·CAPI·도메인·데이터 자산은 광고주 본인 소유이므로 계정 이슈와 무관하게 보호됩니다.</p>
+      또한 고객의 픽셀·CAPI·도메인·데이터 자산은 고객 본인 소유이므로 계정 이슈와 무관하게 보호됩니다.</p>
     </details>
     <details>
       <summary>광고 데이터·픽셀의 소유권은 누구에게 있나요?</summary>
-      <p><b>모든 데이터·자산은 광고주 본인 소유</b>입니다. 파트너 계정은 결제·정산 인프라만 제공하며, 다음은 100% 광고주에게 귀속됩니다:<br>
+      <p><b>모든 데이터·자산은 고객 본인 소유</b>입니다. 파트너 계정은 결제·정산 인프라만 제공하며, 다음은 100% 고객에게 귀속됩니다:<br>
       • 픽셀 / Conversion API / 도메인 / 페이지 / Audience<br>
       • 캠페인 학습 데이터 / 머신러닝 모델<br>
       • 광고 소재 / Creative 자산<br>
@@ -2675,11 +3468,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </details>
     <details>
       <summary>다른 인보이스 대행사 대비 차별점은 무엇인가요?</summary>
-      <p><b>① 공식 인증 자격</b>: Meta Badged Marketing Partner + Meta Signal Integration Partner (매체 본사가 직접 부여하는 최상위 등급)<br>
-      <b>② 단순 대행사가 아닌 애드테크 기업</b>: 자체 DSP / DMP 보유, 자체 광고 분석 도구로 경쟁사 광고 벤치마킹 제공<br>
-      <b>③ 글로벌 다국적 운영</b>: 국내 + 해외 사무소 4곳에서 24시간 대응, 글로벌 광고주에게 단일 창구로 다국가 광고 가능<br>
-      <b>④ 누적 1,500억 + 4,000개 브랜드 운영 경험</b>, 90%+ 3년 리텐션<br>
-      <b>⑤ 부가 서비스 무상 제공</b>: 픽셀/CAPI 진단, 경쟁사 광고 분석, GA4 전자상거래 세팅 (계정 임대 고객 한정)</p>
+      <p><b>① 공식 인증 자격</b>: Meta Badged Marketing Partner (매체 본사가 직접 부여하는 최상위 등급)<br>
+      <b>② 매체 공식 대행사 계정을 매칭하여 브랜드에 맞는 최적의 계정 세팅 추천 및 배정</b><br>
+      <b>③ 부가 서비스 무상 제공</b>: 픽셀/CAPI 진단, 경쟁사 광고 분석, GA4 전자상거래 세팅 (계정 임대 고객 한정)</p>
     </details>
   </div>
 </section>
@@ -2697,7 +3488,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- STICKY MOBILE CTA -->
 <div class="sticky-mobile">
-  <a href="#apply" class="btn">무료 진단 신청 →</a>
+  <a href="#apply" class="btn btn-lg hero-cta-primary">20초 무료 진단 신청 <svg class="phone-ic" viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.27.36-.66.25-1.01-.37-1.12-.57-2.32-.57-3.57 0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"/></svg></a>
 </div>
 
 <script>
@@ -2751,6 +3542,47 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   function fmt(n){ return Math.round(n).toLocaleString('ko-KR') + '만 원'; }
   function fmtRange(min, max){ return fmt(min) + ' ~ ' + fmt(max); }
 
+  // v1.1.0: 계산기 결과 숫자 카운팅 애니메이션
+  // 각 element별로 현재 표시값을 추적, 입력 변경 시 부드럽게 전환
+  const calcAnimState = new Map(); // el -> {current, rafId}
+  const _reducedMotionCalc = window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function animateCalcValue(el, target, opts){
+    if (!el) return;
+    opts = opts || {};
+    const formatter = opts.formatter || fmt;
+    const duration  = opts.duration || 650;
+    const state = calcAnimState.get(el) || {current:0, rafId:0};
+    if (state.rafId) cancelAnimationFrame(state.rafId);
+    if (_reducedMotionCalc) {
+      state.current = target;
+      el.innerText = formatter(target);
+      calcAnimState.set(el, state);
+      return;
+    }
+    const from = state.current;
+    const start = performance.now();
+    el.classList.add('counting');
+    function step(now){
+      const p = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+      const value = from + (target - from) * eased;
+      state.current = value; // 매 프레임 추적 → 다음 호출이 끊김 없이 이어짐
+      el.innerText = formatter(value);
+      if (p < 1) {
+        state.rafId = requestAnimationFrame(step);
+        calcAnimState.set(el, state);
+      } else {
+        state.current = target;
+        state.rafId = 0;
+        el.classList.remove('counting');
+        calcAnimState.set(el, state);
+      }
+    }
+    state.rafId = requestAnimationFrame(step);
+    calcAnimState.set(el, state);
+  }
+
   function setCalcMode(mode){
     calcMode = mode;
     document.querySelectorAll('.calc-tab').forEach(tab => {
@@ -2763,16 +3595,48 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       document.getElementById('result-domestic').classList.add('hidden');
     } else {
       document.getElementById('calc-title').textContent = '국내 매체로 매년 얼마의 보너스를 받을 수 있을까?';
-      document.getElementById('ratio-label').textContent = '국내 매체 비중 (NAVER·Kakao·국내 디스플레이 등)';
+      document.getElementById('ratio-label').textContent = '국내 매체 비중 (NAVER·Kakao·TOSS 등)';
       document.getElementById('result-overseas').classList.add('hidden');
       document.getElementById('result-domestic').classList.remove('hidden');
     }
     calc();
   }
 
+  // v1.1.0: 슬라이더용 광고비 표시 포맷 (10000만↑ → 억 환산)
+  function fmtSpend(n){
+    if (n >= 10000) {
+      const ok = (n / 10000).toFixed(1).replace(/\.0$/, '');
+      return ok + '억 원';
+    }
+    return Math.round(n).toLocaleString('ko-KR') + '만 원';
+  }
+
+  // v1.1.0: 슬라이더 채워진 비율 (CSS variable로 그라데이션 fill 제어)
+  function updateSliderFill(slider){
+    if (!slider) return;
+    const min = parseFloat(slider.min) || 0;
+    const max = parseFloat(slider.max) || 100;
+    const val = parseFloat(slider.value) || 0;
+    const pct = ((val - min) / (max - min)) * 100;
+    slider.style.setProperty('--slider-pct', pct + '%');
+  }
+
+  // v1.1.0: 활성 비중 chip 값 읽기
+  function getActiveRatio(){
+    const active = document.querySelector('#ratio-chips .calc-chip.active');
+    return active ? parseFloat(active.dataset.r) || 0 : 0.7;
+  }
+
   function calc(){
-    const spend = parseFloat(document.getElementById('ad-spend').value) || 0;
-    const ratio = parseFloat(document.getElementById('overseas-ratio').value) || 0;
+    const slider = document.getElementById('ad-spend');
+    const spend  = parseFloat(slider.value) || 0;
+    const ratio  = getActiveRatio();
+
+    // 슬라이더 값 표시 + fill 업데이트
+    const valEl = document.getElementById('ad-spend-val');
+    if (valEl) valEl.textContent = fmtSpend(spend);
+    updateSliderFill(slider);
+
     const annual = spend * 12;
     const part = annual * ratio;
 
@@ -2780,20 +3644,40 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       const feeSave = part * 0.05;   // 평균 5% 수수료 절감 가정
       const bonus   = part * 0.10;   // 평균 10% 보너스 크레딧 가정
       const total   = feeSave + bonus;
-      document.getElementById('r-fee').innerText = fmt(feeSave);
-      document.getElementById('r-bonus').innerText = fmt(bonus);
-      document.getElementById('r-total').innerText = fmt(total);
+      animateCalcValue(document.getElementById('r-fee'),   feeSave, {duration:550});
+      animateCalcValue(document.getElementById('r-bonus'), bonus,   {duration:550});
+      animateCalcValue(document.getElementById('r-total'), total,   {duration:850});
     } else {
       // 국내매체 보너스 9% ~ 14% 범위
-      const minBonus = part * 0.09;
-      const maxBonus = part * 0.14;
-      document.getElementById('r-dom-min').innerText = fmt(minBonus);
-      document.getElementById('r-dom-max').innerText = fmt(maxBonus);
-      document.getElementById('r-dom-total').innerText = fmtRange(minBonus, maxBonus);
+      const minBonus = part * 0.13;
+      const maxBonus = part * 0.15;
+      animateCalcValue(document.getElementById('r-dom-min'), minBonus, {duration:550});
+      animateCalcValue(document.getElementById('r-dom-max'), maxBonus, {duration:550});
+      animateCalcValue(document.getElementById('r-dom-total'), maxBonus, {
+        duration:850,
+        formatter:function(v){ return fmtRange(v * (minBonus/maxBonus||0), v); }
+      });
     }
   }
+
+  // 슬라이더 입력 → calc 재계산
   document.getElementById('ad-spend').addEventListener('input', calc);
-  document.getElementById('overseas-ratio').addEventListener('change', calc);
+
+  // 칩 클릭 → 활성 토글 후 calc 재계산
+  document.querySelectorAll('#ratio-chips .calc-chip').forEach(function(chip){
+    function activate(){
+      document.querySelectorAll('#ratio-chips .calc-chip').forEach(function(c){
+        c.classList.remove('active');
+      });
+      chip.classList.add('active');
+      calc();
+    }
+    chip.addEventListener('click', activate);
+    chip.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+    });
+  });
+
   calc();
 
   // URL 입력 초기 카운터 셋업
@@ -3137,9 +4021,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     }
     document.getElementById('form-step-1').classList.remove('active');
     document.getElementById('form-step-2').classList.add('active');
-    document.getElementById('step-dot-1').classList.replace('active','done');
-    document.getElementById('step-dot-2').classList.add('active');
-    document.getElementById('step-line').classList.add('done');
+    // step-indicator 제거 — null 가드
+    document.getElementById('step-dot-1')?.classList.replace('active','done');
+    document.getElementById('step-dot-2')?.classList.add('active');
+    document.getElementById('step-line')?.classList.add('done');
     form.scrollIntoView({behavior:'smooth', block:'start'});
     // 📊 트래킹: Step 1 완료 + Step 2 진입
     track('form_step1_complete', { progress_percent: 50 });
@@ -3148,9 +4033,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   function goToStep1(){
     document.getElementById('form-step-2').classList.remove('active');
     document.getElementById('form-step-1').classList.add('active');
-    document.getElementById('step-dot-2').classList.remove('active');
-    document.getElementById('step-dot-1').classList.replace('done','active');
-    document.getElementById('step-line').classList.remove('done');
+    document.getElementById('step-dot-2')?.classList.remove('active');
+    document.getElementById('step-dot-1')?.classList.replace('done','active');
+    document.getElementById('step-line')?.classList.remove('done');
     document.querySelector('form.lead').scrollIntoView({behavior:'smooth', block:'start'});
     // 📊 트래킹: 뒤로가기 (드롭오프 시그널)
     track('form_step_back', { from_step: 2, to_step: 1 });
@@ -3266,6 +4151,145 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   window.addEventListener('load', reportHeight);
   window.addEventListener('resize', reportHeight);
   new ResizeObserver(reportHeight).observe(document.body);
+
+  // ════════════════════════════════════════════════════════════════
+  // v1.1.0 PHASE 1 — ANIMATIONS
+  // ════════════════════════════════════════════════════════════════
+  (function(){
+    const reducedMotion = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // --- 1. 카운팅 숫자 ---
+    function fmtCount(value, el){
+      const decimals = parseInt(el.dataset.countDecimals || '0', 10);
+      const format   = el.dataset.countFormat || '';
+      const rounded  = decimals > 0
+        ? Number(value.toFixed(decimals))
+        : Math.round(value);
+      if (format === 'comma') {
+        try { return rounded.toLocaleString('ko-KR', {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals
+        }); } catch(e) { return String(rounded); }
+      }
+      return decimals > 0 ? rounded.toFixed(decimals) : String(rounded);
+    }
+
+    const countEls = document.querySelectorAll('[data-count-target]');
+    // 초기값 0으로 세팅 (reduced-motion이면 최종값 유지)
+    countEls.forEach(function(el){
+      const target = parseFloat(el.dataset.countTarget);
+      if (isNaN(target)) return;
+      el.dataset.countFinal = target;
+      if (!reducedMotion) {
+        el.textContent = fmtCount(0, el);
+      }
+    });
+
+    function animateCount(el){
+      if (el.dataset.countDone === '1') return;
+      el.dataset.countDone = '1';
+      const target   = parseFloat(el.dataset.countFinal);
+      // 큰 숫자는 더 길게, 작은 숫자는 빠르게
+      const duration = target >= 1000000 ? 1600 : target >= 1000 ? 1300 : 1100;
+      const start    = performance.now();
+      el.classList.add('counting');
+      function step(now){
+        const p = Math.min(1, (now - start) / duration);
+        // easeOutCubic
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmtCount(target * eased, el);
+        if (p < 1) {
+          requestAnimationFrame(step);
+        } else {
+          el.textContent = fmtCount(target, el);
+          el.classList.remove('counting');
+        }
+      }
+      requestAnimationFrame(step);
+    }
+
+    if ('IntersectionObserver' in window && !reducedMotion) {
+      const countIO = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if (en.isIntersecting) {
+            animateCount(en.target);
+            countIO.unobserve(en.target);
+          }
+        });
+      }, { threshold: 0.4 });
+      countEls.forEach(function(el){ countIO.observe(el); });
+    } else {
+      // Fallback: 즉시 최종값
+      countEls.forEach(function(el){
+        const t = parseFloat(el.dataset.countFinal);
+        if (!isNaN(t)) el.textContent = fmtCount(t, el);
+      });
+    }
+
+    // --- 2. Loss Card Bar Fill ---
+    if ('IntersectionObserver' in window && !reducedMotion) {
+      const barIO = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if (en.isIntersecting) {
+            en.target.classList.add('bar-animate');
+            barIO.unobserve(en.target);
+          }
+        });
+      }, { threshold: 0.35 });
+      document.querySelectorAll('.loss-card[style*="--bar-target"]')
+        .forEach(function(el){ barIO.observe(el); });
+    } else {
+      document.querySelectorAll('.loss-card[style*="--bar-target"]')
+        .forEach(function(el){ el.classList.add('bar-animate'); });
+    }
+
+    // --- 2-B. Compare Cards Bar Fill (cc-card) ---
+    if ('IntersectionObserver' in window && !reducedMotion) {
+      const ccIO = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if (en.isIntersecting) {
+            en.target.classList.add('bar-fired');
+            ccIO.unobserve(en.target);
+          }
+        });
+      }, { threshold: 0.35 });
+      document.querySelectorAll('.cc-card').forEach(function(el){ ccIO.observe(el); });
+    } else {
+      document.querySelectorAll('.cc-card').forEach(function(el){ el.classList.add('bar-fired'); });
+    }
+
+    // --- 3. 떨어지는 동전 (Loss Viz) ---
+    function spawnCoinRain(container, count){
+      if (!container || reducedMotion) return;
+      const emojis = ['💸','💵','💰','💴'];
+      for (let i = 0; i < count; i++) {
+        const c = document.createElement('span');
+        c.className = 'coin';
+        c.textContent = emojis[i % emojis.length];
+        c.style.left            = (Math.random() * 100) + '%';
+        c.style.animationDuration = (3 + Math.random() * 2.5).toFixed(2) + 's';
+        c.style.animationDelay    = (Math.random() * 4).toFixed(2) + 's';
+        c.style.fontSize          = (16 + Math.random() * 14).toFixed(0) + 'px';
+        container.appendChild(c);
+      }
+    }
+
+    const coinRain = document.getElementById('coin-rain-loss');
+    if (coinRain && 'IntersectionObserver' in window && !reducedMotion) {
+      const rainIO = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if (en.isIntersecting && !coinRain.dataset.spawned) {
+            coinRain.dataset.spawned = '1';
+            spawnCoinRain(coinRain, 22);
+            rainIO.disconnect();
+          }
+        });
+      }, { threshold: 0.15 });
+      const lossViz = document.querySelector('.loss-viz');
+      if (lossViz) rainIO.observe(lossViz);
+    }
+  })();
 </script>
 
 </body>
