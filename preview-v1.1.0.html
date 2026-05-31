@@ -1146,6 +1146,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     border-radius:0 0 9px 9px;
     border:0
   }
+  /* v1.1.1: 모든 칩에 "신청" 단어 추가 (CSS pseudo-element로 일괄) */
+  .mlt-pct::after{
+    content:' 신청';
+    font-weight:700;opacity:.85;
+    letter-spacing:.02em;font-variant-numeric:normal
+  }
   /* 1위 — 가장 hot 빨간 그라데이션 스트라이프 */
   .media-logo-tile[data-rank="1"] .mlt-pct{
     background:linear-gradient(90deg, #b91c1c 0%, #dc2626 50%, #f04452 100%);
@@ -2964,8 +2970,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- 매체 로고 클릭 유도 헤더 -->
     <div class="media-logos-cta">
       <div class="mlc-text">
-        <span class="mlc-question">🏆 매체 신청현황 (최근 90일)</span>
-        <span class="mlc-action"><span class="mlc-live-dot" aria-hidden="true"></span>실시간 업데이트 · 로고 <b>클릭</b>으로 매체별 혜택 확인</span>
+        <span class="mlc-question">🏆 매체별 신청 분포 (최근 90일)</span>
+        <span class="mlc-action"><span class="mlc-live-dot" aria-hidden="true"></span>실시간 — 숫자는 <b>전체 신청 광고주 중 매체별 비율</b> · 로고 <b>클릭</b>으로 혜택 확인</span>
       </div>
       <div class="mlc-arrow">↓</div>
     </div>
