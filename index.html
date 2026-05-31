@@ -2573,12 +2573,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- 국내매체 모드 결과 -->
       <div class="calc-result hidden" id="result-domestic">
         <div class="row"><span>국내 매체 보너스 (연, 최저 13%)</span><b id="r-dom-min">—</b></div>
-        <div class="row"><span>국내 매체 보너스 (연, 최고 15%)</span><b id="r-dom-max">—</b></div>
+        <div class="row"><span>국내 매체 보너스 (연, 최고 14.5%)</span><b id="r-dom-max">—</b></div>
         <div class="calc-total">
           <span>예상 연간 보너스 범위</span>
           <span class="num" id="r-dom-total">—</span>
         </div>
-        <small>* 국내 매체(NAVER · Kakao · TOSS 등)는 통상 <b>13 ~ 15%</b> 보너스가 지급됩니다. 매체 조합 · 광고비 규모 · 분기 프로모션에 따라 실제 보너스가 달라집니다.</small>
+        <small>* 국내 매체(NAVER · Kakao · TOSS 등)는 통상 <b>13 ~ 14.5%</b> 보너스가 지급됩니다. 매체 조합 · 광고비 규모 · 분기 프로모션에 따라 실제 보너스가 달라집니다.</small>
       </div>
 
       <a href="#apply" class="calc-grab">
@@ -3210,7 +3210,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <tr>
               <td>국내 매체 보너스</td>
               <td><span class="cmp-tag bad">신청 불가</span><span style="color:var(--ink-3)">매체 본사 정책</span></td>
-              <td><span class="cmp-tag good">자동 분배</span><span class="cmp-good">13 ~ 15%</span></td>
+              <td><span class="cmp-tag good">자동 분배</span><span class="cmp-good">13 ~ 14.5%</span></td>
             </tr>
             <tr>
               <td>세금계산서</td>
@@ -3271,14 +3271,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="cc-bar"><div class="cc-fill">광고 효율 100%</div><div class="cc-bonus-extend">+ 보너스</div></div>
         <div class="cc-stat"><span>해외 결제 수수료</span><b class="cc-good-val">0원</b></div>
         <div class="cc-stat"><span>해외 매체 보너스</span><b class="cc-good-val">~ 4%</b></div>
-        <div class="cc-stat"><span>국내 매체 보너스</span><b class="cc-good-val">13 ~ 15%</b></div>
+        <div class="cc-stat"><span>국내 매체 보너스</span><b class="cc-good-val">13 ~ 14.5%</b></div>
         <div class="cc-stat"><span>세금계산서</span><b>월 단위 자동 발행</b></div>
         <div class="cc-stat"><span>이슈 대응</span><b class="cc-good-val">평균 2시간</b></div>
         <div class="cc-stat"><span class="hl-blue">월 1억 기준 추가 혜택</span><b class="cc-good-val">월 +₩ 500~1,500만</b></div>
         <div class="cc-credit-chips">
           <span class="cc-credit-chip"><span class="ic">🎁</span>수수료 <b>0원</b></span>
           <span class="cc-credit-chip"><span class="ic">🌎</span>해외 매체 <b>~ 4%</b></span>
-          <span class="cc-credit-chip"><span class="ic">🇰🇷</span>국내 매체 <b>13 ~ 15%</b></span>
+          <span class="cc-credit-chip"><span class="ic">🇰🇷</span>국내 매체 <b>13 ~ 14.5%</b></span>
           <span class="cc-credit-chip"><span class="ic">⚡</span><b>자동 적립</b></span>
         </div>
       </article>
@@ -3713,9 +3713,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       animateCalcValue(document.getElementById('r-bonus'), bonus,   {duration:550});
       animateCalcValue(document.getElementById('r-total'), total,   {duration:850});
     } else {
-      // 국내매체 보너스 9% ~ 14% 범위
+      // 국내매체 보너스 13% ~ 14.5% 범위
       const minBonus = part * 0.13;
-      const maxBonus = part * 0.15;
+      const maxBonus = part * 0.145;
       animateCalcValue(document.getElementById('r-dom-min'), minBonus, {duration:550});
       animateCalcValue(document.getElementById('r-dom-max'), maxBonus, {duration:550});
       animateCalcValue(document.getElementById('r-dom-total'), maxBonus, {
