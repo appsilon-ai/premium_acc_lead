@@ -2286,35 +2286,33 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     display:block;font-size:12.5px
   }
 
-  .struct-list{display:flex;flex-direction:column;gap:14px}
-  .struct-card{
-    display:flex;gap:14px;align-items:flex-start;
+  /* v1.1.1: struct-stack — 3개 카드 → 단일 카드 + 점선 구분 */
+  .struct-stack{
     background:#fff;border:1px solid var(--line);
-    border-radius:14px;padding:18px 18px;
+    border-radius:14px;padding:4px 18px;
     box-shadow:0 4px 12px rgba(13,44,94,.05);
-    transition:transform .15s ease, box-shadow .2s ease
+    transition:box-shadow .2s ease
   }
-  .struct-card:hover{
-    transform:translateY(-2px);
-    box-shadow:0 10px 22px rgba(13,44,94,.12);
-    border-color:rgba(22,82,165,.3)
+  .struct-stack:hover{box-shadow:0 8px 20px rgba(13,44,94,.10);border-color:rgba(22,82,165,.25)}
+  .struct-row{
+    display:flex;gap:14px;align-items:center;
+    padding:18px 0;
+    border-bottom:1.5px dashed rgba(0,0,0,.10)
   }
+  .struct-row:last-child{border-bottom:0}
   .struct-num{
-    flex-shrink:0;width:32px;height:32px;border-radius:50%;
+    flex-shrink:0;width:30px;height:30px;border-radius:50%;
     background:linear-gradient(135deg,var(--brand-2),var(--brand));
-    color:#fff;font-weight:900;font-size:15px;
+    color:#fff;font-weight:900;font-size:14px;
     display:grid;place-items:center;line-height:1;
     box-shadow:0 4px 10px rgba(13,44,94,.25)
   }
-  .struct-body{flex:1;min-width:0}
-  .struct-body h4{
-    margin:0 0 6px;font-size:15px;font-weight:800;
-    color:var(--ink);letter-spacing:-.02em;line-height:1.4
+  .struct-text{
+    flex:1;min-width:0;
+    font-size:14.5px;color:var(--ink);
+    letter-spacing:-.01em;line-height:1.5;font-weight:600
   }
-  .struct-body p{
-    margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.55
-  }
-  .struct-body p b{color:var(--brand-2);font-weight:800}
+  .struct-text b{color:var(--brand-2);font-weight:800}
   @media (max-width:700px){
     .cmp-wrap{margin-top:24px}
     .cmp-table{border-radius:14px}
@@ -2325,10 +2323,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .reco-pill{font-size:8.5px;padding:1px 5px;margin-left:3px}
     /* 모바일: 값 컬럼 — 칩과 부가 텍스트 줄바꿈은 허용하되 단어 내부 끊김 방지 */
     .cmp-table tbody td:not(:first-child) > span{display:inline-block;white-space:nowrap}
-    .struct-card{padding:14px;gap:11px;border-radius:11px}
-    .struct-num{width:28px;height:28px;font-size:13px}
-    .struct-body h4{font-size:13.5px}
-    .struct-body p{font-size:12.5px}
+    .struct-stack{padding:2px 14px;border-radius:11px}
+    .struct-row{padding:13px 0;gap:11px}
+    .struct-num{width:26px;height:26px;font-size:12.5px}
+    .struct-text{font-size:13px}
   }
 </style>
 </head>
@@ -3134,27 +3132,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </table>
       </div>
 
-      <div class="struct-list">
-        <div class="struct-card">
+      <div class="struct-stack">
+        <div class="struct-row">
           <div class="struct-num">1</div>
-          <div class="struct-body">
-            <h4>국내 계정이면서 광고비 출처는 본사 직결</h4>
-            <p>고객 명의의 국내 비즈니스 매니저에서 운영합니다. 단, 결제만 <b>매체 본사와 직결제</b>되어 카드 환차·DCC 마진 발생 구조 자체를 우회합니다.</p>
-          </div>
+          <div class="struct-text">카드 수수료 없이 <b>인보이스로 매체 바로결제</b></div>
         </div>
-        <div class="struct-card">
+        <div class="struct-row">
           <div class="struct-num">2</div>
-          <div class="struct-body">
-            <h4>운영 권한 100% 유지 + 보너스 크레딧 자동 적용</h4>
-            <p>고객이 캠페인·픽셀·도메인·CAPI를 그대로 컨트롤합니다. 매월 매체 본사가 인보이스 계정에만 지급하는 <b>보너스 크레딧 (해외 ~4% · 국내 13~15%)</b>이 고객 잔액으로 자동 적립됩니다.</p>
-          </div>
+          <div class="struct-text"><b>계정 운영 + 보너스 크레딧 자동수취</b></div>
         </div>
-        <div class="struct-card">
+        <div class="struct-row">
           <div class="struct-num">3</div>
-          <div class="struct-body">
-            <h4>SGI 서울보증보험 + 매체 직결제로 광고비 보호</h4>
-            <p>인보이스 계정 운영사 리스크 발생 시에도 <b>서울보증보험으로 광고비 100% 보호</b>됩니다. 매체 직결제 구조라 잔액이 운영사 계좌를 거치지 않습니다.</p>
-          </div>
+          <div class="struct-text"><b>SGI 보증보험</b>으로 후불결제 지원</div>
         </div>
       </div>
     </div>
