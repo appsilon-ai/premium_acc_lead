@@ -2258,13 +2258,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .cmp-tag{
     display:inline-block;font-size:11px;font-weight:800;
-    padding:3px 8px;border-radius:6px;margin-right:4px;
+    padding:3px 8px;border-radius:6px;margin-right:0;margin-bottom:5px;
     letter-spacing:-.01em;vertical-align:1px
   }
   .cmp-tag.bad{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
   .cmp-tag.good{background:#d1fae5;color:#065f46;border:1px solid #a7f3d0}
-  .cmp-bad{color:#dc2626;font-weight:700}
-  .cmp-good{color:var(--brand);font-weight:700}
+  .cmp-bad,.cmp-good{font-weight:700}
+  .cmp-bad{color:#dc2626}
+  .cmp-good{color:var(--brand)}
+  /* v1.1.0: 모든 값 셀을 2줄로 통일 — 칩(1줄) + 보조 텍스트(2줄) */
+  .cmp-table tbody td:not(:first-child){line-height:1.4}
+  .cmp-table tbody td:not(:first-child) .cmp-tag{display:inline-block}
+  .cmp-table tbody td:not(:first-child) .cmp-bad,
+  .cmp-table tbody td:not(:first-child) .cmp-good,
+  .cmp-table tbody td:not(:first-child) > span[style*="color:var(--ink-3)"]{
+    display:block;font-size:12.5px
+  }
 
   .struct-list{display:flex;flex-direction:column;gap:14px}
   .struct-card{
@@ -3082,12 +3091,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </tr>
             <tr>
               <td>해외 매체 보너스</td>
-              <td><span class="cmp-tag bad">신청 불가</span></td>
+              <td><span class="cmp-tag bad">신청 불가</span><span style="color:var(--ink-3)">매체 본사 정책</span></td>
               <td><span class="cmp-tag good">자동 분배</span><span class="cmp-good">~ 4%</span></td>
             </tr>
             <tr>
               <td>국내 매체 보너스</td>
-              <td><span class="cmp-tag bad">신청 불가</span></td>
+              <td><span class="cmp-tag bad">신청 불가</span><span style="color:var(--ink-3)">매체 본사 정책</span></td>
               <td><span class="cmp-tag good">자동 분배</span><span class="cmp-good">13 ~ 15%</span></td>
             </tr>
             <tr>
@@ -3097,7 +3106,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </tr>
             <tr>
               <td>계정 Support</td>
-              <td><span class="cmp-tag bad">평균 7일</span></td>
+              <td><span class="cmp-tag bad">평균 7일</span><span style="color:var(--ink-3)">지연·정지 발생</span></td>
               <td><span class="cmp-tag good">평균 2시간</span><span class="cmp-good">전담 매니저</span></td>
             </tr>
             <tr>
