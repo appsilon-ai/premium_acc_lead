@@ -3537,14 +3537,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   // ============================================================
   function track(eventName, params) {
     params = params || {};
+    // ✅ Meta Pixel "empty dynamic values" warning 방지용 기본값
+    //    각 dataLayer push에 value/currency/content_category 자동 주입
+    //    (params에 직접 지정 시 그 값으로 override됨)
+    var metaDefaults = {
+      value: 0,
+      currency: 'KRW',
+      content_category: 'landing'
+    };
+    var enriched = Object.assign({}, metaDefaults, params);
     // 0) ✅ GTM dataLayer push — 모든 GTM 트리거가 listen
     //    (GA4 · Meta Pixel · Google Ads 전환 · Toss LEX 등 GTM 내 모든 태그)
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push(Object.assign({ event: eventName }, params));
+    window.dataLayer.push(Object.assign({ event: eventName }, enriched));
     // 1) iframe 내부에 픽셀이 직접 있으면 폴백 호출 (Wix 임베드 등 시나리오)
     try {
       if (typeof window.gtag === 'function') {
-        window.gtag('event', eventName, params);
+        window.gtag('event', eventName, enriched);
       }
       if (typeof window.fbq === 'function') {
         // Meta 표준 이벤트 매핑
@@ -3554,9 +3563,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           'form_submit_success': 'Lead',
         };
         if (metaMap[eventName]) {
-          window.fbq('track', metaMap[eventName], params);
+          window.fbq('track', metaMap[eventName], enriched);
         } else {
-          window.fbq('trackCustom', eventName, params);
+          window.fbq('trackCustom', eventName, enriched);
         }
       }
     } catch(e) { /* silent */ }
@@ -3565,12 +3574,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       window.parent.postMessage({
         type: 'track',
         event: eventName,
-        params: params,
+        params: enriched,
         timestamp: Date.now(),
       }, '*');
     }
     // 3) 디버깅 로그
-    if (window.console && console.log) console.log('[Track]', eventName, params);
+    if (window.console && console.log) console.log('[Track]', eventName, enriched);
   }
 
   // ========== 상수 선언 (TDZ 방지 위해 최상단 배치) ==========
