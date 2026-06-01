@@ -50,8 +50,7 @@ const MONDAY_GROUP_ID = process.env.MONDAY_GROUP_ID || 'topics'; // "신규" 그
 // 변경하려면 Vercel 환경변수 MONDAY_DEFAULT_ASSIGNEE_ID 설정
 const MONDAY_DEFAULT_ASSIGNEE_ID = process.env.MONDAY_DEFAULT_ASSIGNEE_ID || '46666227';
 
-// Monday 컬럼 ID 매핑
-// ⚠️ UTM/URL/source 등 추가 컬럼은 환경변수로 동적 매핑 — 컬럼이 있을 때만 사용
+// Monday 컬럼 ID 매핑 (고정)
 const MONDAY_COLUMNS = {
   name:        'text_mknczry2',      // 이름
   job:         'text_mknc998t',      // 직책
@@ -65,12 +64,62 @@ const MONDAY_COLUMNS = {
   notes:       'text_mknqtgpg',      // 그 외 궁금/지원 내용
   status:      'status',             // 진행 사항
   person:      'person',             // 담당자 (people 타입)
-  // ── 선택 컬럼 (Vercel 환경변수로 설정 시 활성화) ──
-  utm:         process.env.MONDAY_COLUMN_UTM         || null, // UTM 파라미터 전용
-  urls:        process.env.MONDAY_COLUMN_URLS        || null, // 광고 대상 URL 전용
-  source:      process.env.MONDAY_COLUMN_SOURCE      || null, // 유입 경로 전용
-  serviceType: process.env.MONDAY_COLUMN_SERVICETYPE || null, // 서비스 유형 전용
 };
+
+// 동적 컬럼 매핑 — 보드에 있는 컬럼을 title로 찾아 자동 매핑
+// env var: 컬럼 ID 직접 지정 / 미지정 시 title로 lookup
+const MONDAY_OPTIONAL_COLUMNS = {
+  utm:         { env: 'MONDAY_COLUMN_UTM',         titles: ['UTM', 'utm', 'UTM 파라미터'] },
+  urls:        { env: 'MONDAY_COLUMN_URLS',        titles: ['광고 대상 URL', '광고 URL', 'URL', 'urls'] },
+  source:      { env: 'MONDAY_COLUMN_SOURCE',      titles: ['유입 경로', 'Source', 'source', '레퍼러'] },
+  serviceType: { env: 'MONDAY_COLUMN_SERVICETYPE', titles: ['서비스 유형', 'Service Type', '필요 서비스'] },
+};
+
+// 보드 컬럼 캐시 (warm function 인스턴스 내 재사용)
+let _mondayColumnsCache = null;
+let _resolvedOptionalIds = null;
+
+async function getMondayBoardColumns(token, boardId) {
+  if (_mondayColumnsCache) return _mondayColumnsCache;
+  const query = `query GetCols($id:[ID!]) { boards(ids:$id) { columns { id title type } } }`;
+  const res = await fetch('https://api.monday.com/v2', {
+    method: 'POST',
+    headers: { 'Authorization': token, 'Content-Type': 'application/json', 'API-Version': '2024-01' },
+    body: JSON.stringify({ query, variables: { id: [String(boardId)] } }),
+  });
+  const data = await res.json();
+  _mondayColumnsCache = (data?.data?.boards?.[0]?.columns) || [];
+  return _mondayColumnsCache;
+}
+
+async function resolveOptionalColumns(token, boardId) {
+  if (_resolvedOptionalIds) return _resolvedOptionalIds;
+  const cols = await getMondayBoardColumns(token, boardId).catch(() => []);
+  const resolved = {};
+  for (const [key, cfg] of Object.entries(MONDAY_OPTIONAL_COLUMNS)) {
+    // 1순위: 환경변수에 컬럼 ID 직접 설정
+    const envVal = process.env[cfg.env];
+    if (envVal) {
+      // ID 패턴이면 그대로 사용, 아니면 title로 lookup
+      const looksLikeId = /^([a-z]+_[a-z0-9]+|status|person|name)$/i.test(envVal);
+      if (looksLikeId) {
+        resolved[key] = envVal;
+        continue;
+      }
+      // env var에 title이 들어있으면 title로 lookup
+      const byEnvTitle = cols.find(c => c.title === envVal);
+      if (byEnvTitle) { resolved[key] = byEnvTitle.id; continue; }
+    }
+    // 2순위: 사전 정의된 title 목록으로 자동 매칭
+    for (const t of cfg.titles) {
+      const found = cols.find(c => c.title === t || c.title.toLowerCase() === t.toLowerCase());
+      if (found) { resolved[key] = found.id; break; }
+    }
+  }
+  _resolvedOptionalIds = resolved;
+  console.log('[Monday] Optional columns resolved:', resolved);
+  return resolved;
+}
 
 // 폼 값 → Monday dropdown 라벨 매핑
 const MONDAY_SERVICES_MAP = {
@@ -117,14 +166,17 @@ async function createMondayItem(data) {
   // 결제 방식 매핑
   const mappedPayment = MONDAY_PAYMENT_MAP[data.payment] || data.payment || '';
 
+  // 선택 컬럼 ID 동적 resolve (UTM/URL/source/serviceType — 보드에서 title로 자동 매칭)
+  const optionalIds = await resolveOptionalColumns(token, MONDAY_BOARD_ID).catch(() => ({}));
+
   // notes 통합 — 전용 컬럼 있는 항목은 제외 (중복 방지)
   const extraInfo = [];
-  if (data.service_type && !MONDAY_COLUMNS.serviceType) extraInfo.push(`[서비스 유형]\n${data.service_type}`);
-  if (Array.isArray(data.urls) && data.urls.length > 0 && !MONDAY_COLUMNS.urls) {
+  if (data.service_type && !optionalIds.serviceType) extraInfo.push(`[서비스 유형]\n${data.service_type}`);
+  if (Array.isArray(data.urls) && data.urls.length > 0 && !optionalIds.urls) {
     extraInfo.push(`[광고 대상 URL ${data.urls.length}개]\n${data.urls.map(u => '• ' + u).join('\n')}`);
   }
-  if (data.source && data.source !== 'direct' && !MONDAY_COLUMNS.source) extraInfo.push(`[유입 경로]\n${data.source}`);
-  if (data.utm && !MONDAY_COLUMNS.utm) extraInfo.push(`[UTM]\n${data.utm}`);
+  if (data.source && data.source !== 'direct' && !optionalIds.source) extraInfo.push(`[유입 경로]\n${data.source}`);
+  if (data.utm && !optionalIds.utm) extraInfo.push(`[UTM]\n${data.utm}`);
   const combinedNotes = [data.notes, ...extraInfo].filter(Boolean).join('\n\n---\n\n');
 
   // Status 자동 분류
@@ -153,18 +205,18 @@ async function createMondayItem(data) {
   if (data.issue) {
     columnValues[MONDAY_COLUMNS.issue] = { labels: [data.issue] };
   }
-  // ── 선택 컬럼 매핑 (환경변수로 컬럼 ID 설정된 경우만) ──
-  if (MONDAY_COLUMNS.utm && data.utm) {
-    columnValues[MONDAY_COLUMNS.utm] = String(data.utm).slice(0, 2000);
+  // ── 동적으로 resolve된 선택 컬럼 매핑 ──
+  if (optionalIds.utm && data.utm) {
+    columnValues[optionalIds.utm] = String(data.utm).slice(0, 2000);
   }
-  if (MONDAY_COLUMNS.urls && Array.isArray(data.urls) && data.urls.length > 0) {
-    columnValues[MONDAY_COLUMNS.urls] = data.urls.join(' | ').slice(0, 2000);
+  if (optionalIds.urls && Array.isArray(data.urls) && data.urls.length > 0) {
+    columnValues[optionalIds.urls] = data.urls.join(' | ').slice(0, 2000);
   }
-  if (MONDAY_COLUMNS.source && data.source && data.source !== 'direct') {
-    columnValues[MONDAY_COLUMNS.source] = String(data.source).slice(0, 500);
+  if (optionalIds.source && data.source && data.source !== 'direct') {
+    columnValues[optionalIds.source] = String(data.source).slice(0, 500);
   }
-  if (MONDAY_COLUMNS.serviceType && data.service_type) {
-    columnValues[MONDAY_COLUMNS.serviceType] = String(data.service_type).slice(0, 200);
+  if (optionalIds.serviceType && data.service_type) {
+    columnValues[optionalIds.serviceType] = String(data.service_type).slice(0, 200);
   }
 
   const mutation = `
