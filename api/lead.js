@@ -51,6 +51,7 @@ const MONDAY_GROUP_ID = process.env.MONDAY_GROUP_ID || 'topics'; // "신규" 그
 const MONDAY_DEFAULT_ASSIGNEE_ID = process.env.MONDAY_DEFAULT_ASSIGNEE_ID || '46666227';
 
 // Monday 컬럼 ID 매핑
+// ⚠️ UTM/URL/source 등 추가 컬럼은 환경변수로 동적 매핑 — 컬럼이 있을 때만 사용
 const MONDAY_COLUMNS = {
   name:        'text_mknczry2',      // 이름
   job:         'text_mknc998t',      // 직책
@@ -64,6 +65,11 @@ const MONDAY_COLUMNS = {
   notes:       'text_mknqtgpg',      // 그 외 궁금/지원 내용
   status:      'status',             // 진행 사항
   person:      'person',             // 담당자 (people 타입)
+  // ── 선택 컬럼 (Vercel 환경변수로 설정 시 활성화) ──
+  utm:         process.env.MONDAY_COLUMN_UTM         || null, // UTM 파라미터 전용
+  urls:        process.env.MONDAY_COLUMN_URLS        || null, // 광고 대상 URL 전용
+  source:      process.env.MONDAY_COLUMN_SOURCE      || null, // 유입 경로 전용
+  serviceType: process.env.MONDAY_COLUMN_SERVICETYPE || null, // 서비스 유형 전용
 };
 
 // 폼 값 → Monday dropdown 라벨 매핑
@@ -111,14 +117,14 @@ async function createMondayItem(data) {
   // 결제 방식 매핑
   const mappedPayment = MONDAY_PAYMENT_MAP[data.payment] || data.payment || '';
 
-  // 메모 통합 (URL + serviceType + source/utm 추가)
+  // notes 통합 — 전용 컬럼 있는 항목은 제외 (중복 방지)
   const extraInfo = [];
-  if (data.service_type) extraInfo.push(`[서비스 유형]\n${data.service_type}`);
-  if (Array.isArray(data.urls) && data.urls.length > 0) {
+  if (data.service_type && !MONDAY_COLUMNS.serviceType) extraInfo.push(`[서비스 유형]\n${data.service_type}`);
+  if (Array.isArray(data.urls) && data.urls.length > 0 && !MONDAY_COLUMNS.urls) {
     extraInfo.push(`[광고 대상 URL ${data.urls.length}개]\n${data.urls.map(u => '• ' + u).join('\n')}`);
   }
-  if (data.source && data.source !== 'direct') extraInfo.push(`[유입 경로]\n${data.source}`);
-  if (data.utm) extraInfo.push(`[UTM]\n${data.utm}`);
+  if (data.source && data.source !== 'direct' && !MONDAY_COLUMNS.source) extraInfo.push(`[유입 경로]\n${data.source}`);
+  if (data.utm && !MONDAY_COLUMNS.utm) extraInfo.push(`[UTM]\n${data.utm}`);
   const combinedNotes = [data.notes, ...extraInfo].filter(Boolean).join('\n\n---\n\n');
 
   // Status 자동 분류
@@ -146,6 +152,19 @@ async function createMondayItem(data) {
   }
   if (data.issue) {
     columnValues[MONDAY_COLUMNS.issue] = { labels: [data.issue] };
+  }
+  // ── 선택 컬럼 매핑 (환경변수로 컬럼 ID 설정된 경우만) ──
+  if (MONDAY_COLUMNS.utm && data.utm) {
+    columnValues[MONDAY_COLUMNS.utm] = String(data.utm).slice(0, 2000);
+  }
+  if (MONDAY_COLUMNS.urls && Array.isArray(data.urls) && data.urls.length > 0) {
+    columnValues[MONDAY_COLUMNS.urls] = data.urls.join(' | ').slice(0, 2000);
+  }
+  if (MONDAY_COLUMNS.source && data.source && data.source !== 'direct') {
+    columnValues[MONDAY_COLUMNS.source] = String(data.source).slice(0, 500);
+  }
+  if (MONDAY_COLUMNS.serviceType && data.service_type) {
+    columnValues[MONDAY_COLUMNS.serviceType] = String(data.service_type).slice(0, 200);
   }
 
   const mutation = `
