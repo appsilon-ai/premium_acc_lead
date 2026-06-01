@@ -3565,7 +3565,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   // ============================================================
   function track(eventName, params) {
     params = params || {};
-    // 1) iframe 내부에 픽셀이 직접 있으면 호출
+    // 0) ✅ GTM dataLayer push — 모든 GTM 트리거가 listen
+    //    (GA4 · Meta Pixel · Google Ads 전환 · Toss LEX 등 GTM 내 모든 태그)
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(Object.assign({ event: eventName }, params));
+    // 1) iframe 내부에 픽셀이 직접 있으면 폴백 호출 (Wix 임베드 등 시나리오)
     try {
       if (typeof window.gtag === 'function') {
         window.gtag('event', eventName, params);
