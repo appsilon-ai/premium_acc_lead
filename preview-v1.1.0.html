@@ -3348,22 +3348,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <span class="fsh-count">8 ~ 10</span>
         </div>
         <div class="field-group">
-          <label><span class="q-num">8</span>필요한 서비스 유형<span class="q-icon">🎯</span></label>
+          <label><span class="q-num">8</span>필요한 서비스 유형 <span class="q-note">(복수선택가능)</span><span class="q-icon">🎯</span></label>
           <div class="radio-group">
-            <label class="radio-item"><input type="radio" name="serviceType" value="계정 임대만" required><span><b>계정 임대만</b> — 인보이스 계정으로 광고비 절감 + 매체 보너스 (운영은 직접)</span></label>
-            <label class="radio-item"><input type="radio" name="serviceType" value="광고 대행만"><span><b>광고 대행만</b> — 전담 매니저가 캠페인 빌드 · 소재 · 최적화 운영</span></label>
-            <label class="radio-item"><input type="radio" name="serviceType" value="계정 임대 + 광고 대행"><span><b>계정 임대 + 광고 대행 (추천)</b> — 절감 + 운영 위탁 동시</span></label>
-            <label class="radio-item"><input type="radio" name="serviceType" value="상담 후 결정"><span>잘 모르겠음 · 상담 후 결정</span></label>
+            <label class="radio-item"><input type="checkbox" name="serviceType" value="계정 임대만"><span><b>계정 임대만</b> — 인보이스 계정으로 광고비 절감 + 매체 보너스 (운영은 직접)</span></label>
+            <label class="radio-item"><input type="checkbox" name="serviceType" value="광고 대행만"><span><b>광고 대행만</b> — 전담 매니저가 캠페인 빌드 · 소재 · 최적화 운영</span></label>
+            <label class="radio-item"><input type="checkbox" name="serviceType" value="계정 임대 + 광고 대행"><span><b>계정 임대 + 광고 대행 (추천)</b> — 절감 + 운영 위탁 동시</span></label>
+            <label class="radio-item"><input type="checkbox" name="serviceType" value="상담 후 결정"><span>잘 모르겠음 · 상담 후 결정</span></label>
           </div>
         </div>
 
         <div class="field-group">
-          <label><span class="q-num">9</span>현재 광고비 결제 방식<span class="q-icon">💸</span></label>
+          <label><span class="q-num">9</span>현재 광고비 결제 방식 <span class="q-note">(복수선택가능)</span><span class="q-icon">💸</span></label>
           <div class="radio-group">
-            <label class="radio-item"><input type="radio" name="payment" value="카드 해외 결제"><span>카드 해외 결제 (수수료 4.8~7.8%)</span></label>
-            <label class="radio-item"><input type="radio" name="payment" value="광고 대행사 협업 중"><span>광고 대행사 협업 중</span></label>
-            <label class="radio-item"><input type="radio" name="payment" value="대행사 계정 대대행"><span>대행사 계정 대대행</span></label>
-            <label class="radio-item"><input type="radio" name="payment" value="매체 직거래(Invoice)"><span>매체 직거래 (Invoice)</span></label>
+            <label class="radio-item"><input type="checkbox" name="payment" value="카드 해외 결제"><span>카드 해외 결제 (수수료 4.8~7.8%)</span></label>
+            <label class="radio-item"><input type="checkbox" name="payment" value="광고 대행사 협업 중"><span>광고 대행사 협업 중</span></label>
+            <label class="radio-item"><input type="checkbox" name="payment" value="대행사 계정 대대행"><span>대행사 계정 대대행</span></label>
+            <label class="radio-item"><input type="checkbox" name="payment" value="매체 직거래(Invoice)"><span>매체 직거래 (Invoice)</span></label>
           </div>
         </div>
 
@@ -3774,13 +3774,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         if (this.value) track('form_industry_selected', { industry: this.value });
       });
     }
-    form.querySelectorAll('input[name="serviceType"]').forEach(function(radio){
-      radio.addEventListener('change', function(){
+    form.querySelectorAll('input[name="serviceType"]').forEach(function(cb){
+      cb.addEventListener('change', function(){
         if (this.checked) track('form_service_type_selected', { service_type: this.value });
       });
     });
-    form.querySelectorAll('input[name="payment"]').forEach(function(radio){
-      radio.addEventListener('change', function(){
+    form.querySelectorAll('input[name="payment"]').forEach(function(cb){
+      cb.addEventListener('change', function(){
         if (this.checked) track('form_payment_selected', { payment: this.value });
       });
     });
@@ -4133,27 +4133,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     // 📊 트래킹: 제출 시도
     track('form_submit_attempt', { progress_percent: 100 });
 
-    const services    = Array.from(form.querySelectorAll('input[name=service]:checked')).map(c => c.value);
-    const payment     = (form.querySelector('input[name=payment]:checked')     || {}).value || '';
-    const issue       = (form.querySelector('input[name=issue]:checked')       || {}).value || '';
-    const serviceType = (form.querySelector('input[name=serviceType]:checked') || {}).value || '';
+    const services     = Array.from(form.querySelectorAll('input[name=service]:checked')).map(c => c.value);
+    const payments     = Array.from(form.querySelectorAll('input[name=payment]:checked')).map(c => c.value);
+    const serviceTypes = Array.from(form.querySelectorAll('input[name=serviceType]:checked')).map(c => c.value);
+    const issue        = (form.querySelector('input[name=issue]:checked')       || {}).value || '';
+
+    // 검증: 필요한 서비스 유형 1개 이상 선택
+    if (serviceTypes.length === 0) {
+      btn.disabled = false; btn.innerText = original;
+      alert('필요한 서비스 유형을 1개 이상 선택해주세요.');
+      const firstSt = form.querySelector('input[name=serviceType]');
+      if (firstSt) firstSt.focus();
+      track('form_validation_error', { step: 2, field: 'serviceType', reason: 'required_multi' });
+      return false;
+    }
 
     const urls = Array.from(form.querySelectorAll('input[name="url[]"]'))
       .map(i => i.value.trim()).filter(Boolean);
 
     const data = {
       company:     form.company.value,
-      urls:        urls,            // 배열로 전송
-      url:         urls.join(' | '),// 호환을 위해 join본도 함께 전송
+      urls:        urls,                  // 배열로 전송
+      url:         urls.join(' | '),      // 호환을 위해 join본도 함께 전송
       industry:    form.industry.value,
-      serviceType: serviceType,
+      serviceType: serviceTypes,          // 배열 (복수선택 가능)
       name:        form.name.value,
       email:       form.email.value,
       phone:       form.phone.value,
-      payment:     payment,
+      payment:     payments,              // 배열 (복수선택 가능)
       services:    services,
       budget:      form.budget.value,
-      issue:       issue,
+      issue:       issue,                 // 단일 (Monday notes 컬럼으로 라우팅)
       notes:       form.notes.value || '',
       submittedAt: new Date().toISOString(),
       source: document.referrer || 'direct',
@@ -4177,7 +4187,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         progress_percent: 100,
         budget_tier: data.budget,
         industry: data.industry,
-        service_type: data.serviceType,
+        service_type: Array.isArray(data.serviceType) ? data.serviceType.join(', ') : data.serviceType,
         url_count: urls.length,
         value: leadValue,
         currency: 'KRW',

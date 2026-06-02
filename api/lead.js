@@ -72,7 +72,7 @@ const MONDAY_OPTIONAL_COLUMNS = {
   utm:         { env: 'MONDAY_COLUMN_UTM',         titles: ['UTM', 'utm', 'UTM 파라미터'] },
   urls:        { env: 'MONDAY_COLUMN_URLS',        titles: ['광고 대상 URL', '광고 URL', 'URL', 'urls'] },
   source:      { env: 'MONDAY_COLUMN_SOURCE',      titles: ['유입 경로', 'Source', 'source', '레퍼러'] },
-  serviceType: { env: 'MONDAY_COLUMN_SERVICETYPE', titles: ['서비스 유형', 'Service Type', '필요 서비스'] },
+  serviceType: { env: 'MONDAY_COLUMN_SERVICETYPE', titles: ['필요한 서비스 유형', '서비스 유형', 'Service Type', '필요 서비스'] },
 };
 
 // 보드 컬럼 캐시 (warm function 인스턴스 내 재사용)
@@ -100,20 +100,21 @@ async function resolveOptionalColumns(token, boardId) {
     // 1순위: 환경변수에 컬럼 ID 직접 설정
     const envVal = process.env[cfg.env];
     if (envVal) {
-      // ID 패턴이면 그대로 사용, 아니면 title로 lookup
+      // ID 패턴이면 그대로 사용 (type은 cols에서 lookup)
       const looksLikeId = /^([a-z]+_[a-z0-9]+|status|person|name)$/i.test(envVal);
       if (looksLikeId) {
-        resolved[key] = envVal;
+        const colInfo = cols.find(c => c.id === envVal);
+        resolved[key] = { id: envVal, type: colInfo?.type || 'text' };
         continue;
       }
       // env var에 title이 들어있으면 title로 lookup
       const byEnvTitle = cols.find(c => c.title === envVal);
-      if (byEnvTitle) { resolved[key] = byEnvTitle.id; continue; }
+      if (byEnvTitle) { resolved[key] = { id: byEnvTitle.id, type: byEnvTitle.type }; continue; }
     }
     // 2순위: 사전 정의된 title 목록으로 자동 매칭
     for (const t of cfg.titles) {
       const found = cols.find(c => c.title === t || c.title.toLowerCase() === t.toLowerCase());
-      if (found) { resolved[key] = found.id; break; }
+      if (found) { resolved[key] = { id: found.id, type: found.type }; break; }
     }
   }
   _resolvedOptionalIds = resolved;
@@ -163,20 +164,32 @@ async function createMondayItem(data) {
     .map(s => MONDAY_SERVICES_MAP[s])
     .filter(Boolean);
 
-  // 결제 방식 매핑
-  const mappedPayment = MONDAY_PAYMENT_MAP[data.payment] || data.payment || '';
+  // 결제 방식 — 배열/문자열 모두 허용 → 복수 라벨로 변환
+  const paymentArr = Array.isArray(data.payment) ? data.payment : (data.payment ? [data.payment] : []);
+  const mappedPayments = paymentArr.map(p => MONDAY_PAYMENT_MAP[p] || p).filter(Boolean);
 
-  // 선택 컬럼 ID 동적 resolve (UTM/URL/source/serviceType — 보드에서 title로 자동 매칭)
-  const optionalIds = await resolveOptionalColumns(token, MONDAY_BOARD_ID).catch(() => ({}));
+  // 필요한 서비스 유형 — 배열/문자열 모두 허용
+  const serviceTypeArr = Array.isArray(data.service_type) ? data.service_type
+                       : Array.isArray(data.serviceType)  ? data.serviceType
+                       : data.service_type ? [data.service_type]
+                       : data.serviceType  ? [data.serviceType]
+                       : [];
+
+  // 선택 컬럼 ID 동적 resolve (보드에서 title로 자동 매칭, 컬럼 타입도 함께 반환)
+  const optionalCols = await resolveOptionalColumns(token, MONDAY_BOARD_ID).catch(() => ({}));
 
   // notes 통합 — 전용 컬럼 있는 항목은 제외 (중복 방지)
+  // ⭐ data.issue (광고 진행 중 애로사항) → notes 컬럼으로 라우팅 (별도 dropdown 사용 안 함)
   const extraInfo = [];
-  if (data.service_type && !optionalIds.serviceType) extraInfo.push(`[서비스 유형]\n${data.service_type}`);
-  if (Array.isArray(data.urls) && data.urls.length > 0 && !optionalIds.urls) {
+  if (serviceTypeArr.length > 0 && !optionalCols.serviceType) {
+    extraInfo.push(`[필요한 서비스 유형]\n${serviceTypeArr.map(s => '• ' + s).join('\n')}`);
+  }
+  if (Array.isArray(data.urls) && data.urls.length > 0 && !optionalCols.urls) {
     extraInfo.push(`[광고 대상 URL ${data.urls.length}개]\n${data.urls.map(u => '• ' + u).join('\n')}`);
   }
-  if (data.source && data.source !== 'direct' && !optionalIds.source) extraInfo.push(`[유입 경로]\n${data.source}`);
-  if (data.utm && !optionalIds.utm) extraInfo.push(`[UTM]\n${data.utm}`);
+  if (data.source && data.source !== 'direct' && !optionalCols.source) extraInfo.push(`[유입 경로]\n${data.source}`);
+  if (data.utm && !optionalCols.utm) extraInfo.push(`[UTM]\n${data.utm}`);
+  if (data.issue) extraInfo.push(`[광고 진행 중 애로사항]\n${data.issue}`);
   const combinedNotes = [data.notes, ...extraInfo].filter(Boolean).join('\n\n---\n\n');
 
   // Status 자동 분류
@@ -196,28 +209,34 @@ async function createMondayItem(data) {
       personsAndTeams: [{ id: Number(MONDAY_DEFAULT_ASSIGNEE_ID), kind: 'person' }]
     },
   };
-  if (mappedPayment) {
-    columnValues[MONDAY_COLUMNS.payment] = { labels: [mappedPayment] };
+  if (mappedPayments.length > 0) {
+    // payment 컬럼이 dropdown 타입이라 복수 라벨 지원
+    columnValues[MONDAY_COLUMNS.payment] = { labels: mappedPayments };
   }
   if (mappedServices.length > 0) {
     columnValues[MONDAY_COLUMNS.services] = { labels: mappedServices };
   }
-  if (data.issue) {
-    columnValues[MONDAY_COLUMNS.issue] = { labels: [data.issue] };
+  // ⛔ data.issue를 별도 dropdown 컬럼에 보내지 않음 (notes에 통합되어 라우팅됨)
+
+  // ── 동적으로 resolve된 선택 컬럼 매핑 (column id + type 모두 사용) ──
+  function setOptionalColumn(colInfo, value, isMulti) {
+    if (!colInfo || value == null || value === '' || (Array.isArray(value) && value.length === 0)) return;
+    const id = colInfo.id;
+    const type = colInfo.type;
+    if (isMulti && Array.isArray(value)) {
+      if (type === 'dropdown') {
+        columnValues[id] = { labels: value };
+      } else {
+        columnValues[id] = value.join(', ').slice(0, 2000);
+      }
+    } else {
+      columnValues[id] = String(value).slice(0, 2000);
+    }
   }
-  // ── 동적으로 resolve된 선택 컬럼 매핑 ──
-  if (optionalIds.utm && data.utm) {
-    columnValues[optionalIds.utm] = String(data.utm).slice(0, 2000);
-  }
-  if (optionalIds.urls && Array.isArray(data.urls) && data.urls.length > 0) {
-    columnValues[optionalIds.urls] = data.urls.join(' | ').slice(0, 2000);
-  }
-  if (optionalIds.source && data.source && data.source !== 'direct') {
-    columnValues[optionalIds.source] = String(data.source).slice(0, 500);
-  }
-  if (optionalIds.serviceType && data.service_type) {
-    columnValues[optionalIds.serviceType] = String(data.service_type).slice(0, 200);
-  }
+  setOptionalColumn(optionalCols.utm,         data.utm,                                          false);
+  setOptionalColumn(optionalCols.urls,        Array.isArray(data.urls) ? data.urls.join(' | ') : data.urls, false);
+  setOptionalColumn(optionalCols.source,      (data.source && data.source !== 'direct') ? data.source : null, false);
+  setOptionalColumn(optionalCols.serviceType, serviceTypeArr,                                    true);
 
   const mutation = `
     mutation CreateItem($boardId: ID!, $groupId: String!, $itemName: String!, $columnValues: JSON!) {
@@ -314,9 +333,9 @@ function buildSalesAlertEmail(data, isHighPriority) {
           <tr><td style="padding:8px 0;color:#6b7280">이메일</td><td style="padding:8px 0;font-weight:600"><a href="mailto:${data.email}" style="color:#1652a5">${data.email}</a></td></tr>
           <tr><td style="padding:8px 0;color:#6b7280">광고비</td><td style="padding:8px 0;font-weight:800;color:#1652a5">${budgetLabel(data.budget)}</td></tr>
           <tr><td style="padding:8px 0;color:#6b7280">업종</td><td style="padding:8px 0">${data.industry || '-'}</td></tr>
-          <tr><td style="padding:8px 0;color:#6b7280">서비스 유형</td><td style="padding:8px 0">${data.service_type || '-'}</td></tr>
+          <tr><td style="padding:8px 0;color:#6b7280">필요한 서비스 유형</td><td style="padding:8px 0">${Array.isArray(data.service_type) && data.service_type.length > 0 ? data.service_type.map(s => `<span style="display:inline-block;background:#eef3ff;color:#1652a5;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;margin:2px 4px 2px 0">${s}</span>`).join('') : (data.service_type || '-')}</td></tr>
           <tr><td style="padding:8px 0;color:#6b7280">희망 매체</td><td style="padding:8px 0">${Array.isArray(data.services) && data.services.length > 0 ? data.services.map(s => `<span style="display:inline-block;background:#eef3ff;color:#1652a5;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;margin:2px 4px 2px 0">${s}</span>`).join('') : '-'}</td></tr>
-          <tr><td style="padding:8px 0;color:#6b7280">결제 방식</td><td style="padding:8px 0">${data.payment || '-'}</td></tr>
+          <tr><td style="padding:8px 0;color:#6b7280">결제 방식</td><td style="padding:8px 0">${Array.isArray(data.payment) && data.payment.length > 0 ? data.payment.map(p => `<span style="display:inline-block;background:#fef3c7;color:#92400e;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;margin:2px 4px 2px 0">${p}</span>`).join('') : (data.payment || '-')}</td></tr>
           <tr><td style="padding:8px 0;color:#6b7280">애로사항</td><td style="padding:8px 0">${data.issue || '-'}</td></tr>
         </table>
         <div style="margin-top:16px;padding:14px;background:#f3f4f6;border-radius:8px">
@@ -480,8 +499,9 @@ export default async function handler(req, res) {
       restricted_reasons: restrictedMatches,
       lead_priority:      leadPriority,
       industry:           (body.industry || '').slice(0, 100),
-      service_type:       (body.serviceType || '').slice(0, 100),
-      payment:            (body.payment || '').slice(0, 100),
+      // Q8/Q9 복수선택 → 배열을 ", "로 join해서 저장 (Supabase 컬럼이 text)
+      service_type:       (Array.isArray(body.serviceType) ? body.serviceType.join(', ') : (body.serviceType || '')).slice(0, 500),
+      payment:            (Array.isArray(body.payment)     ? body.payment.join(', ')     : (body.payment || '')).slice(0, 500),
       services:           Array.isArray(body.services) ? body.services : [],
       issue:              (body.issue || '').slice(0, 200),
       notes:              (body.notes || '').slice(0, 2000),
@@ -507,7 +527,13 @@ export default async function handler(req, res) {
     // 4) Monday.com 적재 (영업팀 작업판) — 이메일 발송과 병렬 처리 가능하지만,
     //    실패 시에도 DB 저장은 유지되어야 하므로 catch로 격리
     try {
-      await createMondayItem(inserted);
+      // Monday에는 배열 원본을 그대로 전달 (Supabase에는 join된 string으로 저장됨)
+      const mondayData = {
+        ...inserted,
+        serviceType: Array.isArray(body.serviceType) ? body.serviceType : (body.serviceType ? [body.serviceType] : []),
+        payment:     Array.isArray(body.payment)     ? body.payment     : (body.payment     ? [body.payment]     : []),
+      };
+      await createMondayItem(mondayData);
     } catch (mondayErr) {
       console.error('Monday create_item failed:', mondayErr);
       // Monday 실패해도 응답은 success — 이메일은 별도로 발송
