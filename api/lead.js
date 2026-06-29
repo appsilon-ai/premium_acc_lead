@@ -282,6 +282,29 @@ async function createMondayItem(data) {
   return result.data.create_item.id;
 }
 
+// ── Marketing Studio 적재 ────────────────────────────────────
+// Monday(createMondayItem)와 **동일한 방식** — Supabase 저장 후 병렬 호출, 실패는 호출부에서 격리.
+// marketing studio 의 인입 웹훅(POST /api/leads/ingest, Bearer 인증)으로 리드 JSON 전송.
+async function sendToMarketingStudio(data) {
+  const url = process.env.MARKETING_STUDIO_LEAD_URL; // 예: https://studio.appsilon.kr/api/leads/ingest
+  if (!url) {
+    console.warn('MARKETING_STUDIO_LEAD_URL not set, skipping marketing studio integration');
+    return null;
+  }
+  const headers = { 'Content-Type': 'application/json' };
+  if (process.env.MARKETING_STUDIO_LEAD_TOKEN) {
+    headers.Authorization = `Bearer ${process.env.MARKETING_STUDIO_LEAD_TOKEN}`;
+  }
+  const res = await fetch(url, { method: 'POST', headers, body: JSON.stringify(data) });
+  if (!res.ok) {
+    const t = await res.text().catch(() => '');
+    throw new Error(`marketing studio ingest failed ${res.status}: ${t.slice(0, 300)}`);
+  }
+  const j = await res.json().catch(() => ({}));
+  console.log('Marketing studio lead saved:', j.id);
+  return j.id;
+}
+
 // Supabase + Resend 클라이언트 초기화 (cold start 비용 절감 위해 함수 외부에서 생성)
 const supabase = createClient(
   process.env.SUPABASE_URL,
@@ -537,6 +560,18 @@ export default async function handler(req, res) {
     } catch (mondayErr) {
       console.error('Monday create_item failed:', mondayErr);
       // Monday 실패해도 응답은 success — 이메일은 별도로 발송
+    }
+
+    // 4.5) Marketing Studio 적재 (Monday와 동일 방식 — Supabase 저장 후 병렬, 실패 격리)
+    try {
+      await sendToMarketingStudio({
+        ...inserted,
+        serviceType: Array.isArray(body.serviceType) ? body.serviceType : (body.serviceType ? [body.serviceType] : []),
+        payment:     Array.isArray(body.payment)     ? body.payment     : (body.payment     ? [body.payment]     : []),
+      });
+    } catch (msErr) {
+      console.error('Marketing studio save failed:', msErr);
+      // marketing studio 실패해도 DB 저장·응답은 유지
     }
 
     // 5) 이메일 발송 (제한업종 여부에 따라 분기)
