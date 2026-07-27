@@ -2432,6 +2432,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .struct-num{width:26px;height:26px;font-size:12.5px}
     .struct-text{font-size:13px}
   }
+
+/* Lottie 아이콘 — 일반 계정 ↔ 파트너 계정 비교 헤더 (2026-07-27)
+   이모지를 컨테이너 안에 남겨 두고, 마운트에 성공한 뒤에만 감춘다.
+   자산 로드가 실패하면 지금 화면 그대로다. */
+/* 크기·정렬은 실측으로 맞춘 값 — 이 조합이라야 h3 줄 상자가 원본과 같은 26px 를 유지한다
+   (1.15em/-.2em 이면 32px 로 6px 밀린다) */
+.lot-ic{display:inline-block;width:.95em;height:.95em;vertical-align:-.1em;
+  line-height:1;overflow:visible;min-width:0}
+.lot-ic > svg{display:block;transform:scale(1.15);transform-origin:center}
 </style>
 </head>
 <body>
@@ -2830,7 +2839,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div>
         <!-- 일반 계정 (카드 결제) — 고객이 카드사에 수수료 부담 -->
         <div class="sfb card-flow">
-          <h3>💳 일반 계정 — 고객이 직접 카드 결제</h3>
+          <h3><span class="lot-ic" data-ic="lp-card" data-th="dark">💳</span> 일반 계정 — 고객이 직접 카드 결제</h3>
           <div class="sfb-flow">
             <div class="sfb-node">고객</div>
             <div class="sfb-arrow">→</div>
@@ -2850,7 +2859,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <!-- 파트너 인보이스 계정 (충전식) — 파트너가 매체에 직결 -->
         <div class="sfb invoice-flow">
-          <h3>🎁 파트너 인보이스 — 충전식, 매체 직결 송금</h3>
+          <h3><span class="lot-ic" data-ic="lp-gift" data-th="dark">🎁</span> 파트너 인보이스 — 충전식, 매체 직결 송금</h3>
           <div class="sfb-flow">
             <div class="sfb-node">고객</div>
             <div class="sfb-arrow">→</div>
@@ -3255,7 +3264,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- v1.1.0: Visual bar comparison cards (아래로 이동 — 표 결정 후 시각 요약) -->
     <div class="compare-cards" style="margin-top:36px">
       <article class="cc-card cc-bad" style="--cc-target:82%">
-        <h3>💳 일반 계정 (카드 결제)</h3>
+        <h3><span class="lot-ic" data-ic="lp-card" data-th="light">💳</span> 일반 계정 (카드 결제)</h3>
         <div class="cc-sub">여러 단계의 해외 결제 수수료가 누적됩니다.</div>
         <div class="cc-bar"><div class="cc-fill">광고 효율 ~95%</div><div class="cc-loss-mark">−5%+</div></div>
         <div class="cc-stat"><span>환전·브랜드·DCC 수수료</span><b class="cc-bad-val">5% 이상</b></div>
@@ -3266,7 +3275,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="cc-stat"><span class="hl-red">월 1억 기준 수수료 손실</span><b class="cc-bad-val">월 ₩ 500만+</b></div>
       </article>
       <article class="cc-card cc-good" style="--cc-target:100%">
-        <h3>🎯 파트너 계정 (인보이스)</h3>
+        <h3><span class="lot-ic" data-ic="lp-target" data-th="light">🎯</span> 파트너 계정 (인보이스)</h3>
         <div class="cc-sub">수수료 0원 + 해외·국내 매체 본사 보너스 크레딧 자동 지급.</div>
         <div class="cc-bar"><div class="cc-fill">광고 효율 100%</div><div class="cc-bonus-extend">+ 보너스</div></div>
         <div class="cc-stat"><span>해외 결제 수수료</span><b class="cc-good-val">0원</b></div>
@@ -4380,5 +4389,64 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   })();
 </script>
 
+
+<script>
+/* 비교 헤더 4곳의 이모지를 Lottie 로 교체 (2026-07-27)
+   - 뷰포트 진입 시 1회 재생. 반복하지 않는다.
+   - prefers-reduced-motion 이면 관여하지 않고 이모지를 그대로 둔다.
+   - 런타임·데이터 모두 지연 로드. 실패하면 이모지가 남는다. */
+(function () {
+  var els = [].slice.call(document.querySelectorAll('.lot-ic'));
+  if (!els.length || !window.IntersectionObserver || !window.fetch || !window.Promise) return;
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var rt = null, cache = {};
+  function runtime() {
+    if (rt) return rt;
+    rt = new Promise(function (res, rej) {
+      if (window.lottie) return res(window.lottie);
+      var s = document.createElement('script');
+      s.src = '/assets/lottie_light.min.js'; s.async = true;
+      s.onload = function () { window.lottie ? res(window.lottie) : rej(0); };
+      s.onerror = function () { rej(0); };
+      document.head.appendChild(s);
+    });
+    return rt;
+  }
+  function data(k) {
+    if (!cache[k]) cache[k] = fetch('/assets/icons/' + k + '.json')
+      .then(function (r) { if (!r.ok) throw 0; return r.json(); });
+    return cache[k];
+  }
+  /* Raw 익스포트는 여러 state 를 한 타임라인에 이어 붙인다 → default 구간만 재생 */
+  function segment(d) {
+    var ms = (d.markers || []).filter(function (m) { return m.dr > 0; }), def = null, first = null;
+    for (var i = 0; i < ms.length; i++) {
+      if (!def && ms[i].cm.indexOf('default:') === 0) def = ms[i];
+      if (!first && ms[i].cm.indexOf('in-') !== 0) first = ms[i];
+    }
+    var p = def || first || ms[0];
+    return p ? [p.tm, p.tm + p.dr] : null;
+  }
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      var el = e.target, key = el.dataset.ic + '.' + el.dataset.th;
+      Promise.all([runtime(), data(key)]).then(function (r) {
+        var emoji = el.textContent;
+        el.textContent = '';
+        var a = r[0].loadAnimation({ container: el, renderer: 'svg', loop: false, autoplay: false,
+          animationData: r[1], rendererSettings: { preserveAspectRatio: 'xMidYMid meet', progressiveLoad: true } });
+        a.addEventListener('DOMLoaded', function () {
+          var s = segment(r[1]); s ? a.playSegments(s, true) : a.play();
+        });
+        a.addEventListener('error', function () { el.textContent = emoji; });
+      })['catch'](function () { /* 이모지 그대로 */ });
+    });
+  }, { rootMargin: '200px' });
+  els.forEach(function (el) { io.observe(el); });
+})();
+</script>
 </body>
 </html>
