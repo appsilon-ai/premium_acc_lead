@@ -36,7 +36,7 @@
     [+] Solution h2 → "광고비를 지키는 3가지 방식" (outcome-focused)
     [+] FAQ h2 → "신청 전 가장 많이 받는 질문"
     [+] testimonial 보너스 % 일반화 (5%→두 자릿수)
-    [+] 매체공식대행사 브랜드명
+    [+] 헤더 APPSILON 로고
 
     ── 모바일 최적화 ──
     [+] overflow-x:hidden + box-sizing 전역 safeguard
@@ -101,6 +101,37 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>OFFICIAL ADS — 매체 파트너 인보이스 계정으로 광고비 20% 회수하세요</title>
 <meta name="description" content="Meta·Google·TikTok 파트너 인보이스 계정으로 해외 결제 수수료 0원, 보너스 크레딧 최대 15%, 전담 매니저 지원까지. 월 1,000만 원 이상 광고주 대상 무료 진단." />
+<script>
+  (function(){
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+    var internalAnchorClick = false;
+
+    function resetLandingScroll(){
+      if (internalAnchorClick) return;
+      if (location.hash && location.hash !== '#apply') return;
+      if (location.hash === '#apply') {
+        history.replaceState(null, '', location.pathname + location.search);
+      }
+      window.scrollTo(0, 0);
+    }
+
+    document.addEventListener('click', function(event){
+      var anchor = event.target && event.target.closest ? event.target.closest('a[href^="#"]') : null;
+      if (!anchor) return;
+      internalAnchorClick = true;
+      window.setTimeout(function(){ internalAnchorClick = false; }, 1200);
+    }, true);
+
+    window.addEventListener('pageshow', resetLandingScroll);
+    document.addEventListener('DOMContentLoaded', function(){
+      resetLandingScroll();
+      window.requestAnimationFrame(function(){
+        window.setTimeout(resetLandingScroll, 0);
+      });
+    });
+  })();
+</script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 <style>
@@ -156,10 +187,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* NAV */
   nav.top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--line)}
-  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
   .logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em}
+  .logo-img{display:block;width:auto;height:20px;max-width:116px;object-fit:contain}
   .logo-mark{width:28px;height:28px;border-radius:8px;background:var(--g-premium);display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px;box-shadow:0 4px 10px rgba(13,44,94,.25)}
   .nav-cta{display:flex;gap:10px;align-items:center}
+  .nav-link{font-size:14px;margin-right:12px;white-space:nowrap}
+  .nav-link:last-of-type{margin-right:16px}
+  .nav-apply{padding:10px 16px;font-size:14px;white-space:nowrap}
+  @media (max-width:520px){
+    .container.nav-inner{padding:0 14px}
+    .nav-inner{height:54px;gap:10px}
+    .logo{min-width:0;flex:1}
+    .logo-img{height:16px;max-width:94px}
+    .nav-cta{flex-shrink:0;gap:0}
+    .nav-link{display:none}
+    .nav-apply{padding:9px 12px;font-size:13px;border-radius:11px;line-height:1.2;min-height:40px}
+  }
+  @media (max-width:360px){
+    .container.nav-inner{padding:0 12px}
+    .logo-img{height:14px;max-width:84px}
+    .nav-apply{padding:8px 10px;font-size:12px;min-height:38px}
+  }
 
   /* DARK ZONE — Hero + Loss Viz를 하나의 연속된 다크 영역으로 통합 (v1.1.0: 그라데이션 smoother) */
   .dark-zone{background:linear-gradient(180deg, #0b1220 0%, #121931 25%, #151e3b 50%, #182246 75%, #1a2548 100%);position:relative;overflow:hidden;color:#fff}
@@ -1586,6 +1635,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   footer .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:13px}
   footer .foot-min{justify-content:center;text-align:center}
   footer .foot-min a{color:#cfd6e4}
+  .footer-powered{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;font-size:12px;font-weight:700;letter-spacing:.02em;color:#e5edf8}
+  .footer-powered a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.35)}
+  .footer-powered a:hover{border-bottom-color:#fff}
   footer a{color:#cfd6e4}
   .biz{font-size:12px;color:#5b6577;margin-top:8px}
   .biz button{background:transparent;border:0;color:#8a93a4;font-size:12px;cursor:pointer;text-decoration:underline}
@@ -2499,11 +2551,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- NAV -->
 <nav class="top">
   <div class="container nav-inner">
-    <a href="#" class="logo">매체공식대행사</a>
+    <a href="#" class="logo" aria-label="APPSILON">
+      <img class="logo-img" src="logos/appsilon.png" alt="APPSILON" width="345" height="60" />
+    </a>
     <div class="nav-cta">
-      <a href="#cases" class="muted" style="font-size:14px;margin-right:12px">사례</a>
-      <a href="#how" class="muted" style="font-size:14px;margin-right:16px">작동 방식</a>
-      <a href="#apply" class="btn" style="padding:10px 16px;font-size:14px">무료 진단 신청</a>
+      <a href="#cases" class="muted nav-link">사례</a>
+      <a href="#how" class="muted nav-link">작동 방식</a>
+      <a href="#apply" class="btn nav-apply">무료 진단 신청</a>
     </div>
   </div>
 </nav>
@@ -3552,6 +3606,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- FOOTER -->
 <footer>
   <div class="container">
+    <div class="footer-powered">
+      <span>powered by APPSILON</span>
+      <span aria-hidden="true">·</span>
+      <a href="https://www.appsilon.co.kr" target="_blank" rel="noopener">www.appsilon.co.kr</a>
+    </div>
     <div class="foot foot-min">
       <div style="font-size:12px">
         © 2026 All rights reserved · <a href="#">개인정보처리방침</a> · <a href="#">이용약관</a>
