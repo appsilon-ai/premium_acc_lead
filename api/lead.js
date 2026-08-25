@@ -13,6 +13,9 @@
 //   RESEND_API_KEY
 //   SALES_NOTIFY_EMAIL              ← 영업팀 알림 받을 이메일
 //   FROM_EMAIL                       ← 발신 도메인 (예: noreply@official-ads.kr)
+//   ALERT_NOTIFY_EMAIL       (선택)  ← DB 저장 실패 장애 알림 수신 주소(운영 담당), 쉼표로 복수 지정 가능
+//                                       미설정 시 장애 알림 메일 미발송 (로그만).
+//                                       영업팀(SALES_NOTIFY_EMAIL)으로는 폴백하지 않는다.
 //   META_PIXEL_ID            (선택)
 //   META_CAPI_ACCESS_TOKEN   (선택)
 // ============================================================
@@ -459,6 +462,81 @@ function buildRestrictedReplyEmail(data) {
   `;
 }
 
+// ── 장애 알림 ────────────────────────────────────────────────
+// Supabase 저장이 실패했을 때 관리자가 "즉시" 인지할 수 있게 알린다.
+// 방문자에게 500을 띄워 제보를 기다리는 대신, 운영 담당에게 직접 메일로 알린다.
+// 본문에 리드 원본 JSON을 그대로 담아 메일함 자체가 최후의 백업이 되게 한다.
+// 반환값: 알림 메일 발송에 성공했으면 true (= 리드가 메일함에는 남았다는 뜻)
+// fatal: true = 예기치 못한 예외로 방문자에게 500을 반환한 경우 (리드가 유실됐을 수 있음)
+async function sendDegradedAlert({ payload, dbError, sinks, siteDomain, rawBody, fatal = false }) {
+  const fromEmail = process.env.FROM_EMAIL || 'noreply@example.com';
+  // 장애 알림 수신자 — 운영 담당만. ALERT_NOTIFY_EMAIL에 쉼표로 여러 명 지정 가능.
+  // SALES_NOTIFY_EMAIL로 폴백하지 않는다: DB 장애는 영업팀 업무가 아니고,
+  // 영업팀 리드 알림 메일은 장애 여부와 무관하게 평소 그대로 나간다.
+  // 미설정이면 알림을 보낼 수 없고 로그로만 남는다.
+  const alertRecipients = (process.env.ALERT_NOTIFY_EMAIL || '')
+    .split(',')
+    .map(a => a.trim())
+    .filter(Boolean);
+
+  if (alertRecipients.length === 0) {
+    console.warn(`[${fatal ? 'LEAD_LOST' : 'LEAD_DEGRADED'}] ALERT_NOTIFY_EMAIL 미설정 — 장애 알림 메일을 보낼 수 없습니다.`);
+    return false;
+  }
+
+  const okList  = Object.entries(sinks).filter(([, v]) => v).map(([k]) => k);
+  const summary = okList.length ? okList.join(', ') : '없음 — 이 메일이 유일한 기록';
+  // 복구용 원본 — 예외 경로에서는 검증 전 요청 body를 그대로 담는다.
+  const raw     = JSON.stringify(rawBody ?? payload, null, 2);
+  const errText = [
+    dbError?.message,
+    dbError?.code,
+    dbError?.details,
+    fatal ? dbError?.stack?.split('\n').slice(0, 6).join('\n') : null,
+  ].filter(Boolean).join('\n');
+
+  try {
+    await resend.emails.send({
+      from: `OFFICIAL ADS ALERT <${fromEmail}>`,
+      to: alertRecipients,
+      subject: fatal
+        ? `🚨 [장애] ${siteDomain} — 리드 접수 처리 실패(500) - ${payload.company}`
+        : `🚨 [장애] ${siteDomain} — 리드 DB 저장 실패 - ${payload.company} (${payload.name})`,
+      // 예외 경로에서는 email이 비어 있을 수 있다 — 빈 값을 넘기면 Resend가 거절한다.
+      ...(payload.email ? { replyTo: payload.email } : {}),
+      html: `
+        <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:640px;margin:0 auto;padding:24px">
+          <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:16px;border-radius:6px">
+            <h2 style="margin:0 0 8px;font-size:17px;color:#991b1b">${fatal
+              ? '처리 중 예외 발생 — 방문자에게 500이 표시되었습니다'
+              : 'Supabase 저장 실패 — 리드는 접수되었습니다'}</h2>
+            <p style="margin:0;font-size:13px;color:#7f1d1d">${fatal
+              ? '리드가 어디에도 저장되지 않았을 가능성이 높습니다. <b>아래 원본으로 직접 연락하세요.</b> 방문자가 재제출했을 수도 있으니 중복을 확인해 주세요.'
+              : '방문자에게는 정상 접수 화면이 표시되었습니다. 아래 리드를 <b>수동으로 DB에 옮겨주세요.</b>'}</p>
+          </div>
+          <table style="width:100%;margin-top:20px;font-size:14px;border-collapse:collapse">
+            <tr><td style="padding:6px 0;color:#6b7280;width:110px">발생 도메인</td><td style="padding:6px 0"><b>${siteDomain}</b> <span style="color:#9ca3af">(Vercel)</span></td></tr>
+            <tr><td style="padding:6px 0;color:#6b7280">회사</td><td style="padding:6px 0"><b>${payload.company}</b></td></tr>
+            <tr><td style="padding:6px 0;color:#6b7280">담당자</td><td style="padding:6px 0">${payload.name}</td></tr>
+            <tr><td style="padding:6px 0;color:#6b7280">이메일</td><td style="padding:6px 0">${payload.email}</td></tr>
+            <tr><td style="padding:6px 0;color:#6b7280">연락처</td><td style="padding:6px 0">${payload.phone}</td></tr>
+            <tr><td style="padding:6px 0;color:#6b7280">우선순위</td><td style="padding:6px 0">${payload.lead_priority}</td></tr>
+            <tr><td style="padding:6px 0;color:#6b7280">저장 성공처</td><td style="padding:6px 0">${summary}</td></tr>
+          </table>
+          <p style="margin:20px 0 6px;font-size:13px;color:#6b7280">${fatal ? '예외' : 'DB 에러'}</p>
+          <pre style="background:#1f2937;color:#f9fafb;padding:12px;border-radius:6px;font-size:12px;white-space:pre-wrap;word-break:break-all">${errText || 'unknown'}</pre>
+          <p style="margin:20px 0 6px;font-size:13px;color:#6b7280">${fatal ? '요청 원본 (검증 전 raw body)' : '리드 원본 (복구용 — 이 JSON을 leads 테이블에 그대로 insert)'}</p>
+          <pre style="background:#f3f4f6;padding:12px;border-radius:6px;font-size:12px;white-space:pre-wrap;word-break:break-all">${raw}</pre>
+        </div>
+      `,
+    });
+    return true;
+  } catch (e) {
+    console.error(`[${fatal ? 'LEAD_LOST' : 'LEAD_DEGRADED'}] 장애 알림 메일 발송 실패:`, e);
+    return false;
+  }
+}
+
 // ── 메인 핸들러 ────────────────────────────────────────────
 export default async function handler(req, res) {
   setCorsHeaders(res);
@@ -473,9 +551,16 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  try {
-    const body = req.body || {};
+  // body와 siteDomain은 try 밖에 둔다 — 예외로 500을 반환할 때 catch에서도
+  // 리드 원본과 발생 도메인을 알림 메일에 담아야 하기 때문이다.
+  const body = req.body || {};
 
+  // 장애 알림 제목에 쓸 "요청이 들어온 도메인" — 어느 랜딩에서 터졌는지 즉시 구분한다.
+  // Vercel은 커스텀 도메인을 x-forwarded-host로 넘긴다. 헤더가 없을 때만 기본값 사용.
+  const siteDomain = (req.headers['x-forwarded-host'] || req.headers.host || '')
+    .split(',')[0].trim() || process.env.SITE_DOMAIN || 'partneragency.net';
+
+  try {
     // 1) 필수 필드 검증
     const required = ['name', 'company', 'email', 'phone', 'budget'];
     for (const f of required) {
@@ -533,30 +618,43 @@ export default async function handler(req, res) {
       submitted_at:       new Date(body.submittedAt || Date.now()).toISOString(),
     };
 
-    const { data: inserted, error: dbError } = await supabase
-      .from('leads')
-      .insert(insertPayload)
-      .select()
-      .single();
-
-    if (dbError) {
-      console.error('Supabase insert failed:', dbError);
-      return res.status(500).json({
-        error: 'database error',
-        debug: { message: dbError.message, code: dbError.code, hint: dbError.hint, details: dbError.details }
-      });
+    // Supabase가 죽어도 여기서 중단하지 않는다 — Monday/Studio/메일로 리드를 살린다.
+    let inserted = null;
+    let dbError  = null;
+    try {
+      const { data, error } = await supabase
+        .from('leads')
+        .insert(insertPayload)
+        .select()
+        .single();
+      if (error) throw error;
+      inserted = data;
+    } catch (e) {
+      dbError = e;
+      // [LEAD_DEGRADED] 태그로 남긴다 — Vercel Log Drain / 알림 규칙을 이 문자열에 걸 수 있다.
+      console.error('[LEAD_DEGRADED] Supabase insert failed:', JSON.stringify({
+        message: e.message, code: e.code, hint: e.hint, details: e.details,
+        company: insertPayload.company, email: insertPayload.email,
+      }));
     }
+
+    // DB 저장 실패 시 insertPayload를 대체 레코드로 사용 (id만 없고 내용은 동일)
+    const leadRecord = inserted || insertPayload;
+
+    // 적재처별 성공 여부 — "하나라도" 성공해야 방문자에게 200을 준다.
+    const sinks = { supabase: !!inserted, monday: false, studio: false, email: false };
 
     // 4) Monday.com 적재 (영업팀 작업판) — 이메일 발송과 병렬 처리 가능하지만,
     //    실패 시에도 DB 저장은 유지되어야 하므로 catch로 격리
     try {
       // Monday에는 배열 원본을 그대로 전달 (Supabase에는 join된 string으로 저장됨)
       const mondayData = {
-        ...inserted,
+        ...leadRecord,
         serviceType: Array.isArray(body.serviceType) ? body.serviceType : (body.serviceType ? [body.serviceType] : []),
         payment:     Array.isArray(body.payment)     ? body.payment     : (body.payment     ? [body.payment]     : []),
       };
       await createMondayItem(mondayData);
+      sinks.monday = true;
     } catch (mondayErr) {
       console.error('Monday create_item failed:', mondayErr);
       // Monday 실패해도 응답은 success — 이메일은 별도로 발송
@@ -565,10 +663,11 @@ export default async function handler(req, res) {
     // 4.5) Marketing Studio 적재 (Monday와 동일 방식 — Supabase 저장 후 병렬, 실패 격리)
     try {
       await sendToMarketingStudio({
-        ...inserted,
+        ...leadRecord,
         serviceType: Array.isArray(body.serviceType) ? body.serviceType : (body.serviceType ? [body.serviceType] : []),
         payment:     Array.isArray(body.payment)     ? body.payment     : (body.payment     ? [body.payment]     : []),
       });
+      sinks.studio = true;
     } catch (msErr) {
       console.error('Marketing studio save failed:', msErr);
       // marketing studio 실패해도 DB 저장·응답은 유지
@@ -586,9 +685,10 @@ export default async function handler(req, res) {
           subject: `[안내] ${insertPayload.company} 님의 무료 진단 신청 검토 결과`,
           html: buildRestrictedReplyEmail(insertPayload),
         });
+        sinks.email = true;
       } else {
         // 정상 리드 → 고객 + 영업팀 동시 발송 (병렬 처리로 속도 개선)
-        await Promise.allSettled([
+        const mailResults = await Promise.allSettled([
           // ① 광고주에게 접수 확인 메일
           resend.emails.send({
             from: `OFFICIAL ADS <${fromEmail}>`,
@@ -605,13 +705,31 @@ export default async function handler(req, res) {
             html: buildSalesAlertEmail(insertPayload, isHighPriority),
           }),
         ]);
+        // 개별 실패도 지금까지는 조용히 묻혔다 — 로그로 드러낸다.
+        mailResults.forEach((r, i) => {
+          if (r.status === 'rejected') {
+            console.error(`Email send rejected [${i === 0 ? 'customer' : 'sales'}]:`, r.reason);
+          }
+        });
+        sinks.email = mailResults.some(r => r.status === 'fulfilled');
       }
     } catch (mailErr) {
       console.error('Email send failed:', mailErr);
       // 메일 실패해도 DB 저장은 유지 — 응답은 성공으로
     }
 
-    // 5) (선택) Meta Conversions API 서버사이드 전송 — 정상 리드만
+    // 6) DB 저장 실패 시 관리자 알림 — 방문자의 500 화면을 대체하는 "진짜" 알람.
+    //    다른 적재처 결과가 모두 확정된 뒤에 보내야 성공/실패 요약을 함께 담을 수 있다.
+    let alerted = false;
+    if (dbError) {
+      try {
+        alerted = await sendDegradedAlert({ payload: insertPayload, dbError, sinks, siteDomain });
+      } catch (alertErr) {
+        console.error('[LEAD_DEGRADED] 알림 발송 실패:', alertErr);
+      }
+    }
+
+    // 7) (선택) Meta Conversions API 서버사이드 전송 — 정상 리드만
     if (!isRestricted && process.env.META_PIXEL_ID && process.env.META_CAPI_ACCESS_TOKEN) {
       try {
         const valueMap = { 'under1k': 10, '1k-5k': 50, '5k-1e': 200, 'over1e': 1000 };
@@ -648,14 +766,54 @@ export default async function handler(req, res) {
       }
     }
 
+    // 8) 최종 응답 — 리드가 어딘가에는 남았는지로 판단한다.
+    //    전부 실패했다면 조용히 성공을 반환하면 안 된다. 그 경우엔 기존처럼 500을 띄워
+    //    방문자가 직접 연락할 수 있게 하는 것이 마지막 안전장치다.
+    const savedAnywhere = sinks.supabase || sinks.monday || sinks.studio || sinks.email || alerted;
+
+    if (!savedAnywhere) {
+      console.error('[LEAD_LOST] 모든 적재 경로 실패(알림 메일 포함) — 리드 유실:', JSON.stringify(insertPayload));
+      return res.status(500).json({
+        error: 'database error',
+        debug: dbError
+          ? { message: dbError.message, code: dbError.code, hint: dbError.hint, details: dbError.details }
+          : undefined,
+      });
+    }
+
+    if (dbError) {
+      console.warn('[LEAD_DEGRADED] DB 없이 접수 완료:', JSON.stringify({ ...sinks, alerted }));
+    }
+
     return res.status(200).json({
       success: true,
-      id: inserted.id,
+      id: inserted?.id ?? null,
       restricted: isRestricted,
+      degraded: !inserted,
     });
 
   } catch (err) {
-    console.error('Lead submission failed:', err);
+    // 여기로 오면 방문자에게 500이 표시된다 = 리드가 어디에도 안 남았을 가능성이 크다.
+    // 이 알림 메일이 유일한 기록이 될 수 있으므로 반드시 시도한다.
+    console.error('[LEAD_LOST] Lead submission failed:', err);
+    try {
+      await sendDegradedAlert({
+        payload: {
+          company:       body.company || '(알 수 없음)',
+          name:          body.name    || '(알 수 없음)',
+          email:         body.email   || '',
+          phone:         body.phone   || '',
+          lead_priority: '(판정 전)',
+        },
+        rawBody: body,
+        dbError: err,
+        sinks: {},
+        siteDomain,
+        fatal: true,
+      });
+    } catch (alertErr) {
+      console.error('[LEAD_LOST] 크래시 알림 메일 발송 실패:', alertErr);
+    }
     return res.status(500).json({
       error: 'internal server error',
       debug: { message: err.message, name: err.name, stack: err.stack?.split('\n').slice(0, 5).join(' | ') }
