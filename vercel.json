@@ -19,6 +19,15 @@
   "functions": {
     "api/lead.js": {
       "maxDuration": 10
+    },
+    "api/keepalive.js": {
+      "maxDuration": 15
     }
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/keepalive",
+      "schedule": "0 0 * * *"
+    }
+  ]
 }
