@@ -350,14 +350,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .hero-media-loop{display:flex;align-items:center;flex:0 0 auto}
   .hero-media-cell{width:118px;height:38px;display:grid;place-items:center;padding:5px 15px;flex:0 0 auto}
   .hero-media-cell img{display:block;width:auto;height:auto;max-width:88px;max-height:24px;object-fit:contain;filter:none;opacity:.92}
-  .hero-media-cell[data-brand="meta"] img{max-width:92px;max-height:20px}
+  .hero-media-cell[data-brand="meta"] img{max-width:92px;max-height:20px;filter:grayscale(1) brightness(0) invert(1);opacity:.96}
   .hero-media-cell[data-brand="google"] img{max-width:78px;max-height:25px}
   .hero-media-cell[data-brand="tiktok"] img{max-width:84px;max-height:24px}
   .hero-media-cell[data-brand="naver"] img{max-width:90px;max-height:18px}
   .hero-media-cell[data-brand="kakao"] img{max-width:82px;max-height:23px}
-  .hero-media-cell[data-brand="toss"] img{max-width:86px;max-height:24px;transform:scale(1.18)}
-  .hero-media-cell[data-brand="youtube"] img{max-width:34px;max-height:24px}
-  .hero-media-cell[data-brand="linkedin"] img{max-width:24px;max-height:24px}
+  .hero-media-cell[data-brand="toss"] img{max-width:86px;max-height:24px;transform:scale(1.18);filter:grayscale(1) brightness(0) invert(1);opacity:.96}
+  .hero-media-lockup{display:flex;align-items:center;justify-content:center;gap:7px;color:#fff;font-size:14px;font-weight:700;line-height:1;white-space:nowrap;letter-spacing:-.02em}
+  .hero-media-cell[data-brand="youtube"]{width:126px}
+  .hero-media-cell[data-brand="youtube"] img{width:30px;height:21px;max-width:none;max-height:none}
+  .hero-media-cell[data-brand="linkedin"]{width:142px}
+  .hero-media-cell[data-brand="linkedin"] img{width:23px;height:23px;max-width:none;max-height:none}
   @keyframes heroMediaSlide{to{transform:translateX(-50%)}}
   @media (max-width:700px){
     .hero-media-marquee{width:100%;margin-top:24px}.hero-media-track{animation-duration:20s}.hero-media-cell{width:104px;height:34px;padding:5px 12px}
@@ -2740,8 +2743,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="hero-media-cell" data-brand="naver"><img src="logos/naver.png" alt="NAVER" /></div>
             <div class="hero-media-cell" data-brand="kakao"><img src="logos/kakao.svg" alt="Kakao" /></div>
             <div class="hero-media-cell" data-brand="toss"><img src="logos/toss-ads.svg" alt="toss ads" /></div>
-            <div class="hero-media-cell" data-brand="youtube"><img src="logos/youtube.svg" alt="YouTube" /></div>
-            <div class="hero-media-cell" data-brand="linkedin"><img src="logos/linkedin.svg" alt="LinkedIn Ads" /></div>
+            <div class="hero-media-cell" data-brand="youtube"><span class="hero-media-lockup"><img src="logos/youtube.svg" alt="" /><span>YouTube</span></span></div>
+            <div class="hero-media-cell" data-brand="linkedin"><span class="hero-media-lockup"><img src="logos/linkedin.svg" alt="" /><span>LinkedIn Ads</span></span></div>
           </div>
           <div class="hero-media-loop" aria-hidden="true">
             <div class="hero-media-cell" data-brand="meta"><img src="logos/meta.svg" alt="" /></div>
@@ -2750,8 +2753,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="hero-media-cell" data-brand="naver"><img src="logos/naver.png" alt="" /></div>
             <div class="hero-media-cell" data-brand="kakao"><img src="logos/kakao.svg" alt="" /></div>
             <div class="hero-media-cell" data-brand="toss"><img src="logos/toss-ads.svg" alt="" /></div>
-            <div class="hero-media-cell" data-brand="youtube"><img src="logos/youtube.svg" alt="" /></div>
-            <div class="hero-media-cell" data-brand="linkedin"><img src="logos/linkedin.svg" alt="" /></div>
+            <div class="hero-media-cell" data-brand="youtube"><span class="hero-media-lockup"><img src="logos/youtube.svg" alt="" /><span>YouTube</span></span></div>
+            <div class="hero-media-cell" data-brand="linkedin"><span class="hero-media-lockup"><img src="logos/linkedin.svg" alt="" /><span>LinkedIn Ads</span></span></div>
           </div>
         </div>
       </div>

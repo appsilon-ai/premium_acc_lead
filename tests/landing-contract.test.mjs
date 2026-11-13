@@ -35,6 +35,11 @@ test('Meta benefits and supported-media marquee keep the visual contract', () =>
   }
   assert.equal((html.match(/class="hero-media-cell"/g) || []).length, 16);
   assert.equal((html.match(/class="hero-media-loop"/g) || []).length, 2);
+  assert.equal((html.match(/class="hero-media-lockup"/g) || []).length, 4);
+  assert.equal((html.match(/<span>YouTube<\/span>/g) || []).length, 2);
+  assert.equal((html.match(/<span>LinkedIn Ads<\/span>/g) || []).length, 2);
+  assert.match(html, /\.hero-media-cell\[data-brand="meta"\] img\{[^}]*filter:grayscale\(1\) brightness\(0\) invert\(1\)/);
+  assert.match(html, /\.hero-media-cell\[data-brand="toss"\] img\{[^}]*filter:grayscale\(1\) brightness\(0\) invert\(1\)/);
   assert.match(html, /META INVOICE AD-ACCOUNT/);
   assert.doesNotMatch(html, /META PARTNER ACCOUNT|기존 캠페인과 데이터는 그대로 두고/);
   assert.match(html, /--font-sans:'Pretendard'/);
