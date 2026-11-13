@@ -20,10 +20,12 @@ test('trust footer exposes verified operator and working policy destinations', (
   assert.match(html, /id="service-guide"/);
 });
 
-test('urgency is date-driven and stale quarter claims are absent', () => {
+test('deadline strip stays date-driven while the approved Q4 recruitment label is current', () => {
   assert.match(html, /id="deadline-strip" data-deadline=""/);
   assert.match(html, /const raw = \(strip\.dataset\.deadline/);
   assert.doesNotMatch(html, /2026 Q1|26년 2분기 마감/);
+  assert.equal((html.match(/2026년 4분기 마지막 모집/g) || []).length, 2);
+  assert.doesNotMatch(html, /신규 고객사 무료 진단 접수 중/);
 });
 
 test('Meta benefits and supported-media marquee keep the visual contract', () => {
@@ -37,9 +39,11 @@ test('Meta benefits and supported-media marquee keep the visual contract', () =>
   assert.doesNotMatch(html, /META PARTNER ACCOUNT|기존 캠페인과 데이터는 그대로 두고/);
   assert.match(html, /--font-sans:'Pretendard'/);
   assert.doesNotMatch(html, /font-family:'Courier New'|font-family:Georgia/);
-  assert.ok(html.indexOf('class="hero-media-marquee"') < html.indexOf('class="hero-ctas-new"'), 'media marquee must render above the hero CTA');
+  assert.match(html, /class="pill"[^>]*>[\s\S]*?2026년 4분기 마지막 모집<\/span>\s*<div class="hero-media-marquee"/);
+  assert.ok(html.indexOf('class="hero-media-marquee"') < html.indexOf('class="hero-mega"'), 'media marquee must render directly below the recruitment label');
   assert.doesNotMatch(html, /\.hero-media-marquee\{[^}]*border:/);
   assert.match(html, /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.hero-media-track\{animation:none\}/);
+  assert.doesNotMatch(html, /🌎|🇰🇷|💳|🎁|🛡️|⚠|🚫|🏆|🏢|⚡|📋|🏷️|📧|📱|💰|🎯|🛒|📌|⚙️|💸|⭐|📊|🌐|💬|📉|🤔|💵|💴|🦛/u);
 });
 
 test('CTA experiment exposes all four copies and counts lead only after backend success', () => {

@@ -279,8 +279,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   /* 신규 CTA 영역 */
-  .hero-ctas-new{margin-top:36px;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
-  .hero-media-marquee + .hero-ctas-new{margin-top:24px}
+  .hero-ctas-new{margin-top:28px;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
   .hero-cta-primary{
     padding:18px 36px !important;
     font-size:17px !important;
@@ -346,6 +345,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%);
     mask-image:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%)
   }
+  .pill + .hero-media-marquee{margin-top:18px}
   .hero-media-track{display:flex;width:max-content;align-items:center;animation:heroMediaSlide 24s linear infinite;will-change:transform}
   .hero-media-loop{display:flex;align-items:center;flex:0 0 auto}
   .hero-media-cell{width:118px;height:38px;display:grid;place-items:center;padding:5px 15px;flex:0 0 auto}
@@ -1510,7 +1510,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   form.lead .step-dot.active{color:var(--brand-2)}
   form.lead .step-dot.active .num{background:var(--g-premium);color:#fff}
   form.lead .step-dot.done .num{background:#1652a5;color:#fff}
-  form.lead .step-dot.done .num::before{content:"✓"}
+  form.lead .step-dot.done .num::before{content:"";width:8px;height:4px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translateY(-1px)}
   form.lead .step-dot.done .num span{display:none}
   form.lead .step-line{flex:1;height:2px;background:#e5e7eb;border-radius:2px}
   form.lead .step-line.done{background:#1652a5}
@@ -2124,7 +2124,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .sfb .sfb-arrow{animation:sfb-pulse 1.8s ease-in-out infinite}
   @media (prefers-reduced-motion: reduce){.sfb .sfb-arrow{animation:none}}
 
-  /* 4. Featured loss card — 🔥 핀 뱃지 강조 */
+  /* 4. Featured loss card — 핀 뱃지 강조 */
   .loss-card.featured{position:relative;animation:featured-pulse 2.8s ease-in-out infinite}
   @keyframes featured-pulse{
     0%,100% {box-shadow:0 16px 40px rgba(220,38,38,.4), 0 4px 10px rgba(0,0,0,.3)}
@@ -2322,12 +2322,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     box-shadow:0 6px 14px rgba(22,82,165,.18)
   }
   .form-chip:has(input:checked)::after{
-    content:'✓';
+    content:'';
     position:absolute;top:-7px;right:-7px;
     background:var(--brand);color:#fff;
     width:20px;height:20px;border-radius:50%;
     display:grid;place-items:center;
-    font-size:11px;font-weight:800;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 10.5l3 3 7-7' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
     box-shadow:0 2px 6px rgba(22,82,165,.45)
   }
   .fc-logo{
@@ -2602,6 +2602,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .lot-ic{display:inline-block;width:.95em;height:.95em;vertical-align:-.1em;
   line-height:1;overflow:visible;min-width:0}
 .lot-ic > svg{display:block;transform:scale(1.15);transform-origin:center}
+.ui-icon{width:1em;height:1em;display:inline-block;vertical-align:-.14em;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.ui-icon.is-solid{fill:currentColor;stroke:none}
+.calc-tab .ui-icon{font-size:16px;margin-right:4px;vertical-align:-.2em}
+.calc-grab .ui-icon,.cc-credit-chip .ui-icon{font-size:14px;margin-right:4px}
+.ff-step-num .ui-icon,.ocw-icon .ui-icon,.bonus-info-icon .ui-icon,.cat-icon .ui-icon{width:1em;height:1em;display:block}
+.ocw-card-name .ui-icon,.ocw-note .ui-icon,.field-help .ui-icon,.warning-note .ui-icon,.mlc-question .ui-icon,.fc-name .ui-icon{margin-right:5px}
+.fsh-icon .ui-icon{display:block}
+form.lead label .q-icon .ui-icon{display:block}
+.lot-ic > .ui-icon{display:block;width:100%;height:100%;transform:scale(1.15);transform-origin:center}
 </style>
 </head>
 <body>
@@ -2655,6 +2664,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <path d="M31 25.5l7 2.6v6.2c0 4.4-3.1 7.6-7 9.2-3.9-1.6-7-4.8-7-9.2v-6.2z" fill="#1652a5"/>
       <path d="M27.8 34.2l2.2 2.1 4.5-4.8" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
     </symbol>
+    <symbol id="i-ui-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 4 6 4 9s-1 6-4 9c-3-3-4-6-4-9s1-6 4-9z"/></symbol>
+    <symbol id="i-ui-korea" viewBox="0 0 24 24"><path d="M6 3v18M7 4h11l-3 4 3 4H7"/><circle cx="10.5" cy="8" r="1.7"/></symbol>
+    <symbol id="i-ui-card" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="M3 9h18M7 15h4"/></symbol>
+    <symbol id="i-ui-gift" viewBox="0 0 24 24"><path d="M3 10h18v11H3zM2 6h20v4H2zM12 6v15M7.5 6c-2.8 0-3.4-4 0-4 2.2 0 4.5 4 4.5 4M16.5 6c2.8 0 3.4-4 0-4-2.2 0-4.5 4-4.5 4"/></symbol>
+    <symbol id="i-ui-shield" viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5.3-3.3 9.2-8 11-4.7-1.8-8-5.7-8-11V5z"/><path d="M8.5 12l2.2 2.2 4.8-5"/></symbol>
+    <symbol id="i-ui-warning" viewBox="0 0 24 24"><path d="M12 3L2 21h20z"/><path d="M12 9v5M12 18h.01"/></symbol>
+    <symbol id="i-ui-building" viewBox="0 0 24 24"><path d="M4 21V6l8-3 8 3v15M2 21h20M8 8h2M14 8h2M8 12h2M14 12h2M10 21v-5h4v5"/></symbol>
+    <symbol id="i-ui-clipboard" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M9 4V2h6v2M8 9h8M8 13h8M8 17h5"/></symbol>
+    <symbol id="i-ui-tag" viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-7 7z"/><circle cx="8" cy="8" r="1"/></symbol>
+    <symbol id="i-ui-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M3 6l9 7 9-7"/></symbol>
+    <symbol id="i-ui-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 5h4M11 18h2"/></symbol>
+    <symbol id="i-ui-wallet" viewBox="0 0 24 24"><path d="M3 6h16a2 2 0 012 2v11H3a2 2 0 01-2-2V6a3 3 0 013-3h14"/><path d="M16 11h5v4h-5a2 2 0 010-4z"/></symbol>
+    <symbol id="i-ui-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+    <symbol id="i-ui-cart" viewBox="0 0 24 24"><path d="M2 3h3l2.5 12h10l3-8H6M9 20h.01M18 20h.01"/></symbol>
+    <symbol id="i-ui-pin" viewBox="0 0 24 24"><path d="M8 3h8l-1 6 4 3H5l4-3zM12 12v9"/></symbol>
+    <symbol id="i-ui-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 00-.1-1l2-1.5-2-3.4-2.4 1A8 8 0 0015 6l-.3-2.6h-4L10 6a8 8 0 00-1.5 1.1l-2.4-1-2 3.4L6.1 11a7 7 0 000 2l-2 1.5 2 3.4 2.4-1A8 8 0 0010 18l.7 2.6h4L15 18a8 8 0 001.5-1.1l2.4 1 2-3.4-2-1.5a7 7 0 00.1-1z"/></symbol>
+    <symbol id="i-ui-star" viewBox="0 0 24 24"><path d="M12 2l3 6 7 .9-5 4.8 1.3 6.8L12 17.2l-6.3 3.3L7 13.7 2 8.9 9 8z"/></symbol>
+    <symbol id="i-ui-chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h17M8 16v-5M13 16V7M18 16v-9"/></symbol>
+    <symbol id="i-ui-chat" viewBox="0 0 24 24"><path d="M4 4h16v13H9l-5 4z"/><path d="M8 9h8M8 13h5"/></symbol>
+    <symbol id="i-ui-trend-down" viewBox="0 0 24 24"><path d="M3 5l7 7 4-4 7 7M16 15h5v-5"/></symbol>
+    <symbol id="i-ui-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.7 2.7 0 115 1.4c-.7.8-2.5 1.2-2.5 3.1M12 17h.01"/></symbol>
+    <symbol id="i-ui-trophy" viewBox="0 0 24 24"><path d="M7 3h10v4c0 4-2 6-5 6S7 11 7 7zM9 21h6M12 13v4M8 17h8M7 5H3v2c0 3 2 4 5 4M17 5h4v2c0 3-2 4-5 4"/></symbol>
+    <symbol id="i-ui-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
+    <symbol id="i-ui-note" viewBox="0 0 24 24"><path d="M5 3h14v18H5zM8 8h8M8 12h8M8 16h5"/></symbol>
+    <symbol id="i-ui-banknote" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M5 8h.01M19 16h.01"/></symbol>
     <symbol id="i-plane" viewBox="0 0 32 32">
       <path d="M29 3 L3 14 L13 18 L17 28 Z" fill="#1652a5"/>
       <path d="M13 18 L29 3 L17 28 Z" fill="#0d2c5e"/>
@@ -2695,14 +2729,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <header class="hero">
   <div class="container hero-grid">
     <div>
-      <span class="pill"><svg class="gif ico-anim-spin"><use href="#i-sparkle"/></svg>신규 고객사 무료 진단 접수 중</span>
-
-      <div class="hero-mega">
-        <div class="hero-mega-label">당신도 모르는 사이, 매월 광고비의</div>
-        <div class="hero-mega-number"><span data-count-target="10">10</span> ~ <span data-count-target="15">15</span><span class="hero-mega-unit">%</span></div>
-        <div class="hero-mega-tagline">카드 결제만으로 매달 사라집니다.</div>
-        <p class="hero-mega-sub">Meta · Google · TikTok 해외 매체 광고비 카드 결제 시 발생하는 수수료 + 놓치는 매체 보너스 크레딧 = <b>매월 10 ~ 15% 손실</b>. 1년이면 광고 담당자 한 명의 연봉이 사라집니다.</p>
-      </div>
+      <span class="pill"><svg class="gif ico-anim-spin"><use href="#i-sparkle"/></svg>2026년 4분기 마지막 모집</span>
 
       <div class="hero-media-marquee" aria-label="APPSILON 취급 광고 매체">
         <div class="hero-media-track">
@@ -2727,6 +2754,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <div class="hero-media-cell" data-brand="linkedin"><img src="logos/linkedin.svg" alt="" /></div>
           </div>
         </div>
+      </div>
+
+      <div class="hero-mega">
+        <div class="hero-mega-label">당신도 모르는 사이, 매월 광고비의</div>
+        <div class="hero-mega-number"><span data-count-target="10">10</span> ~ <span data-count-target="15">15</span><span class="hero-mega-unit">%</span></div>
+        <div class="hero-mega-tagline">카드 결제만으로 매달 사라집니다.</div>
+        <p class="hero-mega-sub">Meta · Google · TikTok 해외 매체 광고비 카드 결제 시 발생하는 수수료 + 놓치는 매체 보너스 크레딧 = <b>매월 10 ~ 15% 손실</b>. 1년이면 광고 담당자 한 명의 연봉이 사라집니다.</p>
       </div>
 
       <div class="hero-ctas-new">
@@ -2755,8 +2789,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- CALCULATOR (v1.1.0: 슬라이더 + 칩 + Grab CTA — 단일 통합 박스) -->
     <aside class="calc" id="calc">
       <div class="calc-tabs">
-        <button class="calc-tab active" type="button" data-mode="overseas" onclick="setCalcMode('overseas')">🌎 해외매체<br>광고비 절감</button>
-        <button class="calc-tab" type="button" data-mode="domestic" onclick="setCalcMode('domestic')">🇰🇷 국내매체<br>보너스</button>
+        <button class="calc-tab active" type="button" data-mode="overseas" onclick="setCalcMode('overseas')"><svg class="ui-icon"><use href="#i-ui-globe"/></svg>해외매체<br>광고비 절감</button>
+        <button class="calc-tab" type="button" data-mode="domestic" onclick="setCalcMode('domestic')"><svg class="ui-icon"><use href="#i-ui-korea"/></svg>국내매체<br>보너스</button>
       </div>
       <h3 id="calc-title" style="margin-top:4px">우리 회사는 매년 얼마를 아낄 수 있을까?</h3>
 
@@ -2798,7 +2832,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
 
       <a href="#apply" class="calc-grab">
-        <span>💰 내 돈 찾으러 가기</span>
+        <span><svg class="ui-icon"><use href="#i-ui-wallet"/></svg>내 돈 찾으러 가기</span>
         <span class="grab-arrow">→</span>
       </a>
     </aside>
@@ -2904,7 +2938,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section id="fee-truth" style="background:linear-gradient(180deg, #1a2548 0%, #2a3556 50%, #3a4566 100%);color:#fff;position:relative">
   <div class="container">
     <div class="section-head">
-      <h2 style="color:#fff">해외매체 원화(KRW) 카드결제 = <span style="color:var(--warn)">돈먹는 하마</span>🦛</h2>
+      <h2 style="color:#fff">해외매체 원화(KRW) 카드결제 = <span style="color:var(--warn)">돈먹는 하마</span><svg class="ui-icon" style="margin-left:8px"><use href="#i-ui-warning"/></svg></h2>
     </div>
 
     <div class="card-statement-wrap">
@@ -3006,7 +3040,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <!-- Final -->
         <div class="ff-step is-final">
-          <div class="ff-step-num">💳</div>
+          <div class="ff-step-num"><svg class="ui-icon"><use href="#i-ui-card"/></svg></div>
           <div class="ff-step-body">
             <div class="ff-step-action">고객 카드 명세서로 최종 청구</div>
             <div class="ff-step-desc">원래 광고비에 위 4종 수수료가 모두 누적된 금액이 청구됨</div>
@@ -3025,14 +3059,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div><!-- 다른 카드사 비교 — 신한카드 기준은 보수적, 실제는 더 비쌀 수 있음 -->
     <div class="other-cards-warning">
       <div class="ocw-header">
-        <span class="ocw-icon">💳</span>
+        <span class="ocw-icon"><svg class="ui-icon"><use href="#i-ui-card"/></svg></span>
         <h4>국내 카드사 해외광고비 결제 수수료 구조<br><span style="font-weight:600;font-size:14px;color:#cfd6e4">카드사·결제 방식에 따라 부담이 크게 달라집니다.</span></h4>
       </div>
 
       <div class="ocw-grid">
         <article class="ocw-card">
           <span class="ocw-tag baseline">기준 (보수적 시뮬레이션)</span>
-          <div class="ocw-card-name">🛡️ 국내 3사 평균<br>(신한·삼성·현대)</div>
+          <div class="ocw-card-name"><svg class="ui-icon"><use href="#i-ui-shield"/></svg>국내 3사 평균<br>(신한·삼성·현대)</div>
           <ul class="ocw-card-list">
             <li><span>해외이용수수료</span><b>0.18 ~ 0.30%</b></li>
             <li><span>전신매도환율 ×2</span><b>3.5%</b></li>
@@ -3046,7 +3080,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <article class="ocw-card mid">
           <span class="ocw-tag higher">+ 30 ~ 40% 더 비쌈</span>
-          <div class="ocw-card-name">💳 롯데·우리·하나 등<br>(일반 신용카드)</div>
+          <div class="ocw-card-name"><svg class="ui-icon"><use href="#i-ui-card"/></svg>롯데·우리·하나 등<br>(일반 신용카드)</div>
           <ul class="ocw-card-list">
             <li><span>해외이용수수료</span><b>0.25 ~ 0.45%</b></li>
             <li><span>전신매도환율 ×2</span><b>4.0 ~ 5.0%</b></li>
@@ -3060,7 +3094,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <article class="ocw-card worst">
           <span class="ocw-tag worst-tag">최악 — 2배 이상</span>
-          <div class="ocw-card-name">⚠ DCC 적용 결제<br>(원화 표시 자동 환전)</div>
+          <div class="ocw-card-name"><svg class="ui-icon"><use href="#i-ui-warning"/></svg>DCC 적용 결제<br>(원화 표시 자동 환전)</div>
           <ul class="ocw-card-list">
             <li><span>DCC 처리 마진</span><b>+ 5 ~ 8%</b></li>
             <li><span>브랜드 + 발급사</span><b>+ 1.5%</b></li>
@@ -3072,7 +3106,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </article>
       </div>
 
-      <p class="ocw-note">⚠ <b>본인 카드 약관에서 정확한 수수료를 반드시 확인하세요.</b> 카드사 평균 광고비 손실은 <b>월 평균 7.6% (범위 6~12%)</b> 수준입니다. 출처: 신한·삼성·현대카드 해외이용수수료 약관 (2022~2024), <b style="text-decoration:underline;text-underline-offset:3px;color:#ffffff">한국소비자원 신용카드 해외결제 분석</b>.</p>
+      <p class="ocw-note"><svg class="ui-icon"><use href="#i-ui-warning"/></svg><b>본인 카드 약관에서 정확한 수수료를 반드시 확인하세요.</b> 카드사 평균 광고비 손실은 <b>월 평균 7.6% (범위 6~12%)</b> 수준입니다. 출처: 신한·삼성·현대카드 해외이용수수료 약관 (2022~2024), <b style="text-decoration:underline;text-underline-offset:3px;color:#ffffff">한국소비자원 신용카드 해외결제 분석</b>.</p>
     </div>
 
   </div>
@@ -3088,7 +3122,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div>
         <!-- 일반 계정 (카드 결제) — 고객이 카드사에 수수료 부담 -->
         <div class="sfb card-flow">
-          <h3><span class="lot-ic" data-ic="lp-card" data-th="dark">💳</span> 일반 계정 — 고객이 직접 카드 결제</h3>
+          <h3><span class="lot-ic" data-ic="lp-card" data-th="dark"><svg class="ui-icon"><use href="#i-ui-card"/></svg></span> 일반 계정 — 고객이 직접 카드 결제</h3>
           <div class="sfb-flow">
             <div class="sfb-node">고객</div>
             <div class="sfb-arrow">→</div>
@@ -3108,7 +3142,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <!-- 파트너 인보이스 계정 (충전식) — 파트너가 매체에 직결 -->
         <div class="sfb invoice-flow">
-          <h3><span class="lot-ic" data-ic="lp-gift" data-th="dark">🎁</span> 파트너 인보이스 — 충전식, 매체 직결 송금</h3>
+          <h3><span class="lot-ic" data-ic="lp-gift" data-th="dark"><svg class="ui-icon"><use href="#i-ui-gift"/></svg></span> 파트너 인보이스 — 충전식, 매체 직결 송금</h3>
           <div class="sfb-flow">
             <div class="sfb-node">고객</div>
             <div class="sfb-arrow">→</div>
@@ -3177,7 +3211,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- v1.1.0: 보너스 크레딧 개념 정의 — Cases 본격 진입 전 학습 -->
     <div class="bonus-info">
-      <div class="bonus-info-icon">🎁</div>
+      <div class="bonus-info-icon"><svg class="ui-icon"><use href="#i-ui-gift"/></svg></div>
       <div class="bonus-info-content">
         <h4>매체 보너스 크레딧이란?</h4>
         <p>광고 매체(Meta·Google·TikTok·NAVER·Kakao 등)가 <b>공식 파트너 계정</b>에 분기 단위로 직접 지급하는 무상 광고 크레딧입니다. 개인 광고주는 신청 불가, 광고비 규모·업종·집행 효율 기준으로 <b>매체 본사가 선별 지원</b>합니다.</p>
@@ -3272,7 +3306,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <div class="review-disclaimer">
-      ⚠ <b>안내</b>: 본 사례는 특정 고객사의 실제 경험을 NDA 범위 내에서 익명화한 자료입니다. <b>모든 고객사에게 동일한 효과가 보장되지 않습니다</b>. 광고 효율(CPM·CPI·ROAS 등)은 업종·시즌·소재·전환 구조·예산·경쟁 환경 등 다양한 요인에 따라 달라지며, 일부 사례는 매체 보너스 크레딧과 캠페인 최적화가 함께 적용된 결과입니다.
+      <svg class="ui-icon"><use href="#i-ui-warning"/></svg><b>안내</b>: 본 사례는 특정 고객사의 실제 경험을 NDA 범위 내에서 익명화한 자료입니다. <b>모든 고객사에게 동일한 효과가 보장되지 않습니다</b>. 광고 효율(CPM·CPI·ROAS 등)은 업종·시즌·소재·전환 구조·예산·경쟁 환경 등 다양한 요인에 따라 달라지며, 일부 사례는 매체 보너스 크레딧과 캠페인 최적화가 함께 적용된 결과입니다.
     </div>
   </div>
 </section>
@@ -3288,7 +3322,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- 매체 로고 클릭 유도 헤더 -->
     <div class="media-logos-cta">
       <div class="mlc-text">
-        <span class="mlc-question">🏆 매체별 신청 분포 (최근 90일)</span>
+        <span class="mlc-question"><svg class="ui-icon"><use href="#i-ui-trophy"/></svg>매체별 신청 분포 (최근 90일)</span>
         <span class="mlc-action"><span class="mlc-live-dot" aria-hidden="true"></span>실시간 — 로고 <b>클릭</b>으로 매체별 혜택 확인</span>
       </div>
       <div class="mlc-arrow">↓</div>
@@ -3369,7 +3403,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="media-detail" id="m-global">
         <div class="media-logo-wrap">
-          <div class="cat-icon">🌎</div>
+          <div class="cat-icon"><svg class="ui-icon"><use href="#i-ui-globe"/></svg></div>
         </div>
         <div class="m-name">Global Media</div>
         <div class="m-sub">월 광고비 1,000만원 이상</div>
@@ -3411,7 +3445,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="media-detail" id="m-domestic">
         <div class="media-logo-wrap">
-          <div class="cat-icon kr">🏢</div>
+          <div class="cat-icon kr"><svg class="ui-icon"><use href="#i-ui-building"/></svg></div>
         </div>
         <div class="m-name">국내 디스플레이</div>
         <div class="m-sub">온라인 · 엘리베이터 매체</div>
@@ -3429,8 +3463,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <h4 class="ic-title">제한 / 할증 업종</h4>
         </div>
         <p class="ic-sub">
-          <b style="color:#991b1b">🚫 임대·대대행 불가</b>: 도박 · 성인 · 데이팅 · 대부/사채 · 소액 결제 · 모조품 · 다단계 · 가상자산<br>
-          <b style="color:#7f1d1d">⚠️ 대행만 가능 (+3~4% 할증)</b>: 대출 · 보험 · 의료/기기 · 건강기능식품 · 구직 · 부동산 분양 · 주류/담배 · 종교/정치
+          <b style="color:#991b1b"><svg class="ui-icon"><use href="#i-ui-warning"/></svg>임대·대대행 불가</b>: 도박 · 성인 · 데이팅 · 대부/사채 · 소액 결제 · 모조품 · 다단계 · 가상자산<br>
+          <b style="color:#7f1d1d"><svg class="ui-icon"><use href="#i-ui-warning"/></svg>대행만 가능 (+3~4% 할증)</b>: 대출 · 보험 · 의료/기기 · 건강기능식품 · 구직 · 부동산 분양 · 주류/담배 · 종교/정치
         </p>
       </div>
     </div>
@@ -3519,7 +3553,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- v1.1.0: Visual bar comparison cards (아래로 이동 — 표 결정 후 시각 요약) -->
     <div class="compare-cards" style="margin-top:36px">
       <article class="cc-card cc-bad" style="--cc-target:82%">
-        <h3><span class="lot-ic" data-ic="lp-card" data-th="light">💳</span> 일반 계정 (카드 결제)</h3>
+        <h3><span class="lot-ic" data-ic="lp-card" data-th="light"><svg class="ui-icon"><use href="#i-ui-card"/></svg></span> 일반 계정 (카드 결제)</h3>
         <div class="cc-sub">여러 단계의 해외 결제 수수료가 누적됩니다.</div>
         <div class="cc-bar"><div class="cc-fill">광고 효율 ~95%</div><div class="cc-loss-mark">−5%+</div></div>
         <div class="cc-stat"><span>환전·브랜드·DCC 수수료</span><b class="cc-bad-val">5% 이상</b></div>
@@ -3530,7 +3564,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="cc-stat"><span class="hl-red">월 1억 기준 수수료 손실</span><b class="cc-bad-val">월 ₩ 500만+</b></div>
       </article>
       <article class="cc-card cc-good" style="--cc-target:100%">
-        <h3><span class="lot-ic" data-ic="lp-target" data-th="light">🎯</span> 파트너 계정 (인보이스)</h3>
+        <h3><span class="lot-ic" data-ic="lp-target" data-th="light"><svg class="ui-icon"><use href="#i-ui-target"/></svg></span> 파트너 계정 (인보이스)</h3>
         <div class="cc-sub">수수료 0원 + 해외·국내 매체 본사 보너스 크레딧 자동 지급.</div>
         <div class="cc-bar"><div class="cc-fill">광고 효율 100%</div><div class="cc-bonus-extend">+ 보너스</div></div>
         <div class="cc-stat"><span>해외 결제 수수료</span><b class="cc-good-val">0원</b></div>
@@ -3540,10 +3574,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="cc-stat"><span>이슈 대응</span><b class="cc-good-val">평균 2시간</b></div>
         <div class="cc-stat"><span class="hl-blue">월 1억 기준 추가 혜택</span><b class="cc-good-val">월 +₩ 500~1,500만</b></div>
         <div class="cc-credit-chips">
-          <span class="cc-credit-chip"><span class="ic">🎁</span>수수료 <b>0원</b></span>
-          <span class="cc-credit-chip"><span class="ic">🌎</span>해외 매체 <b>~ 4%</b></span>
-          <span class="cc-credit-chip"><span class="ic">🇰🇷</span>국내 매체 <b>13 ~ 14.5%</b></span>
-          <span class="cc-credit-chip"><span class="ic">⚡</span><b>자동 적립</b></span>
+          <span class="cc-credit-chip"><svg class="ui-icon"><use href="#i-ui-gift"/></svg>수수료 <b>0원</b></span>
+          <span class="cc-credit-chip"><svg class="ui-icon"><use href="#i-ui-globe"/></svg>해외 매체 <b>~ 4%</b></span>
+          <span class="cc-credit-chip"><svg class="ui-icon"><use href="#i-ui-korea"/></svg>국내 매체 <b>13 ~ 14.5%</b></span>
+          <span class="cc-credit-chip"><svg class="ui-icon"><use href="#i-ui-bolt"/></svg><b>자동 적립</b></span>
         </div>
       </article>
     </div>
@@ -3554,7 +3588,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="cta-section" id="apply">
   <div class="container cta-grid">
     <div>
-      <span class="section-tag">신규 고객사 무료 진단 접수 중</span>
+      <span class="section-tag">2026년 4분기 마지막 모집</span>
       <h2 style="margin-top:14px">매년 얼마를 회수할 수 있는지<br>24시간 안에 알려드립니다.</h2>
       <p class="muted" style="margin-top:14px;font-size:17px">무료 진단 리포트 포함 항목</p>
       <ul class="cta-bullets">
@@ -3572,23 +3606,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- STEP 1: 기본 정보 (자격 확인용 5개 필드) -->
       <div class="form-step active" id="form-step-1">
         <div class="form-section-header">
-          <span class="fsh-icon">📋</span>
+          <span class="fsh-icon"><svg class="ui-icon"><use href="#i-ui-clipboard"/></svg></span>
           <span class="fsh-title">기본 정보</span>
           <span class="fsh-count">1 ~ 5</span>
         </div>
-        <label><span class="q-num">1</span>회사ㆍ브랜드명<span class="q-icon">🏢</span></label>
+        <label><span class="q-num">1</span>회사ㆍ브랜드명<span class="q-icon"><svg class="ui-icon"><use href="#i-ui-building"/></svg></span></label>
         <input required name="company" placeholder="(주)회사명" />
 
-        <label><span class="q-num">2</span>이름ㆍ직책<span class="q-icon">🏷️</span></label>
+        <label><span class="q-num">2</span>이름ㆍ직책<span class="q-icon"><svg class="ui-icon"><use href="#i-ui-tag"/></svg></span></label>
         <input required name="name" placeholder="홍길동 / 마케팅 팀장" />
 
-        <label><span class="q-num">3</span>업무용 이메일<span class="q-icon">📧</span></label>
+        <label><span class="q-num">3</span>업무용 이메일<span class="q-icon"><svg class="ui-icon"><use href="#i-ui-mail"/></svg></span></label>
         <input required type="email" name="email" placeholder="회사 도메인의 이메일 주소" />
 
-        <label><span class="q-num">4</span>휴대폰 번호<span class="q-icon">📱</span></label>
+        <label><span class="q-num">4</span>휴대폰 번호<span class="q-icon"><svg class="ui-icon"><use href="#i-ui-phone"/></svg></span></label>
         <input required type="tel" name="phone" inputmode="numeric" placeholder="010-1234-5678 형식" />
 
-        <label><span class="q-num">5</span>직전 3개월 월 평균 광고비<span class="q-icon">💰</span></label>
+        <label><span class="q-num">5</span>직전 3개월 월 평균 광고비<span class="q-icon"><svg class="ui-icon"><use href="#i-ui-wallet"/></svg></span></label>
         <input required type="number" name="budget" id="budget" inputmode="numeric" placeholder="예: 5000 (= 5,000만 원)" min="0" step="100" oninput="checkQualifier()" />
         <div class="field-help">만 원 단위로 입력해주세요</div>
         <div class="qualifier" id="qualifier">
@@ -3601,11 +3635,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- STEP 2: 광고 정보 (상세 5개 필드) -->
       <div class="form-step" id="form-step-2">
         <div class="form-section-header">
-          <span class="fsh-icon">🎯</span>
+          <span class="fsh-icon"><svg class="ui-icon"><use href="#i-ui-target"/></svg></span>
           <span class="fsh-title">광고 대상</span>
           <span class="fsh-count">6 ~ 7</span>
         </div>
-        <label><span class="q-num">6</span>광고 대상 웹사이트ㆍ앱스토어 URL<span class="q-icon">🛒</span></label>
+        <label><span class="q-num">6</span>광고 대상 웹사이트ㆍ앱스토어 URL<span class="q-icon"><svg class="ui-icon"><use href="#i-ui-cart"/></svg></span></label>
         <div class="url-list" id="url-list">
           <div class="url-item">
             <input required name="url[]" placeholder="https://yourbrand.com 또는 앱스토어 링크" />
@@ -3613,9 +3647,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
         <button type="button" class="url-add" onclick="addUrl()">＋ 사이트 추가 (최대 5개)</button>
-        <div class="field-help">📌 광고하실 모든 사이트·앱을 입력해주세요. <b>제한 업종 사전 검토</b>를 통해 진행 가능 여부를 빠르게 확인해 드립니다.</div>
+        <div class="field-help"><svg class="ui-icon"><use href="#i-ui-pin"/></svg>광고하실 모든 사이트·앱을 입력해주세요. <b>제한 업종 사전 검토</b>를 통해 진행 가능 여부를 빠르게 확인해 드립니다.</div>
 
-        <label><span class="q-num">7</span>업종<span class="q-icon">🏷️</span></label>
+        <label><span class="q-num">7</span>업종<span class="q-icon"><svg class="ui-icon"><use href="#i-ui-tag"/></svg></span></label>
         <select name="industry" required>
           <option value="">선택해주세요</option>
           <option value="이커머스">이커머스 (D2C · 쇼핑몰)</option>
@@ -3632,15 +3666,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <option value="여행·레저">여행 / 레저</option>
           <option value="기타">기타</option>
         </select>
-        <div class="field-help">⚠ 일부 업종(도박·성인·데이팅·대부·소액결제·모조품·다단계·가상자산)은 임대·대대행 불가</div>
+        <div class="field-help"><svg class="ui-icon"><use href="#i-ui-warning"/></svg>일부 업종(도박·성인·데이팅·대부·소액결제·모조품·다단계·가상자산)은 임대·대대행 불가</div>
 
         <div class="form-section-header">
-          <span class="fsh-icon">⚙️</span>
+          <span class="fsh-icon"><svg class="ui-icon"><use href="#i-ui-gear"/></svg></span>
           <span class="fsh-title">서비스 요청</span>
           <span class="fsh-count">8 ~ 10</span>
         </div>
         <div class="field-group">
-          <label><span class="q-num">8</span>필요한 서비스 유형 <span class="q-note">(복수선택가능)</span><span class="q-icon">🎯</span></label>
+          <label><span class="q-num">8</span>필요한 서비스 유형 <span class="q-note">(복수선택가능)</span><span class="q-icon"><svg class="ui-icon"><use href="#i-ui-target"/></svg></span></label>
           <div class="radio-group">
             <label class="radio-item"><input type="checkbox" name="serviceType" value="계정 임대만"><span><b>계정 임대만</b> — 인보이스 계정으로 광고비 절감 + 매체 보너스 (운영은 직접)</span></label>
             <label class="radio-item"><input type="checkbox" name="serviceType" value="광고 대행만"><span><b>광고 대행만</b> — 전담 매니저가 캠페인 빌드 · 소재 · 최적화 운영</span></label>
@@ -3650,7 +3684,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <div class="field-group">
-          <label><span class="q-num">9</span>현재 광고비 결제 방식 <span class="q-note">(복수선택가능)</span><span class="q-icon">💸</span></label>
+          <label><span class="q-num">9</span>현재 광고비 결제 방식 <span class="q-note">(복수선택가능)</span><span class="q-icon"><svg class="ui-icon"><use href="#i-ui-banknote"/></svg></span></label>
           <div class="radio-group">
             <label class="radio-item"><input type="checkbox" name="payment" value="카드 해외 결제"><span>카드 해외 결제 (수수료 4.8~7.8%)</span></label>
             <label class="radio-item"><input type="checkbox" name="payment" value="광고 대행사 협업 중"><span>광고 대행사 협업 중</span></label>
@@ -3660,7 +3694,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <div class="field-group">
-          <label><span class="q-num">10</span>희망 서비스 <span class="q-note">(복수 선택 가능)</span><span class="q-icon">⭐</span></label>
+          <label><span class="q-num">10</span>희망 서비스 <span class="q-note">(복수 선택 가능)</span><span class="q-icon"><svg class="ui-icon"><use href="#i-ui-star"/></svg></span></label>
           <div class="form-chips" role="group" aria-label="희망 매체">
             <label class="form-chip">
               <input type="checkbox" name="service" value="Meta">
@@ -3706,22 +3740,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="form-chips" role="group" aria-label="대행 서비스" style="margin-top:8px">
             <label class="form-chip wide">
               <input type="checkbox" name="service" value="퍼포먼스 광고 대행">
-              <span class="fc-name">📊 퍼포먼스 광고 대행</span>
+              <span class="fc-name"><svg class="ui-icon"><use href="#i-ui-chart"/></svg>퍼포먼스 광고 대행</span>
             </label>
             <label class="form-chip wide">
               <input type="checkbox" name="service" value="글로벌 퍼포먼스 광고 대행">
-              <span class="fc-name">🌐 글로벌 퍼포먼스 광고 대행</span>
+              <span class="fc-name"><svg class="ui-icon"><use href="#i-ui-globe"/></svg>글로벌 퍼포먼스 광고 대행</span>
             </label>
           </div>
         </div>
 
         <div class="form-section-header">
-          <span class="fsh-icon">💬</span>
+          <span class="fsh-icon"><svg class="ui-icon"><use href="#i-ui-chat"/></svg></span>
           <span class="fsh-title">추가 정보</span>
           <span class="fsh-count">11 ~ 12</span>
         </div>
         <div class="field-group">
-          <label><span class="q-num">11</span>광고 진행 중 애로사항<span class="q-icon">📉</span></label>
+          <label><span class="q-num">11</span>광고 진행 중 애로사항<span class="q-icon"><svg class="ui-icon"><use href="#i-ui-trend-down"/></svg></span></label>
           <div class="radio-group">
             <label class="radio-item"><input type="radio" name="issue" value="광고 계정 정지"><span>광고 계정 정지</span></label>
             <label class="radio-item"><input type="radio" name="issue" value="광고 전환 추적 Pixel / 전환 API"><span>광고 전환 추적 Pixel / 전환 API</span></label>
@@ -3733,7 +3767,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <div class="field-group">
-          <label><span class="q-num">12</span>상담이 필요한 내용 <span class="q-note">(선택)</span><span class="q-icon">🤔</span></label>
+          <label><span class="q-num">12</span>상담이 필요한 내용 <span class="q-note">(선택)</span><span class="q-icon"><svg class="ui-icon"><use href="#i-ui-help"/></svg></span></label>
           <textarea name="notes" placeholder="구체적인 상담 요청 사항을 자유롭게 작성해주세요"></textarea>
         </div>
 
@@ -3747,7 +3781,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <button type="submit" class="btn submit">무료 진단 받기 <svg class="btn-gif ico-anim-float"><use href="#i-plane"/></svg></button>
         </div>
 
-        <div class="warning-note">⚠ 타인 정보 허위 기재 시 민/형사 고발조치 될 수 있습니다.</div>
+        <div class="warning-note"><svg class="ui-icon"><use href="#i-ui-warning"/></svg>타인 정보 허위 기재 시 민/형사 고발조치 될 수 있습니다.</div>
       </div>
     </form>
   </div>
@@ -3863,14 +3897,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   })();
 
   // ============================================================
-  // 📊 중앙 트래킹 헬퍼 — 모든 이벤트는 이 함수를 통해 발사
+  // 중앙 트래킹 헬퍼 — 모든 이벤트는 이 함수를 통해 발사
   //   1) iframe 내부에서 직접 호출 가능한 gtag/fbq 시도
   //   2) 부모(Wix) 페이지로 postMessage 전달 → Wix Velo에서 모든 매체로 forwarding
   //   3) console에 로그 (디버깅용)
   // ============================================================
   function track(eventName, params) {
     params = params || {};
-    // ✅ Meta Pixel "empty dynamic values" warning 방지용 기본값
+    // Meta Pixel "empty dynamic values" warning 방지용 기본값
     //    각 dataLayer push에 value/currency/content_category 자동 주입
     //    (params에 직접 지정 시 그 값으로 override됨)
     var metaDefaults = {
@@ -3879,7 +3913,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       content_category: 'landing'
     };
     var enriched = Object.assign({}, metaDefaults, params);
-    // 0) ✅ GTM dataLayer push — 모든 GTM 트리거가 listen
+    // 0) GTM dataLayer push — 모든 GTM 트리거가 listen
     //    (GA4 · Meta Pixel · Google Ads 전환 · Toss LEX 등 GTM 내 모든 태그)
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(Object.assign({ event: eventName }, enriched));
@@ -4162,7 +4196,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   if (document.getElementById('url-list')) updateUrlAddBtn();
 
   // ============================================================
-  // 📊 폼 진입 + 필드별 인터랙션 트래킹
+  // 폼 진입 + 필드별 인터랙션 트래킹
   // ============================================================
   (function setupFormTracking(){
     const form = document.querySelector('form.lead');
@@ -4220,7 +4254,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   })();
 
   // ============================================================
-  // 📊 Q&A (FAQ Top 10) 클릭/펼침 트래킹
+  // Q&A (FAQ Top 10) 클릭/펼침 트래킹
   // ============================================================
   (function setupFaqTracking(){
     // 모든 details 요소 = FAQ Top 10 (메인 FAQ)
@@ -4259,7 +4293,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   })();
 
   // ============================================================
-  // 📊 페이지뷰 + 스크롤 깊이 + 체류 시간 + 참여 세션
+  // 페이지뷰 + 스크롤 깊이 + 체류 시간 + 참여 세션
   // ============================================================
   (function setupEngagementTracking(){
     track('page_view', { page: 'landing_v1' });
@@ -4362,7 +4396,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   })();
 
   // ============================================================
-  // 📊 Top 5 추가 이벤트 — 의미있는 사용자 행동
+  // Top 5 추가 이벤트 — 의미있는 사용자 행동
   // ============================================================
 
   // 1️⃣ CTA Click — 모든 주요 CTA 버튼 위치별 추적
@@ -4504,7 +4538,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     document.getElementById('step-dot-2')?.classList.add('active');
     document.getElementById('step-line')?.classList.add('done');
     form.scrollIntoView({behavior:'smooth', block:'start'});
-    // 📊 트래킹: Step 1 완료 + Step 2 진입
+    // 트래킹: Step 1 완료 + Step 2 진입
     track('form_step1_complete', { progress_percent: 50 });
     track('form_step2_start', { progress_percent: 50 });
   }
@@ -4515,7 +4549,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     document.getElementById('step-dot-1')?.classList.replace('done','active');
     document.getElementById('step-line')?.classList.remove('done');
     document.querySelector('form.lead').scrollIntoView({behavior:'smooth', block:'start'});
-    // 📊 트래킹: 뒤로가기 (드롭오프 시그널)
+    // 트래킹: 뒤로가기 (드롭오프 시그널)
     track('form_step_back', { from_step: 2, to_step: 1 });
   }
 
@@ -4558,7 +4592,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const original = btn.innerText;
     btn.disabled = true; btn.innerText = '전송 중...';
 
-    // 📊 트래킹: 제출 시도
+    // 트래킹: 제출 시도
     track('form_submit_attempt', { progress_percent: 100 });
 
     const services     = Array.from(form.querySelectorAll('input[name=service]:checked')).map(c => c.value);
@@ -4612,8 +4646,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         });
         if (!res.ok) throw new Error('Network ' + res.status);
       }
-      form.innerHTML = '<div style="text-align:center;padding:40px 20px"><div style="font-size:48px">✓</div><h3 style="margin-top:12px">신청이 접수되었습니다</h3><p style="color:var(--ink-3);margin-top:8px">평일 24시간 이내 담당자가 연락드립니다.</p></div>';
-      // 📊 메인 전환 트래킹 — budget tier 기반 value-based bidding
+      form.innerHTML = '<div style="text-align:center;padding:40px 20px"><svg class="ui-icon" style="font-size:48px;color:var(--brand)"><use href="#i-check"/></svg><h3 style="margin-top:12px">신청이 접수되었습니다</h3><p style="color:var(--ink-3);margin-top:8px">평일 24시간 이내 담당자가 연락드립니다.</p></div>';
+      // 메인 전환 트래킹 — budget tier 기반 value-based bidding
       const valueMap = { 'under1k': 10, '1k-5k': 50, '5k-1e': 200, 'over1e': 1000 };
       const leadValue = valueMap[data.budget] || (parseFloat(data.budget) >= 10000 ? 1000 : parseFloat(data.budget) >= 5000 ? 200 : parseFloat(data.budget) >= 1000 ? 50 : 10);
       track('form_submit_success', {
@@ -4631,7 +4665,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       window.parent.postMessage({ type: 'lead_submitted', data: { budget: data.budget, value: leadValue, industry: data.industry } }, '*');
     } catch (err) {
       btn.disabled = false; btn.innerText = original;
-      // 📊 트래킹: 제출 실패
+      // 트래킹: 제출 실패
       track('form_submit_error', { error: String(err.message || err).slice(0, 100) });
       alert('전송에 실패했습니다. 잠시 후 다시 시도해주세요.\n\n오류: ' + err.message);
     }
@@ -4754,14 +4788,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       document.querySelectorAll('.cc-card').forEach(function(el){ el.classList.add('bar-fired'); });
     }
 
-    // --- 3. 떨어지는 동전 (Loss Viz) ---
+    // --- 3. 떨어지는 결제 아이콘 (Loss Viz) ---
     function spawnCoinRain(container, count){
       if (!container || reducedMotion) return;
-      const emojis = ['💸','💵','💰','💴'];
       for (let i = 0; i < count; i++) {
         const c = document.createElement('span');
         c.className = 'coin';
-        c.textContent = emojis[i % emojis.length];
+        c.innerHTML = '<svg class="ui-icon"><use href="#i-ui-banknote"/></svg>';
         c.style.left            = (Math.random() * 100) + '%';
         c.style.animationDuration = (3 + Math.random() * 2.5).toFixed(2) + 's';
         c.style.animationDelay    = (Math.random() * 4).toFixed(2) + 's';
