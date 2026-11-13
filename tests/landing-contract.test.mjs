@@ -33,6 +33,10 @@ test('Meta benefits and supported-media marquee keep the visual contract', () =>
   }
   assert.equal((html.match(/class="hero-media-cell"/g) || []).length, 16);
   assert.equal((html.match(/class="hero-media-loop"/g) || []).length, 2);
+  assert.match(html, /META INVOICE AD-ACCOUNT/);
+  assert.doesNotMatch(html, /META PARTNER ACCOUNT|기존 캠페인과 데이터는 그대로 두고/);
+  assert.match(html, /--font-sans:'Pretendard'/);
+  assert.doesNotMatch(html, /font-family:'Courier New'|font-family:Georgia/);
   assert.ok(html.indexOf('class="hero-media-marquee"') < html.indexOf('class="hero-ctas-new"'), 'media marquee must render above the hero CTA');
   assert.doesNotMatch(html, /\.hero-media-marquee\{[^}]*border:/);
   assert.match(html, /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.hero-media-track\{animation:none\}/);

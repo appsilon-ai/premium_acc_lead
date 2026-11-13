@@ -155,13 +155,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     --g-premium:linear-gradient(135deg,#1652a5 0%,#0d2c5e 100%);
     --g-premium-soft:linear-gradient(135deg,#eef3ff 0%,#d8e3f8 100%);
     --g-accent:linear-gradient(135deg,#dc2626 0%,#991b1b 100%);
+    --font-sans:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans KR',sans-serif;
+    --section-title-size:clamp(30px,3.2vw,40px);
+    --section-copy-size:17px;
   }
   *{box-sizing:border-box}
   /* 폰트 크기 일괄 상향 (가독성) */
   /* v1.1.0: 모바일 좌우 스크롤 방지 — 전역 safeguard */
   *,*::before,*::after{box-sizing:border-box}
   html{scrollbar-gutter:stable} /* 스크롤바 공간 항상 예약 → 좌우 대칭 유지 */
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Pretendard',-apple-system,BlinkMacSystemFont,system-ui,Roboto,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;font-size:16px;overflow-x:hidden}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--font-sans);line-height:1.6;-webkit-font-smoothing:antialiased;font-size:16px;overflow-x:hidden}
+  button,input,select,textarea{font-family:var(--font-sans)}
   img,video{max-width:100%;height:auto}
   @media (max-width:700px){html,body{font-size:15px}}
   .br-mobile{display:none}
@@ -171,7 +175,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .container{max-width:1120px;margin:0 auto;padding:0 24px}
   h1,h2,h3,h4{margin:0;letter-spacing:-.02em;line-height:1.2}
   h1{font-size:clamp(34px,4.6vw,56px);font-weight:800}
-  h2{font-size:clamp(26px,3.2vw,40px);font-weight:800;word-break:keep-all}
+  h2{font-size:var(--section-title-size);font-weight:800;word-break:keep-all}
   h3{font-size:20px;font-weight:700}
   p{margin:0}
   .muted{color:var(--ink-3)}
@@ -364,13 +368,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .meta-benefit-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:940px;margin:0 auto}
   .meta-benefit-card{
     display:grid;grid-template-columns:minmax(0,1fr) 112px;grid-template-areas:"num art" "kicker art" "value art";
-    align-items:center;gap:3px 16px;min-height:170px;padding:22px 22px 22px 24px;
-    border:1px solid #dbe7fb;border-radius:20px;background:linear-gradient(145deg,#fff 0%,#eef5ff 100%);
-    box-shadow:0 14px 42px -32px rgba(22,82,165,.55);position:relative;overflow:hidden;
+    align-items:center;gap:3px 16px;min-height:174px;padding:24px 22px 24px 26px;
+    border:1px solid #d8e4f7;border-radius:22px;background:linear-gradient(145deg,#fff 0%,#f4f8ff 100%);
+    box-shadow:0 18px 46px -34px rgba(13,44,94,.58),inset 0 1px 0 rgba(255,255,255,.9);position:relative;overflow:hidden;
     opacity:0;transform:translate3d(0,64px,0) scale(.97);
     transition:opacity .56s cubic-bezier(.2,.8,.2,1),transform .74s cubic-bezier(.2,.8,.2,1),box-shadow .25s ease
   }
-  .meta-benefit-card::after{content:'';position:absolute;width:150px;height:150px;border-radius:50%;right:-72px;top:-78px;background:rgba(31,107,255,.08)}
+  .meta-benefit-card::before{content:'';position:absolute;left:0;top:22px;bottom:22px;width:3px;border-radius:0 4px 4px 0;background:linear-gradient(180deg,#60a5fa,#1652a5);opacity:.9}
+  .meta-benefit-card::after{content:'';position:absolute;width:170px;height:170px;border-radius:50%;right:-86px;top:-92px;background:radial-gradient(circle,rgba(31,107,255,.12),rgba(31,107,255,0) 68%)}
   .meta-benefit-grid.is-in .meta-benefit-card{opacity:1;transform:none}
   .meta-benefit-grid.is-in .meta-benefit-card:nth-child(1){transition-delay:.04s}
   .meta-benefit-grid.is-in .meta-benefit-card:nth-child(2){transition-delay:.16s}
@@ -379,17 +384,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .meta-benefit-grid.is-in .meta-benefit-card:nth-child(5){transition-delay:.52s}
   .meta-benefit-grid.is-in .meta-benefit-card:nth-child(6){transition-delay:.64s}
   .meta-benefit-card:hover{transform:translateY(-3px);box-shadow:0 22px 50px -30px rgba(22,82,165,.5)}
-  .meta-benefit-num{grid-area:num;justify-self:start;border-radius:999px;background:#1652a5;color:#fff;padding:4px 10px;font-size:12px;font-weight:900;letter-spacing:.08em}
+  .meta-benefit-num{grid-area:num;justify-self:start;border-radius:999px;background:#102f61;color:#fff;padding:4px 10px;font-size:12px;font-weight:900;letter-spacing:.08em;box-shadow:0 5px 12px rgba(13,44,94,.18)}
   .meta-benefit-kicker{grid-area:kicker;margin-top:10px;font-size:13px;color:#61708a;font-weight:700;line-height:1.4;word-break:keep-all}
   .meta-benefit-value{grid-area:value;font-size:clamp(20px,2.4vw,27px);font-weight:900;letter-spacing:-.035em;line-height:1.22;color:#10213e;word-break:keep-all}
   .meta-benefit-value mark{background:linear-gradient(180deg,transparent 58%,#bfdbfe 58%);color:inherit;padding:0 2px}
-  .meta-benefit-art{grid-area:art;width:108px;height:108px;display:grid;place-items:center;position:relative;z-index:1}
-  .meta-benefit-art::before{content:'';position:absolute;inset:8px;border-radius:28px;background:linear-gradient(145deg,#dbeafe,#fff);border:1px solid #bfdbfe;transform:rotate(8deg);box-shadow:0 16px 30px -22px #1652a5}
-  .meta-benefit-art svg{width:58px;height:58px;position:relative;z-index:1;filter:drop-shadow(0 8px 10px rgba(22,82,165,.18))}
+  .meta-benefit-art{grid-area:art;width:108px;height:108px;display:grid;place-items:center;position:relative;z-index:1;color:#1652a5}
+  .meta-benefit-art::before{content:'';position:absolute;inset:7px;border-radius:30px;background:linear-gradient(145deg,rgba(255,255,255,.98),#e8f1ff);border:1px solid #c9dbf5;box-shadow:0 18px 34px -24px rgba(13,44,94,.75),inset 0 1px 0 #fff}
+  .meta-benefit-art::after{content:'';position:absolute;inset:15px;border-radius:23px;border:1px solid rgba(96,165,250,.2);pointer-events:none}
+  .meta-benefit-art svg{width:52px;height:52px;position:relative;z-index:1;filter:drop-shadow(0 7px 10px rgba(22,82,165,.13))}
   @media (max-width:760px){
     .meta-benefits{padding:64px 0}.meta-benefit-grid{grid-template-columns:1fr;gap:9px}
-    .meta-benefit-card{grid-template-columns:minmax(0,1fr) 88px;min-height:132px;padding:16px 16px 16px 18px;border-radius:16px}
-    .meta-benefit-art{width:84px;height:84px}.meta-benefit-art svg{width:46px;height:46px}
+    .meta-benefit-card{grid-template-columns:minmax(0,1fr) 88px;min-height:136px;padding:17px 15px 17px 19px;border-radius:18px}
+    .meta-benefit-card::before{top:18px;bottom:18px}
+    .meta-benefit-art{width:84px;height:84px}.meta-benefit-art::before{inset:5px;border-radius:24px}.meta-benefit-art::after{inset:12px;border-radius:18px}.meta-benefit-art svg{width:42px;height:42px}
     .meta-benefit-kicker{font-size:12px}.meta-benefit-value{font-size:20px}
   }
 
@@ -467,11 +474,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .loss-viz-head{text-align:left}
     .loss-viz-head h2 br{display:none}
   }
-  .loss-viz-head h2{font-size:clamp(22px,3vw,30px);font-weight:800;color:#fff;letter-spacing:-.02em;line-height:1.35}
+  .loss-viz-head h2{font-size:var(--section-title-size);font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1.22}
   .loss-viz-head h2 .hl,
   .problem .section-head h2 .hl{background:linear-gradient(180deg,transparent 60%,rgba(220,38,38,.6) 60%);color:#fff;font-weight:800;padding:0 4px}
   #how .section-head h2 .hl{background:linear-gradient(180deg,transparent 60%,rgba(96,165,250,.55) 60%);color:#fff;font-weight:800;padding:0 4px}
-  .loss-viz-head p{margin-top:12px;color:#cfd6e4;font-size:15px;line-height:1.6}
+  .loss-viz-head p{margin-top:14px;color:#cfd6e4;font-size:var(--section-copy-size);line-height:1.65;letter-spacing:-.012em;word-break:keep-all}
+  @media (max-width:700px){.loss-viz-head h2{font-size:26px;line-height:1.28}.loss-viz-head p{font-size:15px}}
 
   .loss-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;max-width:1000px;margin:0 auto;padding:0 16px}
   @media (max-width:900px){.loss-grid{grid-template-columns:repeat(2,1fr)}}
@@ -815,7 +823,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     margin-bottom:14px
   }
   .section-head{max-width:760px;margin:0 auto 48px;text-align:center}
-  .section-head p{margin-top:14px;color:var(--ink-2);font-size:17px}
+  .section-head h2,.cta-section h2{font-size:var(--section-title-size);line-height:1.22;font-weight:800;letter-spacing:-.03em}
+  .section-head p{margin-top:14px;color:var(--ink-2);font-size:var(--section-copy-size);line-height:1.65;letter-spacing:-.012em;word-break:keep-all}
+  .section-head .section-tag + h2{margin-top:14px}
 
   /* v1.1.0: section-tag — 섹션 진입 시 prominent 버튼형 칩 */
   .section-tag{
@@ -857,6 +867,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     section{padding:44px 0}
     /* 섹션 헤딩 하단 여백 48px → 24px */
     .section-head{margin:0 auto 24px}
+    .section-head h2,.cta-section h2{font-size:26px;line-height:1.28}
+    .section-head p{font-size:15px;line-height:1.65}
     /* flow 카드 자체 패딩 추가 압축 + step 상하 패딩 축소 */
     .flow{padding:14px 16px}
     .flow .step{padding:12px 0;gap:10px}
@@ -1334,7 +1346,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .media-logo-tile img.sm{max-height:22px}
 
   /* TEXT LOGO — 이미지가 없는 브랜드용 (Toss, KT, 포커스 등) */
-  .media-logo-tile .text-logo{font-weight:900;font-size:18px;letter-spacing:-.02em;line-height:1;font-family:-apple-system,BlinkMacSystemFont,"Pretendard",sans-serif}
+  .media-logo-tile .text-logo{font-weight:900;font-size:18px;letter-spacing:-.02em;line-height:1;font-family:var(--font-sans)}
   .media-logo-tile .text-logo.toss{color:#0064FF}
   .media-logo-tile .text-logo.kt{color:#E60012}
   .media-logo-tile .text-logo.yahoo{color:#6001D2}
@@ -1534,9 +1546,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   details b{color:var(--ink);font-weight:700}
   .faq-section{padding-bottom:60px}
   .faq-section .section-head{margin-bottom:36px}
-  .faq-section .section-head p{font-size:15px;line-height:1.6;word-break:keep-all;margin-top:10px}
+  .faq-section .section-head p{font-size:var(--section-copy-size);line-height:1.65;word-break:keep-all;margin-top:14px}
   @media (max-width:700px){
-    .faq-section .section-head p{font-size:13.5px}
+    .faq-section .section-head p{font-size:15px}
   }
 
   /* CTA / FORM */
@@ -1597,8 +1609,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .mfq-a{font-size:12px;margin-left:24px}
   }
   @media (max-width:700px){
-    .cta-section h2{font-size:clamp(22px, 6vw, 30px);line-height:1.35}
-    .cta-section .muted{font-size:14px !important;margin-top:10px !important}
+    .cta-section h2{font-size:26px;line-height:1.28}
+    .cta-section .muted{font-size:15px !important;line-height:1.65;margin-top:10px !important}
     .cta-bullets{margin-top:16px;gap:8px}
     .cta-bullets li{font-size:13.5px;line-height:1.45}
     .cta-bullets .gif{width:18px;height:18px}
@@ -1898,13 +1910,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .card-statement{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
   .card-statement-head{background:var(--g-premium);color:#fff;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px}
   .card-statement-brand{font-weight:800;font-size:16px;letter-spacing:-.01em}
-  .card-statement-meta{font-size:12px;opacity:.85;margin-top:3px;font-family:'Courier New',monospace;letter-spacing:.02em}
+  .card-statement-meta{font-size:12px;opacity:.85;margin-top:3px;font-family:var(--font-sans);letter-spacing:.02em}
   .card-statement-badge{background:rgba(255,255,255,.15);padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;flex-shrink:0}
   .card-statement-body{font-variant-numeric:tabular-nums}
   .card-statement-row{display:grid;grid-template-columns:96px 1fr 56px 150px;gap:14px;padding:11px 24px;font-size:13px;color:var(--ink-2);border-bottom:1px solid #f0f1f5;align-items:center}
   .card-statement-row:last-child{border-bottom:0}
   .card-statement-row.head{background:#fafbff;font-weight:700;color:var(--ink-3);font-size:11px;text-transform:uppercase;letter-spacing:.05em;padding:10px 24px}
-  .card-statement-row .merchant{font-family:'Courier New',monospace;letter-spacing:.02em;color:var(--ink);font-weight:600}
+  .card-statement-row .merchant{font-family:var(--font-sans);letter-spacing:.02em;color:var(--ink);font-weight:600}
   .card-statement-row .amount{text-align:right;font-weight:700;color:var(--ink)}
   .card-statement-row.hi{background:#fff5f5}
   .card-statement-row.hi .amount{color:var(--warn);font-weight:800}
@@ -2008,7 +2020,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .case-quote::before{
     content:'"';position:absolute;left:8px;top:2px;
     font-size:32px;font-weight:900;color:var(--brand);
-    line-height:1;font-family:Georgia,serif;opacity:.35
+    line-height:1;font-family:var(--font-sans);opacity:.35
   }
   .case-quote p{margin:0 0 0 6px}
   .case-quote p b{color:var(--brand);font-weight:800;font-style:normal;background:linear-gradient(180deg,transparent 60%,rgba(96,165,250,.18) 60%);padding:0 3px}
@@ -2606,29 +2618,42 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <circle cx="20" cy="4" r="1.5" fill="#60a5fa"/>
       <circle cx="4" cy="20" r="1.2" fill="#93c5fd"/>
     </symbol>
-    <symbol id="i-card-x" viewBox="0 0 32 32">
-      <rect x="2" y="7" width="22" height="15" rx="2.5" fill="#1652a5"/>
-      <rect x="2" y="11" width="22" height="2.5" fill="#0d2c5e"/>
-      <rect x="5" y="17" width="6" height="1.4" rx="0.4" fill="rgba(255,255,255,0.55)"/>
-      <circle cx="24" cy="22" r="8" fill="#dc2626"/>
-      <path d="M20.5 18.5 L27.5 25.5 M27.5 18.5 L20.5 25.5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <symbol id="i-benefit-fees" viewBox="0 0 48 48">
+      <rect x="5.5" y="10" width="30" height="22" rx="5" fill="none" stroke="currentColor" stroke-width="2.4"/>
+      <path d="M6.5 17.5h28M11 25h8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="35" cy="33" r="8.5" fill="#1652a5"/>
+      <path d="M31.5 33h7" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
     </symbol>
-    <symbol id="i-coin" viewBox="0 0 32 32">
-      <circle cx="16" cy="16" r="13" fill="#dc2626"/>
-      <circle cx="16" cy="16" r="10" fill="none" stroke="#dc2626" stroke-width="1.2"/>
-      <text x="16" y="22" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="15" font-weight="900" fill="#7f1d1d">₩</text>
+    <symbol id="i-benefit-credit" viewBox="0 0 48 48">
+      <circle cx="22" cy="26" r="13.5" fill="none" stroke="currentColor" stroke-width="2.4"/>
+      <path d="M22 19v14M18 22.5c1.3-1.2 6.7-1.7 7.8 1.1 1.4 3.7-7.6 2.2-7.6 6 0 2.7 5.7 3.3 8.1 1.1" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/>
+      <path d="M34.5 7.5l1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5 1.5-4z" fill="#60a5fa"/>
+      <path d="M10 8.5l1 2.5 2.5 1-2.5 1-1 2.5L9 13l-2.5-1L9 11l1-2.5z" fill="#93c5fd"/>
     </symbol>
-    <symbol id="i-question" viewBox="0 0 32 32">
-      <path d="M4 8 Q4 4 8 4 L24 4 Q28 4 28 8 L28 18 Q28 22 24 22 L14 22 L8 27 L8 22 Q4 22 4 18 Z" fill="#1652a5"/>
-      <text x="16" y="18" text-anchor="middle" font-family="Pretendard,sans-serif" font-size="14" font-weight="900" fill="#fff">?</text>
+    <symbol id="i-benefit-support" viewBox="0 0 48 48">
+      <path d="M15 22v-5.5a9 9 0 0 1 18 0V22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      <rect x="9" y="21" width="7" height="14" rx="3.5" fill="none" stroke="currentColor" stroke-width="2.4"/>
+      <rect x="32" y="21" width="7" height="14" rx="3.5" fill="none" stroke="currentColor" stroke-width="2.4"/>
+      <path d="M32 35c0 4-3.5 6-8 6h-3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="18" cy="41" r="2.3" fill="#60a5fa"/>
     </symbol>
-    <symbol id="i-chart" viewBox="0 0 32 32">
-      <path d="M3 28 L3 4 M3 28 L29 28" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-      <path d="M6 24 L11 18 L17 21 L23 12 L28 7" fill="none" stroke="#1652a5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M23 7 L28 7 L28 12" fill="none" stroke="#1652a5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="11" cy="18" r="2" fill="#1652a5"/>
-      <circle cx="17" cy="21" r="2" fill="#1652a5"/>
-      <circle cx="23" cy="12" r="2" fill="#1652a5"/>
+    <symbol id="i-benefit-invoice" viewBox="0 0 48 48">
+      <path d="M13 6.5h18l7 7V41.5H13z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+      <path d="M31 6.5v8h7M18 23h14M18 29h10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+      <circle cx="32.5" cy="35" r="7.5" fill="#1652a5"/>
+      <path d="M29.2 35l2.2 2.2 4.2-4.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-benefit-migrate" viewBox="0 0 48 48">
+      <rect x="6.5" y="10" width="14" height="23" rx="4" fill="none" stroke="currentColor" stroke-width="2.4"/>
+      <rect x="27.5" y="15" width="14" height="23" rx="4" fill="none" stroke="currentColor" stroke-width="2.4"/>
+      <path d="M18 39h12M26 35l4 4-4 4M30 9H18M22 5l-4 4 4 4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M11 16h5M32 21h5" fill="none" stroke="#60a5fa" stroke-width="2.4" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-benefit-data" viewBox="0 0 48 48">
+      <ellipse cx="20" cy="12" rx="12" ry="5.5" fill="none" stroke="currentColor" stroke-width="2.4"/>
+      <path d="M8 12v10c0 3 5.4 5.5 12 5.5 2.1 0 4-.2 5.7-.7M8 22v9c0 3 5.4 5.5 12 5.5 2 0 3.9-.2 5.5-.7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M31 25.5l7 2.6v6.2c0 4.4-3.1 7.6-7 9.2-3.9-1.6-7-4.8-7-9.2v-6.2z" fill="#1652a5"/>
+      <path d="M27.8 34.2l2.2 2.1 4.5-4.8" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
     </symbol>
     <symbol id="i-plane" viewBox="0 0 32 32">
       <path d="M29 3 L3 14 L13 18 L17 28 Z" fill="#1652a5"/>
@@ -2837,40 +2862,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="meta-benefits" id="meta-benefits">
   <div class="container">
     <div class="section-head">
-      <span class="section-tag">META PARTNER ACCOUNT</span>
+      <span class="section-tag">META INVOICE AD-ACCOUNT</span>
       <h2>Meta 광고비, 결제 방식만 바꿔도<br />운영 조건이 달라집니다</h2>
-      <p>기존 캠페인과 데이터는 그대로 두고, 결제·정산·지원 구조만 파트너 인보이스로 전환합니다.</p>
     </div>
     <div class="meta-benefit-grid">
       <article class="meta-benefit-card">
         <span class="meta-benefit-num">01</span><span class="meta-benefit-kicker">해외 카드 결제 대신</span>
         <strong class="meta-benefit-value"><mark>해외 결제 수수료 0원</mark></strong>
-        <span class="meta-benefit-art" aria-hidden="true"><svg><use href="#i-card-x"/></svg></span>
+        <span class="meta-benefit-art" aria-hidden="true"><svg><use href="#i-benefit-fees"/></svg></span>
       </article>
       <article class="meta-benefit-card">
         <span class="meta-benefit-num">02</span><span class="meta-benefit-kicker">프로모션 조건 충족 시</span>
         <strong class="meta-benefit-value">보너스 크레딧 <mark>약 6% 가능</mark></strong>
-        <span class="meta-benefit-art" aria-hidden="true"><svg><use href="#i-coin"/></svg></span>
+        <span class="meta-benefit-art" aria-hidden="true"><svg><use href="#i-benefit-credit"/></svg></span>
       </article>
       <article class="meta-benefit-card">
         <span class="meta-benefit-num">03</span><span class="meta-benefit-kicker">국내 회계 기준에 맞춘</span>
         <strong class="meta-benefit-value"><mark>월 단위 세금계산서</mark> 정산</strong>
-        <span class="meta-benefit-art" aria-hidden="true"><svg><use href="#i-chart"/></svg></span>
+        <span class="meta-benefit-art" aria-hidden="true"><svg><use href="#i-benefit-invoice"/></svg></span>
       </article>
       <article class="meta-benefit-card">
         <span class="meta-benefit-num">04</span><span class="meta-benefit-kicker">계정·결제 이슈 발생 시</span>
         <strong class="meta-benefit-value">전담 매니저 <mark>평균 2시간 대응</mark></strong>
-        <span class="meta-benefit-art" aria-hidden="true"><svg><use href="#i-question"/></svg></span>
+        <span class="meta-benefit-art" aria-hidden="true"><svg><use href="#i-benefit-support"/></svg></span>
       </article>
       <article class="meta-benefit-card">
         <span class="meta-benefit-num">05</span><span class="meta-benefit-kicker">픽셀·CAPI·도메인·Audience</span>
         <strong class="meta-benefit-value"><mark>광고 데이터 100%</mark> 고객 소유</strong>
-        <span class="meta-benefit-art" aria-hidden="true"><svg><use href="#i-check"/></svg></span>
+        <span class="meta-benefit-art" aria-hidden="true"><svg><use href="#i-benefit-data"/></svg></span>
       </article>
       <article class="meta-benefit-card">
         <span class="meta-benefit-num">06</span><span class="meta-benefit-kicker">기존 캠페인을 멈추지 않고</span>
         <strong class="meta-benefit-value"><mark>평균 1~2영업일</mark> 이전</strong>
-        <span class="meta-benefit-art" aria-hidden="true"><svg><use href="#i-plane"/></svg></span>
+        <span class="meta-benefit-art" aria-hidden="true"><svg><use href="#i-benefit-migrate"/></svg></span>
       </article>
     </div>
   </div>
