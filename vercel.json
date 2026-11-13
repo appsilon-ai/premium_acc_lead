@@ -22,6 +22,12 @@
     },
     "api/keepalive.js": {
       "maxDuration": 15
+    },
+    "api/cta-event.js": {
+      "maxDuration": 10
+    },
+    "api/cta-stats.js": {
+      "maxDuration": 10
     }
   },
   "crons": [

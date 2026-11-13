@@ -781,6 +781,32 @@ export default async function handler(req, res) {
       });
     }
 
+    // CTA 카피 실험의 Lead는 브라우저 클릭이 아니라 백엔드 접수 성공 시점에만 기록한다.
+    if (
+      body.ctaExperiment === 'partneragency_cta_copy_v1' &&
+      ['a', 'b', 'c', 'd'].includes(body.ctaVariant) &&
+      typeof body.ctaLeadEventId === 'string' && body.ctaLeadEventId.length <= 220 &&
+      typeof body.ctaVisitorId === 'string' && body.ctaVisitorId.length <= 120 &&
+      typeof body.ctaSessionId === 'string' && body.ctaSessionId.length <= 120
+    ) {
+      try {
+        const { error: ctaError } = await supabase.from('cta_experiment_events').upsert({
+          event_id: body.ctaLeadEventId,
+          experiment_key: body.ctaExperiment,
+          event_type: 'lead',
+          variant_key: body.ctaVariant,
+          visitor_id: body.ctaVisitorId,
+          session_id: body.ctaSessionId,
+          location: 'lead_form',
+          page_path: '/',
+          lead_id: inserted?.id ?? null,
+        }, { onConflict: 'event_id', ignoreDuplicates: true });
+        if (ctaError) console.error('[CTA_EXPERIMENT] lead insert failed:', ctaError.message);
+      } catch (ctaError) {
+        console.error('[CTA_EXPERIMENT] lead insert crashed:', ctaError);
+      }
+    }
+
     if (dbError) {
       console.warn('[LEAD_DEGRADED] DB 없이 접수 완료:', JSON.stringify({ ...sinks, alerted }));
     }

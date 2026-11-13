@@ -226,6 +226,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 1px 1px, rgba(255,255,255,.04) 1px, transparent 0);background-size:24px 24px;pointer-events:none}
   .hero > *{position:relative;z-index:1}
   .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+  .hero-grid > *{min-width:0}
   @media (max-width:900px){.hero-grid{grid-template-columns:1fr;gap:32px}}
   .hero h1{color:#fff}
   .hero h1 span.hl{background:linear-gradient(180deg, transparent 58%, rgba(96,165,250,.35) 58%, rgba(96,165,250,.35) 95%, transparent 95%);color:#fff;padding:0 4px}
@@ -329,8 +330,64 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media (prefers-reduced-motion: reduce){
     .hero-cta-primary{animation:none}
     .hero-cta-primary::before{display:none}
+    .hero-media-track{animation:none}
+    .meta-benefit-card,.meta-benefit-grid.is-in .meta-benefit-card{opacity:1;transform:none;transition:none}
   }
   .hero-cta-sub{font-size:13.5px;color:#cfd6e4;font-weight:500}
+
+  /* 지원 매체 로고 — CTA 아래 한 줄 무한 슬라이더 */
+  .hero-media-marquee{
+    width:min(560px,100%);margin-top:18px;overflow:hidden;position:relative;
+    border:1px solid rgba(255,255,255,.12);border-radius:14px;
+    background:rgba(255,255,255,.055);backdrop-filter:blur(10px)
+  }
+  .hero-media-marquee::before,.hero-media-marquee::after{
+    content:'';position:absolute;z-index:2;top:0;bottom:0;width:54px;pointer-events:none
+  }
+  .hero-media-marquee::before{left:0;background:linear-gradient(90deg,#111a31,transparent)}
+  .hero-media-marquee::after{right:0;background:linear-gradient(-90deg,#111a31,transparent)}
+  .hero-media-track{display:flex;width:max-content;align-items:center;animation:heroMediaSlide 28s linear infinite;will-change:transform}
+  .hero-media-cell{width:112px;height:58px;display:grid;place-items:center;padding:13px 18px;flex:0 0 auto}
+  .hero-media-cell img{display:block;width:100%;height:100%;object-fit:contain;filter:grayscale(1) brightness(2.5);opacity:.78}
+  .hero-media-cell img[data-dark-logo]{filter:grayscale(1) brightness(3.2)}
+  @keyframes heroMediaSlide{to{transform:translateX(-50%)}}
+  @media (max-width:700px){
+    .hero-media-marquee{margin-top:14px}.hero-media-cell{width:96px;height:52px;padding:12px 15px}
+  }
+
+  /* Meta 핵심 혜택 01–06 — 레퍼런스의 순차 진입을 B2B 톤으로 재해석 */
+  .meta-benefits{padding:92px 0;background:linear-gradient(180deg,#f7faff 0%,#fff 100%);color:var(--ink);overflow:hidden}
+  .meta-benefit-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:940px;margin:0 auto}
+  .meta-benefit-card{
+    display:grid;grid-template-columns:minmax(0,1fr) 112px;grid-template-areas:"num art" "kicker art" "value art";
+    align-items:center;gap:3px 16px;min-height:170px;padding:22px 22px 22px 24px;
+    border:1px solid #dbe7fb;border-radius:20px;background:linear-gradient(145deg,#fff 0%,#eef5ff 100%);
+    box-shadow:0 14px 42px -32px rgba(22,82,165,.55);position:relative;overflow:hidden;
+    opacity:0;transform:translate3d(0,64px,0) scale(.97);
+    transition:opacity .56s cubic-bezier(.2,.8,.2,1),transform .74s cubic-bezier(.2,.8,.2,1),box-shadow .25s ease
+  }
+  .meta-benefit-card::after{content:'';position:absolute;width:150px;height:150px;border-radius:50%;right:-72px;top:-78px;background:rgba(31,107,255,.08)}
+  .meta-benefit-grid.is-in .meta-benefit-card{opacity:1;transform:none}
+  .meta-benefit-grid.is-in .meta-benefit-card:nth-child(1){transition-delay:.04s}
+  .meta-benefit-grid.is-in .meta-benefit-card:nth-child(2){transition-delay:.16s}
+  .meta-benefit-grid.is-in .meta-benefit-card:nth-child(3){transition-delay:.28s}
+  .meta-benefit-grid.is-in .meta-benefit-card:nth-child(4){transition-delay:.40s}
+  .meta-benefit-grid.is-in .meta-benefit-card:nth-child(5){transition-delay:.52s}
+  .meta-benefit-grid.is-in .meta-benefit-card:nth-child(6){transition-delay:.64s}
+  .meta-benefit-card:hover{transform:translateY(-3px);box-shadow:0 22px 50px -30px rgba(22,82,165,.5)}
+  .meta-benefit-num{grid-area:num;justify-self:start;border-radius:999px;background:#1652a5;color:#fff;padding:4px 10px;font-size:12px;font-weight:900;letter-spacing:.08em}
+  .meta-benefit-kicker{grid-area:kicker;margin-top:10px;font-size:13px;color:#61708a;font-weight:700;line-height:1.4;word-break:keep-all}
+  .meta-benefit-value{grid-area:value;font-size:clamp(20px,2.4vw,27px);font-weight:900;letter-spacing:-.035em;line-height:1.22;color:#10213e;word-break:keep-all}
+  .meta-benefit-value mark{background:linear-gradient(180deg,transparent 58%,#bfdbfe 58%);color:inherit;padding:0 2px}
+  .meta-benefit-art{grid-area:art;width:108px;height:108px;display:grid;place-items:center;position:relative;z-index:1}
+  .meta-benefit-art::before{content:'';position:absolute;inset:8px;border-radius:28px;background:linear-gradient(145deg,#dbeafe,#fff);border:1px solid #bfdbfe;transform:rotate(8deg);box-shadow:0 16px 30px -22px #1652a5}
+  .meta-benefit-art svg{width:58px;height:58px;position:relative;z-index:1;filter:drop-shadow(0 8px 10px rgba(22,82,165,.18))}
+  @media (max-width:760px){
+    .meta-benefits{padding:64px 0}.meta-benefit-grid{grid-template-columns:1fr;gap:9px}
+    .meta-benefit-card{grid-template-columns:minmax(0,1fr) 88px;min-height:132px;padding:16px 16px 16px 18px;border-radius:16px}
+    .meta-benefit-art{width:84px;height:84px}.meta-benefit-art svg{width:46px;height:46px}
+    .meta-benefit-kicker{font-size:12px}.meta-benefit-value{font-size:20px}
+  }
 
   /* 신뢰지표 컴팩트 */
   .hero-trust-compact{
@@ -2586,7 +2643,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- 실제 확정된 마감일이 있을 때만 data-deadline에 YYYY-MM-DD를 설정해 노출 -->
 <div class="deadline-strip" id="deadline-strip" data-deadline="" role="status" aria-live="polite">
-  <span id="deadline-copy"></span><a href="#apply">무료 진단 신청</a>
+  <span id="deadline-copy"></span><a href="#apply" data-cta-experiment><span data-cta-copy>무료 진단 신청</span></a>
 </div>
 
 <!-- NAV -->
@@ -2598,7 +2655,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="nav-cta">
       <a href="#cases" class="muted nav-link">사례</a>
       <a href="#how" class="muted nav-link">작동 방식</a>
-      <a href="#apply" class="btn nav-apply">무료 진단 신청</a>
+      <a href="#apply" class="btn nav-apply" data-cta-experiment><span data-cta-copy>무료 진단 신청</span></a>
     </div>
   </div>
 </nav>
@@ -2619,7 +2676,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
 
       <div class="hero-ctas-new">
-        <a href="#apply" class="btn btn-lg hero-cta-primary">무료 진단 신청 →</a>
+        <a href="#apply" class="btn btn-lg hero-cta-primary" data-cta-experiment><span data-cta-copy>무료 진단 신청</span> →</a>
+      </div>
+
+      <div class="hero-media-marquee" aria-label="APPSILON 취급 광고 매체">
+        <div class="hero-media-track">
+          <div class="hero-media-cell"><img src="logos/meta.svg" alt="Meta" /></div>
+          <div class="hero-media-cell"><img src="logos/google.svg" alt="Google Ads" /></div>
+          <div class="hero-media-cell"><img src="logos/tiktok.svg" alt="TikTok For Business" /></div>
+          <div class="hero-media-cell"><img src="logos/naver.svg" alt="NAVER" /></div>
+          <div class="hero-media-cell"><img src="logos/kakao.svg" alt="Kakao" /></div>
+          <div class="hero-media-cell"><img src="logos/toss-ads.svg" alt="toss ads" /></div>
+          <div class="hero-media-cell"><img src="logos/youtube.svg" alt="YouTube" /></div>
+          <div class="hero-media-cell"><img src="logos/linkedin.svg" alt="LinkedIn Ads" /></div>
+          <div class="hero-media-cell" aria-hidden="true"><img src="logos/meta.svg" alt="" /></div>
+          <div class="hero-media-cell" aria-hidden="true"><img src="logos/google.svg" alt="" /></div>
+          <div class="hero-media-cell" aria-hidden="true"><img src="logos/tiktok.svg" alt="" /></div>
+          <div class="hero-media-cell" aria-hidden="true"><img src="logos/naver.svg" alt="" /></div>
+          <div class="hero-media-cell" aria-hidden="true"><img src="logos/kakao.svg" alt="" /></div>
+          <div class="hero-media-cell" aria-hidden="true"><img src="logos/toss-ads.svg" alt="" /></div>
+          <div class="hero-media-cell" aria-hidden="true"><img src="logos/youtube.svg" alt="" /></div>
+          <div class="hero-media-cell" aria-hidden="true"><img src="logos/linkedin.svg" alt="" /></div>
+        </div>
       </div>
 
       <div class="hero-trust-compact">
@@ -2746,6 +2824,49 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 </div>
 <!-- /DARK ZONE -->
+
+<!-- META BENEFITS — 01~06 순차 진입 카드 -->
+<section class="meta-benefits" id="meta-benefits">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag">META PARTNER ACCOUNT</span>
+      <h2>Meta 광고비, 결제 방식만 바꿔도<br />운영 조건이 달라집니다</h2>
+      <p>기존 캠페인과 데이터는 그대로 두고, 결제·정산·지원 구조만 파트너 인보이스로 전환합니다.</p>
+    </div>
+    <div class="meta-benefit-grid">
+      <article class="meta-benefit-card">
+        <span class="meta-benefit-num">01</span><span class="meta-benefit-kicker">해외 카드 결제 대신</span>
+        <strong class="meta-benefit-value"><mark>해외 결제 수수료 0원</mark></strong>
+        <span class="meta-benefit-art" aria-hidden="true"><svg><use href="#i-card-x"/></svg></span>
+      </article>
+      <article class="meta-benefit-card">
+        <span class="meta-benefit-num">02</span><span class="meta-benefit-kicker">프로모션 조건 충족 시</span>
+        <strong class="meta-benefit-value">보너스 크레딧 <mark>약 6% 가능</mark></strong>
+        <span class="meta-benefit-art" aria-hidden="true"><svg><use href="#i-coin"/></svg></span>
+      </article>
+      <article class="meta-benefit-card">
+        <span class="meta-benefit-num">03</span><span class="meta-benefit-kicker">국내 회계 기준에 맞춘</span>
+        <strong class="meta-benefit-value"><mark>월 단위 세금계산서</mark> 정산</strong>
+        <span class="meta-benefit-art" aria-hidden="true"><svg><use href="#i-chart"/></svg></span>
+      </article>
+      <article class="meta-benefit-card">
+        <span class="meta-benefit-num">04</span><span class="meta-benefit-kicker">계정·결제 이슈 발생 시</span>
+        <strong class="meta-benefit-value">전담 매니저 <mark>평균 2시간 대응</mark></strong>
+        <span class="meta-benefit-art" aria-hidden="true"><svg><use href="#i-question"/></svg></span>
+      </article>
+      <article class="meta-benefit-card">
+        <span class="meta-benefit-num">05</span><span class="meta-benefit-kicker">픽셀·CAPI·도메인·Audience</span>
+        <strong class="meta-benefit-value"><mark>광고 데이터 100%</mark> 고객 소유</strong>
+        <span class="meta-benefit-art" aria-hidden="true"><svg><use href="#i-check"/></svg></span>
+      </article>
+      <article class="meta-benefit-card">
+        <span class="meta-benefit-num">06</span><span class="meta-benefit-kicker">기존 캠페인을 멈추지 않고</span>
+        <strong class="meta-benefit-value"><mark>평균 1~2영업일</mark> 이전</strong>
+        <span class="meta-benefit-art" aria-hidden="true"><svg><use href="#i-plane"/></svg></span>
+      </article>
+    </div>
+  </div>
+</section>
 
 <!-- FEE TRUTH -->
 <section id="fee-truth" style="background:linear-gradient(180deg, #1a2548 0%, #2a3556 50%, #3a4566 100%);color:#fff;position:relative">
@@ -3689,7 +3810,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- STICKY MOBILE CTA -->
 <div class="sticky-mobile">
-  <a href="#apply" class="btn btn-lg hero-cta-primary">20초 무료 진단 신청 <svg class="phone-ic" viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.27.36-.66.25-1.01-.37-1.12-.57-2.32-.57-3.57 0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"/></svg></a>
+  <a href="#apply" class="btn btn-lg hero-cta-primary" data-cta-experiment><span data-cta-copy>무료 진단 신청</span> <svg class="phone-ic" viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.27.36-.66.25-1.01-.37-1.12-.57-2.32-.57-3.57 0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"/></svg></a>
 </div>
 
 <script>
@@ -3766,6 +3887,101 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   const LEAD_ENDPOINT = "/api/lead";   // Vercel Serverless Function 경로
   const URL_MAX = 5;                   // 다중 URL 입력 최대 개수
   // ========================================================
+
+  // CTA COPY EXPERIMENT — 방문자 고정 4분할, 세션 노출·클릭·백엔드 리드 성공 연결
+  const CTA_EXPERIMENT_KEY = 'partneragency_cta_copy_v1';
+  const CTA_VARIANTS = [
+    { key: 'a', copy: '무료 진단 신청' },
+    { key: 'b', copy: '지금 혜택 확인' },
+    { key: 'c', copy: '혜택 비교하기' },
+    { key: 'd', copy: '내 지원금 확인' },
+  ];
+
+  function ctaId(){
+    try { return crypto.randomUUID(); } catch(e) {
+      return Date.now().toString(36) + Math.random().toString(36).slice(2);
+    }
+  }
+
+  function getStoredId(storage, key){
+    try {
+      let value = storage.getItem(key);
+      if (!value) { value = ctaId(); storage.setItem(key, value); }
+      return value;
+    } catch(e) { return ctaId(); }
+  }
+
+  function sendCtaExperimentEvent(eventType, locationName, eventId){
+    const exp = window.__ctaExperiment;
+    if (!exp) return Promise.resolve();
+    return fetch('/api/cta-event', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      keepalive: true,
+      body: JSON.stringify({
+        event_id: eventId || ctaId(),
+        experiment_key: CTA_EXPERIMENT_KEY,
+        event_type: eventType,
+        variant_key: exp.variant.key,
+        visitor_id: exp.visitorId,
+        session_id: exp.sessionId,
+        location: locationName || 'landing',
+        page_path: location.pathname,
+      }),
+    }).catch(function(){ /* 분석 수집 실패가 랜딩 동작을 막지 않음 */ });
+  }
+
+  (function initCtaExperiment(){
+    let variantKey = '';
+    try { variantKey = localStorage.getItem(CTA_EXPERIMENT_KEY) || ''; } catch(e) {}
+    let variant = CTA_VARIANTS.find(function(item){ return item.key === variantKey; });
+    if (!variant) {
+      variant = CTA_VARIANTS[Math.floor(Math.random() * CTA_VARIANTS.length)];
+      try { localStorage.setItem(CTA_EXPERIMENT_KEY, variant.key); } catch(e) {}
+    }
+    const visitorId = getStoredId(localStorage, CTA_EXPERIMENT_KEY + ':visitor');
+    const sessionId = getStoredId(sessionStorage, CTA_EXPERIMENT_KEY + ':session');
+    window.__ctaExperiment = { variant: variant, visitorId: visitorId, sessionId: sessionId };
+    document.documentElement.dataset.ctaVariant = variant.key;
+    document.querySelectorAll('[data-cta-copy]').forEach(function(el){ el.textContent = variant.copy; });
+
+    const exposureEventId = CTA_EXPERIMENT_KEY + ':exposure:' + sessionId;
+    sendCtaExperimentEvent('exposure', 'landing', exposureEventId);
+    track('cta_experiment_exposure', { experiment_key: CTA_EXPERIMENT_KEY, cta_variant: variant.key, cta_copy: variant.copy });
+
+    document.querySelectorAll('[data-cta-experiment]').forEach(function(el){
+      el.addEventListener('click', function(){
+        const locationName = el.closest('.sticky-mobile') ? 'sticky_mobile'
+          : el.closest('.hero-ctas-new') ? 'hero_apply'
+          : el.closest('.nav-cta') ? 'navigation'
+          : el.closest('.deadline-strip') ? 'deadline_strip'
+          : 'in_page_apply';
+        sendCtaExperimentEvent('click', locationName);
+        track('cta_experiment_click', {
+          experiment_key: CTA_EXPERIMENT_KEY,
+          cta_variant: variant.key,
+          cta_copy: variant.copy,
+          location: locationName,
+        });
+      });
+    });
+  })();
+
+  (function initMetaBenefitCards(){
+    const grid = document.querySelector('.meta-benefit-grid');
+    if (!grid) return;
+    if (!('IntersectionObserver' in window) || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+      grid.classList.add('is-in');
+      return;
+    }
+    const observer = new IntersectionObserver(function(entries){
+      if (entries.some(function(entry){ return entry.isIntersecting; })) {
+        grid.classList.add('is-in');
+        observer.disconnect();
+      }
+    }, { threshold: 0.18 });
+    observer.observe(grid);
+  })();
 
   let calcMode = 'overseas'; // 'overseas' or 'domestic'
 
@@ -4348,6 +4564,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       submittedAt: new Date().toISOString(),
       source: document.referrer || 'direct',
       utm: location.search,
+      ctaExperiment: CTA_EXPERIMENT_KEY,
+      ctaVariant: window.__ctaExperiment ? window.__ctaExperiment.variant.key : '',
+      ctaVisitorId: window.__ctaExperiment ? window.__ctaExperiment.visitorId : '',
+      ctaSessionId: window.__ctaExperiment ? window.__ctaExperiment.sessionId : '',
+      ctaLeadEventId: CTA_EXPERIMENT_KEY + ':lead:' + (window.__ctaExperiment ? window.__ctaExperiment.sessionId : ctaId()),
     };
 
     try {
@@ -4371,6 +4592,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         url_count: urls.length,
         value: leadValue,
         currency: 'KRW',
+        experiment_key: data.ctaExperiment,
+        cta_variant: data.ctaVariant,
       });
       // 부모 페이지(Wix)에 전환 이벤트 전달 — GTM/픽셀 트래킹용 (기존 호환)
       window.parent.postMessage({ type: 'lead_submitted', data: { budget: data.budget, value: leadValue, industry: data.industry } }, '*');
