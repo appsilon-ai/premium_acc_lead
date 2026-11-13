@@ -276,6 +276,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* 신규 CTA 영역 */
   .hero-ctas-new{margin-top:36px;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+  .hero-media-marquee + .hero-ctas-new{margin-top:24px}
   .hero-cta-primary{
     padding:18px 36px !important;
     font-size:17px !important;
@@ -335,24 +336,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .hero-cta-sub{font-size:13.5px;color:#cfd6e4;font-weight:500}
 
-  /* 지원 매체 로고 — CTA 아래 한 줄 무한 슬라이더 */
+  /* 지원 매체 로고 — CTA 위, 프레임 없이 끊김 없이 흐르는 무한 트랙 */
   .hero-media-marquee{
-    width:min(560px,100%);margin-top:18px;overflow:hidden;position:relative;
-    border:1px solid rgba(255,255,255,.12);border-radius:14px;
-    background:rgba(255,255,255,.055);backdrop-filter:blur(10px)
+    width:min(680px,100%);margin:32px 0 0;overflow:hidden;position:relative;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%);
+    mask-image:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%)
   }
-  .hero-media-marquee::before,.hero-media-marquee::after{
-    content:'';position:absolute;z-index:2;top:0;bottom:0;width:54px;pointer-events:none
-  }
-  .hero-media-marquee::before{left:0;background:linear-gradient(90deg,#111a31,transparent)}
-  .hero-media-marquee::after{right:0;background:linear-gradient(-90deg,#111a31,transparent)}
-  .hero-media-track{display:flex;width:max-content;align-items:center;animation:heroMediaSlide 28s linear infinite;will-change:transform}
-  .hero-media-cell{width:112px;height:58px;display:grid;place-items:center;padding:13px 18px;flex:0 0 auto}
-  .hero-media-cell img{display:block;width:100%;height:100%;object-fit:contain;filter:grayscale(1) brightness(2.5);opacity:.78}
-  .hero-media-cell img[data-dark-logo]{filter:grayscale(1) brightness(3.2)}
+  .hero-media-track{display:flex;width:max-content;align-items:center;animation:heroMediaSlide 24s linear infinite;will-change:transform}
+  .hero-media-loop{display:flex;align-items:center;flex:0 0 auto}
+  .hero-media-cell{width:118px;height:38px;display:grid;place-items:center;padding:5px 15px;flex:0 0 auto}
+  .hero-media-cell img{display:block;width:auto;height:auto;max-width:88px;max-height:24px;object-fit:contain;filter:grayscale(1) brightness(0) invert(1);opacity:.76}
+  .hero-media-cell[data-brand="meta"] img{max-width:92px;max-height:20px}
+  .hero-media-cell[data-brand="google"] img{max-width:78px;max-height:25px}
+  .hero-media-cell[data-brand="tiktok"] img{max-width:84px;max-height:24px}
+  .hero-media-cell[data-brand="naver"] img{max-width:90px;max-height:18px}
+  .hero-media-cell[data-brand="kakao"] img{max-width:82px;max-height:23px}
+  .hero-media-cell[data-brand="toss"] img{max-width:86px;max-height:24px}
+  .hero-media-cell[data-brand="youtube"] img{max-width:34px;max-height:24px}
+  .hero-media-cell[data-brand="linkedin"] img{max-width:24px;max-height:24px}
   @keyframes heroMediaSlide{to{transform:translateX(-50%)}}
   @media (max-width:700px){
-    .hero-media-marquee{margin-top:14px}.hero-media-cell{width:96px;height:52px;padding:12px 15px}
+    .hero-media-marquee{width:100%;margin-top:24px}.hero-media-track{animation-duration:20s}.hero-media-cell{width:104px;height:34px;padding:5px 12px}
   }
 
   /* Meta 핵심 혜택 01–06 — 레퍼런스의 순차 진입을 B2B 톤으로 재해석 */
@@ -2675,29 +2679,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="hero-mega-sub">Meta · Google · TikTok 해외 매체 광고비 카드 결제 시 발생하는 수수료 + 놓치는 매체 보너스 크레딧 = <b>매월 10 ~ 15% 손실</b>. 1년이면 광고 담당자 한 명의 연봉이 사라집니다.</p>
       </div>
 
-      <div class="hero-ctas-new">
-        <a href="#apply" class="btn btn-lg hero-cta-primary" data-cta-experiment><span data-cta-copy>무료 진단 신청</span> →</a>
-      </div>
-
       <div class="hero-media-marquee" aria-label="APPSILON 취급 광고 매체">
         <div class="hero-media-track">
-          <div class="hero-media-cell"><img src="logos/meta.svg" alt="Meta" /></div>
-          <div class="hero-media-cell"><img src="logos/google.svg" alt="Google Ads" /></div>
-          <div class="hero-media-cell"><img src="logos/tiktok.svg" alt="TikTok For Business" /></div>
-          <div class="hero-media-cell"><img src="logos/naver.svg" alt="NAVER" /></div>
-          <div class="hero-media-cell"><img src="logos/kakao.svg" alt="Kakao" /></div>
-          <div class="hero-media-cell"><img src="logos/toss-ads.svg" alt="toss ads" /></div>
-          <div class="hero-media-cell"><img src="logos/youtube.svg" alt="YouTube" /></div>
-          <div class="hero-media-cell"><img src="logos/linkedin.svg" alt="LinkedIn Ads" /></div>
-          <div class="hero-media-cell" aria-hidden="true"><img src="logos/meta.svg" alt="" /></div>
-          <div class="hero-media-cell" aria-hidden="true"><img src="logos/google.svg" alt="" /></div>
-          <div class="hero-media-cell" aria-hidden="true"><img src="logos/tiktok.svg" alt="" /></div>
-          <div class="hero-media-cell" aria-hidden="true"><img src="logos/naver.svg" alt="" /></div>
-          <div class="hero-media-cell" aria-hidden="true"><img src="logos/kakao.svg" alt="" /></div>
-          <div class="hero-media-cell" aria-hidden="true"><img src="logos/toss-ads.svg" alt="" /></div>
-          <div class="hero-media-cell" aria-hidden="true"><img src="logos/youtube.svg" alt="" /></div>
-          <div class="hero-media-cell" aria-hidden="true"><img src="logos/linkedin.svg" alt="" /></div>
+          <div class="hero-media-loop">
+            <div class="hero-media-cell" data-brand="meta"><img src="logos/meta.svg" alt="Meta" /></div>
+            <div class="hero-media-cell" data-brand="google"><img src="logos/google.svg" alt="Google Ads" /></div>
+            <div class="hero-media-cell" data-brand="tiktok"><img src="logos/tiktok.svg" alt="TikTok For Business" /></div>
+            <div class="hero-media-cell" data-brand="naver"><img src="logos/naver.png" alt="NAVER" /></div>
+            <div class="hero-media-cell" data-brand="kakao"><img src="logos/kakao.svg" alt="Kakao" /></div>
+            <div class="hero-media-cell" data-brand="toss"><img src="logos/toss-ads.svg" alt="toss ads" /></div>
+            <div class="hero-media-cell" data-brand="youtube"><img src="logos/youtube.svg" alt="YouTube" /></div>
+            <div class="hero-media-cell" data-brand="linkedin"><img src="logos/linkedin.svg" alt="LinkedIn Ads" /></div>
+          </div>
+          <div class="hero-media-loop" aria-hidden="true">
+            <div class="hero-media-cell" data-brand="meta"><img src="logos/meta.svg" alt="" /></div>
+            <div class="hero-media-cell" data-brand="google"><img src="logos/google.svg" alt="" /></div>
+            <div class="hero-media-cell" data-brand="tiktok"><img src="logos/tiktok.svg" alt="" /></div>
+            <div class="hero-media-cell" data-brand="naver"><img src="logos/naver.png" alt="" /></div>
+            <div class="hero-media-cell" data-brand="kakao"><img src="logos/kakao.svg" alt="" /></div>
+            <div class="hero-media-cell" data-brand="toss"><img src="logos/toss-ads.svg" alt="" /></div>
+            <div class="hero-media-cell" data-brand="youtube"><img src="logos/youtube.svg" alt="" /></div>
+            <div class="hero-media-cell" data-brand="linkedin"><img src="logos/linkedin.svg" alt="" /></div>
+          </div>
         </div>
+      </div>
+
+      <div class="hero-ctas-new">
+        <a href="#apply" class="btn btn-lg hero-cta-primary" data-cta-experiment><span data-cta-copy>무료 진단 신청</span> →</a>
       </div>
 
       <div class="hero-trust-compact">

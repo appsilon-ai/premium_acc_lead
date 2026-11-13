@@ -32,6 +32,9 @@ test('Meta benefits and supported-media marquee keep the visual contract', () =>
     assert.match(html, new RegExp(`class="meta-benefit-num">${number}<`));
   }
   assert.equal((html.match(/class="hero-media-cell"/g) || []).length, 16);
+  assert.equal((html.match(/class="hero-media-loop"/g) || []).length, 2);
+  assert.ok(html.indexOf('class="hero-media-marquee"') < html.indexOf('class="hero-ctas-new"'), 'media marquee must render above the hero CTA');
+  assert.doesNotMatch(html, /\.hero-media-marquee\{[^}]*border:/);
   assert.match(html, /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.hero-media-track\{animation:none\}/);
 });
 
