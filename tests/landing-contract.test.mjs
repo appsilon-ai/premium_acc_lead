@@ -45,7 +45,8 @@ test('Meta benefits and supported-media marquee keep the visual contract', () =>
   assert.match(html, /\.hero-media-cell\[data-brand="toss"\] img\{[^}]*filter:grayscale\(1\) brightness\(0\) invert\(1\)/);
   assert.match(html, /META INVOICE AD-ACCOUNT/);
   assert.match(html, /Meta, Google 등<br \/>해외매체 광고계정 혜택/);
-  assert.match(html, /해외매체 카드결제 = <span class="loss-red">돈 새는 구멍<\/span>/);
+  assert.match(html, /해외매체 광고비 카드결제 = <span class="loss-red">돈새는 구멍<\/span>/);
+  assert.doesNotMatch(html, /해외매체 원화\(KRW\) 카드결제 = 돈먹는하마|해외매체 카드결제 = <span class="loss-red">돈 새는 구멍<\/span>/);
   assert.doesNotMatch(html, /Meta 광고비, 결제 방식만 바꿔도|해외 광고매체 월 광고비/);
   assert.match(html, /\.meta-benefits\{padding:46px 0 92px/);
   assert.match(html, /\.receipt h4\{[\s\S]*?font-size:17px/);
