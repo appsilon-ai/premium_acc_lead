@@ -33,6 +33,8 @@ test('Meta benefits and supported-media marquee keep the visual contract', () =>
   for (const number of ['01', '02', '03', '04', '05', '06']) {
     assert.match(html, new RegExp(`class="meta-benefit-num">${number}<`));
   }
+  assert.match(html, /class="meta-benefit-num">02<[\s\S]*?보너스 크레딧 <mark>2~8% 가능<\/mark>/);
+  assert.doesNotMatch(html, /보너스 크레딧 <mark>약 6% 가능<\/mark>/);
   assert.equal((html.match(/class="hero-media-cell"/g) || []).length, 16);
   assert.equal((html.match(/class="hero-media-loop"/g) || []).length, 2);
   assert.equal((html.match(/class="hero-media-lockup"/g) || []).length, 4);
