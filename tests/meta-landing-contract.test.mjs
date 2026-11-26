@@ -14,7 +14,7 @@ test('Meta landing reuses verified first-party operator and media assets', () =>
   for (const asset of ['../../logos/appsilon.png', '../../logos/meta.svg', '../../logos/google.svg', '../../logos/tiktok.svg']) {
     assert.ok(html.includes(asset), `missing asset ${asset}`);
   }
-  for (const copy of ['Meta Badged Marketing Partner', '앱실론코퍼레이션(주)', '810-81-01685', '2021-서울강남-04074']) {
+  for (const copy of ['앱실론코퍼레이션(주)', '810-81-01685', '2021-서울강남-04074']) {
     assert.ok(html.includes(copy), `missing operator proof ${copy}`);
   }
 });
@@ -54,12 +54,23 @@ test('Meta landing keeps a visual credit-card receipt example', () => {
 test('Meta landing renders the complete media list with image assets', () => {
   const mediaSection = html.match(/<section class="snap-section" id="media"[\s\S]*?<\/section>/)?.[0] || '';
   assert.equal((mediaSection.match(/class="media-logo"/g) || []).length, 20);
-  assert.ok((mediaSection.match(/<img /g) || []).length >= 22);
-  assert.match(mediaSection, /Meta Badged Marketing Partner/);
-  assert.match(mediaSection, /앱실론코퍼레이션\(주\) 공식 운영/);
+  assert.equal((mediaSection.match(/<img /g) || []).length, 20);
+  assert.equal((mediaSection.match(/class="media-benefit"/g) || []).length, 20);
+  assert.match(mediaSection, /보너스 약 6%/);
+  assert.match(mediaSection, /보너스 약 5%/);
+  assert.match(mediaSection, /보너스 4~7%/);
+  assert.match(mediaSection, /보너스 <b>약 14%/);
+  assert.match(mediaSection, /할인 <b>최대 14%/);
+  assert.doesNotMatch(mediaSection, /Meta Badged Marketing Partner/);
+  assert.doesNotMatch(mediaSection, /appsilon\.png|APPSILON|앱실론코퍼레이션/);
   assert.doesNotMatch(html, /id="operator"/);
   assert.doesNotMatch(mediaSection, /text-logo/);
   for (const asset of ['yahoo.svg', 'youtube.svg', 'line.jpg', 'amazon.svg', 'reddit.svg', 'apple.svg', 'kt-townboard.png', 'focus-media.svg', 'unity-ads.svg', 'mediameet.svg']) {
     assert.ok(mediaSection.includes(asset), `missing full-list asset ${asset}`);
   }
+});
+
+test('Meta landing keeps section headlines compact on mobile', () => {
+  assert.match(html, /@media \(max-width:640px\)\{\.snap-section h2\{font-size:25px\}\}/);
+  assert.match(html, /@media \(max-width:360px\)\{\.snap-section h2\{font-size:22px\}\}/);
 });
