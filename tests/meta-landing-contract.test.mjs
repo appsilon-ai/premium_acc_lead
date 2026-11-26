@@ -34,3 +34,28 @@ test('Meta landing has responsive and reduced-motion safeguards', () => {
   assert.match(html, /formRect\.top>innerHeight/);
   assert.match(html, /overflow-x:hidden/);
 });
+
+test('Meta landing uses one-step section navigation', () => {
+  assert.equal((html.match(/class="snap-section/g) || []).length, 9);
+  assert.match(html, /scroll-snap-type:y mandatory/);
+  assert.match(html, /scroll-snap-stop:always/);
+  assert.match(html, /activeIndex\+direction/);
+  assert.match(html, /wheelLock=true/);
+});
+
+test('Meta landing keeps a visual credit-card receipt example', () => {
+  assert.match(html, /id="receipt"/);
+  assert.match(html, /신용카드 청구내역/);
+  assert.match(html, /3792-20\*\*-\*\*\*\*-\*\*021/);
+  assert.match(html, /최종 청구 금액/);
+});
+
+test('Meta landing renders the complete media list with image assets', () => {
+  const mediaSection = html.match(/<section class="snap-section" id="media"[\s\S]*?<\/section>/)?.[0] || '';
+  assert.equal((mediaSection.match(/class="media-logo"/g) || []).length, 20);
+  assert.equal((mediaSection.match(/<img /g) || []).length, 21);
+  assert.doesNotMatch(mediaSection, /text-logo/);
+  for (const asset of ['yahoo.svg', 'youtube.svg', 'line.jpg', 'amazon.svg', 'reddit.svg', 'apple.svg', 'kt-townboard.png', 'focus-media.svg', 'unity-ads.svg', 'mediameet.svg']) {
+    assert.ok(mediaSection.includes(asset), `missing full-list asset ${asset}`);
+  }
+});
