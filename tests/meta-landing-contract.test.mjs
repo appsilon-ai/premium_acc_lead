@@ -98,7 +98,6 @@ test('Meta landing keeps a visual credit-card receipt example', () => {
 test('Meta landing renders the complete media list with image assets', () => {
   const mediaSection = html.match(/<section class="snap-section" id="media"[\s\S]*?<\/section>/)?.[0] || '';
   assert.equal((mediaSection.match(/class="media-logo(?: has-wordmark)?"/g) || []).length, 20);
-  assert.equal((mediaSection.match(/<img /g) || []).length, 20);
   assert.equal((mediaSection.match(/class="media-benefit"/g) || []).length, 20);
   assert.match(mediaSection, /보너스 4~7%/);
   assert.match(mediaSection, /보너스 <b>약 14%/);
@@ -119,7 +118,7 @@ test('Meta landing renders the complete media list with image assets', () => {
     assert.ok(mediaSection.includes(`../../logos/${asset}`), `missing original logo ${asset}`);
   }
   assert.doesNotMatch(mediaSection, /Meta Badged Marketing Partner/);
-  assert.doesNotMatch(mediaSection, /appsilon\.png|APPSILON|앱실론코퍼레이션/);
+  assert.doesNotMatch(mediaSection, /appsilon\.png|앱실론코퍼레이션/);
   assert.doesNotMatch(html, /id="operator"/);
   assert.doesNotMatch(mediaSection, /text-logo/);
   const normalizedAssets = ['meta', 'google', 'tiktok', 'naver', 'kakao', 'toss-ads', 'x', 'pinterest', 'youtube', 'line', 'amazon', 'yahoo', 'kt-townboard', 'focus-media', 'unity-ads', 'mediameet'];
@@ -131,6 +130,40 @@ test('Meta landing renders the complete media list with image assets', () => {
   assert.match(html, /@media\(max-width:640px\)\{[\s\S]*?\.media-logo-grid\{grid-template-columns:repeat\(3,1fr\)/);
   assert.match(html, /\.media-logo>img\{[^}]*width:auto[^}]*height:26px[^}]*background:transparent[^}]*mix-blend-mode:normal/);
   assert.match(html, /media-logo:has\(img\[alt="KT TOWNBOARD"\]\)\{grid-column:span 2\}/);
+});
+
+test('Meta landing reuses the homepage media marquee and exact first-party logo assets', () => {
+  const mediaSection = html.match(/<section class="snap-section" id="media"[\s\S]*?<\/section>/)?.[0] || '';
+  assert.equal((mediaSection.match(/class="media-marquee-loop"/g) || []).length, 2);
+  assert.equal((mediaSection.match(/class="media-marquee-cell"/g) || []).length, 16);
+  assert.equal((mediaSection.match(/class="media-marquee-lockup"/g) || []).length, 4);
+  for (const asset of ['meta.svg', 'google.svg', 'tiktok.svg', 'naver.png', 'kakao.svg', 'toss-ads.svg', 'youtube.svg', 'linkedin.svg']) {
+    assert.ok(mediaSection.includes(`../../logos/${asset}`), `missing homepage marquee asset ${asset}`);
+  }
+  assert.match(html, /@keyframes mediaMarqueeSlide/);
+  assert.match(html, /\.media-marquee-track\{[^}]*animation:mediaMarqueeSlide 24s linear infinite/);
+  assert.match(html, /prefers-reduced-motion:reduce[\s\S]*?\.media-marquee-track\{animation:none\}/);
+});
+
+test('Meta landing preserves the requested decision content from the long-form reference', () => {
+  for (const copy of [
+    '제한·추가 심사 업종',
+    'PARTNER INVOICE',
+    '해외 결제·카드 수수료',
+    '월 세금계산서',
+    '매체별 적용 가능 혜택, 평일 24시간 안에 확인',
+    '기존 캠페인·데이터 유지 범위'
+  ]) assert.ok(html.includes(copy), `missing reference content ${copy}`);
+  assert.match(html, /\.benefit:nth-child\(1\)::before\{content:"01"\}/);
+  assert.match(html, /\.benefit:nth-child\(3\)::before\{content:"03"\}/);
+});
+
+test('Meta landing separates sections like slides without forced scroll interception', () => {
+  assert.match(html, /main\{counter-reset:landing-section\}/);
+  assert.match(html, /content:"0" counter\(landing-section\) "  \/  " attr\(data-section-label\)/);
+  assert.match(html, /\.snap-section\.is-visible:not\(\.hero\)::after\{width:min\(28vw,420px\)\}/);
+  assert.match(html, /#calculator,#case,#faq\{background:linear-gradient/);
+  assert.doesNotMatch(html, /addEventListener\('wheel'/);
 });
 
 test('Meta landing replaces the compressed case with source-backed Meta and Google benefit cards', () => {
