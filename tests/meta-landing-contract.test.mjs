@@ -11,7 +11,7 @@ test('Meta landing keeps one clear proposition and one semantic H1', () => {
 });
 
 test('Meta landing reuses verified first-party operator and media assets', () => {
-  for (const asset of ['../../logos/appsilon.png', '../../logos/meta.svg', '../../logos/google.svg', '../../logos/tiktok.svg']) {
+  for (const asset of ['../../logos/appsilon.png', '../../logos/meta.svg', '../../logos/google.svg', '../../logos/media-cutout-v1/tiktok.png']) {
     assert.ok(html.includes(asset), `missing asset ${asset}`);
   }
   for (const copy of ['앱실론코퍼레이션(주)', '810-81-01685', '2021-서울강남-04074']) {
@@ -82,8 +82,24 @@ test('Meta landing renders the complete media list with image assets', () => {
   assert.doesNotMatch(mediaSection, /appsilon\.png|APPSILON|앱실론코퍼레이션/);
   assert.doesNotMatch(html, /id="operator"/);
   assert.doesNotMatch(mediaSection, /text-logo/);
-  for (const asset of ['yahoo.svg', 'youtube.svg', 'line.jpg', 'amazon.svg', 'reddit.svg', 'apple.svg', 'kt-townboard.png', 'focus-media.svg', 'unity-ads.svg', 'mediameet.svg']) {
-    assert.ok(mediaSection.includes(asset), `missing full-list asset ${asset}`);
+  const normalizedAssets = ['meta', 'google', 'tiktok', 'naver', 'kakao', 'toss-ads', 'x', 'linkedin', 'pinterest', 'snapchat', 'youtube', 'line', 'amazon', 'reddit', 'apple', 'yahoo', 'kt-townboard', 'focus-media', 'unity-ads', 'mediameet'];
+  for (const asset of normalizedAssets) {
+    assert.ok(mediaSection.includes(`../../logos/media-cutout-v1/${asset}.png`), `missing normalized asset ${asset}`);
+  }
+  assert.doesNotMatch(mediaSection, /class="(?:compact|tall)"|line\.jpg/);
+  assert.match(html, /\.media-logo-grid\{[^}]*grid-template-columns:repeat\(4,1fr\)/);
+  assert.match(html, /@media\(max-width:640px\)\{[\s\S]*?\.media-logo-grid\{grid-template-columns:repeat\(3,1fr\)/);
+  assert.match(html, /\.media-logo img\{[^}]*width:auto[^}]*height:26px[^}]*background:transparent[^}]*mix-blend-mode:normal/);
+  assert.match(html, /media-logo:has\(img\[alt="KT TOWNBOARD"\]\)\{grid-column:span 2\}/);
+});
+
+test('Normalized media cutouts are valid transparent PNG files', async () => {
+  const assets = ['meta', 'google', 'tiktok', 'naver', 'kakao', 'toss-ads', 'x', 'linkedin', 'pinterest', 'snapchat', 'youtube', 'line', 'amazon', 'reddit', 'apple', 'yahoo', 'kt-townboard', 'focus-media', 'unity-ads', 'mediameet'];
+  const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+  for (const asset of assets) {
+    const file = await readFile(new URL(`../logos/media-cutout-v1/${asset}.png`, import.meta.url));
+    assert.deepEqual(file.subarray(0, 8), pngSignature, `invalid PNG signature for ${asset}`);
+    assert.equal(file[25], 6, `missing RGBA color type for ${asset}`);
   }
 });
 
