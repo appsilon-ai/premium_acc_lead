@@ -6,7 +6,9 @@ const html = await readFile(new URL('../lp/meta/index.html', import.meta.url), '
 
 test('Meta landing keeps one clear proposition and one semantic H1', () => {
   assert.equal((html.match(/<h1>/g) || []).length, 1);
-  assert.match(html, /Meta 광고비,[\s\S]*해외 결제 수수료 5%는 줄이고, 보너스 크레딧 3%는 더 받으세요/);
+  assert.equal((html.match(/class="hero-line"/g) || []).length, 3);
+  assert.match(html, /Meta 광고비, 해외 결제[\s\S]*수수료 5%는 줄이고, 보너스[\s\S]*크레딧 3%는 더 받으세요/);
+  assert.doesNotMatch(html, /logo-lockup appsilon/);
   assert.doesNotMatch(html, /내 지원금 확인|내 돈 찾으러 가기/);
 });
 
@@ -69,9 +71,10 @@ test('Meta landing uses an authentic code-native account console without synthet
   assert.match(html, /파트너 계정 운영 현황/);
   assert.match(html, /Meta 광고계정/);
   assert.match(html, /이번 달 광고비/);
-  assert.match(html, /절감한 해외 결제 수수료<\/small><strong>₩5,000,000<\/strong><em>절감률 5\.0%/);
-  assert.match(html, /예상 보너스 크레딧<\/small><strong>₩3,000,000<\/strong><em>보너스율 3\.0%/);
-  assert.match(html, /\.console-account-logo\{[^}]*width:86px[^}]*height:46px/);
+  assert.match(html, /절감한 해외 결제 수수료<\/small><strong>\+₩5,000,000<\/strong><em>절감률 5\.0%/);
+  assert.match(html, /예상 보너스 크레딧<\/small><strong>\+₩3,000,000<\/strong><em>보너스율 3\.0%/);
+  assert.match(html, /\.console-account-logo\{border:0;background:transparent\}/);
+  assert.match(html, /\.console-kpi\.gain strong\{color:#18845b\}/);
   assert.match(html, /\.console-account-logo img\{width:68px;height:24px;object-fit:contain\}/);
   assert.match(html, /파트너 인보이스/);
   assert.match(html, /캠페인 · 픽셀 · 데이터/);
@@ -96,6 +99,9 @@ test('Meta landing keeps a visual credit-card receipt example', () => {
   assert.match(html, /3792-20\*\*-\*\*\*\*-\*\*021/);
   assert.match(html, /최종 청구 금액/);
   assert.match(html, /해외 광고비 카드 이용 명세/);
+  assert.match(html, /MONTHLY CARD STATEMENT/);
+  assert.match(html, /청구 기준일/);
+  assert.match(html, /카드 번호/);
   for (const network of ['visa.svg', 'mastercard.svg', 'unionpay.svg', 'amex.svg']) {
     assert.ok(html.includes(`../../logos/${network}`), `missing card network ${network}`);
   }
@@ -137,6 +143,8 @@ test('Meta landing renders the complete media list with image assets', () => {
   assert.match(html, /\.media-logo-grid\{[^}]*grid-template-columns:repeat\(4,1fr\)/);
   assert.match(html, /@media\(max-width:640px\)\{[\s\S]*?\.media-logo-grid\{grid-template-columns:repeat\(3,1fr\)/);
   assert.match(html, /\.media-logo>img\{[^}]*width:auto[^}]*height:26px[^}]*background:transparent[^}]*mix-blend-mode:normal/);
+  assert.match(html, /img\[alt="Meta"\]\{--logo-h:21px\}/);
+  assert.match(html, /img\[alt="NAVER"\]\{--logo-h:20px\}/);
   assert.match(html, /\.media-brand-lockup img\{width:26px;height:26px[^}]*background:transparent[^}]*mix-blend-mode:normal/);
   assert.match(html, /@media\(max-width:640px\)\{[\s\S]*?\.media-logo>img\{height:18px\}[\s\S]*?\.media-brand-lockup img\{width:18px;height:18px\}/);
   assert.match(html, /media-logo:has\(img\[alt="KT TOWNBOARD"\]\)\{grid-column:span 2\}/);
@@ -166,9 +174,11 @@ test('Meta landing preserves the requested decision content from the long-form r
   ]) assert.ok(html.includes(copy), `missing reference content ${copy}`);
   assert.match(html, /\.benefit:nth-child\(1\)::before\{content:"01"\}/);
   assert.match(html, /\.benefit:nth-child\(3\)::before\{content:"03"\}/);
-  for (const illustration of ['benefit-continuity', 'benefit-data', 'benefit-invoice']) {
-    assert.ok(html.includes(`id="${illustration}"`), `missing benefit illustration ${illustration}`);
+  for (const illustration of ['benefit-continuity-live1-v1.png', 'benefit-data-live1-v1.png', 'benefit-invoice-live1-v1.png']) {
+    assert.ok(html.includes(`assets/${illustration}`), `missing benefit illustration ${illustration}`);
   }
+  assert.doesNotMatch(html, /광고계정과 결제 방식만 바꾸고/);
+  assert.match(html, /\.benefit-icon\{[^}]*background:transparent[^}]*box-shadow:none/);
   assert.equal((html.match(/class="benefit-copy"/g) || []).length, 3);
   assert.match(html, /\.js \.benefit\{[^}]*translate3d\(0,76px,0\)[^}]*scale\(\.96\)/);
   assert.match(html, /@keyframes benefitNumberPop/);
@@ -222,6 +232,16 @@ test('Normalized media cutouts are valid transparent PNG files', async () => {
   const toss = await readFile(new URL('../logos/toss.png', import.meta.url));
   assert.deepEqual(toss.subarray(0, 8), pngSignature, 'invalid official Toss PNG');
   assert.equal(toss[25], 6, 'official Toss logo must retain RGBA transparency');
+});
+
+test('BillyJo-style benefit cutouts are valid transparent PNG files', async () => {
+  const assets = ['benefit-continuity-live1-v1', 'benefit-data-live1-v1', 'benefit-invoice-live1-v1'];
+  const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+  for (const asset of assets) {
+    const file = await readFile(new URL(`../lp/meta/assets/${asset}.png`, import.meta.url));
+    assert.deepEqual(file.subarray(0, 8), pngSignature, `invalid PNG signature for ${asset}`);
+    assert.equal(file[25], 6, `missing RGBA color type for ${asset}`);
+  }
 });
 
 test('Credit-card network logos are valid SVG files', async () => {
