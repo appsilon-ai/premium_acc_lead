@@ -6,7 +6,7 @@ const html = await readFile(new URL('../lp/meta/index.html', import.meta.url), '
 
 test('Meta landing keeps one clear proposition and one semantic H1', () => {
   assert.equal((html.match(/<h1>/g) || []).length, 1);
-  assert.match(html, /Meta 광고비,[\s\S]*카드 비용 5%를 줄이고 보너스 3%를 더 받으세요/);
+  assert.match(html, /Meta 광고비,[\s\S]*해외 결제 수수료 5%는 줄이고, 보너스 크레딧 3%는 더 받으세요/);
   assert.doesNotMatch(html, /내 지원금 확인|내 돈 찾으러 가기/);
 });
 
@@ -66,9 +66,13 @@ test('Meta landing uses natural scrolling, calm reveal motion, and a top progres
 
 test('Meta landing uses an authentic code-native account console without synthetic hero media', () => {
   assert.match(html, /class="hero-console"/);
-  assert.match(html, /PARTNER ACCOUNT CONSOLE/);
+  assert.match(html, /파트너 계정 운영 현황/);
   assert.match(html, /Meta 광고계정/);
   assert.match(html, /이번 달 광고비/);
+  assert.match(html, /절감한 해외 결제 수수료<\/small><strong>₩5,000,000<\/strong><em>절감률 5\.0%/);
+  assert.match(html, /예상 보너스 크레딧<\/small><strong>₩3,000,000<\/strong><em>보너스율 3\.0%/);
+  assert.match(html, /\.console-account-logo\{[^}]*width:86px[^}]*height:46px/);
+  assert.match(html, /\.console-account-logo img\{width:68px;height:24px;object-fit:contain\}/);
   assert.match(html, /파트너 인보이스/);
   assert.match(html, /캠페인 · 픽셀 · 데이터/);
   assert.match(html, /class="console-chart"/);
@@ -91,7 +95,10 @@ test('Meta landing keeps a visual credit-card receipt example', () => {
   assert.match(html, /신용카드 청구내역/);
   assert.match(html, /3792-20\*\*-\*\*\*\*-\*\*021/);
   assert.match(html, /최종 청구 금액/);
-  assert.match(html, /CARD PAYMENT STATEMENT/);
+  assert.match(html, /해외 광고비 카드 이용 명세/);
+  for (const network of ['visa.svg', 'mastercard.svg', 'unionpay.svg', 'amex.svg']) {
+    assert.ok(html.includes(`../../logos/${network}`), `missing card network ${network}`);
+  }
   assert.match(html, /\.receipt::after\{[^}]*box-shadow/);
 });
 
@@ -129,6 +136,8 @@ test('Meta landing renders the complete media list with image assets', () => {
   assert.match(html, /\.media-logo-grid\{[^}]*grid-template-columns:repeat\(4,1fr\)/);
   assert.match(html, /@media\(max-width:640px\)\{[\s\S]*?\.media-logo-grid\{grid-template-columns:repeat\(3,1fr\)/);
   assert.match(html, /\.media-logo>img\{[^}]*width:auto[^}]*height:26px[^}]*background:transparent[^}]*mix-blend-mode:normal/);
+  assert.match(html, /\.media-brand-lockup img\{width:26px;height:26px[^}]*background:transparent[^}]*mix-blend-mode:normal/);
+  assert.match(html, /@media\(max-width:640px\)\{[\s\S]*?\.media-logo>img\{height:18px\}[\s\S]*?\.media-brand-lockup img\{width:18px;height:18px\}/);
   assert.match(html, /media-logo:has\(img\[alt="KT TOWNBOARD"\]\)\{grid-column:span 2\}/);
 });
 
@@ -148,14 +157,20 @@ test('Meta landing reuses the homepage media marquee and exact first-party logo 
 test('Meta landing preserves the requested decision content from the long-form reference', () => {
   for (const copy of [
     '제한·추가 심사 업종',
-    'PARTNER INVOICE',
+    '파트너 인보이스',
     '해외 결제·카드 수수료',
     '월 세금계산서',
-    '매체별 적용 가능 혜택, 평일 24시간 안에 확인',
+    '매체별 적용 가능 혜택, 평일 기준 24시간 이내 확인',
     '기존 캠페인·데이터 유지 범위'
   ]) assert.ok(html.includes(copy), `missing reference content ${copy}`);
   assert.match(html, /\.benefit:nth-child\(1\)::before\{content:"01"\}/);
   assert.match(html, /\.benefit:nth-child\(3\)::before\{content:"03"\}/);
+  for (const illustration of ['benefit-continuity', 'benefit-data', 'benefit-invoice']) {
+    assert.ok(html.includes(`id="${illustration}"`), `missing benefit illustration ${illustration}`);
+  }
+  assert.equal((html.match(/class="benefit-copy"/g) || []).length, 3);
+  assert.match(html, /\.js \.benefit\{[^}]*opacity:0[^}]*translate3d\(0,34px,0\)[^}]*scale\(\.97\)/);
+  assert.match(html, /prefers-reduced-motion:reduce[\s\S]*?\.js \.benefit,\.js \.is-visible \.benefit\{[^}]*opacity:1/);
 });
 
 test('Meta landing separates sections like slides without forced scroll interception', () => {
@@ -169,10 +184,20 @@ test('Meta landing separates sections like slides without forced scroll intercep
 test('Meta landing replaces the compressed case with source-backed Meta and Google benefit cards', () => {
   const benefitSection = html.match(/<section class="snap-section section-soft" id="case"[\s\S]*?<\/section>/)?.[0] || '';
   assert.equal((benefitSection.match(/class="channel-benefit-card"/g) || []).length, 2);
-  for (const copy of ['ACCOUNT RENTAL BENEFITS', 'Meta와 Google', '카드 비용 절감', '보너스 크레딧', '최대 8%', '최대 7%', '계정임대 서비스 소개서']) {
+  for (const copy of ['Meta와 Google', '해외 결제 수수료 절감', '보너스 크레딧', '최대 8%', '최대 7%', '기존 캠페인·데이터 자산 유지']) {
     assert.ok(benefitSection.includes(copy), `missing benefit copy ${copy}`);
   }
   assert.doesNotMatch(benefitSection, /ANONYMIZED CASE|₩500,800,030|5\.96%/);
+});
+
+test('Meta landing uses Korean-only section headings and polished Korean labels', () => {
+  assert.equal((html.match(/class="kicker"/g) || []).length, 0);
+  for (const oldHeading of ['RECEIPT &amp; SAVINGS', 'MEDIA BENEFITS', 'PAYMENT STRUCTURE', 'ACCOUNT RENTAL BENEFITS', 'FREE DIAGNOSIS', '>FAQ<']) {
+    assert.ok(!html.includes(oldHeading), `obsolete English section heading remains: ${oldHeading}`);
+  }
+  for (const copy of ['지원 매체', '자주 묻는 질문', '광고비 절감 가능액을 무료로 확인하세요.']) {
+    assert.ok(html.includes(copy), `missing Korean label ${copy}`);
+  }
 });
 
 test('Meta landing uses current Meta calculator rates and compact mobile content-height sections', () => {
@@ -190,6 +215,14 @@ test('Normalized media cutouts are valid transparent PNG files', async () => {
     const file = await readFile(new URL(`../logos/media-cutout-v1/${asset}.png`, import.meta.url));
     assert.deepEqual(file.subarray(0, 8), pngSignature, `invalid PNG signature for ${asset}`);
     assert.equal(file[25], 6, `missing RGBA color type for ${asset}`);
+  }
+});
+
+test('Credit-card network logos are valid SVG files', async () => {
+  for (const asset of ['mastercard', 'unionpay']) {
+    const file = await readFile(new URL(`../logos/${asset}.svg`, import.meta.url), 'utf8');
+    assert.match(file, /<svg\b/);
+    assert.ok(file.length > 300, `unexpectedly small SVG for ${asset}`);
   }
 });
 
