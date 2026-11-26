@@ -64,18 +64,26 @@ test('Meta landing uses natural scrolling, calm reveal motion, and a top progres
   assert.doesNotMatch(html, /wheelLock=true/);
 });
 
-test('Meta landing uses a vivid hero video, floating benefit cards, and animated payment flow', () => {
-  assert.match(html, /class="hero-visual"/);
-  assert.match(html, /<video autoplay muted loop playsinline/);
-  assert.match(html, /operations-hero-v1\.mp4/);
-  assert.match(html, /operations-hero-v1\.jpg/);
-  assert.equal((html.match(/class="visual-rate-card/g) || []).length, 2);
-  assert.match(html, /VISUALIZED EXAMPLE · 시각화 예시/);
+test('Meta landing uses an authentic code-native account console without synthetic hero media', () => {
+  assert.match(html, /class="hero-console"/);
+  assert.match(html, /PARTNER ACCOUNT CONSOLE/);
+  assert.match(html, /Meta 광고계정/);
+  assert.match(html, /이번 달 광고비/);
+  assert.match(html, /파트너 인보이스/);
+  assert.match(html, /캠페인 · 픽셀 · 데이터/);
+  assert.match(html, /class="console-chart"/);
+  assert.match(html, /@keyframes chartDraw/);
+  assert.match(html, /Google Ads 연결 가능/);
+  assert.doesNotMatch(html, /<video/);
+  assert.doesNotMatch(html, /operations-hero-v1\.(?:mp4|jpg)/);
+  assert.doesNotMatch(html, /hero-video-frame|visual-rate-card|cardFloat|visualGlow/);
   assert.match(html, /class="payment-flow"/);
   assert.equal((html.match(/class="flow-node"/g) || []).length, 3);
-  assert.match(html, /@keyframes cardFloat/);
   assert.match(html, /@keyframes flowMove/);
-  assert.match(html, /video\[autoplay\]/);
+  for (const cta of ['cta-header-diagnosis', 'cta-hero-calculator', 'cta-hero-structure', 'cta-sticky-diagnosis']) {
+    assert.match(html, new RegExp(`id="${cta}"`));
+  }
+  assert.equal((html.match(/data-cta-position=/g) || []).length, 4);
 });
 
 test('Meta landing keeps a visual credit-card receipt example', () => {
