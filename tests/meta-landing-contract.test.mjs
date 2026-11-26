@@ -175,7 +175,7 @@ test('Meta landing preserves the requested decision content from the long-form r
   assert.match(html, /\.benefit:nth-child\(1\)::before\{content:"01"\}/);
   assert.match(html, /\.benefit:nth-child\(3\)::before\{content:"03"\}/);
   for (const illustration of ['benefit-continuity-live1-v1.png', 'benefit-data-live1-v1.png', 'benefit-invoice-live1-v1.png']) {
-    assert.ok(html.includes(`assets/${illustration}`), `missing benefit illustration ${illustration}`);
+    assert.ok(html.includes(`/lp/meta/assets/${illustration}`), `missing production-safe benefit illustration path ${illustration}`);
   }
   assert.doesNotMatch(html, /광고계정과 결제 방식만 바꾸고/);
   assert.match(html, /\.benefit-icon\{[^}]*background:transparent[^}]*box-shadow:none/);
