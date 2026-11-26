@@ -53,12 +53,29 @@ test('Meta landing has responsive and reduced-motion safeguards', () => {
   assert.match(html, /rel="icon"[^>]+logos\/appsilon\.png/);
 });
 
-test('Meta landing uses one-step section navigation', () => {
+test('Meta landing uses natural scrolling, calm reveal motion, and a top progress line', () => {
   assert.equal((html.match(/class="snap-section/g) || []).length, 7);
-  assert.match(html, /scroll-snap-type:y mandatory/);
-  assert.match(html, /scroll-snap-stop:always/);
-  assert.match(html, /activeIndex\+direction/);
-  assert.match(html, /wheelLock=true/);
+  assert.match(html, /class="page-progress"/);
+  assert.match(html, /scroll-snap-type:none/);
+  assert.match(html, /revealObserver/);
+  assert.match(html, /updatePageProgress/);
+  assert.doesNotMatch(html, /class="section-rail"/);
+  assert.doesNotMatch(html, /addEventListener\('wheel'/);
+  assert.doesNotMatch(html, /wheelLock=true/);
+});
+
+test('Meta landing uses a vivid hero video, floating benefit cards, and animated payment flow', () => {
+  assert.match(html, /class="hero-visual"/);
+  assert.match(html, /<video autoplay muted loop playsinline/);
+  assert.match(html, /operations-hero-v1\.mp4/);
+  assert.match(html, /operations-hero-v1\.jpg/);
+  assert.equal((html.match(/class="visual-rate-card/g) || []).length, 2);
+  assert.match(html, /VISUALIZED EXAMPLE · 시각화 예시/);
+  assert.match(html, /class="payment-flow"/);
+  assert.equal((html.match(/class="flow-node"/g) || []).length, 3);
+  assert.match(html, /@keyframes cardFloat/);
+  assert.match(html, /@keyframes flowMove/);
+  assert.match(html, /video\[autoplay\]/);
 });
 
 test('Meta landing keeps a visual credit-card receipt example', () => {
@@ -121,7 +138,7 @@ test('Meta landing uses current Meta calculator rates and compact mobile content
   assert.match(html, /annualFee=Math\.round\(budget\*\.05\*12\)/);
   assert.match(html, /annualBonus=Math\.round\(budget\*\.03\*12\)/);
   assert.match(html, /renderCalculator\(range\.value\)/);
-  assert.match(html, /html\{scroll-snap-type:y proximity\}/);
+  assert.match(html, /html\{scroll-snap-type:none/);
   assert.match(html, /snap-section:not\(\.hero\):not\(\.apply\)\{min-height:auto/);
 });
 
