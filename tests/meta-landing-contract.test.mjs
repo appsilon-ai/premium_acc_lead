@@ -112,7 +112,7 @@ test('Meta landing renders the complete media list with image assets', () => {
   for (const latestRate of [
     '절감 <b>5%</b> · 보너스 <b>3%</b>',
     '절감 <b>5%</b> · 보너스 <b>2%</b>',
-    '리베이트 <b>최대 10%</b>',
+    '절감 <b>5%</b> · 리워드 <b>8%</b>',
     '리베이트 <b>최대 15%</b>'
   ]) assert.ok(mediaSection.includes(latestRate), `missing latest rate ${latestRate}`);
   for (const [wordmark, asset] of [
@@ -128,10 +128,11 @@ test('Meta landing renders the complete media list with image assets', () => {
   assert.doesNotMatch(mediaSection, /appsilon\.png|앱실론코퍼레이션/);
   assert.doesNotMatch(html, /id="operator"/);
   assert.doesNotMatch(mediaSection, /text-logo/);
-  const normalizedAssets = ['meta', 'google', 'tiktok', 'naver', 'kakao', 'toss-ads', 'x', 'pinterest', 'youtube', 'line', 'amazon', 'yahoo', 'kt-townboard', 'focus-media', 'unity-ads', 'mediameet'];
+  const normalizedAssets = ['meta', 'google', 'tiktok', 'naver', 'kakao', 'x', 'pinterest', 'youtube', 'line', 'amazon', 'yahoo', 'kt-townboard', 'focus-media', 'unity-ads', 'mediameet'];
   for (const asset of normalizedAssets) {
     assert.ok(mediaSection.includes(`../../logos/media-cutout-v1/${asset}.png`), `missing normalized asset ${asset}`);
   }
+  assert.ok(mediaSection.includes('../../logos/toss.png'), 'missing official Toss wordmark');
   assert.doesNotMatch(mediaSection, /class="(?:compact|tall)"|line\.jpg/);
   assert.match(html, /\.media-logo-grid\{[^}]*grid-template-columns:repeat\(4,1fr\)/);
   assert.match(html, /@media\(max-width:640px\)\{[\s\S]*?\.media-logo-grid\{grid-template-columns:repeat\(3,1fr\)/);
@@ -146,7 +147,7 @@ test('Meta landing reuses the homepage media marquee and exact first-party logo 
   assert.equal((mediaSection.match(/class="media-marquee-loop"/g) || []).length, 2);
   assert.equal((mediaSection.match(/class="media-marquee-cell"/g) || []).length, 16);
   assert.equal((mediaSection.match(/class="media-marquee-lockup"/g) || []).length, 4);
-  for (const asset of ['meta.svg', 'google.svg', 'tiktok.svg', 'naver.png', 'kakao.svg', 'toss-ads.svg', 'youtube.svg', 'linkedin.svg']) {
+  for (const asset of ['meta.svg', 'google.svg', 'tiktok.svg', 'naver.png', 'kakao.svg', 'toss.png', 'youtube.svg', 'linkedin.svg']) {
     assert.ok(mediaSection.includes(`../../logos/${asset}`), `missing homepage marquee asset ${asset}`);
   }
   assert.match(html, /@keyframes mediaMarqueeSlide/);
@@ -169,7 +170,9 @@ test('Meta landing preserves the requested decision content from the long-form r
     assert.ok(html.includes(`id="${illustration}"`), `missing benefit illustration ${illustration}`);
   }
   assert.equal((html.match(/class="benefit-copy"/g) || []).length, 3);
-  assert.match(html, /\.js \.benefit\{[^}]*opacity:0[^}]*translate3d\(0,34px,0\)[^}]*scale\(\.97\)/);
+  assert.match(html, /\.js \.benefit\{[^}]*translate3d\(0,76px,0\)[^}]*scale\(\.96\)/);
+  assert.match(html, /@keyframes benefitNumberPop/);
+  assert.match(html, /\.js \.is-visible \.benefit:nth-child\(3\)\{transition-delay:\.64s\}/);
   assert.match(html, /prefers-reduced-motion:reduce[\s\S]*?\.js \.benefit,\.js \.is-visible \.benefit\{[^}]*opacity:1/);
 });
 
@@ -181,10 +184,10 @@ test('Meta landing separates sections like slides without forced scroll intercep
   assert.doesNotMatch(html, /addEventListener\('wheel'/);
 });
 
-test('Meta landing replaces the compressed case with source-backed Meta and Google benefit cards', () => {
+test('Meta landing presents source-backed Meta, Google, TikTok, and Unity benefit cards', () => {
   const benefitSection = html.match(/<section class="snap-section section-soft" id="case"[\s\S]*?<\/section>/)?.[0] || '';
-  assert.equal((benefitSection.match(/class="channel-benefit-card"/g) || []).length, 2);
-  for (const copy of ['Meta와 Google', '해외 결제 수수료 절감', '보너스 크레딧', '최대 8%', '최대 7%', '기존 캠페인·데이터 자산 유지']) {
+  assert.equal((benefitSection.match(/class="channel-benefit-card"/g) || []).length, 4);
+  for (const copy of ['주요 매체의 계정 혜택', '해외 결제 수수료 절감', '보너스 크레딧', '매체 리워드', '최대 13%', '최대 8%', '최대 7%', 'Unity Ads', '기존 캠페인·데이터 자산 유지']) {
     assert.ok(benefitSection.includes(copy), `missing benefit copy ${copy}`);
   }
   assert.doesNotMatch(benefitSection, /ANONYMIZED CASE|₩500,800,030|5\.96%/);
@@ -209,13 +212,16 @@ test('Meta landing uses current Meta calculator rates and compact mobile content
 });
 
 test('Normalized media cutouts are valid transparent PNG files', async () => {
-  const assets = ['meta', 'google', 'tiktok', 'naver', 'kakao', 'toss-ads', 'x', 'linkedin', 'pinterest', 'snapchat', 'youtube', 'line', 'amazon', 'reddit', 'apple', 'yahoo', 'kt-townboard', 'focus-media', 'unity-ads', 'mediameet'];
+  const assets = ['meta', 'google', 'tiktok', 'naver', 'kakao', 'x', 'linkedin', 'pinterest', 'snapchat', 'youtube', 'line', 'amazon', 'reddit', 'apple', 'yahoo', 'kt-townboard', 'focus-media', 'unity-ads', 'mediameet'];
   const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
   for (const asset of assets) {
     const file = await readFile(new URL(`../logos/media-cutout-v1/${asset}.png`, import.meta.url));
     assert.deepEqual(file.subarray(0, 8), pngSignature, `invalid PNG signature for ${asset}`);
     assert.equal(file[25], 6, `missing RGBA color type for ${asset}`);
   }
+  const toss = await readFile(new URL('../logos/toss.png', import.meta.url));
+  assert.deepEqual(toss.subarray(0, 8), pngSignature, 'invalid official Toss PNG');
+  assert.equal(toss[25], 6, 'official Toss logo must retain RGBA transparency');
 });
 
 test('Credit-card network logos are valid SVG files', async () => {
