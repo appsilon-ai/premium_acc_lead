@@ -50,6 +50,7 @@ test('Meta landing has responsive and reduced-motion safeguards', () => {
   assert.match(html, /formRect\.top>innerHeight/);
   assert.match(html, /calculatorVisible/);
   assert.match(html, /overflow-x:hidden/);
+  assert.match(html, /rel="icon"[^>]+logos\/appsilon\.png/);
 });
 
 test('Meta landing uses one-step section navigation', () => {
