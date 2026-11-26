@@ -253,6 +253,7 @@ test('Credit-card network logos are valid SVG files', async () => {
 });
 
 test('Meta landing keeps section headlines compact on mobile', () => {
+  assert.match(html, /h1\{font-size:clamp\(40px,3\.5vw,48px\)\}\.hero-line\{display:block;white-space:nowrap\}/);
   assert.match(html, /@media \(max-width:640px\)\{\.snap-section h2\{font-size:25px\}\}/);
   assert.match(html, /@media \(max-width:360px\)\{\.snap-section h2\{font-size:22px\}\}/);
 });
