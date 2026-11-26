@@ -56,7 +56,7 @@ test('Meta landing has responsive and reduced-motion safeguards', () => {
 });
 
 test('Meta landing uses natural scrolling, calm reveal motion, and a top progress line', () => {
-  assert.equal((html.match(/class="snap-section/g) || []).length, 7);
+  assert.equal((html.match(/class="snap-section/g) || []).length, 8);
   assert.match(html, /class="page-progress"/);
   assert.match(html, /scroll-snap-type:none/);
   assert.match(html, /revealObserver/);
@@ -86,6 +86,9 @@ test('Meta landing uses an authentic code-native account console without synthet
   assert.doesNotMatch(html, /hero-video-frame|visual-rate-card|cardFloat|visualGlow/);
   assert.match(html, /class="payment-flow"/);
   assert.equal((html.match(/class="flow-node"/g) || []).length, 3);
+  for (const asset of ['payment-card-live1-v1.png', 'payment-invoice-live1-v1.png', 'payment-operations-live1-v1.png']) {
+    assert.ok(html.includes(`/lp/meta/assets/${asset}`), `missing payment-flow cutout ${asset}`);
+  }
   assert.match(html, /@keyframes flowMove/);
   for (const cta of ['cta-header-diagnosis', 'cta-hero-calculator', 'cta-hero-structure', 'cta-sticky-diagnosis']) {
     assert.match(html, new RegExp(`id="${cta}"`));
@@ -99,13 +102,15 @@ test('Meta landing keeps a visual credit-card receipt example', () => {
   assert.match(html, /3792-20\*\*-\*\*\*\*-\*\*021/);
   assert.match(html, /최종 청구 금액/);
   assert.match(html, /해외 광고비 카드 이용 명세/);
-  assert.match(html, /MONTHLY CARD STATEMENT/);
+  assert.doesNotMatch(html, /MONTHLY CARD STATEMENT/);
   assert.match(html, /청구 기준일/);
   assert.match(html, /카드 번호/);
   for (const network of ['visa.svg', 'mastercard.svg', 'unionpay.svg', 'amex.svg']) {
     assert.ok(html.includes(`../../logos/${network}`), `missing card network ${network}`);
   }
-  assert.match(html, /\.receipt::after\{[^}]*box-shadow/);
+  assert.match(html, /\.receipt::before,\.receipt::after\{content:none\}/);
+  assert.match(html, /\.compact-calculator\{box-shadow:none/);
+  assert.match(html, /img\[alt="American Express"\]\{height:24px;max-width:56px/);
 });
 
 test('Meta landing renders the complete media list with image assets', () => {
@@ -194,12 +199,16 @@ test('Meta landing separates sections like slides without forced scroll intercep
   assert.doesNotMatch(html, /addEventListener\('wheel'/);
 });
 
-test('Meta landing presents source-backed Meta, Google, TikTok, and Unity benefit cards', () => {
-  const benefitSection = html.match(/<section class="snap-section section-soft" id="case"[\s\S]*?<\/section>/)?.[0] || '';
+test('Meta landing merges the transparent media marquee with slim source-backed benefit cards', () => {
+  const benefitSection = html.match(/<section class="snap-section section-soft media-unified" id="media-benefits"[\s\S]*?<\/section>/)?.[0] || '';
   assert.equal((benefitSection.match(/class="channel-benefit-card"/g) || []).length, 4);
-  for (const copy of ['주요 매체의 계정 혜택', '해외 결제 수수료 절감', '보너스 크레딧', '매체 리워드', '최대 13%', '최대 8%', '최대 7%', 'Unity Ads', '기존 캠페인·데이터 자산 유지']) {
+  for (const copy of ['주요 매체의 계정 혜택', '해외 결제 수수료 절감', '보너스 크레딧', '매체 리워드', '최대 13%', '최대 8%', '최대 7%', 'Unity Ads', 'APPSILON 취급 광고 매체']) {
     assert.ok(benefitSection.includes(copy), `missing benefit copy ${copy}`);
   }
+  assert.doesNotMatch(benefitSection, /channel-points|공식 파트너 계정 기반 운영|월 단위 세금계산서 정산/);
+  assert.match(html, /#media,#case\{display:none\}/);
+  assert.match(html, /\.media-marquee-shell\.media-marquee-transparent\{[^}]*width:100vw[^}]*background:transparent[^}]*box-shadow:none/);
+  assert.match(html, /\.channel-benefit-list \.channel-benefit-card\{[^}]*grid-template-columns:180px minmax\(300px,1fr\) 220px/);
   assert.doesNotMatch(benefitSection, /ANONYMIZED CASE|₩500,800,030|5\.96%/);
 });
 
@@ -235,7 +244,7 @@ test('Normalized media cutouts are valid transparent PNG files', async () => {
 });
 
 test('BillyJo-style benefit cutouts are valid transparent PNG files', async () => {
-  const assets = ['benefit-continuity-live1-v1', 'benefit-data-live1-v1', 'benefit-invoice-live1-v1'];
+  const assets = ['benefit-continuity-live1-v1', 'benefit-data-live1-v1', 'benefit-invoice-live1-v1', 'payment-card-live1-v1', 'payment-invoice-live1-v1', 'payment-operations-live1-v1'];
   const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
   for (const asset of assets) {
     const file = await readFile(new URL(`../lp/meta/assets/${asset}.png`, import.meta.url));
