@@ -28,6 +28,22 @@ test('Meta landing preserves lead API and required payload contract', () => {
   assert.match(html, /serviceType:\['계정 임대만'\]/);
 });
 
+test('Meta landing uses a one-question-at-a-time lead wizard', () => {
+  const form = html.match(/<form class="lead-form"[\s\S]*?<\/form>/)?.[0] || '';
+  const orderedSteps = [...form.matchAll(/data-form-step="([^"]+)"/g)].map(match => match[1]);
+  assert.deepEqual(orderedSteps, ['budget', 'industry', 'company', 'name', 'email', 'phone', 'consent']);
+  assert.equal((form.match(/class="form-step"/g) || []).length, 7);
+  assert.equal((form.match(/class="form-step"[^>]* hidden/g) || []).length, 6);
+  assert.match(form, /role="progressbar"[\s\S]*aria-valuemax="7"/);
+  assert.match(form, /class="wizard-back"/);
+  assert.match(form, /class="wizard-next"/);
+  assert.doesNotMatch(form, /class="form-grid"/);
+  assert.match(html, /function setFormStep\(/);
+  assert.match(html, /function validateFormStep\(/);
+  assert.match(html, /form_step_complete/);
+  assert.match(html, /event\.key==='Enter'/);
+});
+
 test('Meta landing has responsive and reduced-motion safeguards', () => {
   assert.match(html, /@media \(max-width:640px\)/);
   assert.match(html, /@media \(prefers-reduced-motion:reduce\)/);
