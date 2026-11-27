@@ -81,7 +81,21 @@ test('Meta landing publishes complete Open Graph, Twitter, and app-icon metadata
   for (const asset of ['og-global-spend', 'og-invoice-transition', 'og-media-hub']) {
     const file = await readFile(new URL(`../lp/meta/assets/social/${asset}.jpg`, import.meta.url));
     assert.deepEqual(file.subarray(0, 2), Buffer.from([0xff, 0xd8]), `invalid OG JPEG ${asset}`);
-    assert.ok(file.length > 100_000, `unexpectedly small OG JPEG ${asset}`);
+    assert.ok(file.length > 80_000, `unexpectedly small OG JPEG ${asset}`);
+  }
+});
+
+test('Social previews use flat editorial source art instead of generated 3D backgrounds', async () => {
+  const sources = ['og-global-spend', 'og-invoice-transition', 'og-media-hub'];
+  for (const asset of sources) {
+    const svg = await readFile(new URL(`../lp/meta/assets/social/source/${asset}.svg`, import.meta.url), 'utf8');
+    assert.match(svg, /<svg\b[^>]*width="1200"[^>]*height="630"/);
+    assert.doesNotMatch(svg, /\.webp|linearGradient|radialGradient|filter=|feDropShadow/i, `${asset} contains generated or glossy effects`);
+    assert.match(svg, /appsilon-symbol\.png/);
+  }
+  const mediaSource = await readFile(new URL('../lp/meta/assets/social/source/og-media-hub.svg', import.meta.url), 'utf8');
+  for (const asset of ['meta.png', 'google.png', 'tiktok.png']) {
+    assert.ok(mediaSource.includes(`media-cutout-v1/${asset}`), `missing first-party media logo ${asset}`);
   }
 });
 

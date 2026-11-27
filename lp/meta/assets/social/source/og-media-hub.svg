@@ -1,19 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <defs>
-    <linearGradient id="shade" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#061421" stop-opacity=".98"/>
-      <stop offset=".56" stop-color="#061421" stop-opacity=".78"/>
-      <stop offset="1" stop-color="#061421" stop-opacity=".04"/>
-    </linearGradient>
-  </defs>
-  <image href="og-media-hub.webp" width="1200" height="630" preserveAspectRatio="xMidYMid slice"/>
-  <rect width="1200" height="630" fill="url(#shade)"/>
-  <image href="../../appsilon-symbol.png" x="62" y="54" width="46" height="46"/>
-  <text x="122" y="87" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="25" font-weight="700" letter-spacing="2">APPSILON</text>
-  <text x="62" y="217" fill="#28a9dd" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="25" font-weight="700">GLOBAL MEDIA OPERATIONS</text>
-  <text x="62" y="298" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="54" font-weight="800" letter-spacing="-2">광고계정부터</text>
-  <text x="62" y="368" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="54" font-weight="800" letter-spacing="-2">운영 혜택까지 한 번에.</text>
-  <text x="62" y="431" fill="#cad7e4" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="500">Meta · Google · TikTok 통합 광고 운영</text>
-  <line x1="62" y1="488" x2="356" y2="488" stroke="#28a9dd" stroke-width="4"/>
-  <text x="62" y="535" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="20" font-weight="600">글로벌 매체 결제 구조와 운영 효율을 함께 설계합니다.</text>
+  <rect width="1200" height="630" fill="#ffffff"/>
+  <rect width="410" height="630" fill="#10293f"/>
+  <rect x="410" width="12" height="630" fill="#28a9dd"/>
+  <image href="../../appsilon-symbol.png" x="54" y="52" width="42" height="42"/>
+  <text x="110" y="83" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="800" letter-spacing="2">APPSILON</text>
+  <text x="54" y="180" fill="#7f9caf" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="16" font-weight="700" letter-spacing="1.5">GLOBAL MEDIA OPERATIONS</text>
+  <text x="54" y="267" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="50" font-weight="800" letter-spacing="-2">광고계정부터</text>
+  <text x="54" y="334" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="50" font-weight="800" letter-spacing="-2">운영 혜택까지</text>
+  <text x="54" y="401" fill="#28a9dd" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="50" font-weight="800" letter-spacing="-2">한 번에.</text>
+  <line x1="54" y1="459" x2="356" y2="459" stroke="#526b7d"/>
+  <text x="54" y="503" fill="#c8d4dc" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="17" font-weight="500">결제 구조와 운영 효율을 함께 설계합니다.</text>
+  <text x="54" y="554" fill="#6f879a" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="13" font-weight="500">APPSILON OFFICIAL ADS / 2026</text>
+  <text x="480" y="91" fill="#10293f" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="17" font-weight="800" letter-spacing="1.5">SUPPORTED MEDIA</text>
+  <line x1="480" y1="118" x2="1142" y2="118" stroke="#d3d7da"/>
+  <rect x="480" y="156" width="662" height="110" fill="#f4f3ef"/>
+  <image href="../../../../../logos/media-cutout-v1/meta.png" x="518" y="190" width="126" height="38" preserveAspectRatio="xMinYMid meet"/>
+  <text x="688" y="202" fill="#10293f" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="16" font-weight="800">META</text>
+  <text x="688" y="232" fill="#687680" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="16" font-weight="500">절감 5% · 조건 충족 시 보너스 3%</text>
+  <rect x="480" y="284" width="662" height="110" fill="#f4f3ef"/>
+  <image href="../../../../../logos/media-cutout-v1/google.png" x="518" y="318" width="126" height="38" preserveAspectRatio="xMinYMid meet"/>
+  <text x="688" y="330" fill="#10293f" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="16" font-weight="800">GOOGLE</text>
+  <text x="688" y="360" fill="#687680" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="16" font-weight="500">절감 5% · 조건 충족 시 보너스 2%</text>
+  <rect x="480" y="412" width="662" height="110" fill="#f4f3ef"/>
+  <image href="../../../../../logos/media-cutout-v1/tiktok.png" x="518" y="446" width="126" height="38" preserveAspectRatio="xMinYMid meet"/>
+  <text x="688" y="458" fill="#10293f" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="16" font-weight="800">TIKTOK</text>
+  <text x="688" y="488" fill="#687680" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="16" font-weight="500">매체 조건에 따른 리워드 운영</text>
+  <text x="480" y="576" fill="#8b949a" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="13" font-weight="500">표시된 혜택은 매체·업종·광고비 조건에 따라 달라질 수 있습니다.</text>
 </svg>
