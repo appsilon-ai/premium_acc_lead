@@ -57,9 +57,13 @@ test('Meta landing has responsive and reduced-motion safeguards', () => {
   assert.match(html, /rel="icon"[^>]+logos\/appsilon\.png/);
 });
 
-test('Meta landing uses natural scrolling, calm reveal motion, and a top progress line', () => {
+test('Meta landing uses natural scrolling, calm reveal motion, and a right-edge vertical progress line', () => {
   assert.equal((html.match(/class="snap-section/g) || []).length, 8);
   assert.match(html, /class="page-progress"/);
+  assert.match(html, /\.page-progress\{position:fixed;[^}]*inset:0 0 0 auto;[^}]*width:3px;[^}]*height:100dvh/);
+  assert.match(html, /\.page-progress>span\{[^}]*transform:scaleY\(0\);[^}]*transform-origin:top/);
+  assert.match(html, /pageProgress\.style\.transform=`scaleY\(\$\{progress\}\)`/);
+  assert.doesNotMatch(html, /pageProgress\.style\.width/);
   assert.match(html, /scroll-snap-type:none/);
   assert.match(html, /revealObserver/);
   assert.match(html, /updatePageProgress/);
