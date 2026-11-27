@@ -306,9 +306,11 @@ test('Meta landing removes the top navigation and closes with the APPSILON logo'
 });
 
 test('Meta landing enlarges section labels and tightens the label-to-heading gap', () => {
-  assert.match(html, /\.snap-section:not\(\.hero\)::before\{[^}]*top:22px[^}]*font-size:12px[^}]*line-height:1\.2/);
+  assert.match(html, /\.snap-section:not\(\.hero\)::before\{[^}]*top:22px[^}]*color:#0d2c5e[^}]*font-size:14px[^}]*line-height:1\.2/);
+  assert.match(html, /\.apply::before\{color:#dbeafe!important\}/);
+  assert.match(html, /\.receipt-stage::before\{color:#dbeafe!important\}/);
   assert.match(html, /\.snap-section h2\{margin:5px 0 13px/);
-  assert.match(html, /@media\(max-width:640px\)[\s\S]*?\.snap-section:not\(\.hero\)::before\{top:15px;left:14px;font-size:10px\}/);
+  assert.match(html, /@media\(max-width:640px\)[\s\S]*?\.snap-section:not\(\.hero\)::before\{top:15px;left:14px;font-size:12px\}/);
 });
 
 test('Meta landing uses Korean-only section headings and polished Korean labels', () => {
