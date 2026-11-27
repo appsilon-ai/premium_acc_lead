@@ -194,16 +194,17 @@ test('Meta landing keeps a visual credit-card receipt example', () => {
 
 test('Meta landing renders the complete media list with image assets', () => {
   const mediaSection = html.match(/<section class="snap-section" id="media"[\s\S]*?<\/section>/)?.[0] || '';
-  assert.equal((mediaSection.match(/class="media-logo(?: has-wordmark)?"/g) || []).length, 20);
-  assert.equal((mediaSection.match(/class="media-benefit"/g) || []).length, 20);
+  assert.equal((mediaSection.match(/class="media-logo(?: has-wordmark)?"/g) || []).length, 21);
+  assert.equal((mediaSection.match(/class="media-benefit"/g) || []).length, 21);
   assert.match(mediaSection, /보너스 4~7%/);
-  assert.match(mediaSection, /보너스 <b>약 14%/);
+  assert.match(mediaSection, /보너스 <b>최대 15%/);
   assert.match(mediaSection, /할인 <b>최대 14%/);
   for (const latestRate of [
     '절감 <b>5%</b> · 보너스 <b>3%</b>',
     '절감 <b>5%</b> · 보너스 <b>2%</b>',
-    '절감 <b>5%</b> · 리워드 <b>8%</b>',
-    '리베이트 <b>최대 15%</b>'
+    '절감 <b>5%</b> · 리워드 <b>최대 9%</b>',
+    '리베이트 <b>월 최대 17%</b>',
+    '보너스 <b>최대 12%</b>'
   ]) assert.ok(mediaSection.includes(latestRate), `missing latest rate ${latestRate}`);
   for (const [wordmark, asset] of [
     ['LinkedIn Ads', 'linkedin.svg'],
@@ -218,7 +219,7 @@ test('Meta landing renders the complete media list with image assets', () => {
   assert.doesNotMatch(mediaSection, /appsilon\.png|앱실론코퍼레이션/);
   assert.doesNotMatch(html, /id="operator"/);
   assert.doesNotMatch(mediaSection, /text-logo/);
-  const normalizedAssets = ['meta', 'google', 'tiktok', 'naver', 'kakao', 'x', 'pinterest', 'youtube', 'line', 'amazon', 'yahoo', 'kt-townboard', 'focus-media', 'unity-ads', 'mediameet'];
+  const normalizedAssets = ['meta', 'google', 'tiktok', 'naver', 'kakao', 'danggeun', 'x', 'pinterest', 'youtube', 'line', 'amazon', 'yahoo', 'kt-townboard', 'focus-media', 'unity-ads', 'mediameet'];
   for (const asset of normalizedAssets) {
     assert.ok(mediaSection.includes(`../../logos/media-cutout-v1/${asset}.png`), `missing normalized asset ${asset}`);
   }
@@ -305,6 +306,22 @@ test('Meta landing uses one unified reference-style media connection card system
   assert.match(html, /\.media-unified \.section-head\{margin-bottom:8px\}/);
   assert.match(html, /@media\(max-width:760px\)[\s\S]*?\.media-connection-card\{[^}]*grid-template-columns:78px minmax\(0,1fr\) 88px/);
   assert.doesNotMatch(benefitSection, /ANONYMIZED CASE|₩500,800,030|5\.96%/);
+  for (const latestRate of [
+    '리워드 최대 9%',
+    '매체 보너스 최대 15%',
+    '매체 리베이트 월 최대 17%',
+    '매체 보너스 최대 12%'
+  ]) assert.ok(benefitSection.includes(latestRate), `missing current catalog rate ${latestRate}`);
+  for (const staleRate of ['리워드 8%', '매체 보너스 약 14%', '매체 리베이트 최대 15%', '적용 조건 상담 후 안내']) {
+    assert.ok(!benefitSection.includes(staleRate), `stale catalog rate remains: ${staleRate}`);
+  }
+});
+
+test('Meta landing keeps detailed TikTok savings and reward math consistent', () => {
+  const caseSection = html.match(/<section class="snap-section section-soft" id="case"[\s\S]*?<\/section>/)?.[0] || '';
+  assert.match(caseSection, /<small>매체 리워드<\/small><strong>최대 9%<\/strong>/);
+  assert.match(caseSection, /<span>합산 예상 혜택<\/span><strong>최대 14%<\/strong>/);
+  assert.doesNotMatch(caseSection, /<small>매체 리워드<\/small><strong>8%<\/strong>|최대 13%/);
 });
 
 test('Meta landing groups the media catalog into swipeable mobile tabs', () => {
