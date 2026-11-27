@@ -111,9 +111,14 @@ test('Meta landing keeps a visual credit-card receipt example', () => {
   assert.match(html, /\.receipt::before,\.receipt::after\{content:none\}/);
   assert.match(html, /\.compact-calculator\{box-shadow:none/);
   assert.match(html, /\.receipt-network-logos img,\.receipt-network-logos img\[alt="American Express"\]\{[^}]*height:20px[^}]*background:transparent[^}]*mix-blend-mode:normal/);
-  assert.equal((html.match(/data-countup="/g) || []).length, 4);
+  assert.equal((html.match(/data-countup="/g) || []).length, 5);
+  assert.match(html, /data-countup="105443800" data-prefix="₩"/);
   assert.match(html, /function animateCountup\(element\)/);
+  assert.match(html, /element\.classList\.add\('is-counting'\)/);
+  assert.match(html, /index\*90/);
   assert.match(html, /if\(reducedMotion\)\{renderCountupValue\(element,target\)/);
+  assert.match(html, /\.receipt-network-logos\{display:grid;grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
+  assert.match(html, /\.js \.receipt-row \[data-countup\]\.is-counting\{opacity:1;transform:none\}/);
   assert.match(html, /\.receipt-row\.total\{padding:14px 16px\}/);
 });
 
@@ -203,23 +208,24 @@ test('Meta landing separates sections like slides without forced scroll intercep
   assert.doesNotMatch(html, /addEventListener\('wheel'/);
 });
 
-test('Meta landing merges the transparent media marquee with slim source-backed benefit cards', () => {
+test('Meta landing uses one unified reference-style media connection card system', () => {
   const benefitSection = html.match(/<section class="snap-section section-soft media-unified" id="media-benefits"[\s\S]*?<\/section>/)?.[0] || '';
-  assert.equal((benefitSection.match(/class="channel-benefit-card"/g) || []).length, 4);
-  assert.equal((benefitSection.match(/class="media-logo(?: has-wordmark)?"/g) || []).length, 20);
-  assert.equal((benefitSection.match(/class="media-benefit"/g) || []).length, 20);
-  for (const copy of ['주요 매체 대행사 계정 혜택', '지원 매체 전체', '해외 결제 수수료 절감', '보너스 크레딧', '매체 리워드', '최대 13%', '최대 8%', '최대 7%', 'Unity Ads', 'APPSILON 취급 광고 매체']) {
+  assert.equal((benefitSection.match(/class="media-connection-card"/g) || []).length, 20);
+  assert.equal((benefitSection.match(/class="media-connection-status"/g) || []).length, 20);
+  assert.equal((benefitSection.match(/>연결 가능<\/span>/g) || []).length, 20);
+  assert.equal((benefitSection.match(/class="channel-benefit-card"/g) || []).length, 0);
+  assert.equal((benefitSection.match(/class="media-logo(?: has-wordmark)?"/g) || []).length, 0);
+  for (const copy of ['주요 매체 대행사/인보이스 계정 혜택', 'Google Ads 연결 가능', 'Meta 연결 가능', 'TikTok 연결 가능', 'Unity Ads 연결 가능', 'APPSILON 취급 광고 매체']) {
     assert.ok(benefitSection.includes(copy), `missing benefit copy ${copy}`);
   }
   assert.doesNotMatch(benefitSection, /취급 매체 전체는 로고 슬라이더로/);
   assert.doesNotMatch(benefitSection, /channel-points|공식 파트너 계정 기반 운영|월 단위 세금계산서 정산/);
   assert.match(html, /#media,#case\{display:none\}/);
   assert.match(html, /\.media-marquee-shell\.media-marquee-transparent\{[^}]*width:100vw[^}]*background:transparent[^}]*box-shadow:none/);
-  assert.match(html, /\.channel-benefit-list \.channel-benefit-card\{[^}]*grid-template-columns:180px minmax\(300px,1fr\) 220px/);
-  assert.match(html, /\.channel-benefit-list \.channel-brand img\{[^}]*height:22px[^}]*background:transparent[^}]*mix-blend-mode:normal/);
-  assert.match(html, /\.channel-benefit-list \.channel-brand img\[alt="Unity Ads"\]\{height:31\.5px\}/);
-  assert.match(html, /@media\(max-width:760px\)[\s\S]*?\.channel-benefit-list \.channel-brand img\{[^}]*height:16\.5px/);
-  assert.match(html, /\.channel-benefit-list \.channel-brand img\[alt="Unity Ads"\]\{height:23\.65px\}/);
+  assert.match(html, /\.media-connection-card\{[^}]*grid-template-columns:124px minmax\(0,1fr\) 78px[^}]*border-radius:20px[^}]*background:#fff/);
+  assert.match(html, /\.media-connection-logo img\{[^}]*height:28px[^}]*background:transparent[^}]*mix-blend-mode:normal/);
+  assert.match(html, /\.media-unified \.section-head\{margin-bottom:8px\}/);
+  assert.match(html, /@media\(max-width:760px\)[\s\S]*?\.media-connection-card\{[^}]*grid-template-columns:82px minmax\(0,1fr\) 62px/);
   assert.doesNotMatch(benefitSection, /ANONYMIZED CASE|₩500,800,030|5\.96%/);
 });
 
