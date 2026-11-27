@@ -267,6 +267,12 @@ test('Meta landing uses current Meta calculator rates and compact mobile content
   assert.match(html, /annualFee=Math\.round\(budget\*\.05\*12\)/);
   assert.match(html, /annualBonus=Math\.round\(budget\*\.03\*12\)/);
   assert.match(html, /renderCalculator\(range\.value\)/);
+  assert.match(html, /\.calc-total strong\{color:#55f6a9;font-size:27px/);
+  assert.match(html, /\.calc-total strong span\{color:inherit;font-size:inherit;font-weight:inherit;line-height:inherit;letter-spacing:inherit\}/);
+  assert.match(html, /aria-label="예시 금액이며 실제 혜택을 보장하지 않습니다">예시</);
+  assert.match(html, /aria-label="예상치이며 실제 혜택을 보장하지 않습니다">예상치</);
+  assert.doesNotMatch(html, /월 ₩100,000,000 집행을 가정한 카드 명세 예시/);
+  assert.doesNotMatch(html, /시뮬레이션 예시이며 수수료 절감액은 보수적 5% 기준/);
   assert.match(html, /html\{scroll-snap-type:none/);
   assert.match(html, /snap-section:not\(\.hero\):not\(\.apply\)\{min-height:auto/);
 });
