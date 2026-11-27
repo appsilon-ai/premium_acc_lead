@@ -300,6 +300,7 @@ test('Meta landing uses one unified reference-style media connection card system
   assert.match(html, /\.media-connection-card\{[^}]*grid-template-columns:124px minmax\(0,1fr\) 116px/);
   assert.match(html, /\.media-connection-logo img\{[^}]*height:28px[^}]*background:transparent[^}]*mix-blend-mode:normal/);
   assert.match(html, /\.media-connection-copy span\{font-size:13px;font-weight:400/);
+  assert.match(html, /\.media-unified \.media-connection-copy span\{white-space:normal;text-overflow:clip\}/);
   assert.match(html, /\.media-request-button\{[^}]*background:linear-gradient\(180deg,#1f6ed0 0%,#1459b4 100%\)[^}]*box-shadow:0 4px 0 #0b3f8e/);
   assert.match(html, /\.media-request-button:hover,\.media-request-button:focus-visible\{[^}]*background:linear-gradient\(180deg,#195fb8 0%,#0d468f 100%\)[^}]*color:#fff/);
   assert.match(html, /button\.textContent=added\?'선택됨':'선택'/);
