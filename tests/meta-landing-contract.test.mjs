@@ -100,10 +100,14 @@ test('Meta landing uses the reference-aligned pitch and a working savings calcul
     assert.ok(html.includes(`/lp/meta/assets/${asset}`), `missing payment-flow cutout ${asset}`);
   }
   assert.match(html, /@keyframes flowMove/);
-  for (const cta of ['cta-header-diagnosis', 'cta-hero-calculator', 'cta-hero-structure', 'cta-sticky-diagnosis']) {
+  for (const cta of ['cta-hero-calculator', 'cta-hero-structure', 'cta-sticky-diagnosis']) {
     assert.match(html, new RegExp(`id="${cta}"`));
   }
-  assert.equal((html.match(/data-cta-position=/g) || []).length, 4);
+  assert.equal((html.match(/data-cta-position=/g) || []).length, 3);
+  assert.match(heroSection, /class="hero-appsilon-logo" src="\.\.\/\.\.\/logos\/appsilon-white-wordmark-v1\.png" alt="APPSILON"/);
+  assert.doesNotMatch(heroSection, /Meta 공식 파트너 광고계정 무료 진단|class="eyebrow"/);
+  for (const label of ['3,000만 원', '5,000만 원', '1억 원', '3억 원']) assert.ok(heroSection.includes(label), `missing quick budget label ${label}`);
+  assert.match(html, /\.hero-calculator-tabs span\{font-size:14px\}/);
 });
 
 test('Meta landing keeps a visual credit-card receipt example', () => {
@@ -227,9 +231,9 @@ test('Meta landing separates sections like slides without forced scroll intercep
 
 test('Meta landing uses one unified reference-style media connection card system', () => {
   const benefitSection = html.match(/<section class="snap-section section-soft media-unified" id="media-benefits"[\s\S]*?<\/section>/)?.[0] || '';
-  assert.equal((benefitSection.match(/class="media-connection-card"/g) || []).length, 20);
-  assert.equal((benefitSection.match(/class="media-request-button"/g) || []).length, 20);
-  assert.equal((benefitSection.match(/>선택<\/button>/g) || []).length, 20);
+  assert.equal((benefitSection.match(/class="media-connection-card"/g) || []).length, 21);
+  assert.equal((benefitSection.match(/class="media-request-button"/g) || []).length, 21);
+  assert.equal((benefitSection.match(/>선택<\/button>/g) || []).length, 21);
   assert.equal((benefitSection.match(/class="channel-benefit-card"/g) || []).length, 0);
   assert.equal((benefitSection.match(/class="media-logo(?: has-wordmark)?"/g) || []).length, 0);
   for (const copy of ['주요 매체 대행사 인보이스 계정 혜택', '인보이스 계정 발급', '인보이스로 변경 가능', '간단 승인으로 이용 가능', '신규계정 발급', '연결 가능']) {
@@ -246,11 +250,28 @@ test('Meta landing uses one unified reference-style media connection card system
   assert.match(html, /\.media-connection-card\{[^}]*grid-template-columns:124px minmax\(0,1fr\) 116px/);
   assert.match(html, /\.media-connection-logo img\{[^}]*height:28px[^}]*background:transparent[^}]*mix-blend-mode:normal/);
   assert.match(html, /\.media-connection-copy span\{font-size:13px;font-weight:400/);
-  assert.match(html, /\.media-request-button\{[^}]*background:linear-gradient\(180deg,#2f86ef 0%,#1662c4 100%\)[^}]*box-shadow:0 4px 0 #0b3f8e/);
+  assert.match(html, /\.media-request-button\{[^}]*background:linear-gradient\(180deg,#1f6ed0 0%,#1459b4 100%\)[^}]*box-shadow:0 4px 0 #0b3f8e/);
+  assert.match(html, /\.media-request-button:hover,\.media-request-button:focus-visible\{[^}]*background:linear-gradient\(180deg,#195fb8 0%,#0d468f 100%\)[^}]*color:#fff/);
   assert.match(html, /button\.textContent=added\?'선택됨':'선택'/);
   assert.match(html, /\.media-unified \.section-head\{margin-bottom:8px\}/);
   assert.match(html, /@media\(max-width:760px\)[\s\S]*?\.media-connection-card\{[^}]*grid-template-columns:78px minmax\(0,1fr\) 88px/);
   assert.doesNotMatch(benefitSection, /ANONYMIZED CASE|₩500,800,030|5\.96%/);
+});
+
+test('Meta landing groups the media catalog into swipeable mobile tabs', () => {
+  for (const tab of ['popular', 'overseas', 'domestic']) {
+    assert.match(html, new RegExp(`data-media-tab="${tab}"`));
+  }
+  for (const media of ['Meta', 'Google Ads', 'TikTok', 'NAVER', 'Kakao', 'Toss Ads', '당근', 'X (구 Twitter)']) {
+    const escaped = media.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    assert.match(html, new RegExp(`data-popular="1"[\\s\\S]*?data-media="${escaped}"`));
+  }
+  assert.match(html, /const pageSize=mobile\?5:visibleCards\.length/);
+  assert.match(html, /catalogViewport\.addEventListener\('touchstart'/);
+  assert.match(html, /catalogViewport\.addEventListener\('touchend'/);
+  assert.match(html, /class="media-catalog-arrow media-catalog-prev"/);
+  assert.match(html, /class="media-catalog-arrow media-catalog-next"/);
+  assert.match(html, /@media\(max-width:760px\)[\s\S]*?\.media-catalog-page\{[^}]*grid-template-rows:repeat\(5,auto\)/);
 });
 
 test('Meta landing persists requested media budgets and carries them into the lead', () => {
@@ -264,8 +285,9 @@ test('Meta landing persists requested media budgets and carries them into the le
   assert.match(html, /class="media-selection-submit" href="#apply"/);
 });
 
-test('Meta landing releases the top navigation and closes with the APPSILON logo', () => {
-  assert.match(html, /\.nav\{position:relative;top:auto;background:#fff;backdrop-filter:none\}/);
+test('Meta landing removes the top navigation and closes with the APPSILON logo', () => {
+  assert.doesNotMatch(html, /<nav\b|cta-header-diagnosis/);
+  assert.match(html, /:root\{--nav-h:0px/);
   assert.match(html, /class="footer-corporation-logo" src="\.\.\/\.\.\/logos\/appsilon\.png"/);
   assert.match(html, /body\{padding-bottom:0\}/);
   assert.doesNotMatch(html, /통신판매신고번호 2021-서울강남-04074/);
@@ -330,6 +352,9 @@ test('Normalized media cutouts are valid transparent PNG files', async () => {
   const suppliedToss = await readFile(new URL('../logos/toss-user-cutout-v1.png', import.meta.url));
   assert.deepEqual(suppliedToss.subarray(0, 8), pngSignature, 'invalid user-supplied Toss PNG');
   assert.equal(suppliedToss[25], 6, 'user-supplied Toss logo must retain RGBA transparency');
+  const heroLogo = await readFile(new URL('../logos/appsilon-white-wordmark-v1.png', import.meta.url));
+  assert.deepEqual(heroLogo.subarray(0, 8), pngSignature, 'invalid APPSILON hero logo PNG');
+  assert.equal(heroLogo[25], 6, 'APPSILON hero logo must retain RGBA transparency');
 });
 
 test('BillyJo-style benefit cutouts are valid transparent PNG files', async () => {
