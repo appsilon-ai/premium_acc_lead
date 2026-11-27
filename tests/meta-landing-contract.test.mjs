@@ -100,10 +100,14 @@ test('Meta landing uses the reference-aligned pitch and a working savings calcul
     assert.ok(html.includes(`/lp/meta/assets/${asset}`), `missing payment-flow cutout ${asset}`);
   }
   assert.match(html, /@keyframes flowMove/);
-  for (const cta of ['cta-header-diagnosis', 'cta-hero-calculator', 'cta-hero-structure', 'cta-sticky-diagnosis']) {
+  for (const cta of ['cta-hero-calculator', 'cta-hero-structure', 'cta-sticky-diagnosis']) {
     assert.match(html, new RegExp(`id="${cta}"`));
   }
-  assert.equal((html.match(/data-cta-position=/g) || []).length, 4);
+  assert.equal((html.match(/data-cta-position=/g) || []).length, 3);
+  assert.match(heroSection, /class="hero-appsilon-logo" src="\.\.\/\.\.\/logos\/appsilon-white-wordmark-v1\.png" alt="APPSILON"/);
+  assert.doesNotMatch(heroSection, /Meta 공식 파트너 광고계정 무료 진단|class="eyebrow"/);
+  for (const label of ['3,000만 원', '5,000만 원', '1억 원', '3억 원']) assert.ok(heroSection.includes(label), `missing quick budget label ${label}`);
+  assert.match(html, /\.hero-calculator-tabs span\{font-size:14px\}/);
 });
 
 test('Meta landing keeps a visual credit-card receipt example', () => {
@@ -281,8 +285,9 @@ test('Meta landing persists requested media budgets and carries them into the le
   assert.match(html, /class="media-selection-submit" href="#apply"/);
 });
 
-test('Meta landing releases the top navigation and closes with the APPSILON logo', () => {
-  assert.match(html, /\.nav\{position:relative;top:auto;background:#fff;backdrop-filter:none\}/);
+test('Meta landing removes the top navigation and closes with the APPSILON logo', () => {
+  assert.doesNotMatch(html, /<nav\b|cta-header-diagnosis/);
+  assert.match(html, /:root\{--nav-h:0px/);
   assert.match(html, /class="footer-corporation-logo" src="\.\.\/\.\.\/logos\/appsilon\.png"/);
   assert.match(html, /body\{padding-bottom:0\}/);
   assert.doesNotMatch(html, /통신판매신고번호 2021-서울강남-04074/);
@@ -347,6 +352,9 @@ test('Normalized media cutouts are valid transparent PNG files', async () => {
   const suppliedToss = await readFile(new URL('../logos/toss-user-cutout-v1.png', import.meta.url));
   assert.deepEqual(suppliedToss.subarray(0, 8), pngSignature, 'invalid user-supplied Toss PNG');
   assert.equal(suppliedToss[25], 6, 'user-supplied Toss logo must retain RGBA transparency');
+  const heroLogo = await readFile(new URL('../logos/appsilon-white-wordmark-v1.png', import.meta.url));
+  assert.deepEqual(heroLogo.subarray(0, 8), pngSignature, 'invalid APPSILON hero logo PNG');
+  assert.equal(heroLogo[25], 6, 'APPSILON hero logo must retain RGBA transparency');
 });
 
 test('BillyJo-style benefit cutouts are valid transparent PNG files', async () => {
