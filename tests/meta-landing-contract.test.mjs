@@ -92,11 +92,19 @@ test('Social previews use flat editorial source art instead of generated 3D back
     assert.match(svg, /<svg\b[^>]*width="1200"[^>]*height="630"/);
     assert.doesNotMatch(svg, /\.webp|linearGradient|radialGradient|filter=|feDropShadow/i, `${asset} contains generated or glossy effects`);
     assert.match(svg, /appsilon-symbol\.png/);
+    assert.ok((svg.match(/media-cutout-v1\//g) || []).length >= 3, `${asset} needs at least three prominent media logos`);
+    assert.doesNotMatch(svg, /font-size="(?:1[0-9]|2[0-1])"/, `${asset} contains copy too small for a shared-card thumbnail`);
+    assert.ok((svg.match(/<text\b/g) || []).length <= 4, `${asset} contains too many text elements for a shared-card thumbnail`);
   }
   const mediaSource = await readFile(new URL('../lp/meta/assets/social/source/og-media-hub.svg', import.meta.url), 'utf8');
   for (const asset of ['meta.png', 'google.png', 'tiktok.png']) {
     assert.ok(mediaSource.includes(`media-cutout-v1/${asset}`), `missing first-party media logo ${asset}`);
   }
+  assert.match(mediaSource, /media-cutout-v1\/danggeun\.png/, 'missing supplied Danggeun logo');
+});
+
+test('Partner invoice payment stability lists prepaid and conditional postpaid options', () => {
+  assert.match(html, /결제 안정성<\/span><div class="bad">한도 초과·결제 거절 위험<\/div><div class="good">충전식<br>조건부 후불<\/div>/);
 });
 
 test('Meta landing uses natural scrolling, calm reveal motion, and a right-edge vertical progress line', () => {
