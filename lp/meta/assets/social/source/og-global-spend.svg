@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="shade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#071525" stop-opacity=".98"/>
+      <stop offset=".57" stop-color="#071525" stop-opacity=".72"/>
+      <stop offset="1" stop-color="#071525" stop-opacity=".08"/>
+    </linearGradient>
+  </defs>
+  <image href="og-global-spend.webp" width="1200" height="630" preserveAspectRatio="xMidYMid slice"/>
+  <rect width="1200" height="630" fill="url(#shade)"/>
+  <image href="../../appsilon-symbol.png" x="62" y="54" width="46" height="46"/>
+  <text x="122" y="87" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="25" font-weight="700" letter-spacing="2">APPSILON OFFICIAL ADS</text>
+  <text x="62" y="224" fill="#28a9dd" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="76" font-weight="800" letter-spacing="-3">5% + 3%</text>
+  <text x="62" y="304" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="52" font-weight="800" letter-spacing="-2">해외 결제 수수료는 줄이고</text>
+  <text x="62" y="370" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="52" font-weight="800" letter-spacing="-2">보너스 크레딧은 더 받으세요.</text>
+  <rect x="62" y="431" width="308" height="54" rx="27" fill="#28a9dd"/>
+  <text x="216" y="466" text-anchor="middle" fill="#061421" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="700">무료 광고비 절감 진단</text>
+  <text x="62" y="549" fill="#c6d4e2" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="19" font-weight="500">Meta · Google · TikTok 파트너 광고계정</text>
+  <text x="62" y="582" fill="#8194a7" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="15" font-weight="500">혜택은 매체·업종·광고비 조건에 따라 달라질 수 있습니다.</text>
+</svg>

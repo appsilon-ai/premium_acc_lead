@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="shade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#061421" stop-opacity=".98"/>
+      <stop offset=".56" stop-color="#061421" stop-opacity=".78"/>
+      <stop offset="1" stop-color="#061421" stop-opacity=".04"/>
+    </linearGradient>
+  </defs>
+  <image href="og-media-hub.webp" width="1200" height="630" preserveAspectRatio="xMidYMid slice"/>
+  <rect width="1200" height="630" fill="url(#shade)"/>
+  <image href="../../appsilon-symbol.png" x="62" y="54" width="46" height="46"/>
+  <text x="122" y="87" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="25" font-weight="700" letter-spacing="2">APPSILON</text>
+  <text x="62" y="217" fill="#28a9dd" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="25" font-weight="700">GLOBAL MEDIA OPERATIONS</text>
+  <text x="62" y="298" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="54" font-weight="800" letter-spacing="-2">광고계정부터</text>
+  <text x="62" y="368" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="54" font-weight="800" letter-spacing="-2">운영 혜택까지 한 번에.</text>
+  <text x="62" y="431" fill="#cad7e4" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="500">Meta · Google · TikTok 통합 광고 운영</text>
+  <line x1="62" y1="488" x2="356" y2="488" stroke="#28a9dd" stroke-width="4"/>
+  <text x="62" y="535" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="20" font-weight="600">글로벌 매체 결제 구조와 운영 효율을 함께 설계합니다.</text>
+</svg>

@@ -1,0 +1,20 @@
+{
+  "name": "APPSILON OFFICIAL ADS",
+  "short_name": "APPSILON",
+  "start_url": "/lp/meta",
+  "display": "standalone",
+  "background_color": "#07152f",
+  "theme_color": "#07152f",
+  "icons": [
+    {
+      "src": "/lp/meta/assets/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/lp/meta/assets/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
