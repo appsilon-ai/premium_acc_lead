@@ -75,7 +75,14 @@ test('Meta landing uses natural scrolling, calm reveal motion, and a right-edge 
 
 test('Meta landing uses the reference-aligned pitch and a working savings calculator', () => {
   assert.match(html, /class="hero-savings-card"/);
-  assert.match(html, /class="hero-media-strip"/);
+  const heroSection = html.match(/<header class="snap-section hero"[\s\S]*?<\/header>/)?.[0] || '';
+  assert.match(heroSection, /class="hero-media-marquee media-marquee"/);
+  assert.equal((heroSection.match(/class="media-marquee-loop"/g) || []).length, 2);
+  assert.equal((heroSection.match(/class="media-marquee-cell"/g) || []).length, 16);
+  for (const asset of ['meta.svg', 'google.svg', 'tiktok.svg', 'naver.png', 'kakao.svg', 'toss-user-cutout-v1.png', 'youtube.svg', 'linkedin.svg']) {
+    assert.ok(heroSection.includes(`../../logos/${asset}`), `missing hero marquee asset ${asset}`);
+  }
+  assert.doesNotMatch(heroSection, /hero-media-strip/);
   assert.match(html, /해외매체 광고비 절감/);
   assert.match(html, /파트너 계정 혜택/);
   assert.match(html, /id="budget-range"[^>]*min="10000000"[^>]*max="500000000"/);
