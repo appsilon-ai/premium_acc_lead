@@ -26,7 +26,9 @@ test('Meta landing preserves lead API and required payload contract', () => {
   for (const field of ['company', 'name', 'email', 'phone', 'budget']) {
     assert.match(html, new RegExp(`name="${field}"`));
   }
-  assert.match(html, /services:\['Meta'\]/);
+  assert.match(html, /services:mediaSelections\.length\?mediaSelections\.map\(item=>item\.media\):\['Meta'\]/);
+  assert.match(html, /selectedMedia:mediaSelections/);
+  assert.match(html, /희망 매체 및 월 사용금액\(만원\)/);
   assert.match(html, /serviceType:\['계정 임대만'\]/);
 });
 
@@ -152,7 +154,7 @@ test('Meta landing renders the complete media list with image assets', () => {
   for (const asset of normalizedAssets) {
     assert.ok(mediaSection.includes(`../../logos/media-cutout-v1/${asset}.png`), `missing normalized asset ${asset}`);
   }
-  assert.ok(mediaSection.includes('../../logos/toss.png'), 'missing official Toss wordmark');
+  assert.ok(mediaSection.includes('../../logos/toss-user-cutout-v1.png'), 'missing user-supplied transparent Toss wordmark');
   assert.doesNotMatch(mediaSection, /class="(?:compact|tall)"|line\.jpg/);
   assert.match(html, /\.media-logo-grid\{[^}]*grid-template-columns:repeat\(4,1fr\)/);
   assert.match(html, /@media\(max-width:640px\)\{[\s\S]*?\.media-logo-grid\{grid-template-columns:repeat\(3,1fr\)/);
@@ -169,7 +171,7 @@ test('Meta landing reuses the homepage media marquee and exact first-party logo 
   assert.equal((mediaSection.match(/class="media-marquee-loop"/g) || []).length, 2);
   assert.equal((mediaSection.match(/class="media-marquee-cell"/g) || []).length, 16);
   assert.equal((mediaSection.match(/class="media-marquee-lockup"/g) || []).length, 4);
-  for (const asset of ['meta.svg', 'google.svg', 'tiktok.svg', 'naver.png', 'kakao.svg', 'toss.png', 'youtube.svg', 'linkedin.svg']) {
+  for (const asset of ['meta.svg', 'google.svg', 'tiktok.svg', 'naver.png', 'kakao.svg', 'toss-user-cutout-v1.png', 'youtube.svg', 'linkedin.svg']) {
     assert.ok(mediaSection.includes(`../../logos/${asset}`), `missing homepage marquee asset ${asset}`);
   }
   assert.match(html, /@keyframes mediaMarqueeSlide/);
@@ -211,22 +213,40 @@ test('Meta landing separates sections like slides without forced scroll intercep
 test('Meta landing uses one unified reference-style media connection card system', () => {
   const benefitSection = html.match(/<section class="snap-section section-soft media-unified" id="media-benefits"[\s\S]*?<\/section>/)?.[0] || '';
   assert.equal((benefitSection.match(/class="media-connection-card"/g) || []).length, 20);
-  assert.equal((benefitSection.match(/class="media-connection-status"/g) || []).length, 20);
-  assert.equal((benefitSection.match(/>연결 가능<\/span>/g) || []).length, 20);
+  assert.equal((benefitSection.match(/class="media-request-button"/g) || []).length, 20);
+  assert.equal((benefitSection.match(/>신청 리스트 추가<\/button>/g) || []).length, 20);
   assert.equal((benefitSection.match(/class="channel-benefit-card"/g) || []).length, 0);
   assert.equal((benefitSection.match(/class="media-logo(?: has-wordmark)?"/g) || []).length, 0);
-  for (const copy of ['주요 매체 대행사/인보이스 계정 혜택', 'Google Ads 연결 가능', 'Meta 연결 가능', 'TikTok 연결 가능', 'Unity Ads 연결 가능', 'APPSILON 취급 광고 매체']) {
+  for (const copy of ['주요 매체 대행사 인보이스 계정 혜택', 'Google Ads 인보이스로 변경 가능', 'Meta 인보이스 계정 발급', 'TikTok 인보이스로 변경 가능', 'NAVER 간단 승인으로 이용가능', 'Kakao 간단 승인으로 이용가능', 'Toss Ads 간단 승인으로 이용 가능', 'X(구 Twitter) 신규계정 발급', 'LinkedIn 신규계정 발급', 'Unity Ads 연결 가능']) {
     assert.ok(benefitSection.includes(copy), `missing benefit copy ${copy}`);
   }
+  assert.doesNotMatch(benefitSection, /APPSILON 취급 광고 매체/);
   assert.doesNotMatch(benefitSection, /취급 매체 전체는 로고 슬라이더로/);
   assert.doesNotMatch(benefitSection, /channel-points|공식 파트너 계정 기반 운영|월 단위 세금계산서 정산/);
   assert.match(html, /#media,#case\{display:none\}/);
   assert.match(html, /\.media-marquee-shell\.media-marquee-transparent\{[^}]*width:100vw[^}]*background:transparent[^}]*box-shadow:none/);
-  assert.match(html, /\.media-connection-card\{[^}]*grid-template-columns:124px minmax\(0,1fr\) 78px[^}]*border-radius:20px[^}]*background:#fff/);
+  assert.match(html, /\.media-connection-card\{[^}]*grid-template-columns:124px minmax\(0,1fr\) 116px/);
   assert.match(html, /\.media-connection-logo img\{[^}]*height:28px[^}]*background:transparent[^}]*mix-blend-mode:normal/);
   assert.match(html, /\.media-unified \.section-head\{margin-bottom:8px\}/);
-  assert.match(html, /@media\(max-width:760px\)[\s\S]*?\.media-connection-card\{[^}]*grid-template-columns:82px minmax\(0,1fr\) 62px/);
+  assert.match(html, /@media\(max-width:760px\)[\s\S]*?\.media-connection-card\{[^}]*grid-template-columns:78px minmax\(0,1fr\) 88px/);
   assert.doesNotMatch(benefitSection, /ANONYMIZED CASE|₩500,800,030|5\.96%/);
+});
+
+test('Meta landing persists requested media budgets and carries them into the lead', () => {
+  assert.match(html, /id="media-request-dialog"/);
+  assert.match(html, /name="monthlyBudget"[^>]*type="number"[^>]*min="1"/);
+  assert.match(html, /id="media-selection-bar"[^>]*hidden/);
+  assert.match(html, /sessionStorage\.setItem\(storageKey/);
+  assert.match(html, /monthlyBudgetManwon/);
+  assert.match(html, /window\.getMediaSelections=selectionArray/);
+  assert.match(html, /window\.clearMediaSelections/);
+  assert.match(html, /class="media-selection-submit" href="#apply"/);
+});
+
+test('Meta landing releases the top navigation and closes with the APPSILON logo', () => {
+  assert.match(html, /\.nav\{position:relative;top:auto;background:#fff;backdrop-filter:none\}/);
+  assert.match(html, /class="footer-corporation-logo" src="\.\.\/\.\.\/logos\/appsilon\.png"/);
+  assert.match(html, /body\{padding-bottom:0\}/);
 });
 
 test('Meta landing uses Korean-only section headings and polished Korean labels', () => {
@@ -258,6 +278,9 @@ test('Normalized media cutouts are valid transparent PNG files', async () => {
   const toss = await readFile(new URL('../logos/toss.png', import.meta.url));
   assert.deepEqual(toss.subarray(0, 8), pngSignature, 'invalid official Toss PNG');
   assert.equal(toss[25], 6, 'official Toss logo must retain RGBA transparency');
+  const suppliedToss = await readFile(new URL('../logos/toss-user-cutout-v1.png', import.meta.url));
+  assert.deepEqual(suppliedToss.subarray(0, 8), pngSignature, 'invalid user-supplied Toss PNG');
+  assert.equal(suppliedToss[25], 6, 'user-supplied Toss logo must retain RGBA transparency');
 });
 
 test('BillyJo-style benefit cutouts are valid transparent PNG files', async () => {
