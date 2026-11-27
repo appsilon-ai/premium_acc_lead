@@ -92,7 +92,7 @@
     @media(max-width:640px){.media-logo:has(img[alt="KT TOWNBOARD"]){grid-column:span 2}}
   </style>
   <style>
-    .evidence-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:stretch}.compact-calculator{display:flex;flex-direction:column;justify-content:center}.compact-calculator .quick-budgets{margin-top:13px}.compact-calculator .assumption{margin-top:13px;padding-top:12px}.calc-total{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:14px;padding:14px 16px;border-radius:13px;background:linear-gradient(145deg,#0d2c5e,#1652a5);color:#fff}.calc-total span{font-size:12px;color:#cfe2ff}.calc-total strong{font-size:27px;line-height:1;letter-spacing:-.04em}.calc-total-breakdown{display:flex;justify-content:flex-end;gap:12px;margin-top:8px;color:var(--muted);font-size:10px}.calc-total-breakdown strong{color:var(--blue)}
+    .evidence-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:stretch}.compact-calculator{display:flex;flex-direction:column;justify-content:center}.compact-calculator .quick-budgets{margin-top:13px}.compact-calculator .assumption{margin-top:13px;padding-top:12px}.calc-total{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:14px;padding:14px 16px;border-radius:13px;background:linear-gradient(145deg,#0d2c5e,#1652a5);color:#fff}.calc-total>span{font-size:12px;color:#cfe2ff}.calc-total strong{color:#55f6a9;font-size:27px;line-height:1;letter-spacing:-.04em}.calc-total strong span{color:inherit;font-size:inherit;font-weight:inherit;line-height:inherit;letter-spacing:inherit}.calc-total-breakdown{display:flex;justify-content:flex-end;gap:12px;margin-top:8px;color:var(--muted);font-size:10px}.calc-total-breakdown strong{color:var(--blue)}
     @media(max-width:640px){#calculator .section-head{margin-bottom:8px}.evidence-grid{grid-template-columns:1fr;gap:7px}.evidence-grid .receipt{padding:14px 15px}.evidence-grid .receipt-row{padding:6px 0}.compact-calculator{padding:12px}.compact-calculator .calc-label{margin-bottom:7px}.compact-calculator .quick-budgets{grid-template-columns:repeat(4,1fr);gap:4px;margin-top:8px}.compact-calculator .chip{font-size:10px;padding:5px 2px}.compact-calculator .assumption{display:none}.calc-total{margin-top:8px;padding:8px 10px}.calc-total strong{font-size:20px}.calc-total-breakdown{margin-top:4px;font-size:8px}}
     .media-logo.has-wordmark{position:relative}.media-logo.has-wordmark .media-brand-lockup{grid-row:1}.media-logo.has-wordmark .media-benefit{grid-row:2}
     @media(max-width:640px){html{scroll-snap-type:y proximity}.snap-section{align-items:flex-start}.hero,.apply{min-height:calc(100svh - var(--nav-h));align-items:center}.snap-section:not(.hero):not(.apply){min-height:auto;padding:32px 0;scroll-snap-stop:normal}.section-head{margin-bottom:14px}.section-head p{line-height:1.45}#media .section-head,#case .section-head{margin-bottom:13px}.receipt-network-row{gap:8px;padding:8px 0}.receipt-network-copy b{font-size:9px}.receipt-network-logos{gap:5px}.receipt-network-logos img{height:16px;max-width:37px}.receipt-network-logos img[alt="American Express"]{height:18px}}
@@ -171,6 +171,8 @@
     .receipt::before,.receipt::after{content:none}
     .receipt-head{padding-top:0}
     .receipt-title small{display:none}
+    .estimate-badge,.receipt-head>.estimate-badge{display:inline-flex;align-items:center;width:max-content;padding:3px 7px;border-radius:999px;background:#eef4fb;color:#607087;font-size:9px;font-weight:850;line-height:1;text-align:center;white-space:nowrap}
+    .calc-total .estimate-badge{margin-left:4px;background:rgba(255,255,255,.12);color:#dceaff;font-size:8px;vertical-align:1px}
     .receipt-network-logos img[alt="American Express"]{height:24px;max-width:56px;filter:saturate(1.35) contrast(1.08)}
     .compact-calculator{box-shadow:none;background:#fff;border-color:#d5deea}
     .media-unified{background:linear-gradient(180deg,#fff 0%,#f5f8fd 100%)}
@@ -280,7 +282,7 @@
         <div class="section-head"><h2>카드 청구액과 절감 가능한 비용을 한 번에 확인하세요.</h2><p>월 광고비를 선택하면 연간 수수료 절감액과 보너스 예상치를 확인할 수 있습니다.</p></div>
         <div class="evidence-grid">
           <article class="receipt" data-receipt-example aria-label="신용카드 청구 영수증 예시">
-            <div class="receipt-head"><div class="receipt-title"><b>Meta, Google 및 해외매체 광고비 결제내역</b></div></div>
+            <div class="receipt-head"><div class="receipt-title"><b>Meta, Google 및 해외매체 광고비 결제내역</b></div><span class="estimate-badge" aria-label="예시 금액이며 실제 혜택을 보장하지 않습니다">예시</span></div>
             <div class="receipt-network-row"><div class="receipt-network-copy"><b>해외 광고비 카드 이용 명세</b><span>이용기간 2026.11.01–2026.11.30</span></div><div class="receipt-network-logos" aria-label="지원 카드 결제 네트워크"><img src="../../logos/visa.svg" alt="Visa"><img src="../../logos/mastercard.svg" alt="Mastercard"><img src="../../logos/unionpay.svg" alt="UnionPay"><img src="../../logos/amex.svg" alt="American Express"></div></div>
             <div class="receipt-meta"><span><small>카드 번호</small>3792-20**-****-**021</span><span><small>해외 승인</small>12건</span></div>
             <div class="receipt-columns"><span>이용 내역</span><span>청구 금액</span></div>
@@ -290,7 +292,6 @@
             <div class="receipt-row loss"><span>원화결제·재환전 마진 1.75%</span><strong data-countup="1750000" data-prefix="+₩">+₩1,750,000</strong></div>
             <div class="receipt-row loss"><span>기타 해외 이용 비용</span><strong data-countup="993800" data-prefix="+₩">+₩993,800</strong></div>
             <div class="receipt-row total"><span>최종 청구 금액</span><strong data-countup="105443800" data-prefix="₩">₩105,443,800</strong></div>
-            <p class="receipt-caption">월 ₩100,000,000 집행을 가정한 카드 명세 예시이며 카드사·환율·결제 조건에 따라 달라집니다.</p>
           </article>
           <div class="panel compact-calculator">
             <div class="calc-label"><span>월 Meta 광고비</span><output id="budget-output">₩50,000,000</output></div>
@@ -298,10 +299,9 @@
             <div class="range-meta"><span>₩10,000,000</span><span>₩500,000,000</span></div>
             <div class="quick-budgets" aria-label="빠른 광고비 선택"><button class="chip" type="button" data-budget="30000000">₩30,000,000</button><button class="chip is-active" type="button" data-budget="50000000">₩50,000,000</button><button class="chip" type="button" data-budget="100000000">₩100,000,000</button><button class="chip" type="button" data-budget="300000000">₩300,000,000</button></div>
             <div class="assumption"><div class="assumption-row"><span>해외 결제 수수료</span><b>5.0%</b></div><div class="assumption-row"><span>보너스 예시</span><b>3.0%</b></div></div>
-            <div class="calc-total" aria-live="polite"><span>예상 연간 혜택</span><strong>₩<span id="annual-result">48,000,000</span></strong></div>
+            <div class="calc-total" aria-live="polite"><span>예상 연간 혜택 <small class="estimate-badge" aria-label="예상치이며 실제 혜택을 보장하지 않습니다">예상치</small></span><strong>₩<span id="annual-result">48,000,000</span></strong></div>
             <div class="calc-total-breakdown"><span>비용 절감 <strong id="fee-result">₩30,000,000</strong></span><span>보너스 <strong id="bonus-result">₩18,000,000</strong></span></div>
             <div class="partner-invoice" aria-label="파트너 계정 인보이스 예시"><div class="partner-invoice-head"><span>파트너 인보이스</span><b>해외 결제 수수료 0원</b></div><div class="partner-invoice-row"><span>파트너 인보이스 충전</span><strong>₩100,000,000</strong></div><div class="partner-invoice-row"><span>해외 결제·카드 수수료</span><strong class="good">0원</strong></div><div class="partner-invoice-row"><span>Meta 보너스 예시</span><strong class="good">+₩3,000,000</strong></div><div class="partner-invoice-row"><span>회계 처리</span><strong>월 세금계산서</strong></div></div>
-            <p class="receipt-caption">시뮬레이션 예시이며 수수료 절감액은 보수적 5% 기준입니다. 실제 혜택을 보장하지 않습니다.</p>
           </div>
         </div>
       </div>
