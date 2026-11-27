@@ -6,8 +6,9 @@ const html = await readFile(new URL('../lp/meta/index.html', import.meta.url), '
 
 test('Meta landing keeps one clear proposition and one semantic H1', () => {
   assert.equal((html.match(/<h1>/g) || []).length, 1);
-  assert.equal((html.match(/class="hero-line"/g) || []).length, 3);
-  assert.match(html, /Meta 광고비, 해외 결제[\s\S]*수수료 5%는 줄이고, 보너스[\s\S]*크레딧 3%는 더 받으세요/);
+  assert.equal((html.match(/class="hero-line"/g) || []).length, 2);
+  assert.match(html, /class="hero-rate">5% <i>\+<\/i> 3%/);
+  assert.match(html, /해외 결제 수수료는 줄이고[\s\S]*보너스 크레딧은 더 받으세요/);
   assert.doesNotMatch(html, /logo-lockup appsilon/);
   assert.doesNotMatch(html, /내 지원금 확인|내 돈 찾으러 가기/);
 });
@@ -72,21 +73,17 @@ test('Meta landing uses natural scrolling, calm reveal motion, and a right-edge 
   assert.doesNotMatch(html, /wheelLock=true/);
 });
 
-test('Meta landing uses an authentic code-native account console without synthetic hero media', () => {
-  assert.match(html, /class="hero-console"/);
-  assert.match(html, /파트너 계정 운영 현황/);
-  assert.match(html, /Meta 광고계정/);
-  assert.match(html, /이번 달 광고비/);
-  assert.match(html, /절감한 해외 결제 수수료<\/small><strong>\+₩5,000,000<\/strong><em>절감률 5\.0%/);
-  assert.match(html, /예상 보너스 크레딧<\/small><strong>\+₩3,000,000<\/strong><em>보너스율 3\.0%/);
-  assert.match(html, /\.console-account-logo\{border:0;background:transparent\}/);
-  assert.match(html, /\.console-kpi\.gain strong\{color:#18845b\}/);
-  assert.match(html, /\.console-account-logo img\{width:68px;height:24px;object-fit:contain\}/);
-  assert.match(html, /파트너 인보이스/);
-  assert.match(html, /캠페인 · 픽셀 · 데이터/);
-  assert.match(html, /class="console-chart"/);
-  assert.match(html, /@keyframes chartDraw/);
-  assert.match(html, /Google Ads 연결 가능/);
+test('Meta landing uses the reference-aligned pitch and a working savings calculator', () => {
+  assert.match(html, /class="hero-savings-card"/);
+  assert.match(html, /class="hero-media-strip"/);
+  assert.match(html, /해외매체 광고비 절감/);
+  assert.match(html, /파트너 계정 혜택/);
+  assert.match(html, /id="budget-range"[^>]*min="10000000"[^>]*max="500000000"/);
+  assert.match(html, /해외 결제 수수료 절감 \(연\)/);
+  assert.match(html, /보너스 크레딧 추가 \(연\)/);
+  assert.match(html, /class="hero-card-cta" href="#apply"/);
+  assert.match(html, /\.hero-grid\{grid-template-columns:minmax\(0,1\.02fr\) minmax\(420px,\.82fr\)/);
+  assert.match(html, /\.hero-savings-card\{[^}]*border-radius:25px[^}]*background:#fff/);
   assert.doesNotMatch(html, /<video/);
   assert.doesNotMatch(html, /operations-hero-v1\.(?:mp4|jpg)/);
   assert.doesNotMatch(html, /hero-video-frame|visual-rate-card|cardFloat|visualGlow/);
@@ -105,18 +102,20 @@ test('Meta landing uses an authentic code-native account console without synthet
 test('Meta landing keeps a visual credit-card receipt example', () => {
   assert.match(html, /data-receipt-example/);
   assert.match(html, /Meta, Google 해외매체 광고비 결제내역/);
-  assert.match(html, /3792-20\*\*-\*\*\*\*-\*\*021/);
+  assert.match(html, /해외매체 광고비 카드결제 = <em>돈 새는 구멍<\/em>/);
   assert.match(html, /최종 청구 금액/);
   assert.match(html, /해외 광고비 카드 이용 명세/);
   assert.doesNotMatch(html, /MONTHLY CARD STATEMENT/);
   assert.doesNotMatch(html, /청구 기준일/);
   assert.doesNotMatch(html, /이용기간 2026\.11\.01/);
-  assert.match(html, /카드 번호/);
+  assert.doesNotMatch(html, /카드 번호|3792-20/);
   for (const network of ['visa.svg', 'mastercard.svg', 'unionpay.svg', 'amex.svg']) {
     assert.ok(html.includes(`../../logos/${network}`), `missing card network ${network}`);
   }
-  assert.match(html, /\.receipt::before,\.receipt::after\{content:none\}/);
-  assert.match(html, /\.compact-calculator\{box-shadow:none/);
+  assert.match(html, /\.receipt-stage \.receipt\{[^}]*-webkit-mask:radial-gradient/);
+  assert.match(html, /파트너 계정 대비 월 추가 비용/);
+  assert.match(html, /월 ₩5,693,800/);
+  assert.match(html, /연간 ₩68,325,600/);
   assert.match(html, /\.receipt-network-logos img,\.receipt-network-logos img\[alt="American Express"\]\{[^}]*height:20px[^}]*background:transparent[^}]*mix-blend-mode:normal/);
   assert.equal((html.match(/data-countup="/g) || []).length, 5);
   assert.match(html, /환전 수수료 약 1\.75%/);
@@ -264,7 +263,23 @@ test('Meta landing releases the top navigation and closes with the APPSILON logo
   assert.match(html, /body\{padding-bottom:0\}/);
   assert.doesNotMatch(html, /통신판매신고번호 2021-서울강남-04074/);
   assert.match(html, /id="contact-mail-title">문의 메일 보내기/);
-  assert.match(html, /href="mailto:arin@appsilon\.kr\?subject=APPSILON%20파트너%20계정%20문의"/);
+  for (const [subject, label] of [
+    ['계정%20문의', '계정 문의'],
+    ['비즈니스%20제휴', '비즈니스 제휴'],
+    ['광고%20의뢰', '광고 의뢰'],
+    ['기타%20문의', '기타 문의'],
+  ]) {
+    assert.match(html, new RegExp(`href="mailto:arin@appsilon\\.kr\\?subject=APPSILON%20${subject}">${label}</a>`));
+  }
+  assert.equal((html.match(/mailto:arin@appsilon\.kr\?subject=/g) || []).length, 4);
+  assert.match(html, /\.contact-mail-options\{display:grid;grid-template-columns:repeat\(2,minmax\(128px,1fr\)\)/);
+  assert.match(html, /문의 유형을 선택하면 메일 제목이 자동으로 입력됩니다\./);
+});
+
+test('Meta landing enlarges section labels and tightens the label-to-heading gap', () => {
+  assert.match(html, /\.snap-section:not\(\.hero\)::before\{[^}]*top:22px[^}]*font-size:12px[^}]*line-height:1\.2/);
+  assert.match(html, /\.snap-section h2\{margin:5px 0 13px/);
+  assert.match(html, /@media\(max-width:640px\)[\s\S]*?\.snap-section:not\(\.hero\)::before\{top:15px;left:14px;font-size:10px\}/);
 });
 
 test('Meta landing uses Korean-only section headings and polished Korean labels', () => {
@@ -281,11 +296,11 @@ test('Meta landing uses current Meta calculator rates and compact mobile content
   assert.match(html, /annualFee=Math\.round\(budget\*\.05\*12\)/);
   assert.match(html, /annualBonus=Math\.round\(budget\*\.03\*12\)/);
   assert.match(html, /renderCalculator\(range\.value\)/);
-  assert.match(html, /\.calc-total strong\{color:#55f6a9;font-size:27px/);
-  assert.match(html, /\.calc-total strong span\{color:inherit;font-size:inherit;font-weight:inherit;line-height:inherit;letter-spacing:inherit\}/);
+  assert.match(html, /\.hero-savings-total>strong\{color:#0a9b63!important;font-size:25px/);
+  assert.match(html, /\.hero-savings-total>strong span\{color:inherit;font-size:inherit;font-weight:inherit;line-height:inherit;letter-spacing:inherit\}/);
   assert.match(html, /<strong>\+₩ <span id="annual-result">48,000,000<\/span><\/strong>/);
   assert.match(html, /class="bonus-good">\+₩3,000,000/);
-  assert.match(html, /\.partner-invoice-row strong\.bonus-good\{color:#0a9b63\}/);
+  assert.match(html, /\.hero-partner-note \.bonus-good\{color:#0a9b63\}/);
   assert.match(html, /aria-label="예시 금액이며 실제 혜택을 보장하지 않습니다">예시</);
   assert.match(html, /aria-label="예상치이며 실제 혜택을 보장하지 않습니다">예상치</);
   assert.doesNotMatch(html, /월 ₩100,000,000 집행을 가정한 카드 명세 예시/);
