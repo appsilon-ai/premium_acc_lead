@@ -1,15 +1,53 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#070b1d"/>
-  <image href="../../appsilon-symbol.png" x="64" y="46" width="40" height="40"/>
-  <text x="118" y="76" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="800" letter-spacing="1.8">APPSILON OFFICIAL ADS</text>
-  <text x="64" y="190" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="72" font-weight="900" letter-spacing="-3.6">해외 광고비,</text>
-  <rect x="475" y="126" width="481" height="82" fill="#31c7f2"/>
-  <text x="499" y="190" fill="#07101f" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="72" font-weight="900" letter-spacing="-3.6">더 효율적으로.</text>
-  <text x="64" y="260" fill="#c9d4e2" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="27" font-weight="600">Meta · Google · TikTok 파트너 광고계정 무료 진단</text>
-  <rect x="64" y="328" width="330" height="190" rx="24" fill="#ffffff"/>
-  <image href="../../../../../logos/media-cutout-v1/meta.png" x="109" y="381" width="240" height="84" preserveAspectRatio="xMidYMid meet"/>
-  <rect x="435" y="328" width="330" height="190" rx="24" fill="#ffffff"/>
-  <image href="../../../../../logos/media-cutout-v1/google.png" x="480" y="381" width="240" height="84" preserveAspectRatio="xMidYMid meet"/>
-  <rect x="806" y="328" width="330" height="190" rx="24" fill="#ffffff"/>
-  <image href="../../../../../logos/media-cutout-v1/tiktok.png" x="851" y="381" width="240" height="84" preserveAspectRatio="xMidYMid meet"/>
+  <rect width="1200" height="630" fill="#07101f"/>
+
+  <g fill="#ffffff">
+    <rect x="24" y="24" width="164" height="96" rx="18"/>
+    <rect x="214" y="24" width="164" height="96" rx="18"/>
+    <rect x="404" y="24" width="164" height="96" rx="18"/>
+    <rect x="594" y="24" width="164" height="96" rx="18"/>
+    <rect x="784" y="24" width="164" height="96" rx="18"/>
+    <rect x="974" y="24" width="202" height="96" rx="18"/>
+    <rect x="24" y="146" width="164" height="158" rx="18"/>
+    <rect x="24" y="326" width="164" height="158" rx="18"/>
+    <rect x="1012" y="146" width="164" height="158" rx="18"/>
+    <rect x="1012" y="326" width="164" height="158" rx="18"/>
+    <rect x="24" y="510" width="164" height="96" rx="18"/>
+    <rect x="214" y="510" width="164" height="96" rx="18"/>
+    <rect x="404" y="510" width="164" height="96" rx="18"/>
+    <rect x="594" y="510" width="164" height="96" rx="18"/>
+    <rect x="784" y="510" width="164" height="96" rx="18"/>
+    <rect x="974" y="510" width="202" height="96" rx="18"/>
+  </g>
+
+  <image href="../../../../../logos/media-cutout-v1/meta.png" x="45" y="45" width="122" height="54" preserveAspectRatio="xMidYMid meet"/>
+  <image href="../../../../../logos/media-cutout-v1/google.png" x="235" y="45" width="122" height="54" preserveAspectRatio="xMidYMid meet"/>
+  <image href="../../../../../logos/media-cutout-v1/naver.png" x="425" y="45" width="122" height="54" preserveAspectRatio="xMidYMid meet"/>
+  <image href="../../../../../logos/media-cutout-v1/kakao.png" x="615" y="45" width="122" height="54" preserveAspectRatio="xMidYMid meet"/>
+  <image href="../../../../../logos/media-cutout-v1/tiktok.png" x="805" y="45" width="122" height="54" preserveAspectRatio="xMidYMid meet"/>
+  <image href="../../../../../logos/media-cutout-v1/toss-ads.png" x="1004" y="45" width="142" height="54" preserveAspectRatio="xMidYMid meet"/>
+
+  <image href="../../../../../logos/media-cutout-v1/youtube.png" x="45" y="191" width="122" height="68" preserveAspectRatio="xMidYMid meet"/>
+  <image href="../../../../../logos/media-cutout-v1/danggeun.png" x="45" y="371" width="122" height="68" preserveAspectRatio="xMidYMid meet"/>
+  <image href="../../../../../logos/media-cutout-v1/apple.png" x="1033" y="191" width="122" height="68" preserveAspectRatio="xMidYMid meet"/>
+  <image href="../../../../../logos/media-cutout-v1/amazon.png" x="1033" y="371" width="122" height="68" preserveAspectRatio="xMidYMid meet"/>
+
+  <image href="../../../../../logos/media-cutout-v1/line.png" x="45" y="531" width="122" height="54" preserveAspectRatio="xMidYMid meet"/>
+  <image href="../../../../../logos/media-cutout-v1/x.png" x="235" y="531" width="122" height="54" preserveAspectRatio="xMidYMid meet"/>
+  <image href="../../../../../logos/media-cutout-v1/linkedin.png" x="425" y="531" width="122" height="54" preserveAspectRatio="xMidYMid meet"/>
+  <image href="../../../../../logos/media-cutout-v1/pinterest.png" x="615" y="531" width="122" height="54" preserveAspectRatio="xMidYMid meet"/>
+  <image href="../../../../../logos/media-cutout-v1/unity-ads.png" x="805" y="531" width="122" height="54" preserveAspectRatio="xMidYMid meet"/>
+  <image href="../../../../../logos/media-cutout-v1/reddit.png" x="1004" y="531" width="142" height="54" preserveAspectRatio="xMidYMid meet"/>
+
+  <rect x="212" y="146" width="776" height="338" rx="28" fill="#0e1c31" stroke="#31c7f2" stroke-width="4"/>
+  <image href="../../../../../logos/appsilon-white-wordmark-v1.png" x="262" y="185" width="300" height="46" preserveAspectRatio="xMinYMid meet"/>
+  <text x="262" y="286" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="46" font-weight="900" letter-spacing="-2.3">공식대행사 계정</text>
+  <text x="262" y="344" fill="#cbd6e4" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="31" font-weight="700" letter-spacing="-1.2">광고비 절감 + 매체별 보너스</text>
+  <rect x="620" y="190" width="318" height="224" rx="22" fill="#31c7f2"/>
+  <text x="779" y="278" text-anchor="middle" fill="#07101f" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-weight="800">
+    <tspan x="779" font-size="30">Toss Ads 월 최대</tspan>
+    <tspan x="779" dy="101" font-size="92" font-weight="950" letter-spacing="-4">17%</tspan>
+  </text>
+  <rect x="262" y="386" width="300" height="4" fill="#31c7f2"/>
+  <text x="262" y="434" fill="#8fa4bb" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="700">NAVER·Kakao 15% · 당근 12% · TikTok 9%</text>
 </svg>
