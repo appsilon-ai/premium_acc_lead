@@ -16,7 +16,7 @@ test('Meta landing reuses verified first-party operator and media assets', () =>
   for (const asset of ['../../logos/appsilon.png', '../../logos/meta.svg', '../../logos/google.svg', '../../logos/media-cutout-v1/tiktok.png']) {
     assert.ok(html.includes(asset), `missing asset ${asset}`);
   }
-  for (const copy of ['앱실론코퍼레이션(주)', '810-81-01685', '2021-서울강남-04074']) {
+  for (const copy of ['앱실론코퍼레이션(주)', '810-81-01685']) {
     assert.ok(html.includes(copy), `missing operator proof ${copy}`);
   }
 });
@@ -104,12 +104,13 @@ test('Meta landing uses an authentic code-native account console without synthet
 
 test('Meta landing keeps a visual credit-card receipt example', () => {
   assert.match(html, /data-receipt-example/);
-  assert.match(html, /Meta, Google 및 해외매체 광고비 결제내역/);
+  assert.match(html, /Meta, Google 해외매체 광고비 결제내역/);
   assert.match(html, /3792-20\*\*-\*\*\*\*-\*\*021/);
   assert.match(html, /최종 청구 금액/);
   assert.match(html, /해외 광고비 카드 이용 명세/);
   assert.doesNotMatch(html, /MONTHLY CARD STATEMENT/);
   assert.doesNotMatch(html, /청구 기준일/);
+  assert.doesNotMatch(html, /이용기간 2026\.11\.01/);
   assert.match(html, /카드 번호/);
   for (const network of ['visa.svg', 'mastercard.svg', 'unionpay.svg', 'amex.svg']) {
     assert.ok(html.includes(`../../logos/${network}`), `missing card network ${network}`);
@@ -118,13 +119,17 @@ test('Meta landing keeps a visual credit-card receipt example', () => {
   assert.match(html, /\.compact-calculator\{box-shadow:none/);
   assert.match(html, /\.receipt-network-logos img,\.receipt-network-logos img\[alt="American Express"\]\{[^}]*height:20px[^}]*background:transparent[^}]*mix-blend-mode:normal/);
   assert.equal((html.match(/data-countup="/g) || []).length, 5);
-  assert.match(html, /data-countup="105443800" data-prefix="₩"/);
+  assert.match(html, /환전 수수료 약 1\.75%/);
+  assert.match(html, /data-countup="1750000" data-prefix="\+₩"/);
+  assert.match(html, /data-countup="105693800" data-prefix="₩"/);
   assert.match(html, /function animateCountup\(element\)/);
   assert.match(html, /element\.classList\.add\('is-counting'\)/);
-  assert.match(html, /index\*90/);
+  assert.match(html, /const duration=1600/);
+  assert.match(html, /index\*420/);
   assert.match(html, /if\(reducedMotion\)\{renderCountupValue\(element,target\)/);
   assert.match(html, /\.receipt-network-logos\{display:grid;grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
   assert.match(html, /\.js \.receipt-row \[data-countup\]\.is-counting\{opacity:1;transform:none\}/);
+  assert.match(html, /\.js \.receipt-row \[data-countup\]\{opacity:0;transform:translateY\(16px\)/);
   assert.match(html, /\.receipt-row\.total\{padding:14px 16px\}/);
 });
 
@@ -218,11 +223,14 @@ test('Meta landing uses one unified reference-style media connection card system
   const benefitSection = html.match(/<section class="snap-section section-soft media-unified" id="media-benefits"[\s\S]*?<\/section>/)?.[0] || '';
   assert.equal((benefitSection.match(/class="media-connection-card"/g) || []).length, 20);
   assert.equal((benefitSection.match(/class="media-request-button"/g) || []).length, 20);
-  assert.equal((benefitSection.match(/>신청 리스트 추가<\/button>/g) || []).length, 20);
+  assert.equal((benefitSection.match(/>선택<\/button>/g) || []).length, 20);
   assert.equal((benefitSection.match(/class="channel-benefit-card"/g) || []).length, 0);
   assert.equal((benefitSection.match(/class="media-logo(?: has-wordmark)?"/g) || []).length, 0);
-  for (const copy of ['주요 매체 대행사 인보이스 계정 혜택', 'Google Ads 인보이스로 변경 가능', 'Meta 인보이스 계정 발급', 'TikTok 인보이스로 변경 가능', 'NAVER 간단 승인으로 이용가능', 'Kakao 간단 승인으로 이용가능', 'Toss Ads 간단 승인으로 이용 가능', 'X(구 Twitter) 신규계정 발급', 'LinkedIn 신규계정 발급', 'Unity Ads 연결 가능']) {
+  for (const copy of ['주요 매체 대행사 인보이스 계정 혜택', '인보이스 계정 발급', '인보이스로 변경 가능', '간단 승인으로 이용 가능', '신규계정 발급', '연결 가능']) {
     assert.ok(benefitSection.includes(copy), `missing benefit copy ${copy}`);
+  }
+  for (const duplicatedCopy of ['Meta 인보이스', 'Google Ads 인보이스', 'TikTok 인보이스', 'NAVER 간단', 'Kakao 간단', 'Toss Ads 간단', 'X(구 Twitter) 신규', 'LinkedIn 신규', 'Unity Ads 연결']) {
+    assert.ok(!benefitSection.includes(duplicatedCopy), `duplicated media name remains: ${duplicatedCopy}`);
   }
   assert.doesNotMatch(benefitSection, /APPSILON 취급 광고 매체/);
   assert.doesNotMatch(benefitSection, /취급 매체 전체는 로고 슬라이더로/);
@@ -231,6 +239,9 @@ test('Meta landing uses one unified reference-style media connection card system
   assert.match(html, /\.media-marquee-shell\.media-marquee-transparent\{[^}]*width:100vw[^}]*background:transparent[^}]*box-shadow:none/);
   assert.match(html, /\.media-connection-card\{[^}]*grid-template-columns:124px minmax\(0,1fr\) 116px/);
   assert.match(html, /\.media-connection-logo img\{[^}]*height:28px[^}]*background:transparent[^}]*mix-blend-mode:normal/);
+  assert.match(html, /\.media-connection-copy span\{font-size:13px;font-weight:400/);
+  assert.match(html, /\.media-request-button\{[^}]*background:linear-gradient\(180deg,#2f86ef 0%,#1662c4 100%\)[^}]*box-shadow:0 4px 0 #0b3f8e/);
+  assert.match(html, /button\.textContent=added\?'선택됨':'선택'/);
   assert.match(html, /\.media-unified \.section-head\{margin-bottom:8px\}/);
   assert.match(html, /@media\(max-width:760px\)[\s\S]*?\.media-connection-card\{[^}]*grid-template-columns:78px minmax\(0,1fr\) 88px/);
   assert.doesNotMatch(benefitSection, /ANONYMIZED CASE|₩500,800,030|5\.96%/);
@@ -251,6 +262,9 @@ test('Meta landing releases the top navigation and closes with the APPSILON logo
   assert.match(html, /\.nav\{position:relative;top:auto;background:#fff;backdrop-filter:none\}/);
   assert.match(html, /class="footer-corporation-logo" src="\.\.\/\.\.\/logos\/appsilon\.png"/);
   assert.match(html, /body\{padding-bottom:0\}/);
+  assert.doesNotMatch(html, /통신판매신고번호 2021-서울강남-04074/);
+  assert.match(html, /id="contact-mail-title">문의 메일 보내기/);
+  assert.match(html, /href="mailto:arin@appsilon\.kr\?subject=APPSILON%20파트너%20계정%20문의"/);
 });
 
 test('Meta landing uses Korean-only section headings and polished Korean labels', () => {
@@ -269,6 +283,9 @@ test('Meta landing uses current Meta calculator rates and compact mobile content
   assert.match(html, /renderCalculator\(range\.value\)/);
   assert.match(html, /\.calc-total strong\{color:#55f6a9;font-size:27px/);
   assert.match(html, /\.calc-total strong span\{color:inherit;font-size:inherit;font-weight:inherit;line-height:inherit;letter-spacing:inherit\}/);
+  assert.match(html, /<strong>\+₩ <span id="annual-result">48,000,000<\/span><\/strong>/);
+  assert.match(html, /class="bonus-good">\+₩3,000,000/);
+  assert.match(html, /\.partner-invoice-row strong\.bonus-good\{color:#0a9b63\}/);
   assert.match(html, /aria-label="예시 금액이며 실제 혜택을 보장하지 않습니다">예시</);
   assert.match(html, /aria-label="예상치이며 실제 혜택을 보장하지 않습니다">예상치</);
   assert.doesNotMatch(html, /월 ₩100,000,000 집행을 가정한 카드 명세 예시/);
