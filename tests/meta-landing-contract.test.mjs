@@ -227,9 +227,9 @@ test('Meta landing separates sections like slides without forced scroll intercep
 
 test('Meta landing uses one unified reference-style media connection card system', () => {
   const benefitSection = html.match(/<section class="snap-section section-soft media-unified" id="media-benefits"[\s\S]*?<\/section>/)?.[0] || '';
-  assert.equal((benefitSection.match(/class="media-connection-card"/g) || []).length, 20);
-  assert.equal((benefitSection.match(/class="media-request-button"/g) || []).length, 20);
-  assert.equal((benefitSection.match(/>선택<\/button>/g) || []).length, 20);
+  assert.equal((benefitSection.match(/class="media-connection-card"/g) || []).length, 21);
+  assert.equal((benefitSection.match(/class="media-request-button"/g) || []).length, 21);
+  assert.equal((benefitSection.match(/>선택<\/button>/g) || []).length, 21);
   assert.equal((benefitSection.match(/class="channel-benefit-card"/g) || []).length, 0);
   assert.equal((benefitSection.match(/class="media-logo(?: has-wordmark)?"/g) || []).length, 0);
   for (const copy of ['주요 매체 대행사 인보이스 계정 혜택', '인보이스 계정 발급', '인보이스로 변경 가능', '간단 승인으로 이용 가능', '신규계정 발급', '연결 가능']) {
@@ -246,11 +246,28 @@ test('Meta landing uses one unified reference-style media connection card system
   assert.match(html, /\.media-connection-card\{[^}]*grid-template-columns:124px minmax\(0,1fr\) 116px/);
   assert.match(html, /\.media-connection-logo img\{[^}]*height:28px[^}]*background:transparent[^}]*mix-blend-mode:normal/);
   assert.match(html, /\.media-connection-copy span\{font-size:13px;font-weight:400/);
-  assert.match(html, /\.media-request-button\{[^}]*background:linear-gradient\(180deg,#2f86ef 0%,#1662c4 100%\)[^}]*box-shadow:0 4px 0 #0b3f8e/);
+  assert.match(html, /\.media-request-button\{[^}]*background:linear-gradient\(180deg,#1f6ed0 0%,#1459b4 100%\)[^}]*box-shadow:0 4px 0 #0b3f8e/);
+  assert.match(html, /\.media-request-button:hover,\.media-request-button:focus-visible\{[^}]*background:linear-gradient\(180deg,#195fb8 0%,#0d468f 100%\)[^}]*color:#fff/);
   assert.match(html, /button\.textContent=added\?'선택됨':'선택'/);
   assert.match(html, /\.media-unified \.section-head\{margin-bottom:8px\}/);
   assert.match(html, /@media\(max-width:760px\)[\s\S]*?\.media-connection-card\{[^}]*grid-template-columns:78px minmax\(0,1fr\) 88px/);
   assert.doesNotMatch(benefitSection, /ANONYMIZED CASE|₩500,800,030|5\.96%/);
+});
+
+test('Meta landing groups the media catalog into swipeable mobile tabs', () => {
+  for (const tab of ['popular', 'overseas', 'domestic']) {
+    assert.match(html, new RegExp(`data-media-tab="${tab}"`));
+  }
+  for (const media of ['Meta', 'Google Ads', 'TikTok', 'NAVER', 'Kakao', 'Toss Ads', '당근', 'X (구 Twitter)']) {
+    const escaped = media.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    assert.match(html, new RegExp(`data-popular="1"[\\s\\S]*?data-media="${escaped}"`));
+  }
+  assert.match(html, /const pageSize=mobile\?5:visibleCards\.length/);
+  assert.match(html, /catalogViewport\.addEventListener\('touchstart'/);
+  assert.match(html, /catalogViewport\.addEventListener\('touchend'/);
+  assert.match(html, /class="media-catalog-arrow media-catalog-prev"/);
+  assert.match(html, /class="media-catalog-arrow media-catalog-next"/);
+  assert.match(html, /@media\(max-width:760px\)[\s\S]*?\.media-catalog-page\{[^}]*grid-template-rows:repeat\(5,auto\)/);
 });
 
 test('Meta landing persists requested media budgets and carries them into the lead', () => {
