@@ -44,249 +44,31 @@ const RESTRICTED_KEYWORDS = [
   'rx-online', 'pharma-direct',
 ];
 
-// ── Monday.com 보드 매핑 ─────────────────────────────────────
-// Board: appsiloncorp.monday.com/boards/8598876525 (Meta_Wix_LEAD_250220_Zapier)
-const MONDAY_BOARD_ID = process.env.MONDAY_BOARD_ID || '8598876525';
-const MONDAY_GROUP_ID = process.env.MONDAY_GROUP_ID || 'topics'; // "신규" 그룹
-
-// 신규 리드 기본 담당자 (Arin Cheong / arin@appsilon.kr)
-// 변경하려면 Vercel 환경변수 MONDAY_DEFAULT_ASSIGNEE_ID 설정
-const MONDAY_DEFAULT_ASSIGNEE_ID = process.env.MONDAY_DEFAULT_ASSIGNEE_ID || '46666227';
-
-// Monday 컬럼 ID 매핑 (고정)
-const MONDAY_COLUMNS = {
-  name:        'text_mknczry2',      // 이름
-  job:         'text_mknc998t',      // 직책
-  email:       'email_mkncxg73',     // 업무용 이메일
-  phone:       'text_mknczf57',      // 휴대폰 번호
-  budget:      'text_mknfaycw',      // 직전 3개월 평균 광고비
-  industry:    'text_mkncb8w6',      // 업종
-  payment:     'dropdown_mkncsjs9',  // 현재 광고비 결제 방식
-  services:    'dropdown_mkncnd7y',  // 희망 서비스 (복수 선택)
-  issue:       'dropdown_mkncmm16',  // 광고 진행 중 애로사항
-  notes:       'text_mknqtgpg',      // 그 외 궁금/지원 내용
-  status:      'status',             // 진행 사항
-  person:      'person',             // 담당자 (people 타입)
-};
-
-// 동적 컬럼 매핑 — 보드에 있는 컬럼을 title로 찾아 자동 매핑
-// env var: 컬럼 ID 직접 지정 / 미지정 시 title로 lookup
-const MONDAY_OPTIONAL_COLUMNS = {
-  utm:         { env: 'MONDAY_COLUMN_UTM',         titles: ['UTM', 'utm', 'UTM 파라미터'] },
-  urls:        { env: 'MONDAY_COLUMN_URLS',        titles: ['광고 대상 URL', '광고 URL', 'URL', 'urls'] },
-  source:      { env: 'MONDAY_COLUMN_SOURCE',      titles: ['유입 경로', 'Source', 'source', '레퍼러'] },
-  serviceType: { env: 'MONDAY_COLUMN_SERVICETYPE', titles: ['필요한 서비스 유형', '서비스 유형', 'Service Type', '필요 서비스'] },
-};
-
-// 보드 컬럼 캐시 (warm function 인스턴스 내 재사용)
-let _mondayColumnsCache = null;
-let _resolvedOptionalIds = null;
-
-async function getMondayBoardColumns(token, boardId) {
-  if (_mondayColumnsCache) return _mondayColumnsCache;
-  const query = `query GetCols($id:[ID!]) { boards(ids:$id) { columns { id title type } } }`;
-  const res = await fetch('https://api.monday.com/v2', {
-    method: 'POST',
-    headers: { 'Authorization': token, 'Content-Type': 'application/json', 'API-Version': '2024-01' },
-    body: JSON.stringify({ query, variables: { id: [String(boardId)] } }),
-  });
-  const data = await res.json();
-  _mondayColumnsCache = (data?.data?.boards?.[0]?.columns) || [];
-  return _mondayColumnsCache;
-}
-
-async function resolveOptionalColumns(token, boardId) {
-  if (_resolvedOptionalIds) return _resolvedOptionalIds;
-  const cols = await getMondayBoardColumns(token, boardId).catch(() => []);
-  const resolved = {};
-  for (const [key, cfg] of Object.entries(MONDAY_OPTIONAL_COLUMNS)) {
-    // 1순위: 환경변수에 컬럼 ID 직접 설정
-    const envVal = process.env[cfg.env];
-    if (envVal) {
-      // ID 패턴이면 그대로 사용 (type은 cols에서 lookup)
-      const looksLikeId = /^([a-z]+_[a-z0-9]+|status|person|name)$/i.test(envVal);
-      if (looksLikeId) {
-        const colInfo = cols.find(c => c.id === envVal);
-        resolved[key] = { id: envVal, type: colInfo?.type || 'text' };
-        continue;
-      }
-      // env var에 title이 들어있으면 title로 lookup
-      const byEnvTitle = cols.find(c => c.title === envVal);
-      if (byEnvTitle) { resolved[key] = { id: byEnvTitle.id, type: byEnvTitle.type }; continue; }
-    }
-    // 2순위: 사전 정의된 title 목록으로 자동 매칭
-    for (const t of cfg.titles) {
-      const found = cols.find(c => c.title === t || c.title.toLowerCase() === t.toLowerCase());
-      if (found) { resolved[key] = { id: found.id, type: found.type }; break; }
-    }
-  }
-  _resolvedOptionalIds = resolved;
-  console.log('[Monday] Optional columns resolved:', resolved);
-  return resolved;
-}
-
-// 폼 값 → Monday dropdown 라벨 매핑
-const MONDAY_SERVICES_MAP = {
-  'Meta':                       '임대 - Meta (Facebook, IG)',
-  'Google':                     '임대 - Google (Youtube)',
-  'TikTok':                     '임대 - TikTok',
-  'Kakao/NAVER':                '임대 - Kakao / NAVER',
-  'Pinterest/Twitter':          '임대 - Pinterest / Twitter',
-  '퍼포먼스 광고 대행':         '퍼포먼스 광고 대행',
-  '글로벌 퍼포먼스 광고 대행':  '해외 퍼포먼스 광고 대행',
-  '기타 제휴 문의':             '기타 제휴 문의',
-};
-
-const MONDAY_PAYMENT_MAP = {
-  '카드 해외 결제':         '카드 해외 결제(수수료 4.8~7.8%)',
-  '광고 대행사 협업 중':    '광고 대행사 협업 중',
-  '대행사 계정 대대행':     '대행사 계정 대대행',
-  '매체 직거래(Invoice)':   '매체 직거래(Invoice)',
-};
-
-// Monday Status 라벨 ID (status 컬럼)
-//  5: "연락 필요", 9: "거절", 8: "미팅대기"
-const MONDAY_STATUS_NEW_LEAD = '연락 필요';
-const MONDAY_STATUS_REJECTED = '거절';
-
-// Monday.com 아이템 생성 함수
-async function createMondayItem(data) {
-  const token = process.env.MONDAY_API_TOKEN;
-  if (!token) {
-    console.warn('MONDAY_API_TOKEN not set, skipping Monday integration');
+// ── APPSILON HIVE 적재 ──────────────────────────────────────
+// 기존 Monday 보드를 그대로 이식한 HIVE 보드의 보호된 인입 API로 전송한다.
+async function sendToHive(data) {
+  const url = process.env.HIVE_LEAD_URL;
+  const token = process.env.HIVE_LEAD_TOKEN;
+  if (!url || !token) {
+    console.warn('HIVE_LEAD_URL or HIVE_LEAD_TOKEN not set, skipping HIVE integration');
     return null;
   }
-
-  // 이름 / 직책 분리 (폼: "홍길동 / 마케팅 팀장")
-  const nameJob = String(data.name || '').split('/').map(s => s.trim());
-  const personName = nameJob[0] || data.name || '';
-  const personJob = nameJob[1] || '';
-
-  // 희망 서비스 매핑 (체크박스 복수 → Monday 라벨 복수)
-  const mappedServices = (Array.isArray(data.services) ? data.services : [])
-    .map(s => MONDAY_SERVICES_MAP[s])
-    .filter(Boolean);
-
-  // 결제 방식 — 배열/문자열 모두 허용 → 복수 라벨로 변환
-  const paymentArr = Array.isArray(data.payment) ? data.payment : (data.payment ? [data.payment] : []);
-  const mappedPayments = paymentArr.map(p => MONDAY_PAYMENT_MAP[p] || p).filter(Boolean);
-
-  // 필요한 서비스 유형 — 배열/문자열 모두 허용
-  const serviceTypeArr = Array.isArray(data.service_type) ? data.service_type
-                       : Array.isArray(data.serviceType)  ? data.serviceType
-                       : data.service_type ? [data.service_type]
-                       : data.serviceType  ? [data.serviceType]
-                       : [];
-
-  // 선택 컬럼 ID 동적 resolve (보드에서 title로 자동 매칭, 컬럼 타입도 함께 반환)
-  const optionalCols = await resolveOptionalColumns(token, MONDAY_BOARD_ID).catch(() => ({}));
-
-  // notes 통합 — 전용 컬럼 있는 항목은 제외 (중복 방지)
-  // ⭐ data.issue (광고 진행 중 애로사항) → notes 컬럼으로 라우팅 (별도 dropdown 사용 안 함)
-  const extraInfo = [];
-  if (serviceTypeArr.length > 0 && !optionalCols.serviceType) {
-    extraInfo.push(`[필요한 서비스 유형]\n${serviceTypeArr.map(s => '• ' + s).join('\n')}`);
-  }
-  if (Array.isArray(data.urls) && data.urls.length > 0 && !optionalCols.urls) {
-    extraInfo.push(`[광고 대상 URL ${data.urls.length}개]\n${data.urls.map(u => '• ' + u).join('\n')}`);
-  }
-  if (data.source && data.source !== 'direct' && !optionalCols.source) extraInfo.push(`[유입 경로]\n${data.source}`);
-  if (data.utm && !optionalCols.utm) extraInfo.push(`[UTM]\n${data.utm}`);
-  if (data.issue) extraInfo.push(`[광고 진행 중 애로사항]\n${data.issue}`);
-  const combinedNotes = [data.notes, ...extraInfo].filter(Boolean).join('\n\n---\n\n');
-
-  // Status 자동 분류
-  const statusLabel = data.restricted ? MONDAY_STATUS_REJECTED : MONDAY_STATUS_NEW_LEAD;
-
-  // Column values 구성
-  const columnValues = {
-    [MONDAY_COLUMNS.name]:     personName,
-    [MONDAY_COLUMNS.job]:      personJob,
-    [MONDAY_COLUMNS.email]:    { email: data.email, text: data.email },
-    [MONDAY_COLUMNS.phone]:    data.phone,
-    [MONDAY_COLUMNS.budget]:   budgetLabel(data.budget),
-    [MONDAY_COLUMNS.industry]: data.industry || '',
-    [MONDAY_COLUMNS.notes]:    combinedNotes,
-    [MONDAY_COLUMNS.status]:   { label: statusLabel },
-    [MONDAY_COLUMNS.person]:   {
-      personsAndTeams: [{ id: Number(MONDAY_DEFAULT_ASSIGNEE_ID), kind: 'person' }]
-    },
-  };
-  if (mappedPayments.length > 0) {
-    // payment 컬럼이 dropdown 타입이라 복수 라벨 지원
-    columnValues[MONDAY_COLUMNS.payment] = { labels: mappedPayments };
-  }
-  if (mappedServices.length > 0) {
-    columnValues[MONDAY_COLUMNS.services] = { labels: mappedServices };
-  }
-  // ⛔ data.issue를 별도 dropdown 컬럼에 보내지 않음 (notes에 통합되어 라우팅됨)
-
-  // ── 동적으로 resolve된 선택 컬럼 매핑 (column id + type 모두 사용) ──
-  function setOptionalColumn(colInfo, value, isMulti) {
-    if (!colInfo || value == null || value === '' || (Array.isArray(value) && value.length === 0)) return;
-    const id = colInfo.id;
-    const type = colInfo.type;
-    if (isMulti && Array.isArray(value)) {
-      if (type === 'dropdown') {
-        columnValues[id] = { labels: value };
-      } else {
-        columnValues[id] = value.join(', ').slice(0, 2000);
-      }
-    } else {
-      columnValues[id] = String(value).slice(0, 2000);
-    }
-  }
-  setOptionalColumn(optionalCols.utm,         data.utm,                                          false);
-  setOptionalColumn(optionalCols.urls,        Array.isArray(data.urls) ? data.urls.join(' | ') : data.urls, false);
-  setOptionalColumn(optionalCols.source,      (data.source && data.source !== 'direct') ? data.source : null, false);
-  setOptionalColumn(optionalCols.serviceType, serviceTypeArr,                                    true);
-
-  const mutation = `
-    mutation CreateItem($boardId: ID!, $groupId: String!, $itemName: String!, $columnValues: JSON!) {
-      create_item(
-        board_id: $boardId,
-        group_id: $groupId,
-        item_name: $itemName,
-        column_values: $columnValues
-      ) {
-        id
-      }
-    }
-  `;
-
-  const variables = {
-    boardId: String(MONDAY_BOARD_ID),
-    groupId: MONDAY_GROUP_ID,
-    itemName: data.company,
-    columnValues: JSON.stringify(columnValues),
-  };
-
-  const response = await fetch('https://api.monday.com/v2', {
+  const response = await fetch(url, {
     method: 'POST',
-    headers: {
-      'Authorization': token,
-      'Content-Type': 'application/json',
-      'API-Version': '2024-01',
-    },
-    body: JSON.stringify({ query: mutation, variables }),
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify(data),
   });
-
-  const result = await response.json();
-  if (result.errors) {
-    console.error('Monday API errors:', JSON.stringify(result.errors));
-    throw new Error('Monday create_item failed: ' + result.errors[0]?.message);
+  if (!response.ok) {
+    const detail = await response.text().catch(() => '');
+    throw new Error(`HIVE lead ingest failed ${response.status}: ${detail.slice(0, 300)}`);
   }
-  if (!result.data || !result.data.create_item) {
-    console.error('Monday unexpected response:', JSON.stringify(result));
-    throw new Error('Monday create_item returned no data');
-  }
-
-  console.log('Monday item created:', result.data.create_item.id);
-  return result.data.create_item.id;
+  const result = await response.json().catch(() => ({}));
+  console.log('HIVE lead saved:', result.itemId);
+  return result.itemId;
 }
 
 // ── Marketing Studio 적재 ────────────────────────────────────
-// Monday(createMondayItem)와 **동일한 방식** — Supabase 저장 후 병렬 호출, 실패는 호출부에서 격리.
+// HIVE(sendToHive)와 **동일한 방식** — Supabase 저장 후 병렬 호출, 실패는 호출부에서 격리.
 // marketing studio 의 인입 웹훅(POST /api/leads/ingest, Bearer 인증)으로 리드 JSON 전송.
 async function sendToMarketingStudio(data) {
   const url = process.env.MARKETING_STUDIO_LEAD_URL; // 예: https://studio.appsilon.kr/api/leads/ingest
@@ -618,7 +400,7 @@ export default async function handler(req, res) {
       submitted_at:       new Date(body.submittedAt || Date.now()).toISOString(),
     };
 
-    // Supabase가 죽어도 여기서 중단하지 않는다 — Monday/Studio/메일로 리드를 살린다.
+    // Supabase가 죽어도 여기서 중단하지 않는다 — HIVE/Studio/메일로 리드를 살린다.
     let inserted = null;
     let dbError  = null;
     try {
@@ -642,25 +424,25 @@ export default async function handler(req, res) {
     const leadRecord = inserted || insertPayload;
 
     // 적재처별 성공 여부 — "하나라도" 성공해야 방문자에게 200을 준다.
-    const sinks = { supabase: !!inserted, monday: false, studio: false, email: false };
+    const sinks = { supabase: !!inserted, hive: false, studio: false, email: false };
 
-    // 4) Monday.com 적재 (영업팀 작업판) — 이메일 발송과 병렬 처리 가능하지만,
+    // 4) APPSILON HIVE 적재 (기존 Monday 보드를 이식한 영업팀 작업판)
     //    실패 시에도 DB 저장은 유지되어야 하므로 catch로 격리
     try {
-      // Monday에는 배열 원본을 그대로 전달 (Supabase에는 join된 string으로 저장됨)
-      const mondayData = {
+      // HIVE에는 배열 원본을 그대로 전달 (Supabase에는 join된 string으로 저장됨)
+      const hiveData = {
         ...leadRecord,
         serviceType: Array.isArray(body.serviceType) ? body.serviceType : (body.serviceType ? [body.serviceType] : []),
         payment:     Array.isArray(body.payment)     ? body.payment     : (body.payment     ? [body.payment]     : []),
       };
-      await createMondayItem(mondayData);
-      sinks.monday = true;
-    } catch (mondayErr) {
-      console.error('Monday create_item failed:', mondayErr);
-      // Monday 실패해도 응답은 success — 이메일은 별도로 발송
+      await sendToHive(hiveData);
+      sinks.hive = true;
+    } catch (hiveErr) {
+      console.error('HIVE lead ingest failed:', hiveErr);
+      // HIVE 실패해도 응답은 success — Supabase/Studio/이메일은 별도로 유지
     }
 
-    // 4.5) Marketing Studio 적재 (Monday와 동일 방식 — Supabase 저장 후 병렬, 실패 격리)
+    // 4.5) Marketing Studio 적재 (보조 저장소 — Supabase 저장 후 병렬, 실패 격리)
     try {
       await sendToMarketingStudio({
         ...leadRecord,
@@ -769,7 +551,7 @@ export default async function handler(req, res) {
     // 8) 최종 응답 — 리드가 어딘가에는 남았는지로 판단한다.
     //    전부 실패했다면 조용히 성공을 반환하면 안 된다. 그 경우엔 기존처럼 500을 띄워
     //    방문자가 직접 연락할 수 있게 하는 것이 마지막 안전장치다.
-    const savedAnywhere = sinks.supabase || sinks.monday || sinks.studio || sinks.email || alerted;
+    const savedAnywhere = sinks.supabase || sinks.hive || sinks.studio || sinks.email || alerted;
 
     if (!savedAnywhere) {
       console.error('[LEAD_LOST] 모든 적재 경로 실패(알림 메일 포함) — 리드 유실:', JSON.stringify(insertPayload));

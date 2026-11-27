@@ -70,3 +70,11 @@ test('CTA experiment exposes all four copies and counts lead only after backend 
   assert.match(html, /ctaLeadEventId:/);
   assert.ok(leadApi.indexOf("event_type: 'lead'") > leadApi.indexOf('const savedAnywhere'));
 });
+
+test('lead routing writes the migrated sales board through HIVE and no longer calls Monday', () => {
+  assert.match(leadApi, /process\.env\.HIVE_LEAD_URL/);
+  assert.match(leadApi, /process\.env\.HIVE_LEAD_TOKEN/);
+  assert.match(leadApi, /await sendToHive\(hiveData\)/);
+  assert.match(leadApi, /const sinks = \{ supabase: !!inserted, hive: false, studio: false, email: false \}/);
+  assert.doesNotMatch(leadApi, /api\.monday\.com|MONDAY_API_TOKEN|createMondayItem|sinks\.monday/);
+});
