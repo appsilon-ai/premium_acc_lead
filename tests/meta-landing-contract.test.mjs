@@ -64,11 +64,14 @@ test('Meta landing publishes complete Open Graph, Twitter, and app-icon metadata
   assert.match(html, /property="og:type" content="website"/);
   assert.match(html, /property="og:locale" content="ko_KR"/);
   assert.match(html, /property="og:site_name" content="APPSILON OFFICIAL ADS"/);
-  assert.match(html, /property="og:image" content="https:\/\/partneragency\.net\/lp\/meta\/assets\/social\/og-global-spend\.jpg"/);
+  assert.match(html, /property="og:title" content="공식대행사 계정으로 광고비 절감 \+ 매체별 보너스 \| APPSILON"/);
+  assert.match(html, /property="og:description" content="Toss Ads 월 최대 17%, NAVER·Kakao 최대 15%, 당근 최대 12%, TikTok 최대 9%의 적용 가능 혜택을 무료로 진단하세요\."/);
+  assert.match(html, /property="og:image" content="https:\/\/partneragency\.net\/lp\/meta\/assets\/social\/og-global-spend\.jpg\?v=20261128-grid"/);
   assert.match(html, /property="og:image:width" content="1200"/);
   assert.match(html, /property="og:image:height" content="630"/);
+  assert.match(html, /property="og:image:alt" content="APPSILON 공식대행사 계정 광고비 절감 및 매체별 보너스"/);
   assert.match(html, /name="twitter:card" content="summary_large_image"/);
-  assert.match(html, /name="twitter:image" content="https:\/\/partneragency\.net\/lp\/meta\/assets\/social\/og-global-spend\.jpg"/);
+  assert.match(html, /name="twitter:image" content="https:\/\/partneragency\.net\/lp\/meta\/assets\/social\/og-global-spend\.jpg\?v=20261128-grid"/);
   assert.match(html, /rel="manifest" href="\/lp\/meta\/assets\/site\.webmanifest"/);
 
   const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
@@ -91,7 +94,7 @@ test('Social previews use flat editorial source art instead of generated 3D back
     const svg = await readFile(new URL(`../lp/meta/assets/social/source/${asset}.svg`, import.meta.url), 'utf8');
     assert.match(svg, /<svg\b[^>]*width="1200"[^>]*height="630"/);
     assert.doesNotMatch(svg, /\.webp|linearGradient|radialGradient|filter=|feDropShadow/i, `${asset} contains generated or glossy effects`);
-    assert.match(svg, /appsilon-symbol\.png/);
+    assert.match(svg, /appsilon-(?:symbol|white-wordmark-v1)\.png/);
     assert.ok((svg.match(/media-cutout-v1\//g) || []).length >= 3, `${asset} needs at least three prominent media logos`);
     assert.doesNotMatch(svg, /font-size="(?:1[0-9]|2[0-1])"/, `${asset} contains copy too small for a shared-card thumbnail`);
     assert.ok((svg.match(/<text\b/g) || []).length <= 4, `${asset} contains too many text elements for a shared-card thumbnail`);
@@ -101,6 +104,18 @@ test('Social previews use flat editorial source art instead of generated 3D back
     assert.ok(mediaSource.includes(`media-cutout-v1/${asset}`), `missing first-party media logo ${asset}`);
   }
   assert.match(mediaSource, /media-cutout-v1\/danggeun\.png/, 'missing supplied Danggeun logo');
+
+  const primarySource = await readFile(new URL('../lp/meta/assets/social/source/og-global-spend.svg', import.meta.url), 'utf8');
+  for (const asset of ['meta.png', 'google.png', 'naver.png', 'kakao.png', 'tiktok.png', 'toss-ads.png', 'danggeun.png']) {
+    assert.ok(primarySource.includes(`media-cutout-v1/${asset}`), `primary OG missing media logo ${asset}`);
+  }
+  assert.ok((primarySource.match(/media-cutout-v1\//g) || []).length >= 16, 'primary OG needs a tiled multi-media field');
+  assert.match(primarySource, /공식대행사 계정/);
+  assert.match(primarySource, /광고비 절감 \+ 매체별 보너스/);
+  assert.match(primarySource, /Toss Ads 월 최대/);
+  assert.match(primarySource, />17%<\/tspan>/);
+  assert.match(primarySource, /NAVER·Kakao 15% · 당근 12% · TikTok 9%/);
+  assert.doesNotMatch(primarySource, /월 최대 17% 할인/);
 });
 
 test('Partner invoice payment stability lists prepaid and conditional postpaid options', () => {
