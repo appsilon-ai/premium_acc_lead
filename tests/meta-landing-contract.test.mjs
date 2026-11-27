@@ -55,7 +55,34 @@ test('Meta landing has responsive and reduced-motion safeguards', () => {
   assert.match(html, /formRect\.top>innerHeight/);
   assert.match(html, /calculatorVisible/);
   assert.match(html, /overflow-x:hidden/);
-  assert.match(html, /rel="icon"[^>]+logos\/appsilon\.png/);
+  assert.match(html, /rel="icon"[^>]+sizes="16x16"[^>]+favicon-16\.png/);
+  assert.match(html, /rel="icon"[^>]+sizes="32x32"[^>]+favicon-32\.png/);
+  assert.match(html, /rel="apple-touch-icon"[^>]+apple-touch-icon\.png/);
+});
+
+test('Meta landing publishes complete Open Graph, Twitter, and app-icon metadata', async () => {
+  assert.match(html, /property="og:type" content="website"/);
+  assert.match(html, /property="og:locale" content="ko_KR"/);
+  assert.match(html, /property="og:site_name" content="APPSILON OFFICIAL ADS"/);
+  assert.match(html, /property="og:image" content="https:\/\/partneragency\.net\/lp\/meta\/assets\/social\/og-global-spend\.jpg"/);
+  assert.match(html, /property="og:image:width" content="1200"/);
+  assert.match(html, /property="og:image:height" content="630"/);
+  assert.match(html, /name="twitter:card" content="summary_large_image"/);
+  assert.match(html, /name="twitter:image" content="https:\/\/partneragency\.net\/lp\/meta\/assets\/social\/og-global-spend\.jpg"/);
+  assert.match(html, /rel="manifest" href="\/lp\/meta\/assets\/site\.webmanifest"/);
+
+  const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+  for (const asset of ['favicon-16', 'favicon-32', 'favicon-192', 'favicon-512', 'apple-touch-icon']) {
+    const file = await readFile(new URL(`../lp/meta/assets/${asset}.png`, import.meta.url));
+    assert.deepEqual(file.subarray(0, 8), pngSignature, `invalid favicon PNG ${asset}`);
+    assert.ok(file.length > 500, `unexpectedly small favicon PNG ${asset}`);
+  }
+
+  for (const asset of ['og-global-spend', 'og-invoice-transition', 'og-media-hub']) {
+    const file = await readFile(new URL(`../lp/meta/assets/social/${asset}.jpg`, import.meta.url));
+    assert.deepEqual(file.subarray(0, 2), Buffer.from([0xff, 0xd8]), `invalid OG JPEG ${asset}`);
+    assert.ok(file.length > 100_000, `unexpectedly small OG JPEG ${asset}`);
+  }
 });
 
 test('Meta landing uses natural scrolling, calm reveal motion, and a right-edge vertical progress line', () => {

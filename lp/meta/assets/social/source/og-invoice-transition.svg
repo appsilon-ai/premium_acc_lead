@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="shade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#07131f" stop-opacity=".04"/>
+      <stop offset=".42" stop-color="#07131f" stop-opacity=".35"/>
+      <stop offset=".68" stop-color="#07131f" stop-opacity=".88"/>
+      <stop offset="1" stop-color="#07131f" stop-opacity=".98"/>
+    </linearGradient>
+  </defs>
+  <image href="og-invoice-transition.webp" width="1200" height="630" preserveAspectRatio="xMidYMid slice"/>
+  <rect width="1200" height="630" fill="url(#shade)"/>
+  <image href="../../appsilon-symbol.png" x="712" y="54" width="46" height="46"/>
+  <text x="772" y="87" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="25" font-weight="700" letter-spacing="2">APPSILON</text>
+  <text x="712" y="229" fill="#28a9dd" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="26" font-weight="700">PARTNER INVOICE</text>
+  <text x="712" y="307" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="54" font-weight="800" letter-spacing="-2">카드 결제에서</text>
+  <text x="712" y="377" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="54" font-weight="800" letter-spacing="-2">파트너 인보이스로.</text>
+  <text x="712" y="440" fill="#cad7e4" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="500">기존 캠페인과 데이터는 그대로 유지합니다.</text>
+  <rect x="712" y="491" width="279" height="52" rx="26" fill="#ffffff" fill-opacity=".12" stroke="#28a9dd" stroke-opacity=".55"/>
+  <text x="851" y="525" text-anchor="middle" fill="#ffffff" font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="20" font-weight="700">평일 24시간 이내 무료 진단</text>
+</svg>
