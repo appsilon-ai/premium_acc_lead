@@ -5,6 +5,20 @@ import { readFile } from 'node:fs/promises';
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
 const leadApi = await readFile(new URL('../api/lead.js', import.meta.url), 'utf8');
 
+test('2027 second-close campaign is visible, shareable, and leads to the application form', () => {
+  const assetPath = '/lp/meta/assets/social/og-2027-second-close.jpg';
+  assert.match(html, /property="og:title" content="2027 매체비 절감 \+ 보너스프로그램 2차 마감"/);
+  assert.equal((html.match(new RegExp(assetPath.replaceAll('/', '\\\/'), 'g')) || []).length, 4);
+  assert.match(html, /property="og:image:width" content="1200"/);
+  assert.match(html, /property="og:image:height" content="630"/);
+  assert.match(html, /id="campaign-2027-second-close"/);
+  assert.match(html, /id="cta-campaign-banner"[^>]*href="#apply"[^>]*data-cta-experiment/);
+  assert.match(html, /<img src="\/lp\/meta\/assets\/social\/og-2027-second-close\.jpg" width="1200" height="630"[^>]*alt="[^"]+"/);
+  assert.match(html, /\.root-campaign-link img\{[^}]*aspect-ratio:40\/21/);
+  assert.match(html, /@media \(max-width:700px\)[\s\S]*?\.root-campaign-copy\{/);
+  assert.match(html, /@media \(prefers-reduced-motion:reduce\)[\s\S]*?\.root-campaign-link\{transition:none\}/);
+});
+
 test('media comparison cards keep the expected ordered contract', () => {
   const ids = [...html.matchAll(/<div class="media-detail(?: featured)?" id="([^"]+)">/g)].map((match) => match[1]);
   assert.deepEqual(ids, ['m-meta', 'm-google', 'm-tiktok', 'm-pinterest', 'm-global', 'm-naver', 'm-toss', 'm-kakao', 'm-domestic']);
