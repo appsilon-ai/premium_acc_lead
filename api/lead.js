@@ -88,6 +88,12 @@ function sha256(str) {
   return crypto.createHash('sha256').update(String(str || '').toLowerCase().trim()).digest('hex');
 }
 
+function safeMetaIdentifier(value, maxLength = 300) {
+  if (typeof value !== 'string') return undefined;
+  const trimmed = value.trim();
+  return trimmed && trimmed.length <= maxLength ? trimmed : undefined;
+}
+
 // 예산 라벨 매핑 (이메일 본문용)
 function budgetLabel(b) {
   const map = {
@@ -504,21 +510,29 @@ export default async function handler(req, res) {
         const userIp = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.headers['x-real-ip'] || '';
         const userAgent = req.headers['user-agent'] || '';
 
-        await fetch(`https://graph.facebook.com/v18.0/${process.env.META_PIXEL_ID}/events?access_token=${process.env.META_CAPI_ACCESS_TOKEN}`, {
+        const eventId = safeMetaIdentifier(body.metaEventId || body.ctaLeadEventId || body.submissionKey, 220);
+        const metaUserData = {
+          em: [sha256(insertPayload.email)],
+          ph: [sha256(phone)],
+          client_ip_address: userIp,
+          client_user_agent: userAgent,
+        };
+        const fbp = safeMetaIdentifier(body.fbp);
+        const fbc = safeMetaIdentifier(body.fbc);
+        if (fbp) metaUserData.fbp = fbp;
+        if (fbc) metaUserData.fbc = fbc;
+
+        const capiResponse = await fetch(`https://graph.facebook.com/v24.0/${process.env.META_PIXEL_ID}/events?access_token=${process.env.META_CAPI_ACCESS_TOKEN}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             data: [{
               event_name: 'Lead',
+              ...(eventId ? { event_id: eventId } : {}),
               event_time: Math.floor(Date.now() / 1000),
               action_source: 'website',
-              event_source_url: body.source || '',
-              user_data: {
-                em: [sha256(insertPayload.email)],
-                ph: [sha256(phone)],
-                client_ip_address: userIp,
-                client_user_agent: userAgent,
-              },
+              event_source_url: safeMetaIdentifier(body.pageUrl, 1000) || `https://${siteDomain}/`,
+              user_data: metaUserData,
               custom_data: {
                 value: leadValue,
                 currency: 'KRW',
@@ -528,6 +542,19 @@ export default async function handler(req, res) {
             }],
           }),
         });
+        const capiText = await capiResponse.text();
+        let capiResult = {};
+        try { capiResult = capiText ? JSON.parse(capiText) : {}; } catch { /* keep raw status only */ }
+        if (!capiResponse.ok || Number(capiResult.events_received || 0) < 1) {
+          throw new Error(`Meta CAPI rejected ${capiResponse.status}: ${capiText.slice(0, 300)}`);
+        }
+        console.log('Meta CAPI accepted:', JSON.stringify({
+          events_received: capiResult.events_received,
+          fbtrace_id: capiResult.fbtrace_id || null,
+          event_id_present: Boolean(eventId),
+          fbp_present: Boolean(fbp),
+          fbc_present: Boolean(fbc),
+        }));
       } catch (capiErr) {
         console.error('Meta CAPI failed:', capiErr);
       }

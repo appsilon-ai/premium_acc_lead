@@ -3949,10 +3949,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   })();
 
   // ============================================================
-  // 중앙 트래킹 헬퍼 — 모든 이벤트는 이 함수를 통해 발사
-  //   1) iframe 내부에서 직접 호출 가능한 gtag/fbq 시도
-  //   2) 부모(Wix) 페이지로 postMessage 전달 → Wix Velo에서 모든 매체로 forwarding
-  //   3) console에 로그 (디버깅용)
+  // 중앙 트래킹 헬퍼 — 모든 이벤트는 GTM dataLayer에서 한 번만 발사한다.
+  // gtag/fbq를 여기서 다시 호출하면 같은 custom-event trigger가 중복 실행된다.
+  // iframe 호환용 postMessage는 부모 전달만 유지하며 현재 독립 랜딩에서는 실행되지 않는다.
   // ============================================================
   function track(eventName, params) {
     params = params || {};
@@ -3969,26 +3968,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     //    (GA4 · Meta Pixel · Google Ads 전환 · Toss LEX 등 GTM 내 모든 태그)
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(Object.assign({ event: eventName }, enriched));
-    // 1) iframe 내부에 픽셀이 직접 있으면 폴백 호출 (Wix 임베드 등 시나리오)
-    try {
-      if (typeof window.gtag === 'function') {
-        window.gtag('event', eventName, enriched);
-      }
-      if (typeof window.fbq === 'function') {
-        // Meta 표준 이벤트 매핑
-        var metaMap = {
-          'form_start': 'InitiateCheckout',
-          'form_step1_complete': 'AddToCart',
-          'form_submit_success': 'Lead',
-        };
-        if (metaMap[eventName]) {
-          window.fbq('track', metaMap[eventName], enriched);
-        } else {
-          window.fbq('trackCustom', eventName, enriched);
-        }
-      }
-    } catch(e) { /* silent */ }
-    // 2) 부모 Wix 페이지로 postMessage (Velo가 받아 다중 매체 forwarding)
+    // 1) 부모 Wix 페이지로 postMessage (Velo가 받아 다중 매체 forwarding)
     if (window.parent !== window) {
       window.parent.postMessage({
         type: 'track',
@@ -3997,13 +3977,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         timestamp: Date.now(),
       }, '*');
     }
-    // 3) 디버깅 로그
+    // 2) 디버깅 로그
     if (window.console && console.log) console.log('[Track]', eventName, enriched);
   }
 
   // ========== 상수 선언 (TDZ 방지 위해 최상단 배치) ==========
   const LEAD_ENDPOINT = "/api/lead";   // Vercel Serverless Function 경로
   const URL_MAX = 5;                   // 다중 URL 입력 최대 개수
+  function readCookie(name) {
+    const prefix = name + '=';
+    const item = document.cookie.split(';').map(value => value.trim()).find(value => value.startsWith(prefix));
+    return item ? decodeURIComponent(item.slice(prefix.length)) : '';
+  }
+  function metaBrowserIdentifiers() {
+    const fbclid = new URLSearchParams(location.search).get('fbclid') || '';
+    return {
+      fbp: readCookie('_fbp'),
+      fbc: readCookie('_fbc') || (fbclid ? 'fb.1.' + Date.now() + '.' + fbclid : ''),
+    };
+  }
   // ========================================================
 
   // CTA COPY EXPERIMENT — 방문자 고정 4분할, 세션 노출·클릭·백엔드 리드 성공 연결
@@ -4668,6 +4660,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const urls = Array.from(form.querySelectorAll('input[name="url[]"]'))
       .map(i => i.value.trim()).filter(Boolean);
 
+    const metaIds = metaBrowserIdentifiers();
+    const metaEventId = 'lead:' + submissionKey;
     const data = {
       company:     form.company.value,
       urls:        urls,                  // 배열로 전송
@@ -4684,8 +4678,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       notes:       form.notes.value || '',
       submissionKey: submissionKey,
       submittedAt: new Date().toISOString(),
+      pageUrl: location.href,
       source: document.referrer || 'direct',
       utm: location.search,
+      metaEventId: metaEventId,
+      fbp: metaIds.fbp,
+      fbc: metaIds.fbc,
       ctaExperiment: CTA_EXPERIMENT_KEY,
       ctaVariant: window.__ctaExperiment ? window.__ctaExperiment.variant.key : '',
       ctaVisitorId: window.__ctaExperiment ? window.__ctaExperiment.visitorId : '',
@@ -4716,6 +4714,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         currency: 'KRW',
         experiment_key: data.ctaExperiment,
         cta_variant: data.ctaVariant,
+        event_id: data.metaEventId,
       });
       // 부모 페이지(Wix)에 전환 이벤트 전달 — GTM/픽셀 트래킹용 (기존 호환)
       window.parent.postMessage({ type: 'lead_submitted', data: { budget: data.budget, value: leadValue, industry: data.industry } }, '*');

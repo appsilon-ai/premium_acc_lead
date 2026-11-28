@@ -115,7 +115,7 @@
           {
             "type": "TEMPLATE",
             "key": "html",
-            "value": "<!-- Meta Pixel Lead Event -->\n<script>\n  if (typeof fbq === 'function') {\n    fbq('track', 'Lead', {\n      value: {{DLV - value}} || 1,\n      currency: 'KRW',\n      content_category: {{DLV - budget_tier}} || 'unknown',\n      content_name: {{DLV - industry}} || 'unknown'\n    });\n  }\n</script>"
+            "value": "<!-- Meta Pixel Lead Event -->\n<script>\n  if (typeof fbq === 'function') {\n    fbq('track', 'Lead', {\n      value: {{DLV - value}} || 1,\n      currency: 'KRW',\n      content_category: {{DLV - budget_tier}} || 'unknown',\n      content_name: {{DLV - industry}} || 'unknown'\n    }, {\n      eventID: {{DLV - event_id}}\n    });\n  }\n</script>"
           },
           {
             "type": "BOOLEAN",
@@ -309,6 +309,20 @@
           { "type": "INTEGER", "key": "dataLayerVersion", "value": "2" },
           { "type": "BOOLEAN", "key": "setDefaultValue", "value": "false" },
           { "type": "TEMPLATE", "key": "name", "value": "industry" }
+        ],
+        "fingerprint": "0",
+        "formatValue": {}
+      },
+      {
+        "accountId": "0",
+        "containerId": "0",
+        "variableId": "11",
+        "name": "DLV - event_id",
+        "type": "v",
+        "parameter": [
+          { "type": "INTEGER", "key": "dataLayerVersion", "value": "2" },
+          { "type": "BOOLEAN", "key": "setDefaultValue", "value": "false" },
+          { "type": "TEMPLATE", "key": "name", "value": "event_id" }
         ],
         "fingerprint": "0",
         "formatValue": {}
