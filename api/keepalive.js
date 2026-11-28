@@ -126,7 +126,7 @@ function notifyFailure(err, ms) {
         <p style="margin:20px 0 6px;font-size:13px;color:#6b7280">에러</p>
         <pre style="background:#1f2937;color:#f9fafb;padding:12px;border-radius:6px;font-size:12px;white-space:pre-wrap;word-break:break-all">${detail}</pre>
         <p style="margin:20px 0 0;font-size:12px;color:#9ca3af">
-          리드 접수는 계속 동작합니다 — DB가 죽어도 Monday·Marketing Studio·메일로 저장됩니다.
+          리드 접수는 계속 동작합니다 — 백업 DB가 죽어도 Marketing Studio·메일로 저장됩니다.
         </p>
       </div>
     `,
