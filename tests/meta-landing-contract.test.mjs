@@ -37,6 +37,7 @@ test('Meta landing preserves lead API and required payload contract', () => {
   assert.match(html, /metaEventId,fbp:metaIds\.fbp,fbc:metaIds\.fbc/);
   assert.match(html, /event_id:payload\.metaEventId/);
   assert.match(html, /function metaBrowserIdentifiers\(\)/);
+  assert.match(html, /try\{return decodeURIComponent\(raw\)\}catch\(error\)\{return raw\}/);
 });
 
 test('Meta landing uses a one-question-at-a-time lead wizard', () => {
