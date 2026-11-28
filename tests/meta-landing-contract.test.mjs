@@ -31,6 +31,12 @@ test('Meta landing preserves lead API and required payload contract', () => {
   assert.match(html, /selectedMedia:mediaSelections/);
   assert.match(html, /희망 매체 및 월 사용금액\(만원\)/);
   assert.match(html, /serviceType:\['계정 임대만'\]/);
+  assert.match(html, /form\.dataset\.submissionKey\|\|conversionId\(\)/);
+  assert.match(html, /form\.dataset\.submissionKey=submissionKey/);
+  assert.match(html, /submissionKey,submittedAt:/);
+  assert.match(html, /metaEventId,fbp:metaIds\.fbp,fbc:metaIds\.fbc/);
+  assert.match(html, /event_id:payload\.metaEventId/);
+  assert.match(html, /function metaBrowserIdentifiers\(\)/);
 });
 
 test('Meta landing uses a one-question-at-a-time lead wizard', () => {

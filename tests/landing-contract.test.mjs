@@ -85,6 +85,25 @@ test('CTA experiment exposes all four copies and counts lead only after backend 
   assert.ok(leadApi.indexOf("event_type: 'lead'") > leadApi.indexOf('const savedAnywhere'));
 });
 
+test('lead conversion uses one dataLayer event with Meta browser/server deduplication fields', async () => {
+  const trackBody = html.match(/function track\(eventName, params\) \{[\s\S]*?\n  \}/)?.[0] || '';
+  assert.equal((trackBody.match(/dataLayer\.push/g) || []).length, 1);
+  assert.doesNotMatch(trackBody, /window\.gtag|window\.fbq/);
+  assert.match(html, /function metaBrowserIdentifiers\(\)/);
+  assert.match(html, /metaEventId: metaEventId/);
+  assert.match(html, /fbp: metaIds\.fbp/);
+  assert.match(html, /fbc: metaIds\.fbc/);
+  assert.match(html, /event_id: data\.metaEventId/);
+  assert.match(leadApi, /graph\.facebook\.com\/v24\.0/);
+  assert.match(leadApi, /event_id: eventId/);
+  assert.match(leadApi, /metaUserData\.fbp = fbp/);
+  assert.match(leadApi, /metaUserData\.fbc = fbc/);
+  assert.match(leadApi, /if \(!capiResponse\.ok \|\| Number\(capiResult\.events_received \|\| 0\) < 1\)/);
+  const gtm = await readFile(new URL('../gtm-import.json', import.meta.url), 'utf8');
+  assert.match(gtm, /DLV - event_id/);
+  assert.match(gtm, /eventID: \{\{DLV - event_id\}\}/);
+});
+
 test('lead submissions use Studio as the idempotent workboard without Monday writes', () => {
   assert.match(html, /form\.dataset\.submissionKey \|\| ctaId\(\)/);
   assert.match(html, /submissionKey: submissionKey/);
