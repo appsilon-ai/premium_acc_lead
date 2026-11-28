@@ -66,12 +66,12 @@ test('Meta landing publishes complete Open Graph, Twitter, and app-icon metadata
   assert.match(html, /property="og:site_name" content="APPSILON OFFICIAL ADS"/);
   assert.match(html, /property="og:title" content="공식대행사 계정으로 광고비 절감 \+ 매체별 보너스 \| APPSILON"/);
   assert.match(html, /property="og:description" content="Toss Ads 월 최대 17%, NAVER·Kakao 최대 15%, 당근 최대 12%, TikTok 최대 9%의 적용 가능 혜택을 무료로 진단하세요\."/);
-  assert.match(html, /property="og:image" content="https:\/\/partneragency\.net\/lp\/meta\/assets\/social\/og-global-spend\.jpg\?v=20261128-floating"/);
+  assert.match(html, /property="og:image" content="https:\/\/partneragency\.net\/lp\/meta\/assets\/social\/og-2027-second-close\.jpg\?v=20261128"/);
   assert.match(html, /property="og:image:width" content="1200"/);
   assert.match(html, /property="og:image:height" content="630"/);
-  assert.match(html, /property="og:image:alt" content="APPSILON 공식대행사 계정 광고비 절감 및 매체별 보너스"/);
+  assert.match(html, /property="og:image:alt" content="2027 매체비 절감과 보너스프로그램 2차 마감 안내"/);
   assert.match(html, /name="twitter:card" content="summary_large_image"/);
-  assert.match(html, /name="twitter:image" content="https:\/\/partneragency\.net\/lp\/meta\/assets\/social\/og-global-spend\.jpg\?v=20261128-floating"/);
+  assert.match(html, /name="twitter:image" content="https:\/\/partneragency\.net\/lp\/meta\/assets\/social\/og-2027-second-close\.jpg\?v=20261128"/);
   assert.match(html, /rel="manifest" href="\/lp\/meta\/assets\/site\.webmanifest"/);
 
   const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
@@ -86,6 +86,22 @@ test('Meta landing publishes complete Open Graph, Twitter, and app-icon metadata
     assert.deepEqual(file.subarray(0, 2), Buffer.from([0xff, 0xd8]), `invalid OG JPEG ${asset}`);
     assert.ok(file.length > 80_000, `unexpectedly small OG JPEG ${asset}`);
   }
+
+  const campaign = await readFile(new URL('../lp/meta/assets/social/og-2027-second-close.jpg', import.meta.url));
+  assert.deepEqual(campaign.subarray(0, 2), Buffer.from([0xff, 0xd8]), 'invalid campaign JPEG');
+  assert.ok(campaign.length > 100_000, 'unexpectedly small campaign JPEG');
+});
+
+test('Meta landing applies the 2027 second-close campaign as a responsive CTA banner', () => {
+  const banner = html.match(/<section class="campaign-banner-section"[\s\S]*?<\/section>/)?.[0] || '';
+  assert.match(banner, /id="campaign-2027-second-close"/);
+  assert.match(banner, /id="cta-campaign-banner" data-cta-position="middle" href="#apply"/);
+  assert.match(banner, /src="\/lp\/meta\/assets\/social\/og-2027-second-close\.jpg"/);
+  assert.match(banner, /width="1200" height="630" loading="lazy" decoding="async"/);
+  assert.match(banner, /2027 매체비 절감 및 보너스프로그램 2차 마감/);
+  assert.match(html, /\.campaign-banner-link img\{[^}]*aspect-ratio:1200\/630/);
+  assert.match(html, /@media\(max-width:640px\)\{\.campaign-banner-section/);
+  assert.match(html, /@media\(prefers-reduced-motion:reduce\)\{\.campaign-banner-link/);
 });
 
 test('Social previews use flat editorial source art instead of generated 3D backgrounds', async () => {
@@ -168,7 +184,7 @@ test('Meta landing uses the reference-aligned pitch and a working savings calcul
   for (const cta of ['cta-hero-calculator', 'cta-hero-structure', 'cta-sticky-diagnosis']) {
     assert.match(html, new RegExp(`id="${cta}"`));
   }
-  assert.equal((html.match(/data-cta-position=/g) || []).length, 3);
+  assert.equal((html.match(/data-cta-position=/g) || []).length, 4);
   assert.match(heroSection, /class="hero-appsilon-logo" src="\.\.\/\.\.\/logos\/appsilon-white-wordmark-v1\.png" alt="APPSILON"/);
   assert.doesNotMatch(heroSection, /Meta 공식 파트너 광고계정 무료 진단|class="eyebrow"/);
   for (const label of ['3,000만 원', '5,000만 원', '1억 원', '3억 원']) assert.ok(heroSection.includes(label), `missing quick budget label ${label}`);
