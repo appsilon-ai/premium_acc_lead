@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises';
 
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
 const leadApi = await readFile(new URL('../api/lead.js', import.meta.url), 'utf8');
+const gtmConfig = JSON.parse(await readFile(new URL('../gtm-import.json', import.meta.url), 'utf8'));
 
 test('2027 second-close campaign is visible, shareable, and leads to the application form', () => {
   const assetPath = '/lp/meta/assets/social/og-2027-second-close.jpg';
@@ -90,18 +91,40 @@ test('lead conversion uses one dataLayer event with Meta browser/server deduplic
   assert.equal((trackBody.match(/dataLayer\.push/g) || []).length, 1);
   assert.doesNotMatch(trackBody, /window\.gtag|window\.fbq/);
   assert.match(html, /function metaBrowserIdentifiers\(\)/);
+  assert.match(html, /return 'lead-' \+ Date\.now\(\)\.toString\(36\) \+ '-' \+ Math\.random\(\)\.toString\(36\)\.slice\(2, 12\)/);
   assert.match(html, /metaEventId: metaEventId/);
   assert.match(html, /fbp: metaIds\.fbp/);
   assert.match(html, /fbc: metaIds\.fbc/);
   assert.match(html, /event_id: data\.metaEventId/);
   assert.match(leadApi, /graph\.facebook\.com\/v24\.0/);
+  assert.match(leadApi, /const eventId = `lead:\$\{submissionKey\}`/);
   assert.match(leadApi, /event_id: eventId/);
   assert.match(leadApi, /metaUserData\.fbp = fbp/);
   assert.match(leadApi, /metaUserData\.fbc = fbc/);
   assert.match(leadApi, /if \(!capiResponse\.ok \|\| Number\(capiResult\.events_received \|\| 0\) < 1\)/);
-  const gtm = await readFile(new URL('../gtm-import.json', import.meta.url), 'utf8');
+  const gtm = JSON.stringify(gtmConfig);
   assert.match(gtm, /DLV - event_id/);
   assert.match(gtm, /eventID: \{\{DLV - event_id\}\}/);
+  assert.ok(leadApi.indexOf('const savedAnywhere') < leadApi.indexOf('graph.facebook.com/v24.0'), 'CAPI must run only after a lead is persisted');
+  assert.match(leadApi, /\(!j\.id && j\.duplicate !== true\)/);
+  assert.match(html, /try \{ return decodeURIComponent\(raw\); \} catch \(error\) \{ return raw; \}/);
+});
+
+test('GTM import uses unique entity IDs and resolves every user-variable reference', () => {
+  const version = gtmConfig.containerVersion;
+  for (const [kind, idKey] of [['tag', 'tagId'], ['trigger', 'triggerId'], ['variable', 'variableId']]) {
+    const ids = version[kind].map((entity) => entity[idKey]);
+    assert.equal(new Set(ids).size, ids.length, `${kind} IDs must be unique`);
+  }
+
+  const definedNames = new Set([
+    ...version.variable.map((variable) => variable.name),
+    ...version.builtInVariable.map((variable) => variable.name),
+  ]);
+  const tagSource = JSON.stringify(version.tag);
+  for (const match of tagSource.matchAll(/\{\{([^}]+)\}\}/g)) {
+    assert.ok(definedNames.has(match[1]), `undefined GTM variable reference: ${match[1]}`);
+  }
 });
 
 test('lead submissions use Studio as the idempotent workboard without Monday writes', () => {

@@ -61,10 +61,10 @@ async function sendToMarketingStudio(data) {
     throw new Error(`marketing studio ingest failed ${res.status}: ${t.slice(0, 300)}`);
   }
   const j = await res.json().catch(() => ({}));
-  if (j.ok !== true || !j.id) {
+  if (j.ok !== true || (!j.id && j.duplicate !== true)) {
     throw new Error('marketing studio ingest returned no lead id');
   }
-  console.log('Marketing studio lead saved:', j.id);
+  console.log(j.duplicate === true ? 'Marketing studio duplicate reused:' : 'Marketing studio lead saved:', j.id || null);
   return j;
 }
 
@@ -502,7 +502,21 @@ export default async function handler(req, res) {
       }
     }
 
-    // 8) (선택) Meta Conversions API 서버사이드 전송 — 정상 리드만
+    // 8) 리드가 어딘가에는 남았는지 먼저 확정한다. 저장이 전부 실패한 요청을
+    //    Meta 전환으로 보내면 실제 리드 없는 허위 전환이 되므로 CAPI보다 앞에 둔다.
+    const savedAnywhere = sinks.supabase || sinks.studio || sinks.email || alerted;
+
+    if (!savedAnywhere) {
+      console.error('[LEAD_LOST] 모든 적재 경로 실패(알림 메일 포함) — 리드 유실:', JSON.stringify(insertPayload));
+      return res.status(500).json({
+        error: 'database error',
+        debug: dbError
+          ? { message: dbError.message, code: dbError.code, hint: dbError.hint, details: dbError.details }
+          : undefined,
+      });
+    }
+
+    // 9) (선택) Meta Conversions API 서버사이드 전송 — 저장된 정상 리드만
     if (!isRestricted && process.env.META_PIXEL_ID && process.env.META_CAPI_ACCESS_TOKEN) {
       try {
         const valueMap = { 'under1k': 10, '1k-5k': 50, '5k-1e': 200, 'over1e': 1000 };
@@ -510,7 +524,9 @@ export default async function handler(req, res) {
         const userIp = req.headers['x-forwarded-for']?.split(',')[0].trim() || req.headers['x-real-ip'] || '';
         const userAgent = req.headers['user-agent'] || '';
 
-        const eventId = safeMetaIdentifier(body.metaEventId || body.ctaLeadEventId || body.submissionKey, 220);
+        // 검증된 submissionKey에서만 파생해 오래된 클라이언트의 세션 단위
+        // ctaLeadEventId나 임의 client event id가 서로 다른 리드를 합치지 못하게 한다.
+        const eventId = `lead:${submissionKey}`;
         const metaUserData = {
           em: [sha256(insertPayload.email)],
           ph: [sha256(phone)],
@@ -558,21 +574,6 @@ export default async function handler(req, res) {
       } catch (capiErr) {
         console.error('Meta CAPI failed:', capiErr);
       }
-    }
-
-    // 9) 최종 응답 — 리드가 어딘가에는 남았는지로 판단한다.
-    //    전부 실패했다면 조용히 성공을 반환하면 안 된다. 그 경우엔 기존처럼 500을 띄워
-    //    방문자가 직접 연락할 수 있게 하는 것이 마지막 안전장치다.
-    const savedAnywhere = sinks.supabase || sinks.studio || sinks.email || alerted;
-
-    if (!savedAnywhere) {
-      console.error('[LEAD_LOST] 모든 적재 경로 실패(알림 메일 포함) — 리드 유실:', JSON.stringify(insertPayload));
-      return res.status(500).json({
-        error: 'database error',
-        debug: dbError
-          ? { message: dbError.message, code: dbError.code, hint: dbError.hint, details: dbError.details }
-          : undefined,
-      });
     }
 
     // CTA 카피 실험의 Lead는 브라우저 클릭이 아니라 백엔드 접수 성공 시점에만 기록한다.

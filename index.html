@@ -3987,7 +3987,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   function readCookie(name) {
     const prefix = name + '=';
     const item = document.cookie.split(';').map(value => value.trim()).find(value => value.startsWith(prefix));
-    return item ? decodeURIComponent(item.slice(prefix.length)) : '';
+    if (!item) return '';
+    const raw = item.slice(prefix.length);
+    try { return decodeURIComponent(raw); } catch (error) { return raw; }
   }
   function metaBrowserIdentifiers() {
     const fbclid = new URLSearchParams(location.search).get('fbclid') || '';
@@ -4009,7 +4011,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   function ctaId(){
     try { return crypto.randomUUID(); } catch(e) {
-      return Date.now().toString(36) + Math.random().toString(36).slice(2);
+      return 'lead-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 12);
     }
   }
 
