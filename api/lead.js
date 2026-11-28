@@ -3,8 +3,8 @@
 // 역할:
 //   1) 폼 데이터 검증
 //   2) 제한업종 키워드 자동 분류
-//   3) Supabase에 리드 저장
-//   4) Resend로 영업팀 알림 / 광고주 자동 회신 메일 발송
+//   3) Marketing Studio를 주 작업판으로 저장
+//   4) Supabase·Resend를 유실 방지 백업으로 유지
 //   5) (선택) Meta Conversions API 서버사이드 전송
 //
 // 환경변수 (Vercel Dashboard > Settings > Environment Variables):
@@ -44,255 +44,12 @@ const RESTRICTED_KEYWORDS = [
   'rx-online', 'pharma-direct',
 ];
 
-// ── Monday.com 보드 매핑 ─────────────────────────────────────
-// Board: appsiloncorp.monday.com/boards/8598876525 (Meta_Wix_LEAD_250220_Zapier)
-const MONDAY_BOARD_ID = process.env.MONDAY_BOARD_ID || '8598876525';
-const MONDAY_GROUP_ID = process.env.MONDAY_GROUP_ID || 'topics'; // "신규" 그룹
-
-// 신규 리드 기본 담당자 (Arin Cheong / arin@appsilon.kr)
-// 변경하려면 Vercel 환경변수 MONDAY_DEFAULT_ASSIGNEE_ID 설정
-const MONDAY_DEFAULT_ASSIGNEE_ID = process.env.MONDAY_DEFAULT_ASSIGNEE_ID || '46666227';
-
-// Monday 컬럼 ID 매핑 (고정)
-const MONDAY_COLUMNS = {
-  name:        'text_mknczry2',      // 이름
-  job:         'text_mknc998t',      // 직책
-  email:       'email_mkncxg73',     // 업무용 이메일
-  phone:       'text_mknczf57',      // 휴대폰 번호
-  budget:      'text_mknfaycw',      // 직전 3개월 평균 광고비
-  industry:    'text_mkncb8w6',      // 업종
-  payment:     'dropdown_mkncsjs9',  // 현재 광고비 결제 방식
-  services:    'dropdown_mkncnd7y',  // 희망 서비스 (복수 선택)
-  issue:       'dropdown_mkncmm16',  // 광고 진행 중 애로사항
-  notes:       'text_mknqtgpg',      // 그 외 궁금/지원 내용
-  status:      'status',             // 진행 사항
-  person:      'person',             // 담당자 (people 타입)
-};
-
-// 동적 컬럼 매핑 — 보드에 있는 컬럼을 title로 찾아 자동 매핑
-// env var: 컬럼 ID 직접 지정 / 미지정 시 title로 lookup
-const MONDAY_OPTIONAL_COLUMNS = {
-  utm:         { env: 'MONDAY_COLUMN_UTM',         titles: ['UTM', 'utm', 'UTM 파라미터'] },
-  urls:        { env: 'MONDAY_COLUMN_URLS',        titles: ['광고 대상 URL', '광고 URL', 'URL', 'urls'] },
-  source:      { env: 'MONDAY_COLUMN_SOURCE',      titles: ['유입 경로', 'Source', 'source', '레퍼러'] },
-  serviceType: { env: 'MONDAY_COLUMN_SERVICETYPE', titles: ['필요한 서비스 유형', '서비스 유형', 'Service Type', '필요 서비스'] },
-};
-
-// 보드 컬럼 캐시 (warm function 인스턴스 내 재사용)
-let _mondayColumnsCache = null;
-let _resolvedOptionalIds = null;
-
-async function getMondayBoardColumns(token, boardId) {
-  if (_mondayColumnsCache) return _mondayColumnsCache;
-  const query = `query GetCols($id:[ID!]) { boards(ids:$id) { columns { id title type } } }`;
-  const res = await fetch('https://api.monday.com/v2', {
-    method: 'POST',
-    headers: { 'Authorization': token, 'Content-Type': 'application/json', 'API-Version': '2024-01' },
-    body: JSON.stringify({ query, variables: { id: [String(boardId)] } }),
-  });
-  const data = await res.json();
-  _mondayColumnsCache = (data?.data?.boards?.[0]?.columns) || [];
-  return _mondayColumnsCache;
-}
-
-async function resolveOptionalColumns(token, boardId) {
-  if (_resolvedOptionalIds) return _resolvedOptionalIds;
-  const cols = await getMondayBoardColumns(token, boardId).catch(() => []);
-  const resolved = {};
-  for (const [key, cfg] of Object.entries(MONDAY_OPTIONAL_COLUMNS)) {
-    // 1순위: 환경변수에 컬럼 ID 직접 설정
-    const envVal = process.env[cfg.env];
-    if (envVal) {
-      // ID 패턴이면 그대로 사용 (type은 cols에서 lookup)
-      const looksLikeId = /^([a-z]+_[a-z0-9]+|status|person|name)$/i.test(envVal);
-      if (looksLikeId) {
-        const colInfo = cols.find(c => c.id === envVal);
-        resolved[key] = { id: envVal, type: colInfo?.type || 'text' };
-        continue;
-      }
-      // env var에 title이 들어있으면 title로 lookup
-      const byEnvTitle = cols.find(c => c.title === envVal);
-      if (byEnvTitle) { resolved[key] = { id: byEnvTitle.id, type: byEnvTitle.type }; continue; }
-    }
-    // 2순위: 사전 정의된 title 목록으로 자동 매칭
-    for (const t of cfg.titles) {
-      const found = cols.find(c => c.title === t || c.title.toLowerCase() === t.toLowerCase());
-      if (found) { resolved[key] = { id: found.id, type: found.type }; break; }
-    }
-  }
-  _resolvedOptionalIds = resolved;
-  console.log('[Monday] Optional columns resolved:', resolved);
-  return resolved;
-}
-
-// 폼 값 → Monday dropdown 라벨 매핑
-const MONDAY_SERVICES_MAP = {
-  'Meta':                       '임대 - Meta (Facebook, IG)',
-  'Google':                     '임대 - Google (Youtube)',
-  'TikTok':                     '임대 - TikTok',
-  'Kakao/NAVER':                '임대 - Kakao / NAVER',
-  'Pinterest/Twitter':          '임대 - Pinterest / Twitter',
-  '퍼포먼스 광고 대행':         '퍼포먼스 광고 대행',
-  '글로벌 퍼포먼스 광고 대행':  '해외 퍼포먼스 광고 대행',
-  '기타 제휴 문의':             '기타 제휴 문의',
-};
-
-const MONDAY_PAYMENT_MAP = {
-  '카드 해외 결제':         '카드 해외 결제(수수료 4.8~7.8%)',
-  '광고 대행사 협업 중':    '광고 대행사 협업 중',
-  '대행사 계정 대대행':     '대행사 계정 대대행',
-  '매체 직거래(Invoice)':   '매체 직거래(Invoice)',
-};
-
-// Monday Status 라벨 ID (status 컬럼)
-//  5: "연락 필요", 9: "거절", 8: "미팅대기"
-const MONDAY_STATUS_NEW_LEAD = '연락 필요';
-const MONDAY_STATUS_REJECTED = '거절';
-
-// Monday.com 아이템 생성 함수
-async function createMondayItem(data) {
-  const token = process.env.MONDAY_API_TOKEN;
-  if (!token) {
-    console.warn('MONDAY_API_TOKEN not set, skipping Monday integration');
-    return null;
-  }
-
-  // 이름 / 직책 분리 (폼: "홍길동 / 마케팅 팀장")
-  const nameJob = String(data.name || '').split('/').map(s => s.trim());
-  const personName = nameJob[0] || data.name || '';
-  const personJob = nameJob[1] || '';
-
-  // 희망 서비스 매핑 (체크박스 복수 → Monday 라벨 복수)
-  const mappedServices = (Array.isArray(data.services) ? data.services : [])
-    .map(s => MONDAY_SERVICES_MAP[s])
-    .filter(Boolean);
-
-  // 결제 방식 — 배열/문자열 모두 허용 → 복수 라벨로 변환
-  const paymentArr = Array.isArray(data.payment) ? data.payment : (data.payment ? [data.payment] : []);
-  const mappedPayments = paymentArr.map(p => MONDAY_PAYMENT_MAP[p] || p).filter(Boolean);
-
-  // 필요한 서비스 유형 — 배열/문자열 모두 허용
-  const serviceTypeArr = Array.isArray(data.service_type) ? data.service_type
-                       : Array.isArray(data.serviceType)  ? data.serviceType
-                       : data.service_type ? [data.service_type]
-                       : data.serviceType  ? [data.serviceType]
-                       : [];
-
-  // 선택 컬럼 ID 동적 resolve (보드에서 title로 자동 매칭, 컬럼 타입도 함께 반환)
-  const optionalCols = await resolveOptionalColumns(token, MONDAY_BOARD_ID).catch(() => ({}));
-
-  // notes 통합 — 전용 컬럼 있는 항목은 제외 (중복 방지)
-  // ⭐ data.issue (광고 진행 중 애로사항) → notes 컬럼으로 라우팅 (별도 dropdown 사용 안 함)
-  const extraInfo = [];
-  if (serviceTypeArr.length > 0 && !optionalCols.serviceType) {
-    extraInfo.push(`[필요한 서비스 유형]\n${serviceTypeArr.map(s => '• ' + s).join('\n')}`);
-  }
-  if (Array.isArray(data.urls) && data.urls.length > 0 && !optionalCols.urls) {
-    extraInfo.push(`[광고 대상 URL ${data.urls.length}개]\n${data.urls.map(u => '• ' + u).join('\n')}`);
-  }
-  if (data.source && data.source !== 'direct' && !optionalCols.source) extraInfo.push(`[유입 경로]\n${data.source}`);
-  if (data.utm && !optionalCols.utm) extraInfo.push(`[UTM]\n${data.utm}`);
-  if (data.issue) extraInfo.push(`[광고 진행 중 애로사항]\n${data.issue}`);
-  const combinedNotes = [data.notes, ...extraInfo].filter(Boolean).join('\n\n---\n\n');
-
-  // Status 자동 분류
-  const statusLabel = data.restricted ? MONDAY_STATUS_REJECTED : MONDAY_STATUS_NEW_LEAD;
-
-  // Column values 구성
-  const columnValues = {
-    [MONDAY_COLUMNS.name]:     personName,
-    [MONDAY_COLUMNS.job]:      personJob,
-    [MONDAY_COLUMNS.email]:    { email: data.email, text: data.email },
-    [MONDAY_COLUMNS.phone]:    data.phone,
-    [MONDAY_COLUMNS.budget]:   budgetLabel(data.budget),
-    [MONDAY_COLUMNS.industry]: data.industry || '',
-    [MONDAY_COLUMNS.notes]:    combinedNotes,
-    [MONDAY_COLUMNS.status]:   { label: statusLabel },
-    [MONDAY_COLUMNS.person]:   {
-      personsAndTeams: [{ id: Number(MONDAY_DEFAULT_ASSIGNEE_ID), kind: 'person' }]
-    },
-  };
-  if (mappedPayments.length > 0) {
-    // payment 컬럼이 dropdown 타입이라 복수 라벨 지원
-    columnValues[MONDAY_COLUMNS.payment] = { labels: mappedPayments };
-  }
-  if (mappedServices.length > 0) {
-    columnValues[MONDAY_COLUMNS.services] = { labels: mappedServices };
-  }
-  // ⛔ data.issue를 별도 dropdown 컬럼에 보내지 않음 (notes에 통합되어 라우팅됨)
-
-  // ── 동적으로 resolve된 선택 컬럼 매핑 (column id + type 모두 사용) ──
-  function setOptionalColumn(colInfo, value, isMulti) {
-    if (!colInfo || value == null || value === '' || (Array.isArray(value) && value.length === 0)) return;
-    const id = colInfo.id;
-    const type = colInfo.type;
-    if (isMulti && Array.isArray(value)) {
-      if (type === 'dropdown') {
-        columnValues[id] = { labels: value };
-      } else {
-        columnValues[id] = value.join(', ').slice(0, 2000);
-      }
-    } else {
-      columnValues[id] = String(value).slice(0, 2000);
-    }
-  }
-  setOptionalColumn(optionalCols.utm,         data.utm,                                          false);
-  setOptionalColumn(optionalCols.urls,        Array.isArray(data.urls) ? data.urls.join(' | ') : data.urls, false);
-  setOptionalColumn(optionalCols.source,      (data.source && data.source !== 'direct') ? data.source : null, false);
-  setOptionalColumn(optionalCols.serviceType, serviceTypeArr,                                    true);
-
-  const mutation = `
-    mutation CreateItem($boardId: ID!, $groupId: String!, $itemName: String!, $columnValues: JSON!) {
-      create_item(
-        board_id: $boardId,
-        group_id: $groupId,
-        item_name: $itemName,
-        column_values: $columnValues
-      ) {
-        id
-      }
-    }
-  `;
-
-  const variables = {
-    boardId: String(MONDAY_BOARD_ID),
-    groupId: MONDAY_GROUP_ID,
-    itemName: data.company,
-    columnValues: JSON.stringify(columnValues),
-  };
-
-  const response = await fetch('https://api.monday.com/v2', {
-    method: 'POST',
-    headers: {
-      'Authorization': token,
-      'Content-Type': 'application/json',
-      'API-Version': '2024-01',
-    },
-    body: JSON.stringify({ query: mutation, variables }),
-  });
-
-  const result = await response.json();
-  if (result.errors) {
-    console.error('Monday API errors:', JSON.stringify(result.errors));
-    throw new Error('Monday create_item failed: ' + result.errors[0]?.message);
-  }
-  if (!result.data || !result.data.create_item) {
-    console.error('Monday unexpected response:', JSON.stringify(result));
-    throw new Error('Monday create_item returned no data');
-  }
-
-  console.log('Monday item created:', result.data.create_item.id);
-  return result.data.create_item.id;
-}
-
 // ── Marketing Studio 적재 ────────────────────────────────────
-// Monday(createMondayItem)와 **동일한 방식** — Supabase 저장 후 병렬 호출, 실패는 호출부에서 격리.
-// marketing studio 의 인입 웹훅(POST /api/leads/ingest, Bearer 인증)으로 리드 JSON 전송.
+// 주 작업판 인입 웹훅(POST /api/leads/ingest, Bearer 인증)으로 리드 JSON 전송.
 async function sendToMarketingStudio(data) {
   const url = process.env.MARKETING_STUDIO_LEAD_URL; // 예: https://studio.appsilon.kr/api/leads/ingest
   if (!url) {
-    console.warn('MARKETING_STUDIO_LEAD_URL not set, skipping marketing studio integration');
-    return null;
+    throw new Error('MARKETING_STUDIO_LEAD_URL not set');
   }
   const headers = { 'Content-Type': 'application/json' };
   if (process.env.MARKETING_STUDIO_LEAD_TOKEN) {
@@ -304,8 +61,11 @@ async function sendToMarketingStudio(data) {
     throw new Error(`marketing studio ingest failed ${res.status}: ${t.slice(0, 300)}`);
   }
   const j = await res.json().catch(() => ({}));
+  if (j.ok !== true || !j.id) {
+    throw new Error('marketing studio ingest returned no lead id');
+  }
   console.log('Marketing studio lead saved:', j.id);
-  return j.id;
+  return j;
 }
 
 // Supabase + Resend 클라이언트 초기화 (cold start 비용 절감 위해 함수 외부에서 생성)
@@ -463,12 +223,12 @@ function buildRestrictedReplyEmail(data) {
 }
 
 // ── 장애 알림 ────────────────────────────────────────────────
-// Supabase 저장이 실패했을 때 관리자가 "즉시" 인지할 수 있게 알린다.
+// 주 작업판 또는 백업 DB 저장이 실패했을 때 관리자가 "즉시" 인지할 수 있게 알린다.
 // 방문자에게 500을 띄워 제보를 기다리는 대신, 운영 담당에게 직접 메일로 알린다.
 // 본문에 리드 원본 JSON을 그대로 담아 메일함 자체가 최후의 백업이 되게 한다.
 // 반환값: 알림 메일 발송에 성공했으면 true (= 리드가 메일함에는 남았다는 뜻)
 // fatal: true = 예기치 못한 예외로 방문자에게 500을 반환한 경우 (리드가 유실됐을 수 있음)
-async function sendDegradedAlert({ payload, dbError, sinks, siteDomain, rawBody, fatal = false }) {
+async function sendDegradedAlert({ payload, storageError, failureLabel = '저장소', sinks, siteDomain, rawBody, fatal = false }) {
   const fromEmail = process.env.FROM_EMAIL || 'noreply@example.com';
   // 장애 알림 수신자 — 운영 담당만. ALERT_NOTIFY_EMAIL에 쉼표로 여러 명 지정 가능.
   // SALES_NOTIFY_EMAIL로 폴백하지 않는다: DB 장애는 영업팀 업무가 아니고,
@@ -489,10 +249,10 @@ async function sendDegradedAlert({ payload, dbError, sinks, siteDomain, rawBody,
   // 복구용 원본 — 예외 경로에서는 검증 전 요청 body를 그대로 담는다.
   const raw     = JSON.stringify(rawBody ?? payload, null, 2);
   const errText = [
-    dbError?.message,
-    dbError?.code,
-    dbError?.details,
-    fatal ? dbError?.stack?.split('\n').slice(0, 6).join('\n') : null,
+    storageError?.message,
+    storageError?.code,
+    storageError?.details,
+    fatal ? storageError?.stack?.split('\n').slice(0, 6).join('\n') : null,
   ].filter(Boolean).join('\n');
 
   try {
@@ -501,7 +261,7 @@ async function sendDegradedAlert({ payload, dbError, sinks, siteDomain, rawBody,
       to: alertRecipients,
       subject: fatal
         ? `🚨 [장애] ${siteDomain} — 리드 접수 처리 실패(500) - ${payload.company}`
-        : `🚨 [장애] ${siteDomain} — 리드 DB 저장 실패 - ${payload.company} (${payload.name})`,
+        : `🚨 [장애] ${siteDomain} — 리드 ${failureLabel} 저장 실패 - ${payload.company} (${payload.name})`,
       // 예외 경로에서는 email이 비어 있을 수 있다 — 빈 값을 넘기면 Resend가 거절한다.
       ...(payload.email ? { replyTo: payload.email } : {}),
       html: `
@@ -509,10 +269,10 @@ async function sendDegradedAlert({ payload, dbError, sinks, siteDomain, rawBody,
           <div style="background:#fef2f2;border-left:4px solid #dc2626;padding:16px;border-radius:6px">
             <h2 style="margin:0 0 8px;font-size:17px;color:#991b1b">${fatal
               ? '처리 중 예외 발생 — 방문자에게 500이 표시되었습니다'
-              : 'Supabase 저장 실패 — 리드는 접수되었습니다'}</h2>
+              : `${failureLabel} 저장 실패 — 리드는 백업 경로에 접수되었습니다`}</h2>
             <p style="margin:0;font-size:13px;color:#7f1d1d">${fatal
               ? '리드가 어디에도 저장되지 않았을 가능성이 높습니다. <b>아래 원본으로 직접 연락하세요.</b> 방문자가 재제출했을 수도 있으니 중복을 확인해 주세요.'
-              : '방문자에게는 정상 접수 화면이 표시되었습니다. 아래 리드를 <b>수동으로 DB에 옮겨주세요.</b>'}</p>
+              : '방문자에게는 정상 접수 화면이 표시되었습니다. 아래 리드를 <b>주 작업판에 수동 반영하고 저장 경로를 점검해 주세요.</b>'}</p>
           </div>
           <table style="width:100%;margin-top:20px;font-size:14px;border-collapse:collapse">
             <tr><td style="padding:6px 0;color:#6b7280;width:110px">발생 도메인</td><td style="padding:6px 0"><b>${siteDomain}</b> <span style="color:#9ca3af">(Vercel)</span></td></tr>
@@ -523,9 +283,9 @@ async function sendDegradedAlert({ payload, dbError, sinks, siteDomain, rawBody,
             <tr><td style="padding:6px 0;color:#6b7280">우선순위</td><td style="padding:6px 0">${payload.lead_priority}</td></tr>
             <tr><td style="padding:6px 0;color:#6b7280">저장 성공처</td><td style="padding:6px 0">${summary}</td></tr>
           </table>
-          <p style="margin:20px 0 6px;font-size:13px;color:#6b7280">${fatal ? '예외' : 'DB 에러'}</p>
+          <p style="margin:20px 0 6px;font-size:13px;color:#6b7280">${fatal ? '예외' : `${failureLabel} 에러`}</p>
           <pre style="background:#1f2937;color:#f9fafb;padding:12px;border-radius:6px;font-size:12px;white-space:pre-wrap;word-break:break-all">${errText || 'unknown'}</pre>
-          <p style="margin:20px 0 6px;font-size:13px;color:#6b7280">${fatal ? '요청 원본 (검증 전 raw body)' : '리드 원본 (복구용 — 이 JSON을 leads 테이블에 그대로 insert)'}</p>
+          <p style="margin:20px 0 6px;font-size:13px;color:#6b7280">${fatal ? '요청 원본 (검증 전 raw body)' : '리드 원본 (복구용)'}</p>
           <pre style="background:#f3f4f6;padding:12px;border-radius:6px;font-size:12px;white-space:pre-wrap;word-break:break-all">${raw}</pre>
         </div>
       `,
@@ -593,8 +353,11 @@ export default async function handler(req, res) {
     const isRestricted = restrictedMatches.length > 0;
     const isHighPriority = !isRestricted && Number(body.budget) >= 1000;
     const leadPriority = isRestricted ? 'REJECTED' : (isHighPriority ? 'HIGH' : 'STANDARD');
+    const submissionKey = typeof body.submissionKey === 'string' && /^[a-zA-Z0-9:_-]{16,128}$/.test(body.submissionKey)
+      ? body.submissionKey
+      : crypto.randomUUID();
 
-    // 3) Supabase에 저장
+    // 3) 공통 저장 레코드 구성
     const insertPayload = {
       name:               body.name.trim().slice(0, 100),
       company:            body.company.trim().slice(0, 200),
@@ -618,7 +381,37 @@ export default async function handler(req, res) {
       submitted_at:       new Date(body.submittedAt || Date.now()).toISOString(),
     };
 
-    // Supabase가 죽어도 여기서 중단하지 않는다 — Monday/Studio/메일로 리드를 살린다.
+    const sinks = { supabase: false, studio: false, email: false };
+    let studioLeadId = null;
+    let studioError = null;
+
+    // 4) Marketing Studio 적재 — 주 작업판. 같은 키의 재전송이면 여기서 종료해
+    // Supabase·이메일·CAPI까지 중복 실행되는 것을 막는다.
+    try {
+      const studioResult = await sendToMarketingStudio({
+        ...insertPayload,
+        submission_key: submissionKey,
+        serviceType: Array.isArray(body.serviceType) ? body.serviceType : (body.serviceType ? [body.serviceType] : []),
+        payment:     Array.isArray(body.payment)     ? body.payment     : (body.payment     ? [body.payment]     : []),
+      });
+      studioLeadId = studioResult.id ?? null;
+      sinks.studio = true;
+      if (studioResult.duplicate === true) {
+        return res.status(200).json({
+          success: true,
+          id: studioLeadId,
+          restricted: isRestricted,
+          degraded: false,
+          duplicate: true,
+        });
+      }
+    } catch (msErr) {
+      studioError = msErr;
+      console.error('Marketing studio save failed:', msErr);
+      // 주 작업판 실패 시에도 Supabase·이메일 백업은 끝까지 수행한다.
+    }
+
+    // 5) Supabase 백업 저장. Studio가 죽어도 여기서 중단하지 않는다.
     let inserted = null;
     let dbError  = null;
     try {
@@ -638,42 +431,9 @@ export default async function handler(req, res) {
       }));
     }
 
-    // DB 저장 실패 시 insertPayload를 대체 레코드로 사용 (id만 없고 내용은 동일)
-    const leadRecord = inserted || insertPayload;
+    sinks.supabase = !!inserted;
 
-    // 적재처별 성공 여부 — "하나라도" 성공해야 방문자에게 200을 준다.
-    const sinks = { supabase: !!inserted, monday: false, studio: false, email: false };
-
-    // 4) Monday.com 적재 (영업팀 작업판) — 이메일 발송과 병렬 처리 가능하지만,
-    //    실패 시에도 DB 저장은 유지되어야 하므로 catch로 격리
-    try {
-      // Monday에는 배열 원본을 그대로 전달 (Supabase에는 join된 string으로 저장됨)
-      const mondayData = {
-        ...leadRecord,
-        serviceType: Array.isArray(body.serviceType) ? body.serviceType : (body.serviceType ? [body.serviceType] : []),
-        payment:     Array.isArray(body.payment)     ? body.payment     : (body.payment     ? [body.payment]     : []),
-      };
-      await createMondayItem(mondayData);
-      sinks.monday = true;
-    } catch (mondayErr) {
-      console.error('Monday create_item failed:', mondayErr);
-      // Monday 실패해도 응답은 success — 이메일은 별도로 발송
-    }
-
-    // 4.5) Marketing Studio 적재 (Monday와 동일 방식 — Supabase 저장 후 병렬, 실패 격리)
-    try {
-      await sendToMarketingStudio({
-        ...leadRecord,
-        serviceType: Array.isArray(body.serviceType) ? body.serviceType : (body.serviceType ? [body.serviceType] : []),
-        payment:     Array.isArray(body.payment)     ? body.payment     : (body.payment     ? [body.payment]     : []),
-      });
-      sinks.studio = true;
-    } catch (msErr) {
-      console.error('Marketing studio save failed:', msErr);
-      // marketing studio 실패해도 DB 저장·응답은 유지
-    }
-
-    // 5) 이메일 발송 (제한업종 여부에 따라 분기)
+    // 6) 이메일 발송 (제한업종 여부에 따라 분기)
     const fromEmail = process.env.FROM_EMAIL || 'noreply@example.com';
     const salesEmail = process.env.SALES_NOTIFY_EMAIL || 'sales@example.com';
     try {
@@ -718,18 +478,25 @@ export default async function handler(req, res) {
       // 메일 실패해도 DB 저장은 유지 — 응답은 성공으로
     }
 
-    // 6) DB 저장 실패 시 관리자 알림 — 방문자의 500 화면을 대체하는 "진짜" 알람.
+    // 7) 주 작업판 또는 백업 DB 저장 실패 시 관리자 알림.
     //    다른 적재처 결과가 모두 확정된 뒤에 보내야 성공/실패 요약을 함께 담을 수 있다.
     let alerted = false;
-    if (dbError) {
+    const storageError = studioError || dbError;
+    if (storageError) {
       try {
-        alerted = await sendDegradedAlert({ payload: insertPayload, dbError, sinks, siteDomain });
+        alerted = await sendDegradedAlert({
+          payload: insertPayload,
+          storageError,
+          failureLabel: studioError ? 'Marketing Studio 주 작업판' : 'Supabase 백업 DB',
+          sinks,
+          siteDomain,
+        });
       } catch (alertErr) {
         console.error('[LEAD_DEGRADED] 알림 발송 실패:', alertErr);
       }
     }
 
-    // 7) (선택) Meta Conversions API 서버사이드 전송 — 정상 리드만
+    // 8) (선택) Meta Conversions API 서버사이드 전송 — 정상 리드만
     if (!isRestricted && process.env.META_PIXEL_ID && process.env.META_CAPI_ACCESS_TOKEN) {
       try {
         const valueMap = { 'under1k': 10, '1k-5k': 50, '5k-1e': 200, 'over1e': 1000 };
@@ -766,10 +533,10 @@ export default async function handler(req, res) {
       }
     }
 
-    // 8) 최종 응답 — 리드가 어딘가에는 남았는지로 판단한다.
+    // 9) 최종 응답 — 리드가 어딘가에는 남았는지로 판단한다.
     //    전부 실패했다면 조용히 성공을 반환하면 안 된다. 그 경우엔 기존처럼 500을 띄워
     //    방문자가 직접 연락할 수 있게 하는 것이 마지막 안전장치다.
-    const savedAnywhere = sinks.supabase || sinks.monday || sinks.studio || sinks.email || alerted;
+    const savedAnywhere = sinks.supabase || sinks.studio || sinks.email || alerted;
 
     if (!savedAnywhere) {
       console.error('[LEAD_LOST] 모든 적재 경로 실패(알림 메일 포함) — 리드 유실:', JSON.stringify(insertPayload));
@@ -813,9 +580,10 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       success: true,
-      id: inserted?.id ?? null,
+      id: studioLeadId ?? inserted?.id ?? null,
       restricted: isRestricted,
-      degraded: !inserted,
+      degraded: !sinks.studio || !inserted,
+      duplicate: false,
     });
 
   } catch (err) {
@@ -832,7 +600,7 @@ export default async function handler(req, res) {
           lead_priority: '(판정 전)',
         },
         rawBody: body,
-        dbError: err,
+        storageError: err,
         sinks: {},
         siteDomain,
         fatal: true,

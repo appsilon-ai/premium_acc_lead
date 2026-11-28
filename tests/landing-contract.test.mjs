@@ -70,3 +70,12 @@ test('CTA experiment exposes all four copies and counts lead only after backend 
   assert.match(html, /ctaLeadEventId:/);
   assert.ok(leadApi.indexOf("event_type: 'lead'") > leadApi.indexOf('const savedAnywhere'));
 });
+
+test('lead submissions use Studio as the idempotent workboard without Monday writes', () => {
+  assert.match(html, /form\.dataset\.submissionKey \|\| ctaId\(\)/);
+  assert.match(html, /submissionKey: submissionKey/);
+  assert.match(leadApi, /submission_key: submissionKey/);
+  assert.match(leadApi, /const sinks = \{ supabase: false, studio: false, email: false \}/);
+  assert.match(leadApi, /if \(studioResult\.duplicate === true\)/);
+  assert.doesNotMatch(leadApi, /api\.monday\.com|MONDAY_API_TOKEN|createMondayItem/);
+});

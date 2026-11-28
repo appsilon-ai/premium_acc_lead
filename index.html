@@ -4595,6 +4595,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const btn = form.querySelector('button[type=submit]');
     const original = btn.innerText;
     btn.disabled = true; btn.innerText = '전송 중...';
+    // 같은 제출을 네트워크 오류로 다시 보내도 Studio에는 한 건만 남긴다.
+    const submissionKey = form.dataset.submissionKey || ctaId();
+    form.dataset.submissionKey = submissionKey;
 
     // 트래킹: 제출 시도
     track('form_submit_attempt', { progress_percent: 100 });
@@ -4629,8 +4632,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       payment:     payments,              // 배열 (복수선택 가능)
       services:    services,
       budget:      form.budget.value,
-      issue:       issue,                 // 단일 (Monday notes 컬럼으로 라우팅)
+      issue:       issue,                 // 단일 선택
       notes:       form.notes.value || '',
+      submissionKey: submissionKey,
       submittedAt: new Date().toISOString(),
       source: document.referrer || 'direct',
       utm: location.search,
